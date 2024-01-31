@@ -1,5 +1,4 @@
 import { Navbar } from "./_component/navbar";
-import { OrgSidebar } from "./_component/org-sidebar";
 import { Sidebar } from "./_component/sidebar";
 
 interface ProtectedLayoutProps {
@@ -10,19 +9,17 @@ const ProtectedLayout = ({
     children
 }: ProtectedLayoutProps) => {
     return (
-        <main className="h-full w-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-800">
-            <Sidebar />
-            <div className="pl-[60px] h-full">
-                <div className="flex h-full">
-                    <OrgSidebar />
-                    <div className="h-full flex-1">
-                        <Navbar />
-                        {children}
-                    </div>
-                </div>
+        <div className="h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-800">
+            <div className="h-[80px] md:pl-56 fixed inset-y-0 w-full z-50">
+                <Navbar />
             </div>
-
-        </main>
+            <div className="hidden md:flex h-full w-56 flex-col fixed inset-y-0 z-50">
+                <Sidebar />
+            </div>
+            <main className="pt-[80px] md:pl-56 h-full">
+                {children}
+            </main>
+        </div>
     );
 }
 
