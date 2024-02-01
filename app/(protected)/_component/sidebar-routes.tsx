@@ -1,14 +1,30 @@
 "use client"
 
-import { Laptop2, Server, Settings, UserCog } from "lucide-react"
+import { Laptop2, Server, Settings, UserCog, UserRoundSearch } from "lucide-react"
 import { SidebarItem } from "./sidebar-item";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { UserRole } from "@prisma/client";
+import { useEffect, useState } from "react";
 
-const guestRoutes = [
+const koordinatorRoutes = [
+    {
+        icon: UserRoundSearch,
+        label: "Koordinator",
+        href: "/koordinator",
+    },
     {
         icon: UserCog,
         label: "Admin",
         href: "/admin",
     },
+    {
+        icon: Settings,
+        label: "Settings",
+        href: "/settings",
+    },
+]
+
+const picUnitKerjaRoutes = [
     {
         icon: Laptop2,
         label: "Client",
@@ -27,7 +43,17 @@ const guestRoutes = [
 ]
 
 export const SidebarRoutes = () => {
-    const routes = guestRoutes;
+    // const [routes, setRoutes] = useState(picUnitKerjaRoutes);
+    const user = useCurrentUser();
+    
+    // useEffect(() => {
+    //     if (user?.role === UserRole.ADMIN) {
+    //         setRoutes(koordinatorRoutes);
+    //     }
+    //   }, [routes]);
+
+    const routes = user?.role === UserRole.ADMIN ? koordinatorRoutes : picUnitKerjaRoutes;
+    
     return (
         <div className="flex flex-col w-full">
             {routes.map((route) => (

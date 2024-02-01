@@ -22,7 +22,7 @@ export const UserInfo = ({
                     <p className="text-sm font-medium">
                         ID
                     </p>
-                    <p className="truncate text-xs max-w-[180px] font-mono p-1 bg-slate-100 rounded-md">
+                    <p className="truncate text-xs max-w-[180px] font-mono p-1 bg-accent rounded-md">
                         {user?.id}
                     </p>
                 </div>
@@ -30,7 +30,7 @@ export const UserInfo = ({
                     <p className="text-sm font-medium">
                         Name
                     </p>
-                    <p className="truncate text-xs max-w-[180px] font-mono p-1 bg-slate-100 rounded-md">
+                    <p className="truncate text-xs max-w-[180px] font-mono p-1 bg-accent rounded-md">
                         {user?.name}
                     </p>
                 </div>
@@ -38,7 +38,7 @@ export const UserInfo = ({
                     <p className="text-sm font-medium">
                         Email
                     </p>
-                    <p className="truncate text-xs max-w-[180px] font-mono p-1 bg-slate-100 rounded-md">
+                    <p className="truncate text-xs max-w-[180px] font-mono p-1 bg-accent rounded-md">
                         {user?.email}
                     </p>
                 </div>
@@ -46,7 +46,7 @@ export const UserInfo = ({
                     <p className="text-sm font-medium">
                         Role
                     </p>
-                    <p className="truncate text-xs max-w-[180px] font-mono p-1 bg-slate-100 rounded-md">
+                    <p className="truncate text-xs max-w-[180px] font-mono p-1 bg-accent rounded-md">
                         {user?.role}
                     </p>
                 </div>

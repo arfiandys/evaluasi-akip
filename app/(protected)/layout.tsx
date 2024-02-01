@@ -9,7 +9,7 @@ const ProtectedLayout = ({
     children
 }: ProtectedLayoutProps) => {
     return (
-        <div className="h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-800">
+        <div className="h-full bg-secondary">
             <div className="h-[80px] md:pl-56 fixed inset-y-0 w-full z-50">
                 <Navbar />
             </div>
