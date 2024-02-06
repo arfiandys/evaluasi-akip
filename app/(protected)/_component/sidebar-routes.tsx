@@ -5,12 +5,20 @@ import { SidebarItem } from "./sidebar-item";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { UserRole } from "@prisma/client";
 import { useEffect, useState } from "react";
+import { SidebarSubmenuItem } from "./sidebar-submenu-item";
 
 const koordinatorRoutes = [
     {
         icon: UserRoundSearch,
         label: "Koordinator",
         href: "/koordinator",
+        submenu: true,
+        submenuItems: [
+            {
+                label: "Tim Evaluasi",
+                href: "/koordinator/tim-evaluasi",
+            },
+        ],
     },
     {
         icon: UserCog,
@@ -29,6 +37,8 @@ const picUnitKerjaRoutes = [
         icon: Laptop2,
         label: "Client",
         href: "/client",
+        submenu: false,
+        submenuItems: [],
     },
     {
         icon: Server,
@@ -43,27 +53,36 @@ const picUnitKerjaRoutes = [
 ]
 
 export const SidebarRoutes = () => {
-    // const [routes, setRoutes] = useState(picUnitKerjaRoutes);
     const user = useCurrentUser();
-    
-    // useEffect(() => {
-    //     if (user?.role === UserRole.ADMIN) {
-    //         setRoutes(koordinatorRoutes);
-    //     }
-    //   }, [routes]);
 
     const routes = user?.role === UserRole.ADMIN ? koordinatorRoutes : picUnitKerjaRoutes;
-    
+
     return (
         <div className="flex flex-col w-full">
-            {routes.map((route) => (
-                <SidebarItem 
-                key={route.href}
-                icon={route.icon}
-                label={route.label}
-                href={route.href}
-                />
-            ))}
+            {routes.map((route) => {
+                if (!route.submenu) {
+                    return (
+                        <SidebarItem
+                            key={route.href}
+                            icon={route.icon}
+                            label={route.label}
+                            href={route.href}
+                        />
+                    )
+                }
+                if (route.submenu) {
+                    return (
+                        <SidebarSubmenuItem
+                            key={route.href}
+                            icon={route.icon}
+                            label={route.label}
+                            href={route.href}
+                            submenuItems={route.submenuItems}
+                        />
+                    )
+                }
+
+            })}
         </div>
     )
 }

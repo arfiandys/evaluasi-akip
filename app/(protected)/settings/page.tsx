@@ -177,7 +177,7 @@ const SettingPage = () => {
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>
-                                                New Password
+                                                Role
                                             </FormLabel>
                                             <Select
                                                 disabled={isPending}

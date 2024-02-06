@@ -47,6 +47,118 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
+model Team {
+  id                String  @id @default(cuid())
+  userId            String
+  name              String  @db.Text
+  description       String? @db.Text
+  imageUrl          String? @db.Text
+  price             Float?
+  isPublished       Boolean @default(false)
+
+  categoryId        String?
+  category          Category? @relation(fields: [categoryId], references: [id])
+
+  attachments Attachment[]
+  chapters Chapter[]
+  purchases Purchase[]
+
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([categoryId])
+}
+
+model Attachment {
+  id                String @id  @default(cuid())
+  name              String
+  url               String @db.Text
+
+  teamId            String
+  team              Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([teamId])
+}
+
+model Category {
+  id                String  @id @default(cuid())
+  name              String  @unique
+  team              Team[]
+}
+
+model Chapter {
+  id                String  @id @default(uuid())
+  title             String
+  description       String? @db.Text
+  videoUrl          String? @db.Text
+  position          Int
+  isPublished       Boolean @default(false)
+  isFree            Boolean @default(false)
+
+  muxData MuxData?
+
+  teamId            String
+  team              Team @relation(fields: [teamId],references: [id], onDelete: Cascade)
+
+  userProgress      UserProgress[]
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([teamId])
+}
+
+model MuxData {
+  id                String @id @default(uuid())
+  assetId           String
+  playbackId        String?
+
+  chapterId         String @unique
+  chapter           Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+}
+
+model UserProgress {
+  id                String @id @default(uuid())
+  userId            String
+
+  chapterId         String
+  chapter           Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  isCompleted       Boolean @default(false)
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([chapterId])
+  @@unique([userId, chapterId])
+}
+
+model Purchase {
+  id String @id @default(uuid())
+  userId String
+
+  teamId String
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  @@unique([userId, teamId])
+  @@index([teamId])
+}
+
+model StripeCustomer {
+  id String @id @default(uuid())
+  userId String @unique
+  stripeCustomerId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model VerificationToken {
   id String @id @default(cuid())
   email String
