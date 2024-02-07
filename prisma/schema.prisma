@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 // prisma/schema.prisma
@@ -12,6 +13,9 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+//===================== MODEL ==========================\\
+
+// USER AND AUTHENTICATION
 enum UserRole {
   ADMIN
   USER
@@ -47,6 +51,54 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
+model VerificationToken {
+  id String @id @default(cuid())
+  email String
+  token String @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model PasswordResetToken {
+  id String @id @default(cuid())
+  email String
+  token String @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+// UNIT KERJA
+
+// PERMINDOK
+
+// PERMINDOK UNIT KERJA
+
+// IKU UNIT KERJA
+
+// INDIKATOR IKU
+
+// KKE
+
+// KRITERIA KKE
+
+// KKE UNIT KERJA
+
+// LKE
+
+// KRITERIA LKE
+
+// LKE UNIT KERJA
+
+// TIM EVALUASI
+
+
+
+
+//-----------------------------------------------------\\
+
+// TEAM EXAMPLE
 model Team {
   id                String  @id @default(cuid())
   userId            String
@@ -159,20 +211,4 @@ model StripeCustomer {
   updatedAt DateTime @updatedAt
 }
 
-model VerificationToken {
-  id String @id @default(cuid())
-  email String
-  token String @unique
-  expires DateTime
 
-  @@unique([email, token])
-}
-
-model PasswordResetToken {
-  id String @id @default(cuid())
-  email String
-  token String @unique
-  expires DateTime
-
-  @@unique([email, token])
-}

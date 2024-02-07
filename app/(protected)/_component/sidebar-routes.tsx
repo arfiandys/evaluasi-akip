@@ -1,6 +1,6 @@
 "use client"
 
-import { Laptop2, Server, Settings, UserCog, UserRoundSearch } from "lucide-react"
+import { Laptop2, Server, Settings, User, UserCog, UserRoundSearch } from "lucide-react"
 import { SidebarItem } from "./sidebar-item";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { UserRole } from "@prisma/client";
@@ -33,6 +33,18 @@ const koordinatorRoutes = [
 ]
 
 const picUnitKerjaRoutes = [
+    {
+        icon: User,
+        label: "PIC KabKota",
+        href: "/pic-kabkota",
+        submenu: true,
+        submenuItems: [
+            {
+                label: "Team List",
+                href: "/pic-kabkota/team-list",
+            },
+        ],
+    },
     {
         icon: Laptop2,
         label: "Client",
