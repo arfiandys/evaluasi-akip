@@ -2,14 +2,14 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 // prisma/schema.prisma
 datasource db {
   provider  = "postgresql"
-  url  	    = env("DATABASE_URL")
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
@@ -28,23 +28,35 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
-  role          UserRole @default(USER)
+  role          UserRole  @default(USER)
   accounts      Account[]
+
+  unitKerjaPimpinan UnitKerja? @relation("pimpinanUnitKerja")
+  unitKerjaPICId    String?
+  unitKerjaPIC      UnitKerja? @relation("PICUnitKerja", fields: [unitKerjaPICId], references: [id])
+
+  timKetua     TimEvaluasi? @relation("ketuaTim")
+  timDalnis     TimEvaluasi? @relation("dalnisTim")
+  timAnggotaId String?
+  timAnggota   TimEvaluasi? @relation("anggotaTim", fields: [timAnggotaId], references: [id])
+
+  @@index([unitKerjaPICId])
+  @@index([timAnggotaId])
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -52,24 +64,39 @@ model Account {
 }
 
 model VerificationToken {
-  id String @id @default(cuid())
-  email String
-  token String @unique
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
   expires DateTime
 
   @@unique([email, token])
 }
 
 model PasswordResetToken {
-  id String @id @default(cuid())
-  email String
-  token String @unique
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
   expires DateTime
 
   @@unique([email, token])
 }
 
 // UNIT KERJA
+model UnitKerja {
+  id            String @id @default(cuid())
+  kodeWilayah   String @db.Text
+  kodeUnitKerja String @db.Text
+  name          String @db.Text
+
+  pimpinanUnitKerjaId String?
+  pimpinanUnitKerja   User?   @relation("pimpinanUnitKerja", fields: [pimpinanUnitKerjaId], references: [id])
+  PICUnitKerja        User[]  @relation("PICUnitKerja")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([pimpinanUnitKerjaId])
+}
 
 // PERMINDOK
 
@@ -92,108 +119,121 @@ model PasswordResetToken {
 // LKE UNIT KERJA
 
 // TIM EVALUASI
+model TimEvaluasi {
+  id   String @id @default(cuid())
+  name String @db.Text
 
+  ketuaTimId String?
+  ketuaTim   User?   @relation("ketuaTim", fields: [ketuaTimId], references: [id])
+  dalnisTimId String?
+  dalnisTim   User?   @relation("dalnisTim", fields: [dalnisTimId], references: [id])
+  anggotaTim User[]  @relation("anggotaTim")
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
+  @@unique([ketuaTimId])
+  @@unique([dalnisTimId])
+}
 
 //-----------------------------------------------------\\
 
 // TEAM EXAMPLE
 model Team {
-  id                String  @id @default(cuid())
-  userId            String
-  name              String  @db.Text
-  description       String? @db.Text
-  imageUrl          String? @db.Text
-  price             Float?
-  isPublished       Boolean @default(false)
+  id          String  @id @default(cuid())
+  userId      String
+  name        String  @db.Text
+  description String? @db.Text
+  imageUrl    String? @db.Text
+  price       Float?
+  isPublished Boolean @default(false)
 
-  categoryId        String?
-  category          Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
 
   attachments Attachment[]
-  chapters Chapter[]
-  purchases Purchase[]
+  chapters    Chapter[]
+  purchases   Purchase[]
 
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([categoryId])
 }
 
 model Attachment {
-  id                String @id  @default(cuid())
-  name              String
-  url               String @db.Text
+  id   String @id @default(cuid())
+  name String
+  url  String @db.Text
 
-  teamId            String
-  team              Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
-  
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  teamId String
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([teamId])
 }
 
 model Category {
-  id                String  @id @default(cuid())
-  name              String  @unique
-  team              Team[]
+  id   String @id @default(cuid())
+  name String @unique
+  team Team[]
 }
 
 model Chapter {
-  id                String  @id @default(uuid())
-  title             String
-  description       String? @db.Text
-  videoUrl          String? @db.Text
-  position          Int
-  isPublished       Boolean @default(false)
-  isFree            Boolean @default(false)
+  id          String  @id @default(uuid())
+  title       String
+  description String? @db.Text
+  videoUrl    String? @db.Text
+  position    Int
+  isPublished Boolean @default(false)
+  isFree      Boolean @default(false)
 
   muxData MuxData?
 
-  teamId            String
-  team              Team @relation(fields: [teamId],references: [id], onDelete: Cascade)
+  teamId String
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
 
-  userProgress      UserProgress[]
+  userProgress UserProgress[]
 
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([teamId])
 }
 
 model MuxData {
-  id                String @id @default(uuid())
-  assetId           String
-  playbackId        String?
+  id         String  @id @default(uuid())
+  assetId    String
+  playbackId String?
 
-  chapterId         String @unique
-  chapter           Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  chapterId String  @unique
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 }
 
 model UserProgress {
-  id                String @id @default(uuid())
-  userId            String
+  id     String @id @default(uuid())
+  userId String
 
-  chapterId         String
-  chapter           Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  chapterId String
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
-  isCompleted       Boolean @default(false)
+  isCompleted Boolean @default(false)
 
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  @@index([chapterId])
   @@unique([userId, chapterId])
+  @@index([chapterId])
 }
 
 model Purchase {
-  id String @id @default(uuid())
+  id     String @id @default(uuid())
   userId String
 
   teamId String
-  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
@@ -203,12 +243,10 @@ model Purchase {
 }
 
 model StripeCustomer {
-  id String @id @default(uuid())
-  userId String @unique
+  id               String @id @default(uuid())
+  userId           String @unique
   stripeCustomerId String @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
-
