@@ -19,6 +19,11 @@ datasource db {
 enum UserRole {
   ADMIN
   USER
+  PIMPINAN
+  PIC
+  DALNIS
+  KETUA
+  ANGGOTA
 }
 
 model User {
@@ -31,17 +36,8 @@ model User {
   role          UserRole  @default(USER)
   accounts      Account[]
 
-  unitKerjaPimpinan UnitKerja? @relation("pimpinanUnitKerja")
-  unitKerjaPICId    String?
-  unitKerjaPIC      UnitKerja? @relation("PICUnitKerja", fields: [unitKerjaPICId], references: [id])
-
-  timKetua     TimEvaluasi? @relation("ketuaTim")
-  timDalnis     TimEvaluasi? @relation("dalnisTim")
-  timAnggotaId String?
-  timAnggota   TimEvaluasi? @relation("anggotaTim", fields: [timAnggotaId], references: [id])
-
-  @@index([unitKerjaPICId])
-  @@index([timAnggotaId])
+  unitKerjaUser UnitKerja[]
+  timUser       TimEvaluasi[]
 }
 
 model Account {
@@ -87,15 +83,24 @@ model UnitKerja {
   kodeWilayah   String @db.Text
   kodeUnitKerja String @db.Text
   name          String @db.Text
+  userId        String
 
-  pimpinanUnitKerjaId String?
-  pimpinanUnitKerja   User?   @relation("pimpinanUnitKerja", fields: [pimpinanUnitKerjaId], references: [id])
-  PICUnitKerja        User[]  @relation("PICUnitKerja")
+  userUnitKerja User[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
 
-  @@unique([pimpinanUnitKerjaId])
+// TIM EVALUASI
+model TimEvaluasi {
+  id     String @id @default(cuid())
+  name   String @db.Text
+  userId String
+
+  userTim User[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // PERMINDOK
@@ -118,23 +123,6 @@ model UnitKerja {
 
 // LKE UNIT KERJA
 
-// TIM EVALUASI
-model TimEvaluasi {
-  id   String @id @default(cuid())
-  name String @db.Text
-
-  ketuaTimId String?
-  ketuaTim   User?   @relation("ketuaTim", fields: [ketuaTimId], references: [id])
-  dalnisTimId String?
-  dalnisTim   User?   @relation("dalnisTim", fields: [dalnisTimId], references: [id])
-  anggotaTim User[]  @relation("anggotaTim")
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([ketuaTimId])
-  @@unique([dalnisTimId])
-}
 
 //-----------------------------------------------------\\
 

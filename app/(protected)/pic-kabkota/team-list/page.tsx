@@ -6,7 +6,7 @@ import { getTeams } from "@/action/get-teams";
 import { TeamsList } from "@/components/teams-list";
 
 import { auth } from "@/auth";
-import { Categories } from "../../koordinator/tim-list/_components/categories";
+import { Categories } from "./_components/categories";
 
 interface SearchPageProps {
   searchParams: {

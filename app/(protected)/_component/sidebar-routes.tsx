@@ -4,7 +4,6 @@ import { Laptop2, Server, Settings, User, UserCog, UserRoundSearch } from "lucid
 import { SidebarItem } from "./sidebar-item";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { UserRole } from "@prisma/client";
-import { useEffect, useState } from "react";
 import { SidebarSubmenuItem } from "./sidebar-submenu-item";
 
 const koordinatorRoutes = [
@@ -15,8 +14,16 @@ const koordinatorRoutes = [
         submenu: true,
         submenuItems: [
             {
-                label: "Tim Evaluasi",
+                label: "Contoh",
                 href: "/koordinator/tim-evaluasi",
+            },
+            {
+                label: "Unit Kerja",
+                href: "/koordinator/unit-kerja",
+            },
+            {
+                label: "Tim Evaluasi",
+                href: "/koordinator/tim-eval",
             },
         ],
     },
