@@ -30,10 +30,10 @@ const UnitKerjaIdPage = async ({
             userId
         },
         include: {
-            userUnitKerja: {
+            users: {
                 orderBy: {
-                    name: "asc"
-                }
+                    unitKerjaId: "asc"
+                },
             }
         }
     });
@@ -42,9 +42,6 @@ const UnitKerjaIdPage = async ({
         where: {
             NOT: {
                 role: UserRole.ADMIN
-            },
-            timUser: {
-                none: {}
             },
         },
         orderBy: {
@@ -60,8 +57,8 @@ const UnitKerjaIdPage = async ({
         unitKerja.name,
         unitKerja.kodeWilayah,
         unitKerja.kodeUnitKerja,
-        unitKerja.userUnitKerja.some(users => users.role === UserRole.PIMPINAN ),
-        unitKerja.userUnitKerja.some(users => users.role === UserRole.PIC )
+        unitKerja.users.some(users => users.assignedRole === UserRole.PIMPINAN ),
+        unitKerja.users.some(users => users.assignedRole === UserRole.PIC )
     ];
 
     const totalFields = requiredFields.length;

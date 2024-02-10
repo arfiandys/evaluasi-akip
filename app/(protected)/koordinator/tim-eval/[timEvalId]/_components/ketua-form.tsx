@@ -17,11 +17,11 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { TimEvaluasi, User, UserRole } from "@prisma/client";
+import { TimEvaluasi, UserOnTimEvaluasi, UserRole } from "@prisma/client";
 import { Combobox } from "@/components/ui/combobox";
 
 interface KetuaFormProps {
-  initialData: TimEvaluasi & { userTim: User[] };
+  initialData: TimEvaluasi & { users: UserOnTimEvaluasi[] };
   timEvaluasiId: string;
   options: { label: string; value: string; }[];
 };
@@ -43,9 +43,9 @@ export const KetuaForm = ({
 
   const router = useRouter();
 
-  const ketuaId = initialData.userTim.filter(function (user) {
-    return user.role === UserRole.KETUA;
-  }).map(function (user) { return user.id })
+  const ketuaId = initialData.users.filter(function (user) {
+    return user.assignedRole === UserRole.KETUA;
+  }).map(function (user) { return user.userId })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -79,6 +79,7 @@ export const KetuaForm = ({
       };
       await axios.patch(`/api/tim-eval/${timEvaluasiId}`, values);
       toast.success("Ketua deleted");
+      form.reset();
       router.refresh();
     } catch {
       toast.error("Something went wrong");

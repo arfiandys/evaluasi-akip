@@ -60,24 +60,21 @@ export async function PATCH(
           userId
         },
         data: {
-          userUnitKerja: {
-            update: {
-              where: {
-                id: values.data.picUnitKerjaId
-              },
-              data: {
-                role: UserRole.USER,
+          users: {
+            deleteMany: [
+              {
+                AND: {
+                  assignedRole: UserRole.PIC,
+                  userId: values.data.picUnitKerjaId
+                }
               }
-            },
-            disconnect: {
-              id: values.data.picUnitKerjaId
-            },
+            ]
           },
         },
         include: {
-          userUnitKerja: {
+          users: {
             orderBy: {
-              name: "asc"
+              userId: "asc"
             }
           }
         }
@@ -93,24 +90,21 @@ export async function PATCH(
           userId
         },
         data: {
-          userUnitKerja: {
-            update: {
-              where: {
-                id: values.data.pimpinanUnitKerjaId
-              },
-              data: {
-                role: UserRole.USER,
+          users: {
+            deleteMany: [
+              {
+                AND: {
+                  assignedRole: UserRole.PIMPINAN,
+                  userId: values.data.pimpinanUnitKerjaId
+                }
               }
-            },
-            disconnect: {
-              id: values.data.pimpinanUnitKerjaId
-            },
+            ]
           },
         },
         include: {
-          userUnitKerja: {
+          users: {
             orderBy: {
-              name: "asc"
+              userId: "asc"
             }
           }
         }
@@ -126,39 +120,29 @@ export async function PATCH(
           userId
         },
         data: {
-          userUnitKerja: {
-            updateMany: {
-              where: {
-                role: UserRole.PIMPINAN
-              },
-              data: {
-                role: UserRole.USER
+          users: {
+            deleteMany: [
+              {
+                assignedRole: UserRole.PIMPINAN,
               }
-            },
-            disconnect: {
-              id: values.pimpinanPassUnitKerjaId
-            },
-            connect: {
-              id: values.pimpinanUnitKerjaId
-            },
-            update: {
-              where: {
-                id: values.pimpinanUnitKerjaId,
-                timUser: {
-                  none: {}
-                },
-              },
-              data: {
-                role: UserRole.PIMPINAN,
-              },
-            },
+            ],
+            create: [
+              {
+                assignedRole: UserRole.PIMPINAN,
+                user: {
+                  connect: {
+                    id: values.pimpinanUnitKerjaId
+                  }
+                }
 
-          },
+              }
+            ],
+          }
         },
         include: {
-          userUnitKerja: {
+          users: {
             orderBy: {
-              name: "asc"
+              userId: "asc"
             }
           }
         }
@@ -174,28 +158,24 @@ export async function PATCH(
           userId
         },
         data: {
-          userUnitKerja: {
-            connect: {
-              id: values.picUnitKerjaId
-            },
-            update: {
-              where: {
-                id: values.picUnitKerjaId,
-                timUser: {
-                  none: {}
-                },
-              },
-              data: {
-                role: UserRole.PIC,
-              },
-            },
+          users: {
+            create: [
+              {
+                assignedRole: UserRole.PIC,
+                user: {
+                  connect: {
+                    id: values.picUnitKerjaId
+                  }
+                }
 
+              }
+            ]
           },
         },
         include: {
-          userUnitKerja: {
+          users: {
             orderBy: {
-              name: "asc"
+              userId: "asc"
             }
           }
         }
@@ -213,9 +193,9 @@ export async function PATCH(
         ...values,
       },
       include: {
-        userUnitKerja: {
+        users: {
           orderBy: {
-            name: "asc"
+            userId: "asc"
           }
         }
       }

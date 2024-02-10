@@ -36,8 +36,8 @@ model User {
   role          UserRole  @default(USER)
   accounts      Account[]
 
-  unitKerjaUser UnitKerja[]
-  timUser       TimEvaluasi[]
+  unitKerjas   UserOnUnitKerja[]
+  timEvaluasis UserOnTimEvaluasi[]
 }
 
 model Account {
@@ -85,10 +85,21 @@ model UnitKerja {
   name          String @db.Text
   userId        String
 
-  userUnitKerja User[]
+  users UserOnUnitKerja[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model UserOnUnitKerja {
+  unitKerja    UnitKerja @relation(fields: [unitKerjaId], references: [id])
+  unitKerjaId  String // relation scalar field (used in the `@relation` attribute above)
+  user         User      @relation(fields: [userId], references: [id])
+  userId       String // relation scalar field (used in the `@relation` attribute above)
+  assignedAt   DateTime  @default(now())
+  assignedRole UserRole
+
+  @@id([unitKerjaId, userId])
 }
 
 // TIM EVALUASI
@@ -97,10 +108,21 @@ model TimEvaluasi {
   name   String @db.Text
   userId String
 
-  userTim User[]
+  users UserOnTimEvaluasi[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model UserOnTimEvaluasi {
+  timEvaluasi   TimEvaluasi @relation(fields: [timEvaluasiId], references: [id])
+  timEvaluasiId String // relation scalar field (used in the `@relation` attribute above)
+  user          User        @relation(fields: [userId], references: [id])
+  userId        String // relation scalar field (used in the `@relation` attribute above)
+  assignedAt    DateTime    @default(now())
+  assignedRole  UserRole
+
+  @@id([timEvaluasiId, userId])
 }
 
 // PERMINDOK
@@ -122,7 +144,6 @@ model TimEvaluasi {
 // KRITERIA LKE
 
 // LKE UNIT KERJA
-
 
 //-----------------------------------------------------\\
 

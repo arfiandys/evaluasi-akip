@@ -19,9 +19,9 @@ const TimEvaluasiPage = async () => {
             createdAt: "desc",
         },
         include: {
-            userTim: {
+            users: {
                 orderBy: {
-                    name: "asc"
+                    userId: "asc"
                 }
             }
         }

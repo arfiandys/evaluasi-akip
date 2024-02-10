@@ -58,8 +58,8 @@ export const columns: ColumnDef<TimEvaluasi>[] = [
             )
         },
         cell: ({ row }) => {
-            const { userTim } = row.original;
-            const userUnit = userTim.length;
+            const { users } = row.original;
+            const userUnit = users.length;
             return <div>{userUnit}</div>
         },
     },

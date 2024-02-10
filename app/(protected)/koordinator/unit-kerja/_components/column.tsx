@@ -59,7 +59,7 @@ export const columns: ColumnDef<UnitKerja>[] = [
         },
     },
     {
-        accessorKey: "userUnitKerja",
+        accessorKey: "users",
         header: ({ column }) => {
             return (
                 <Button
@@ -72,8 +72,8 @@ export const columns: ColumnDef<UnitKerja>[] = [
             )
         },
         cell: ({ row }) => {
-            const { userUnitKerja } = row.original;
-            const userUnit = userUnitKerja.length;
+            const { users } = row.original;
+            const userUnit = users.length;
             return <div>{userUnit}</div>
           },
     },

@@ -60,24 +60,21 @@ export async function PATCH(
           userId
         },
         data: {
-          userTim: {
-            update: {
-              where: {
-                id: values.data.anggotaTimEvaluasiId
-              },
-              data: {
-                role: UserRole.USER,
+          users: {
+            deleteMany: [
+              {
+                AND: {
+                  assignedRole: UserRole.ANGGOTA,
+                  userId: values.data.anggotaTimEvaluasiId
+                }
               }
-            },
-            disconnect: {
-              id: values.data.anggotaTimEvaluasiId
-            },
+            ]
           },
         },
         include: {
-          userTim: {
+          users: {
             orderBy: {
-              name: "asc"
+              userId: "asc"
             }
           }
         }
@@ -93,24 +90,89 @@ export async function PATCH(
           userId
         },
         data: {
-          userTim: {
-            update: {
-              where: {
-                id: values.data.ketuaTimEvaluasiId
-              },
-              data: {
-                role: UserRole.USER,
+          users: {
+            deleteMany: [
+              {
+                AND: {
+                  assignedRole: UserRole.KETUA,
+                  userId: values.data.ketuaTimEvaluasiId
+                }
               }
-            },
-            disconnect: {
-              id: values.data.ketuaTimEvaluasiId
-            },
+            ]
           },
         },
         include: {
-          userTim: {
+          users: {
             orderBy: {
-              name: "asc"
+              userId: "asc"
+            }
+          }
+        }
+      });
+
+      return NextResponse.json(timEvaluasi);
+    }
+
+    if (values?.data?.dalnisTimEvaluasiId! && values?.data?.action! === "disconnect") {
+      const timEvaluasi = await db.timEvaluasi.update({
+        where: {
+          id: timEvalId,
+          userId
+        },
+        data: {
+          users: {
+            deleteMany: [
+              {
+                AND: {
+                  assignedRole: UserRole.DALNIS,
+                  userId: values.data.dalnisTimEvaluasiId
+                }
+              }
+            ]
+          },
+        },
+        include: {
+          users: {
+            orderBy: {
+              userId: "asc"
+            }
+          }
+        }
+      });
+
+      return NextResponse.json(timEvaluasi);
+    }
+
+    if (values.dalnisTimEvaluasiId!) {
+      const timEvaluasi = await db.timEvaluasi.update({
+        where: {
+          id: timEvalId,
+          userId
+        },
+        data: {
+          users: {
+            deleteMany: [
+              {
+                assignedRole: UserRole.DALNIS,
+              }
+            ],
+            create: [
+              {
+                assignedRole: UserRole.DALNIS,
+                user: {
+                  connect: {
+                    id: values.dalnisTimEvaluasiId
+                  }
+                }
+
+              }
+            ],
+          }
+        },
+        include: {
+          users: {
+            orderBy: {
+              userId: "asc"
             }
           }
         }
@@ -126,42 +188,32 @@ export async function PATCH(
           userId
         },
         data: {
-          userTim: {
-            updateMany: {
-              where: {
-                role: UserRole.KETUA,
-              },
-              data: {
-                role: UserRole.USER,
+          users: {
+            deleteMany: [
+              {
+                assignedRole: UserRole.KETUA,
               }
-            },
-            disconnect: {
-              id: values.ketuaPassTimEvaluasiId
-            },
-            connect: {
-              id: values.ketuaTimEvaluasiId
-            },
-            update: {
-              where: {
-                id: values.ketuaTimEvaluasiId,
-                unitKerjaUser: {
-                  none: {}
-                },
-              },
-              data: {
-                role: UserRole.KETUA,
-              },
-            },
+            ],
+            create: [
+              {
+                assignedRole: UserRole.KETUA,
+                user: {
+                  connect: {
+                    id: values.ketuaTimEvaluasiId
+                  }
+                }
 
-          },
+              }
+            ],
+          }
         },
         include: {
-          userTim: {
+          users: {
             orderBy: {
-              name: "asc"
+              userId: "asc"
             }
-          }, 
-        },
+          }
+        }
       });
 
       return NextResponse.json(timEvaluasi);
@@ -174,28 +226,24 @@ export async function PATCH(
           userId
         },
         data: {
-          userTim: {
-            connect: {
-              id: values.anggotaTimEvaluasiId
-            },
-            update: {
-              where: {
-                id: values.anggotaTimEvaluasiId,
-                unitKerjaUser: {
-                  none: {}
-                },
-              },
-              data: {
-                role: UserRole.ANGGOTA,
-              },
-            },
+          users: {
+            create: [
+              {
+                assignedRole: UserRole.ANGGOTA,
+                user: {
+                  connect: {
+                    id: values.anggotaTimEvaluasiId
+                  }
+                }
 
+              }
+            ]
           },
         },
         include: {
-          userTim: {
+          users: {
             orderBy: {
-              name: "asc"
+              userId: "asc"
             }
           }
         }
@@ -213,9 +261,9 @@ export async function PATCH(
         ...values,
       },
       include: {
-        userTim: {
+        users: {
           orderBy: {
-            name: "asc"
+            userId: "asc"
           }
         }
       }

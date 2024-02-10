@@ -9,6 +9,7 @@ import { Actions } from "./_components/actions";
 import Link from "next/link";
 import { AnggotaForm } from "./_components/anggota-form";
 import { UserRole } from "@prisma/client";
+import { DalnisForm } from "./_components/dalnis-form";
 
 const TimEvaluasiIdPage = async ({
     params
@@ -28,9 +29,9 @@ const TimEvaluasiIdPage = async ({
             userId
         },
         include: {
-            userTim: {
+            users: {
                 orderBy: {
-                    name: "asc"
+                    userId: "asc"
                 }
             }
         }
@@ -40,9 +41,6 @@ const TimEvaluasiIdPage = async ({
         where: {
             NOT: {
                 role: UserRole.ADMIN,
-            },
-            unitKerjaUser: {
-                none: {}
             },
         },
         orderBy: {
@@ -56,8 +54,9 @@ const TimEvaluasiIdPage = async ({
 
     const requiredFields = [
         timEvaluasi.name,
-        timEvaluasi.userTim.some(users => users.role === UserRole.KETUA),
-        timEvaluasi.userTim.some(users => users.role === UserRole.ANGGOTA)
+        timEvaluasi.users.some(users => users.assignedRole === UserRole.DALNIS),
+        timEvaluasi.users.some(users => users.assignedRole === UserRole.KETUA),
+        timEvaluasi.users.some(users => users.assignedRole === UserRole.ANGGOTA),
     ];
 
     const totalFields = requiredFields.length;
@@ -71,7 +70,7 @@ const TimEvaluasiIdPage = async ({
                 <div className="flex items-center justify-between">
                     <div className="w-full">
                         <Link
-                            href={`/koordinator/tim-evaluasi`}
+                            href={`/koordinator/tim-eval`}
                             className="flex w-fit items-center text-sm hover:opacity-75 transition mb-6"
                         >
                             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -113,6 +112,14 @@ const TimEvaluasiIdPage = async ({
                                 Customize members of tim evaluasi
                             </h2>
                         </div>
+                        <DalnisForm
+                            initialData={timEvaluasi}
+                            timEvaluasiId={timEvaluasi.id}
+                            options={users.map((user) => ({
+                                label: user.name!,
+                                value: user.id,
+                            }))}
+                        />
                         <KetuaForm
                             initialData={timEvaluasi}
                             timEvaluasiId={timEvaluasi.id}

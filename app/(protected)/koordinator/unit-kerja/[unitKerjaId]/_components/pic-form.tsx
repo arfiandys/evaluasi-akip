@@ -20,12 +20,12 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
-import { UnitKerja, User, UserRole } from "@prisma/client";
+import { UnitKerja, User, UserOnUnitKerja, UserRole } from "@prisma/client";
 import { Combobox } from "@/components/ui/combobox";
 import { db } from "@/lib/db";
 
 interface PICFormProps {
-  initialData: UnitKerja & { userUnitKerja: User[] };
+  initialData: UnitKerja & { users: UserOnUnitKerja[] };
   unitKerjaId: string;
   options: { label: string; value: string; }[];
   
@@ -47,13 +47,13 @@ export const PICForm = ({
 
   const router = useRouter();
 
-  const pic = initialData.userUnitKerja.filter(function (user) {
-    return user.role === UserRole.PIC;
+  const pic = initialData.users.filter(function (user) {
+    return user.assignedRole === UserRole.PIC;
   }).map(function (user) { return user })
   
-  const picId = initialData.userUnitKerja.filter(function (user) {
-    return user.role === UserRole.PIC;
-  }).map(function (user) { return user.id })
+  const picId = initialData.users.filter(function (user) {
+    return user.assignedRole === UserRole.PIC;
+  }).map(function (user) { return user.userId })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -69,6 +69,7 @@ export const PICForm = ({
       await axios.patch(`/api/unit-kerja/${unitKerjaId}`, values);
       toast.success("Unit kerja updated");
       toggleEdit();
+      form.reset();
       router.refresh();
     } catch {
       toast.error("Something went wrong");
@@ -85,6 +86,7 @@ export const PICForm = ({
       }};
       await axios.patch(`/api/unit-kerja/${unitKerjaId}`, values);
       toast.success("PIC deleted");
+      form.reset();
       router.refresh();
     } catch {
       toast.error("Something went wrong");
@@ -119,21 +121,21 @@ export const PICForm = ({
           <div className="space-y-2 mt-2">
             {pic.map((pic) => (
               <div
-                key={pic.id}
+                key={pic.userId}
                 className="flex items-center p-3 w-full bg-sky-100 border-sky-200 border text-sky-700 rounded-md"
               >
                 <User2 className="h-4 w-4 mr-2 flex-shrink-0" />
                 <p className="text-xs line-clamp-1">
-                  {pic.name}
+                  {(options.find((option) => option.value === pic.userId))?.label}
                 </p>
-                {deletingId === pic.id && (
+                {deletingId === pic.userId && (
                   <div>
                     <Loader2 className="h-4 w-4 animate-spin" />
                   </div>
                 )}
-                {deletingId !== pic.id && (
+                {deletingId !== pic.userId && (
                   <button
-                    onClick={() => onDelete(pic.id)}
+                    onClick={() => onDelete(pic.userId)}
                     className="ml-auto hover:opacity-75 transition"
                   >
                     <X className="h-4 w-4" />

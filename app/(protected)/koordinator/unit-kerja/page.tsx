@@ -19,9 +19,9 @@ const UnitKerjaPage = async () => {
             createdAt: "desc",
         },
         include: {
-            userUnitKerja: {
-                orderBy: {
-                    name: "asc"
+            users: {
+                include: {
+                    user: true
                 }
             }
         }

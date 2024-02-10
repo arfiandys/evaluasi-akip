@@ -17,25 +17,25 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { UnitKerja, UserOnUnitKerja, UserRole } from "@prisma/client";
+import { TimEvaluasi, UserOnTimEvaluasi, UserRole } from "@prisma/client";
 import { Combobox } from "@/components/ui/combobox";
 
-interface PimpinanFormProps {
-  initialData: UnitKerja & { users: UserOnUnitKerja[] };
-  unitKerjaId: string;
+interface DalnisFormProps {
+  initialData: TimEvaluasi & { users: UserOnTimEvaluasi[] };
+  timEvaluasiId: string;
   options: { label: string; value: string; }[];
 };
 
 const formSchema = z.object({
-  pimpinanUnitKerjaId: z.string().min(1),
-  pimpinanPassUnitKerjaId: z.string()
+  dalnisTimEvaluasiId: z.string().min(1),
+  dalnisPassTimEvaluasiId: z.string()
 });
 
-export const PimpinanForm = ({
+export const DalnisForm = ({
   initialData,
-  unitKerjaId,
+  timEvaluasiId,
   options,
-}: PimpinanFormProps) => {
+}: DalnisFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
@@ -43,15 +43,15 @@ export const PimpinanForm = ({
 
   const router = useRouter();
 
-  const pimpinanId = initialData.users.filter(function (user) {
-    return user.assignedRole === UserRole.PIMPINAN;
+  const dalnisId = initialData.users.filter(function (user) {
+    return user.assignedRole === UserRole.DALNIS;
   }).map(function (user) { return user.userId })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      pimpinanUnitKerjaId: pimpinanId[0] || "",
-      pimpinanPassUnitKerjaId: pimpinanId[0] || "",
+      dalnisTimEvaluasiId: dalnisId[0] || "",
+      dalnisPassTimEvaluasiId: dalnisId[0] || "",
     },
   });
 
@@ -59,8 +59,8 @@ export const PimpinanForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/unit-kerja/${unitKerjaId}`, values);
-      toast.success("Unit kerja updated");
+      await axios.patch(`/api/tim-eval/${timEvaluasiId}`, values);
+      toast.success("Tim evaluasi updated");
       toggleEdit();
       router.refresh();
     } catch {
@@ -73,11 +73,12 @@ export const PimpinanForm = ({
       setDeletingId(id);
       const values = {
         data: {
-        pimpinanUnitKerjaId: id,
-        action: "disconnect"
-      }};
-      await axios.patch(`/api/unit-kerja/${unitKerjaId}`, values);
-      toast.success("Pimpinan deleted");
+          ketuaTimEvaluasiId: id,
+          action: "disconnect"
+        }
+      };
+      await axios.patch(`/api/tim-eval/${timEvaluasiId}`, values);
+      toast.success("Dalnis deleted");
       form.reset();
       router.refresh();
     } catch {
@@ -87,32 +88,32 @@ export const PimpinanForm = ({
     }
   }
 
-  const selectedOption = options.find((option) => option.value === pimpinanId[0]);
+  const selectedOption = options.find((option) => option.value === dalnisId[0]);
 
   return (
     <div className="mt-6 border bg-background rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Pimpinan unit kerja
+        Dalnis tim evaluasi
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit pimpinan
+              Edit dalnis
             </>
           )}
         </Button>
       </div>
       {!isEditing && (
         <>
-        {!selectedOption?.label && (
-          <p className="text-sm mt-2 text-slate-500 italic">
-            No Pimpinan yet
-          </p>
-        )}
-        {selectedOption?.label && (
-          <div className="space-y-2 mt-2">
+          {!selectedOption?.label && (
+            <p className="text-sm mt-2 text-slate-500 italic">
+              No ketua yet
+            </p>
+          )}
+          {selectedOption?.label && (
+            <div className="space-y-2 mt-2">
               <div
                 className="flex items-center p-3 w-full bg-sky-100 border-sky-200 border text-sky-700 rounded-md"
               >
@@ -120,23 +121,23 @@ export const PimpinanForm = ({
                 <p className="text-xs line-clamp-1">
                   {selectedOption?.label}
                 </p>
-                {deletingId === pimpinanId[0] && (
+                {deletingId === dalnisId[0] && (
                   <div>
                     <Loader2 className="h-4 w-4 animate-spin" />
                   </div>
                 )}
-                {deletingId !== pimpinanId[0] && (
+                {deletingId !== dalnisId[0] && (
                   <button
-                    onClick={() => onDelete(pimpinanId[0])}
+                    onClick={() => onDelete(dalnisId[0])}
                     className="ml-auto hover:opacity-75 transition"
                   >
                     <X className="h-4 w-4" />
                   </button>
                 )}
               </div>
-          </div>
-        )}
-      </>
+            </div>
+          )}
+        </>
       )}
       {isEditing && (
         <Form {...form}>
@@ -146,7 +147,7 @@ export const PimpinanForm = ({
           >
             <FormField
               control={form.control}
-              name="pimpinanUnitKerjaId"
+              name="dalnisTimEvaluasiId"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>

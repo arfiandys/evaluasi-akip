@@ -17,11 +17,11 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { TimEvaluasi, User, UserRole } from "@prisma/client";
+import { TimEvaluasi, UserOnTimEvaluasi, UserRole } from "@prisma/client";
 import { Combobox } from "@/components/ui/combobox";
 
 interface AnggotaFormProps {
-  initialData: TimEvaluasi & { userTim: User[] };
+  initialData: TimEvaluasi & { users: UserOnTimEvaluasi[] };
   timEvaluasiId: string;
   options: { label: string; value: string; }[];
 
@@ -43,13 +43,13 @@ export const AnggotaForm = ({
 
   const router = useRouter();
 
-  const anggota = initialData.userTim.filter(function (user) {
-    return user.role === UserRole.ANGGOTA;
+  const anggota = initialData.users.filter(function (user) {
+    return user.assignedRole === UserRole.ANGGOTA;
   }).map(function (user) { return user })
 
-  const anggotaId = initialData.userTim.filter(function (user) {
-    return user.role === UserRole.ANGGOTA;
-  }).map(function (user) { return user.id })
+  const anggotaId = initialData.users.filter(function (user) {
+    return user.assignedRole === UserRole.ANGGOTA;
+  }).map(function (user) { return user.userId })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -65,6 +65,7 @@ export const AnggotaForm = ({
       await axios.patch(`/api/tim-eval/${timEvaluasiId}`, values);
       toast.success("Tim Evaluasi updated");
       toggleEdit();
+      form.reset();
       router.refresh();
     } catch {
       toast.error("Something went wrong");
@@ -82,6 +83,7 @@ export const AnggotaForm = ({
       };
       await axios.patch(`/api/tim-eval/${timEvaluasiId}`, values);
       toast.success("Anggota deleted");
+      form.reset();
       router.refresh();
     } catch {
       toast.error("Something went wrong");
@@ -116,21 +118,21 @@ export const AnggotaForm = ({
             <div className="space-y-2 mt-2">
               {anggota.map((anggota) => (
                 <div
-                  key={anggota.id}
+                  key={anggota.userId}
                   className="flex items-center p-3 w-full bg-sky-100 border-sky-200 border text-sky-700 rounded-md"
                 >
                   <User2 className="h-4 w-4 mr-2 flex-shrink-0" />
                   <p className="text-xs line-clamp-1">
-                    {anggota.name}
+                  {(options.find((option) => option.value === anggota.userId))?.label}
                   </p>
-                  {deletingId === anggota.id && (
+                  {deletingId === anggota.userId && (
                     <div>
                       <Loader2 className="h-4 w-4 animate-spin" />
                     </div>
                   )}
-                  {deletingId !== anggota.id && (
+                  {deletingId !== anggota.userId && (
                     <button
-                      onClick={() => onDelete(anggota.id)}
+                      onClick={() => onDelete(anggota.userId)}
                       className="ml-auto hover:opacity-75 transition"
                     >
                       <X className="h-4 w-4" />
