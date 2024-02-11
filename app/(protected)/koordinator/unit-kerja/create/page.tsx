@@ -137,7 +137,7 @@ const CreatePage = () => {
                         )}
                         />
                         <div className="flex items-center gap-x-2">
-                            <Link href="/">
+                            <Link href="/koordinator/unit-kerja/">
                             <Button
                             type="button"
                             variant="ghost"

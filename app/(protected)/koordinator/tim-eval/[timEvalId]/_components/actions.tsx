@@ -12,12 +12,12 @@ import { toast } from "sonner";
 
 interface ActionsProps {
   disabled: boolean;
-  timEvaluasiId: string;
+  timEvalId: string;
 };
 
 export const Actions = ({
   disabled,
-  timEvaluasiId,
+  timEvalId,
 }: ActionsProps) => {
   const router = useRouter();
   const confetti = useConfettiStore();
@@ -27,7 +27,7 @@ export const Actions = ({
     try {
       setIsLoading(true);
 
-      await axios.delete(`/api/tim-eval/${timEvaluasiId}`);
+      await axios.delete(`/api/tim-eval/${timEvalId}`);
 
       toast.success("Tim evaluasi deleted");
       router.refresh();

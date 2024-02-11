@@ -11,6 +11,7 @@ import { TimEvaluasi } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react"
 import Link from "next/link"
+import { DataTableColumnHeader } from "./column-header"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -20,13 +21,14 @@ export const columns: ColumnDef<TimEvaluasi>[] = [
         accessorKey: "name",
         header: ({ column }) => {
             return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Name
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
+                // <Button
+                //     variant="ghost"
+                //     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                // >
+                //     Name
+                //     <ArrowUpDown className="ml-2 h-4 w-4" />
+                // </Button>
+                <DataTableColumnHeader column={column} title="Name" />
             )
         },
     },

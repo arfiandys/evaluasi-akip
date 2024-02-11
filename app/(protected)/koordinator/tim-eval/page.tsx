@@ -3,6 +3,9 @@ import { columns } from "./_components/column";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { PlusCircle } from "lucide-react";
 
 
 const TimEvaluasiPage = async () => {
@@ -28,7 +31,16 @@ const TimEvaluasiPage = async () => {
     });
 
     return (
-        <div className="p-6">
+        <div className="p-6 flex flex-col">
+            <div className="flex justify-end">
+                <Link href="/koordinator/tim-eval/create">
+                    <Button
+                    >
+                        <PlusCircle className="h-4 w-4 mr-2" />
+                        New tim evaluasi
+                    </Button>
+                </Link>
+            </div>
             <DataTable columns={columns} data={timEvaluasi} />
         </div>
     );

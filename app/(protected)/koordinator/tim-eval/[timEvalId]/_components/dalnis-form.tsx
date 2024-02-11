@@ -73,7 +73,7 @@ export const DalnisForm = ({
       setDeletingId(id);
       const values = {
         data: {
-          ketuaTimEvaluasiId: id,
+          dalnisTimEvaluasiId: id,
           action: "disconnect"
         }
       };

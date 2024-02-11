@@ -87,7 +87,7 @@ const TimEvaluasiIdPage = async ({
                             </div>
                             <Actions
                                 disabled={!isComplete}
-                                timEvaluasiId={params.timEvalId}
+                                timEvalId={params.timEvalId}
                             />
                         </div>
                     </div>

@@ -57,7 +57,7 @@ export function DataTable<TData, TValue>({
 
     return (
         <div>
-            <div className="flex items-center py-4 justify-between">
+            <div className="items-center py-4 justify-between grid sm:grid-cols-2 grid-cols-1 gap-y-4">
                 <Input
                     placeholder="Filter unit kerja..."
                     value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -66,12 +66,14 @@ export function DataTable<TData, TValue>({
                     }
                     className="max-w-sm"
                 />
-                <Link href="/koordinator/unit-kerja/create">
-                    <Button>
-                        <PlusCircle className="h-4 w-4 mr-2" />
-                        New unit kerja
-                    </Button>
-                </Link>
+                <div className="flex justify-end">
+                    <Link href="/koordinator/unit-kerja/create">
+                        <Button>
+                            <PlusCircle className="h-4 w-4 mr-2" />
+                            New unit kerja
+                        </Button>
+                    </Link>
+                </div>
             </div>
             <div className="rounded-md border">
                 <Table>

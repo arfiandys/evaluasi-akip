@@ -26,6 +26,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { PlusCircle } from "lucide-react"
+import { DataTableViewOptions } from "./view-options"
+import { DataTablePagination } from "./pagination"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -66,12 +68,7 @@ export function DataTable<TData, TValue>({
                     }
                     className="max-w-sm"
                 />
-                <Link href="/koordinator/tim-eval/create">
-                    <Button>
-                        <PlusCircle className="h-4 w-4 mr-2" />
-                        New tim evaluasi
-                    </Button>
-                </Link>
+                <DataTableViewOptions table={table} />
             </div>
             <div className="rounded-md border">
                 <Table>
@@ -117,23 +114,8 @@ export function DataTable<TData, TValue>({
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
-                >
-                    Previous
-                </Button>
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
-                >
-                    Next
-                </Button>
+            <div className="flex items-center py-4 justify-between w-full">
+                <DataTablePagination table={table} />
             </div>
         </div>
     )

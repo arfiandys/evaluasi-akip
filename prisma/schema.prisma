@@ -92,9 +92,9 @@ model UnitKerja {
 }
 
 model UserOnUnitKerja {
-  unitKerja    UnitKerja @relation(fields: [unitKerjaId], references: [id])
+  unitKerja    UnitKerja @relation(fields: [unitKerjaId], references: [id], onDelete: Cascade)
   unitKerjaId  String // relation scalar field (used in the `@relation` attribute above)
-  user         User      @relation(fields: [userId], references: [id])
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       String // relation scalar field (used in the `@relation` attribute above)
   assignedAt   DateTime  @default(now())
   assignedRole UserRole
@@ -115,9 +115,9 @@ model TimEvaluasi {
 }
 
 model UserOnTimEvaluasi {
-  timEvaluasi   TimEvaluasi @relation(fields: [timEvaluasiId], references: [id])
+  timEvaluasi   TimEvaluasi @relation(fields: [timEvaluasiId], references: [id], onDelete: Cascade)
   timEvaluasiId String // relation scalar field (used in the `@relation` attribute above)
-  user          User        @relation(fields: [userId], references: [id])
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String // relation scalar field (used in the `@relation` attribute above)
   assignedAt    DateTime    @default(now())
   assignedRole  UserRole
