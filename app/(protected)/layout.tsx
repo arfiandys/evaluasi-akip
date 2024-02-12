@@ -1,5 +1,6 @@
-import { Navbar } from "./_component/navbar";
-import { Sidebar } from "./_component/sidebar";
+import Header from "./_component/header-l";
+import { PageWrapper } from "./_component/pagewrapper-l";
+import { SideBar } from "./_component/sidebar-l";
 
 interface ProtectedLayoutProps {
     children: React.ReactNode;
@@ -9,16 +10,12 @@ const ProtectedLayout = ({
     children
 }: ProtectedLayoutProps) => {
     return (
-        <div className="h-fit min-h-full bg-primary-foreground">
-            <div className="h-[80px] md:pl-80 fixed inset-y-0 w-full z-50">
-                <Navbar />
-            </div>
-            <div className="hidden md:flex h-full w-80 flex-col fixed inset-y-0 z-50">
-                <Sidebar />
-            </div>
-            <main className="pt-[80px] md:pl-80 h-full">
+        <div className="flex min-h-screen">
+            <SideBar></SideBar>
+            <Header></Header>
+            <PageWrapper>
                 {children}
-            </main>
+            </PageWrapper>
         </div>
     );
 }

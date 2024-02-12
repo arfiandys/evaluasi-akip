@@ -4,7 +4,7 @@ import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Loader2, PlusCircle, User2, X } from "lucide-react";
+import { Building, Loader2, Pencil, PlusCircle, User2, X } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -17,13 +17,17 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { TimEvaluasi, UserOnTimEvaluasi, UserRole } from "@prisma/client";
+import { TimEvaluasi, User, UserOnTimEvaluasi, UserOnUnitKerja, UserRole } from "@prisma/client";
 import { Combobox } from "@/components/ui/combobox";
+import { UnitKerjaForm } from "./unit-kerja-form";
+
 
 interface AnggotaFormProps {
-  initialData: TimEvaluasi & { users: UserOnTimEvaluasi[] };
+  initialData: TimEvaluasi & { users: (UserOnTimEvaluasi & { user: User & { unitKerjas: UserOnUnitKerja[] } })[] };
+  initialData_User: (User & { unitKerjas: UserOnUnitKerja[] })[];
   timEvaluasiId: string;
   options: { label: string; value: string; }[];
+  options_unitKerja: { label: string; value: string; }[];
 
 };
 
@@ -33,11 +37,13 @@ const formSchema = z.object({
 
 export const AnggotaForm = ({
   initialData,
+  initialData_User,
   timEvaluasiId,
   options,
+  options_unitKerja
 }: AnggotaFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [deletingId, setDeletingId] = useState<string | null>(null);
+
 
   const toggleEdit = () => setIsEditing((current) => !current);
 
@@ -46,10 +52,6 @@ export const AnggotaForm = ({
   const anggota = initialData.users.filter(function (user) {
     return user.assignedRole === UserRole.ANGGOTA;
   }).map(function (user) { return user })
-
-  const anggotaId = initialData.users.filter(function (user) {
-    return user.assignedRole === UserRole.ANGGOTA;
-  }).map(function (user) { return user.userId })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -72,26 +74,6 @@ export const AnggotaForm = ({
     }
   }
 
-  const onDelete = async (id: string) => {
-    try {
-      setDeletingId(id);
-      const values = {
-        data: {
-          anggotaTimEvaluasiId: id,
-          action: "disconnect"
-        }
-      };
-      await axios.patch(`/api/tim-eval/${timEvaluasiId}`, values);
-      toast.success("Anggota deleted");
-      form.reset();
-      router.refresh();
-    } catch {
-      toast.error("Something went wrong");
-    } finally {
-      setDeletingId(null);
-    }
-  }
-
   return (
     <div className="mt-6 border bg-background rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
@@ -109,36 +91,24 @@ export const AnggotaForm = ({
       </div>
       {!isEditing && (
         <>
-          {anggotaId.length === 0 && (
+          {anggota.length === 0 && (
             <p className="text-sm mt-2 text-slate-500 italic">
               No anggota yet
             </p>
           )}
-          {anggotaId.length > 0 && (
+          {anggota.length > 0 && (
             <div className="space-y-2 mt-2">
               {anggota.map((anggota) => (
-                <div
-                  key={anggota.userId}
-                  className="flex items-center p-3 w-full bg-sky-100 border-sky-200 border text-sky-700 rounded-md"
-                >
-                  <User2 className="h-4 w-4 mr-2 flex-shrink-0" />
-                  <p className="text-xs line-clamp-1">
-                  {(options.find((option) => option.value === anggota.userId))?.label}
-                  </p>
-                  {deletingId === anggota.userId && (
-                    <div>
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    </div>
-                  )}
-                  {deletingId !== anggota.userId && (
-                    <button
-                      onClick={() => onDelete(anggota.userId)}
-                      className="ml-auto hover:opacity-75 transition"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  )}
+                <div key={anggota.userId}>
+                  <UnitKerjaForm
+                    value={anggota}
+                    initialData={initialData}
+                    timEvaluasiId={timEvaluasiId}
+                    options_unitKerja={options_unitKerja}
+                    options_user={options}
+                  />
                 </div>
+
               ))}
             </div>
           )}
@@ -179,3 +149,27 @@ export const AnggotaForm = ({
     </div>
   )
 }
+
+{/* <Dialog>
+                    <DialogTrigger asChild>
+                    <button
+                      type="submit"
+                      className="ml-auto hover:opacity-75 transition"
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                      <DialogHeader>
+                        <DialogTitle>Add unit kerja</DialogTitle>
+                        <DialogDescription>
+                          Make changes to your unit kerja here. Click save when you are done.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <UnitKerjaForm 
+                        initialData={initialData_User}
+                        userId={anggota.userId}
+                        options={options_unitKerja}
+                      />
+                    </DialogContent>
+                  </Dialog> */}

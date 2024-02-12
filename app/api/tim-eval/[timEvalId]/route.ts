@@ -53,6 +53,102 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    if (values?.userId! && values?.unitKerjaId!) {
+      const timEvaluasi = await db.timEvaluasi.update({
+        where: {
+          id: timEvalId,
+          userId
+        },
+        data: {
+          users: {
+            update: {
+              where: {
+                userTimEvaluasiId: {
+                  timEvaluasiId: timEvalId,
+                  userId: values.userId
+                }
+              },
+              data: {
+                user: {
+                  update: {
+                    data: {
+                      unitKerjas: {
+                        create: [
+                          {
+                            assignedRole: UserRole.ANGGOTA,
+                            unitKerja: {
+                              connect: {
+                                id: values.unitKerjaId,
+                              },
+                            },
+                          },
+                        ],
+                      }
+                    }
+                  }
+                },
+              },
+            },
+          },
+        },
+        include: {
+          users: {
+            orderBy: {
+              userId: "asc"
+            }
+          }
+        }
+      });
+
+      return NextResponse.json(timEvaluasi);
+    }
+
+    if (values?.data?.anggotaTimEvaluasiId && values?.data?.unitKerjaId! && values?.data?.action! === "disconnect") {
+      const timEvaluasi = await db.timEvaluasi.update({
+        where: {
+          id: timEvalId,
+          userId
+        },
+        data: {
+          users: {
+            update: {
+              where: {
+                userTimEvaluasiId: {
+                  timEvaluasiId: timEvalId,
+                  userId: values?.data?.anggotaTimEvaluasiId
+                }
+              },
+              data: {
+                user: {
+                  update: {
+                    data: {
+                      unitKerjas: {
+                        delete:{
+                          userUnitKerjaId: {
+                            unitKerjaId: values?.data?.unitKerjaId,
+                            userId: values?.data?.anggotaTimEvaluasiId
+                          },
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+            },
+          },
+        },
+        include: {
+          users: {
+            orderBy: {
+              userId: "asc"
+            }
+          }
+        }
+      });
+
+      return NextResponse.json(timEvaluasi);
+    }
+
     if (values?.data?.anggotaTimEvaluasiId! && values?.data?.action! === "disconnect") {
       const timEvaluasi = await db.timEvaluasi.update({
         where: {
@@ -61,14 +157,35 @@ export async function PATCH(
         },
         data: {
           users: {
-            deleteMany: [
+            update: {
+              where: {
+                userTimEvaluasiId: {
+                  timEvaluasiId: timEvalId,
+                  userId: values?.data?.anggotaTimEvaluasiId
+                }
+              },
+              data: {
+                user: {
+                  update: {
+                    data: {
+                      unitKerjas: {
+                        deleteMany:{
+                          assignedRole: UserRole.ANGGOTA,
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+            },
+            delete: [
               {
-                AND: {
-                  assignedRole: UserRole.ANGGOTA,
-                  userId: values.data.anggotaTimEvaluasiId
+                userTimEvaluasiId: {
+                  timEvaluasiId: timEvalId,
+                  userId: values?.data?.anggotaTimEvaluasiId
                 }
               }
-            ]
+            ],
           },
         },
         include: {
@@ -91,11 +208,11 @@ export async function PATCH(
         },
         data: {
           users: {
-            deleteMany: [
+            delete: [
               {
-                AND: {
-                  assignedRole: UserRole.KETUA,
-                  userId: values.data.ketuaTimEvaluasiId
+                userTimEvaluasiId: {
+                  timEvaluasiId: timEvalId,
+                  userId: values?.data?.ketuaTimEvaluasiId
                 }
               }
             ]
@@ -121,11 +238,11 @@ export async function PATCH(
         },
         data: {
           users: {
-            deleteMany: [
+            delete: [
               {
-                AND: {
-                  assignedRole: UserRole.DALNIS,
-                  userId: values.data.dalnisTimEvaluasiId
+                userTimEvaluasiId: {
+                  timEvaluasiId: timEvalId,
+                  userId: values?.data?.dalnisTimEvaluasiId
                 }
               }
             ]

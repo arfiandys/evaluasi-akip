@@ -99,7 +99,7 @@ model UserOnUnitKerja {
   assignedAt   DateTime  @default(now())
   assignedRole UserRole
 
-  @@id([unitKerjaId, userId])
+  @@id(name: "userUnitKerjaId",[unitKerjaId, userId])
 }
 
 // TIM EVALUASI
@@ -122,7 +122,7 @@ model UserOnTimEvaluasi {
   assignedAt    DateTime    @default(now())
   assignedRole  UserRole
 
-  @@id([timEvaluasiId, userId])
+  @@id(name: "userTimEvaluasiId",[timEvaluasiId, userId])
 }
 
 // PERMINDOK

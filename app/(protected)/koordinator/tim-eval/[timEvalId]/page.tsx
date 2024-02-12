@@ -32,6 +32,17 @@ const TimEvaluasiIdPage = async ({
             users: {
                 orderBy: {
                     userId: "asc"
+                },
+                include: {
+                    user: {
+                        include: {
+                            unitKerjas : {
+                                orderBy: {
+                                    unitKerjaId: "asc"
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -43,6 +54,19 @@ const TimEvaluasiIdPage = async ({
                 role: UserRole.ADMIN,
             },
         },
+        orderBy: {
+            name: "asc",
+        },
+        include: {
+            unitKerjas: {
+                orderBy: {
+                    unitKerjaId: "asc"
+                }
+            }
+        }
+    });
+
+    const unitKerjas = await db.unitKerja.findMany({
         orderBy: {
             name: "asc",
         },
@@ -130,10 +154,15 @@ const TimEvaluasiIdPage = async ({
                         />
                         <AnggotaForm
                             initialData={timEvaluasi}
+                            initialData_User={users}
                             timEvaluasiId={timEvaluasi.id}
                             options={users.map((user) => ({
                                 label: user.name!,
                                 value: user.id,
+                            }))}
+                            options_unitKerja={unitKerjas.map((unitKerja) => ({
+                                label: unitKerja.name!,
+                                value: unitKerja.id,
                             }))}
                         />
                     </div>
