@@ -5,7 +5,7 @@ import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { 
+import {
     Form,
     FormControl,
     FormDescription,
@@ -13,7 +13,7 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
- } from "@/components/ui/form";
+} from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
@@ -30,72 +30,72 @@ const CreatePage = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: ""
+            name: "",
         },
     });
 
-    const { isSubmitting, isValid} = form.formState;
+    const { isSubmitting, isValid } = form.formState;
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.post("/api/tim-evaluasi", values);
             router.push(`/koordinator/tim-evaluasi/${response.data.id}`);
-            toast.success("Team created!")
+            toast.success("Tim evaluasi created!")
         } catch {
-            toast.error("Something went wrong!");  
+            toast.error("Something went wrong!");
         }
-        
+
 
     }
 
-    return ( 
+    return (
         <div className="max-w-5xl mx-auto flex md:items-center md:justify-center h-full p-6">
             <div>
                 <h1 className="text-2xl">
-                    Name your team
+                    Name your tim evaluasi
                 </h1>
                 <p className="text-sm text-secondary-foreground">
-                    What would you like to name your team? Don&apos;t worry. 
+                    What would you like to name your team? Don&apos;t worry.
                 </p>
                 <Form {...form}>
-                    <form 
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-8 mt-8"
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-4 mt-8"
                     >
-                        <FormField 
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>
-                                    Team name
-                                </FormLabel>
-                                <FormControl>
-                                    <Input 
-                                    disabled={isSubmitting}
-                                    placeholder="e.g. 'Team one'"
-                                    {...field}
-                                    />
-                                </FormControl>
-                                <FormDescription>
-                                    What will you do in this team?
-                                </FormDescription>
-                                <FormMessage />
-                            </FormItem>
-                        )}
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>
+                                        Tim evaluasi name
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            disabled={isSubmitting}
+                                            placeholder="e.g. 'Team one'"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormDescription>
+                                        What will you do in this team?
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
                         />
                         <div className="flex items-center gap-x-2">
                             <Link href="/">
-                            <Button
-                            type="button"
-                            variant="ghost"
-                            >
-                                Cancel
-                            </Button>
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                >
+                                    Cancel
+                                </Button>
                             </Link>
                             <Button
-                            type="submit"
-                            disabled={!isValid || isSubmitting}
+                                type="submit"
+                                disabled={!isValid || isSubmitting}
                             >
                                 Continue
                             </Button>
@@ -104,7 +104,7 @@ const CreatePage = () => {
                 </Form>
             </div>
         </div>
-     );
+    );
 }
- 
+
 export default CreatePage;

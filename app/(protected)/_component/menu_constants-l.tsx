@@ -7,7 +7,7 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
         title: "Dashboards",
         menuList: [{
             title: 'Dashboard',
-            path: '/koordinator/tim-evaluasi',
+            path: '/dashboard',
             icon: <Home size={20} />,
         }]
     },
@@ -16,13 +16,13 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
         menuList: [
             {
                 title: 'Tim Evaluasi',
-                path: '/koordinator/tim-eval',
+                path: '/koordinator/tim-evaluasi',
                 icon: <UserRoundCheck size={20} />,
                 submenu: true,
                 subMenuItems: [
-                    { title: 'List', path: '/koordinator/tim-eval' },
-                    { title: 'Create', path: '/koordinator/tim-eval/create' },
-                    { title: 'Edit', path: '/koordinator/tim-eval/edit' },
+                    { title: 'List', path: '/koordinator/tim-evaluasi' },
+                    { title: 'Create', path: '/koordinator/tim-evaluasi/create' },
+                    { title: 'Edit', path: '/koordinator/tim-evaluasi/edit' },
                 ],
             },
             {

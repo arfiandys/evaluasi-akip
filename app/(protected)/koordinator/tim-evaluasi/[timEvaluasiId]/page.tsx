@@ -1,18 +1,15 @@
 import { IconBadge } from "@/components/icon-badge";
 import { currentId } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { ArrowLeft, CircleDollarSign, File, LayoutDashboard, ListChecks } from "lucide-react";
+import { ArrowLeft, Building, LayoutDashboard, User } from "lucide-react";
 import { redirect } from "next/navigation";
 import { NameForm } from "./_components/name-form";
-import { DescriptionForm } from "./_components/description-form";
-import { ImageForm } from "./_components/image-form";
-import { CategoryForm } from "./_components/category-form";
-import { SalaryForm } from "./_components/salary-form";
-import { AttachmentForm } from "./_components/attachment-form";
-import { ChapterForm } from "./_components/chapter-form";
-import { Banner } from "@/components/banner";
+import { KetuaForm } from "./_components/ketua-form";
 import { Actions } from "./_components/actions";
 import Link from "next/link";
+import { AnggotaForm } from "./_components/anggota-form";
+import { UserRole } from "@prisma/client";
+import { DalnisForm } from "./_components/dalnis-form";
 
 const TimEvaluasiIdPage = async ({
     params
@@ -26,42 +23,64 @@ const TimEvaluasiIdPage = async ({
         return redirect("/");
     }
 
-    const team = await db.team.findUnique({
+    const timEvaluasi = await db.timEvaluasi.findUnique({
         where: {
             id: params.timEvaluasiId,
             userId
         },
         include: {
-            chapters: {
+            users: {
                 orderBy: {
-                    position: "asc"
-                }
-            },
-            attachments: {
-                orderBy: {
-                    createdAt: "desc",
+                    userId: "asc"
                 },
-            },
-        },
+                include: {
+                    user: {
+                        include: {
+                            unitKerjas : {
+                                orderBy: {
+                                    unitKerjaId: "asc"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     });
 
-    const categories = await db.category.findMany({
+    const users = await db.user.findMany({
+        where: {
+            NOT: {
+                role: UserRole.ADMIN,
+            },
+        },
+        orderBy: {
+            name: "asc",
+        },
+        include: {
+            unitKerjas: {
+                orderBy: {
+                    unitKerjaId: "asc"
+                }
+            }
+        }
+    });
+
+    const unitKerjas = await db.unitKerja.findMany({
         orderBy: {
             name: "asc",
         },
     });
 
-    if (!team) {
+    if (!timEvaluasi) {
         return redirect("/");
     }
 
     const requiredFields = [
-        team.name,
-        team.description,
-        team.imageUrl,
-        team.price,
-        team.categoryId,
-        team.chapters.some(chapter => chapter.isPublished),
+        timEvaluasi.name,
+        timEvaluasi.users.some(users => users.assignedRole === UserRole.DALNIS),
+        timEvaluasi.users.some(users => users.assignedRole === UserRole.KETUA),
+        timEvaluasi.users.some(users => users.assignedRole === UserRole.ANGGOTA),
     ];
 
     const totalFields = requiredFields.length;
@@ -71,25 +90,20 @@ const TimEvaluasiIdPage = async ({
 
     return (
         <>
-            {!team.isPublished && (
-                <Banner
-                    label="This team is unpublished. It will not be visible to the user."
-                />
-            )}
             <div className="p-6">
                 <div className="flex items-center justify-between">
                     <div className="w-full">
                         <Link
                             href={`/koordinator/tim-evaluasi`}
-                            className="flex items-center text-sm hover:opacity-75 transition mb-6"
+                            className="flex w-fit items-center text-sm hover:opacity-75 transition mb-6"
                         >
                             <ArrowLeft className="h-4 w-4 mr-2" />
-                            Back to team list
+                            Back to tim evaluasi list
                         </Link>
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-y-2">
                                 <h1 className="text-2xl font-medium">
-                                    Team setup
+                                    Tim evaluasi setup
                                 </h1>
                                 <span className="text-sm text-secondary-foreground">
                                     Complete all fields {completionText}
@@ -97,8 +111,7 @@ const TimEvaluasiIdPage = async ({
                             </div>
                             <Actions
                                 disabled={!isComplete}
-                                teamId={params.timEvaluasiId}
-                                isPublished={team.isPublished}
+                                timEvaluasiId={params.timEvaluasiId}
                             />
                         </div>
                     </div>
@@ -108,67 +121,56 @@ const TimEvaluasiIdPage = async ({
                         <div className="flex items-center gap-x-2">
                             <IconBadge icon={LayoutDashboard} />
                             <h2 className="text-xl">
-                                Customize your team
+                                Customize your tim evaluasi details
                             </h2>
                         </div>
                         <NameForm
-                            initialData={team}
-                            timEvaluasiId={team.id}
+                            initialData={timEvaluasi}
+                            timEvaluasiId={timEvaluasi.id}
                         />
-                        <DescriptionForm
-                            initialData={team}
-                            timEvaluasiId={team.id}
+                        <div className="flex mt-6 items-center gap-x-2">
+                            <IconBadge icon={User} />
+                            <h2 className="text-xl">
+                                Customize dalnis and ketua of tim evaluasi
+                            </h2>
+                        </div>
+                        <DalnisForm
+                            initialData={timEvaluasi}
+                            timEvaluasiId={timEvaluasi.id}
+                            options={users.map((user) => ({
+                                label: user.name!,
+                                value: user.id,
+                            }))}
                         />
-                        <ImageForm
-                            initialData={team}
-                            timEvaluasiId={team.id}
-                        />
-                        <CategoryForm
-                            initialData={team}
-                            timEvaluasiId={team.id}
-                            options={categories.map((category) => ({
-                                label: category.name,
-                                value: category.id,
+                        <KetuaForm
+                            initialData={timEvaluasi}
+                            timEvaluasiId={timEvaluasi.id}
+                            options={users.map((user) => ({
+                                label: user.name!,
+                                value: user.id,
                             }))}
                         />
                     </div>
-                    <div className="space-y-6">
-                        <div>
-                            <div className="flex items-center gap-x-2">
-                                <IconBadge icon={ListChecks} />
-                                <h2 className="text-xl">
-                                    Team members
-                                </h2>
-                            </div>
-                            <ChapterForm
-                                initialData={team}
-                                timEvaluasiId={team.id}
-                            />
-                        </div>
-                        <div>
-                            <div className="flex items-center gap-x-2">
-                                <IconBadge icon={CircleDollarSign} />
-                                <h2 className="text-xl">
-                                    Team salary
-                                </h2>
-                            </div>
-                            <SalaryForm
-                                initialData={team}
-                                timEvaluasiId={team.id}
-                            />
-                        </div>
-                        <div>
-                            <div className="flex items-center gap-x-2">
-                                <IconBadge icon={File} />
-                                <h2 className="text-xl">
-                                    Resources & Attachments
-                                </h2>
-                            </div>
-                            <AttachmentForm
-                                initialData={team}
-                                timEvaluasiId={team.id}
-                            />
-                        </div>
+                    <div>
+                        <div className="flex items-center gap-x-2">
+                            <IconBadge icon={Building} />
+                            <h2 className="text-xl">
+                                Customize members and unit kerja of tim evaluasi
+                            </h2>
+                        </div>                        
+                        <AnggotaForm
+                            initialData={timEvaluasi}
+                            initialData_User={users}
+                            timEvaluasiId={timEvaluasi.id}
+                            options={users.map((user) => ({
+                                label: user.name!,
+                                value: user.id,
+                            }))}
+                            options_unitKerja={unitKerjas.map((unitKerja) => ({
+                                label: unitKerja.name!,
+                                value: unitKerja.id,
+                            }))}
+                        />
                     </div>
                 </div>
             </div>

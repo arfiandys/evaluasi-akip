@@ -10,7 +10,7 @@ const ProtectedLayout = ({
     children
 }: ProtectedLayoutProps) => {
     return (
-        <div className="flex min-h-screen">
+        <div>
             <SideBar></SideBar>
             <Header></Header>
             <PageWrapper>

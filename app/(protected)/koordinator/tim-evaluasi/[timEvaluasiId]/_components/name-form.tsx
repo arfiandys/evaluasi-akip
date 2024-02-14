@@ -52,7 +52,7 @@ export const NameForm = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);
-      toast.success("Team updated");
+      toast.success("Tim evaluasi updated");
       toggleEdit();
       router.refresh();
     } catch {
@@ -63,7 +63,7 @@ export const NameForm = ({
   return (
     <div className="mt-6 border bg-background rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Team name
+        Unit kerja name
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
@@ -94,7 +94,7 @@ export const NameForm = ({
                   <FormControl>
                     <Input
                       disabled={isSubmitting}
-                      placeholder="e.g. 'Team one'"
+                      placeholder="e.g. 'Unit one'"
                       {...field}
                     />
                   </FormControl>

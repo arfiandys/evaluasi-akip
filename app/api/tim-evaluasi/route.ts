@@ -7,23 +7,24 @@ export async function POST(
 ) {
     try {
         const userId = await currentId();
-        const { name } = await req.json();
+        const data = await req.json();
+        const name = data.name;
 
         if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const team = await db.team.create({
+        const timEvaluasi = await db.timEvaluasi.create({
             data: {
                 userId,
                 name,
             }
         })
 
-        return NextResponse.json(team);
+        return NextResponse.json(timEvaluasi);
 
     } catch (error) {
-        console.log("[TEAM]", error);
+        console.log("[TIM EVALUASI]", error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }

@@ -12,47 +12,24 @@ import { toast } from "sonner";
 
 interface ActionsProps {
   disabled: boolean;
-  teamId: string;
-  isPublished: boolean;
+  timEvaluasiId: string;
 };
 
 export const Actions = ({
   disabled,
-  teamId,
-  isPublished
+  timEvaluasiId,
 }: ActionsProps) => {
   const router = useRouter();
   const confetti = useConfettiStore();
   const [isLoading, setIsLoading] = useState(false);
 
-  const onClick = async () => {
-    try {
-      setIsLoading(true);
-
-      if (isPublished) {
-        await axios.patch(`/api/tim-evaluasi/${teamId}/unpublish`);
-        toast.success("Team unpublished");
-      } else {
-        await axios.patch(`/api/tim-evaluasi/${teamId}/publish`);
-        toast.success("Team published");
-        confetti.onOpen();
-      }
-
-      router.refresh();
-    } catch {
-      toast.error("Something went wrong");
-    } finally {
-      setIsLoading(false);
-    }
-  }
-  
   const onDelete = async () => {
     try {
       setIsLoading(true);
 
-      await axios.delete(`/api/tim-evaluasi/${teamId}`);
+      await axios.delete(`/api/tim-evaluasi/${timEvaluasiId}`);
 
-      toast.success("Team deleted");
+      toast.success("Tim evaluasi deleted");
       router.refresh();
       router.push(`/koordinator/tim-evaluasi`);
     } catch {
@@ -64,14 +41,6 @@ export const Actions = ({
 
   return (
     <div className="flex items-center gap-x-2">
-      <Button
-        onClick={onClick}
-        disabled={disabled || isLoading}
-        variant="outline"
-        size="sm"
-      >
-        {isPublished ? "Unpublish" : "Publish"}
-      </Button>
       <ConfirmModal onConfirm={onDelete}>
         <Button size="sm" disabled={isLoading}>
           <Trash className="h-4 w-4" />
