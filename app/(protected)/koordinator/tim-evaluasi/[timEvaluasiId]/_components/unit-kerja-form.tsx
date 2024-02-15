@@ -44,7 +44,7 @@ export const UnitKerjaForm = ({
   });
 
   const unitKerja = currentUser?.user.unitKerjas.filter(function (unit) {
-    return unit.assignedRole === UserRole.ANGGOTA;
+    return unit.assignedRole === UserRole.ANGGOTA && unit.timEvaluasiId === timEvaluasiId;
   }).map(function (unit) { return unit })
 
   const form = useForm<z.infer<typeof formSchema>>({

@@ -53,6 +53,8 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    // UNIT KERJA ON TIM EVALUASI ADD
+
     if (values?.userId! && values?.unitKerjaId!) {
       const timEvaluasi = await db.timEvaluasi.update({
         where: {
@@ -76,6 +78,7 @@ export async function PATCH(
                         create: [
                           {
                             assignedRole: UserRole.ANGGOTA,
+                            timEvaluasiId: timEvaluasiId,
                             unitKerja: {
                               connect: {
                                 id: values.unitKerjaId,
@@ -102,6 +105,8 @@ export async function PATCH(
 
       return NextResponse.json(timEvaluasi);
     }
+
+    // UNIT KERJA ON TIM EVALUASI DISCONNECT
 
     if (values?.data?.anggotaTimEvaluasiId && values?.data?.unitKerjaId! && values?.data?.action! === "disconnect") {
       const timEvaluasi = await db.timEvaluasi.update({
@@ -148,6 +153,8 @@ export async function PATCH(
 
       return NextResponse.json(timEvaluasi);
     }
+
+    // ======================== TIM EVALUASI DISCONNECT
 
     if (values?.data?.anggotaTimEvaluasiId! && values?.data?.action! === "disconnect") {
       const timEvaluasi = await db.timEvaluasi.update({
@@ -260,6 +267,8 @@ export async function PATCH(
       return NextResponse.json(timEvaluasi);
     }
 
+    // ===================== TIM EVALUASI ADD
+
     if (values.dalnisTimEvaluasiId!) {
       const timEvaluasi = await db.timEvaluasi.update({
         where: {
@@ -368,6 +377,8 @@ export async function PATCH(
 
       return NextResponse.json(timEvaluasi);
     }
+
+    // TIM EVALUASI DETAIL EDIT
 
     const timEvaluasi = await db.timEvaluasi.update({
       where: {

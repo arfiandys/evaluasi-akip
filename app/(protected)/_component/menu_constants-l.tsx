@@ -36,6 +36,17 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
                     { title: 'Edit', path: '/koordinator/unit-kerja/edit' },
                 ],
             },
+            {
+                title: 'Pengguna',
+                path: '/koordinator/user',
+                icon: <Building2 size={20} />,
+                submenu: true,
+                subMenuItems: [
+                    { title: 'List', path: '/koordinator/user' },
+                    { title: 'Create', path: '/koordinator/user/create' },
+                    { title: 'Edit', path: '/koordinator/user/edit' },
+                ],
+            },
         ]
     },
     {

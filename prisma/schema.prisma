@@ -86,6 +86,7 @@ model UnitKerja {
   userId        String
 
   users UserOnUnitKerja[]
+  isianLKEs LKEUnitKerja[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -98,6 +99,7 @@ model UserOnUnitKerja {
   userId       String // relation scalar field (used in the `@relation` attribute above)
   assignedAt   DateTime  @default(now())
   assignedRole UserRole
+  timEvaluasiId String?
 
   @@id(name: "userUnitKerjaId",[unitKerjaId, userId])
 }
@@ -141,9 +143,101 @@ model UserOnTimEvaluasi {
 
 // LKE
 
+// KOMPONEN LKE
+model KomponenLKE {
+  id String @id @default(cuid())
+  kode String
+  name String @unique
+  tahun String
+  bobot Float
+  subKomponenLKE SubKomponenLKE[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SubKomponenLKE {
+  id   String @id @default(cuid())
+  kode String
+  name String @unique
+  tahun String
+  bobot Float
+  komponenLKEId String?
+  komponenLKE   KomponenLKE? @relation(fields: [komponenLKEId], references: [id])
+  kriteriaLKE KriteriaLKE[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([komponenLKEId])
+}
 // KRITERIA LKE
+model KriteriaLKE {
+  id   String @id @default(cuid())
+  kode String
+  name String @unique
+  tahun String
+  bobot Float
+  subKomponenLKEId String?
+  subKomponenLKE   SubKomponenLKE? @relation(fields: [subKomponenLKEId], references: [id])
+  subKriteriaLKE SubKriteriaLKE[]
+  isianLKE IsianLKE?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([subKomponenLKEId])
+}
+model SubKriteriaLKE {
+  id   String @id @default(cuid())
+  kode String
+  name String @unique
+  tahun String
+  bobot Float
+  kriteriaLKEId String?
+  kriteriaLKE   KriteriaLKE? @relation(fields: [kriteriaLKEId], references: [id])
+  isianLKE IsianLKE?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([kriteriaLKEId])
+}
+
+model IsianLKE {
+  id   String @id @default(cuid())
+  kode String
+  tahun String
+  jenisIsian String
+  isSubKriteria Boolean
+  kriteriaLKEId String? @unique
+  kriteriaLKE   KriteriaLKE? @relation(fields: [kriteriaLKEId], references: [id])
+  subKriteriaLKEId String? @unique
+  subKriteriaLKE   SubKriteriaLKE? @relation(fields: [subKriteriaLKEId], references: [id])
+  
+  unitKerjas LKEUnitKerja[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 
 // LKE UNIT KERJA
+model LKEUnitKerja {
+  tahun String
+  jenisIsian String
+  isianKt String?
+  nilaiKt String?
+  isianAt String?
+  CatatanKt String?
+  nilaiAt String?
+
+  isianLKE   IsianLKE @relation(fields: [IsianLKEId], references: [id], onDelete: Cascade)
+  IsianLKEId String // relation scalar field (used in the `@relation` attribute above)
+  unitKerja          UnitKerja        @relation(fields: [unitKerjaId], references: [id], onDelete: Cascade)
+  unitKerjaId        String // relation scalar field (used in the `@relation` attribute above)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id(name: "LKEUnitKerjaId",[IsianLKEId, unitKerjaId])
+}
 
 //-----------------------------------------------------\\
 
