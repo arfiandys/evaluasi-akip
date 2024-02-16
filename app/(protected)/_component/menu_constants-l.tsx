@@ -1,5 +1,5 @@
 import { SideNavItemGroup } from "@/types/type";
-import { Building2, HelpCircle, Home, Settings, UserRoundCheck } from "lucide-react";
+import { Building2, HelpCircle, Home, Settings, TableProperties, User, UserRoundCheck } from "lucide-react";
 
 export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
 
@@ -39,13 +39,18 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
             {
                 title: 'Pengguna',
                 path: '/koordinator/user',
-                icon: <Building2 size={20} />,
+                icon: <User size={20} />,
                 submenu: true,
                 subMenuItems: [
                     { title: 'List', path: '/koordinator/user' },
                     { title: 'Create', path: '/koordinator/user/create' },
                     { title: 'Edit', path: '/koordinator/user/edit' },
                 ],
+            },
+            {
+                title: 'Variabel LKE',
+                path: '/koordinator/komponen-lke',
+                icon: <TableProperties size={20} />,                
             },
         ]
     },
