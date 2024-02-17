@@ -35,6 +35,7 @@ export const Actions = ({
       toast.success("Sub komponen deleted");
       router.refresh();
       router.push(`/koordinator/variabel-lke/komponen/${komponenId}`);
+      router.refresh();
     } catch {
       toast.error("Something went wrong");
     } finally {

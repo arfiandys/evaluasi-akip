@@ -33,6 +33,7 @@ export const Actions = ({
       toast.success("Komponen deleted");
       router.refresh();
       router.push(`/koordinator/variabel-lke/komponen`);
+      router.refresh();
     } catch {
       toast.error("Something went wrong");
     } finally {

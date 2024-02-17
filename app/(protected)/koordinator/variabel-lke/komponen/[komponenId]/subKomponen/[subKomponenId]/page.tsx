@@ -96,7 +96,7 @@ const SubKomponenIdPage = async ({
                         <div className="flex items-center gap-x-2">
                             <IconBadge icon={LayoutDashboard} />
                             <h2 className="text-xl">
-                                Customize your team
+                                Customize your sub komponen
                             </h2>
                         </div>
                         <NameForm
@@ -115,7 +115,7 @@ const SubKomponenIdPage = async ({
                             <div className="flex items-center gap-x-2">
                                 <IconBadge icon={ListChecks} />
                                 <h2 className="text-xl">
-                                    Team members
+                                    Sub komponen details
                                 </h2>
                             </div>
                             <TahunForm

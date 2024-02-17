@@ -163,7 +163,7 @@ model SubKomponenLKE {
   tahun String
   bobot Float
   komponenLKEId String?
-  komponenLKE   KomponenLKE? @relation(fields: [komponenLKEId], references: [id])
+  komponenLKE   KomponenLKE? @relation(fields: [komponenLKEId], references: [id], onDelete: Cascade)
   kriteriaLKE KriteriaLKE[]
   
   createdAt DateTime @default(now())
@@ -178,7 +178,7 @@ model KriteriaLKE {
   tahun String
   bobot Float
   subKomponenLKEId String?
-  subKomponenLKE   SubKomponenLKE? @relation(fields: [subKomponenLKEId], references: [id])
+  subKomponenLKE   SubKomponenLKE? @relation(fields: [subKomponenLKEId], references: [id], onDelete: Cascade)
   subKriteriaLKE SubKriteriaLKE[]
   isianLKE IsianLKE?
   
@@ -193,7 +193,7 @@ model SubKriteriaLKE {
   tahun String
   bobot Float
   kriteriaLKEId String?
-  kriteriaLKE   KriteriaLKE? @relation(fields: [kriteriaLKEId], references: [id])
+  kriteriaLKE   KriteriaLKE? @relation(fields: [kriteriaLKEId], references: [id], onDelete: Cascade)
   isianLKE IsianLKE?
   
   createdAt DateTime @default(now())
@@ -208,9 +208,9 @@ model IsianLKE {
   jenisIsian String
   isSubKriteria Boolean
   kriteriaLKEId String? @unique
-  kriteriaLKE   KriteriaLKE? @relation(fields: [kriteriaLKEId], references: [id])
+  kriteriaLKE   KriteriaLKE? @relation(fields: [kriteriaLKEId], references: [id], onDelete: Cascade)
   subKriteriaLKEId String? @unique
-  subKriteriaLKE   SubKriteriaLKE? @relation(fields: [subKriteriaLKEId], references: [id])
+  subKriteriaLKE   SubKriteriaLKE? @relation(fields: [subKriteriaLKEId], references: [id], onDelete: Cascade)
   
   unitKerjas LKEUnitKerja[]
   

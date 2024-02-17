@@ -38,7 +38,8 @@ export const Actions = ({
 
       toast.success("Kriteria deleted");
       router.refresh();
-      router.push(`/koordinator/variabel-lke/komponen/${komponenId}/subKomponen/${subKomponenId}`);
+      router.push(`/koordinator/variabel-lke/komponen/${komponenId}/subKomponen/${subKomponenId}/kriteria/${kriteriaId}`);
+      router.refresh();
     } catch {
       toast.error("Something went wrong");
     } finally {
