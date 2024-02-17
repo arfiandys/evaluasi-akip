@@ -1,21 +1,22 @@
 import { IconBadge } from "@/components/icon-badge";
 import { currentId } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { ArrowLeft, CircleDollarSign, File, LayoutDashboard, ListChecks, ListTree } from "lucide-react";
+import { ArrowLeft, LayoutDashboard, ListChecks, ListTree } from "lucide-react";
 import { redirect } from "next/navigation";
 import { NameForm } from "./_components/name-form";
 import { KodeForm } from "./_components/kode-form";
-import { Banner } from "@/components/banner";
 import { Actions } from "./_components/actions";
 import Link from "next/link";
 import { TahunForm } from "./_components/tahun-form";
 import { BobotForm } from "./_components/bobot-form";
-import CreatePage from "./_components/create-form";
+import CreateSubKomponenPage from "./_components/create-form";
+import { columns } from "./subKomponen/_components/columns";
+import { DataTable } from "./subKomponen/_components/data-table";
 
-const SubKomponenIdPage = async ({
+const KomponenIdPage = async ({
     params
 }: {
-    params: { subKomponenId: string }
+    params: { komponenId: string }
 }) => {
 
     const userId = await currentId();
@@ -24,17 +25,17 @@ const SubKomponenIdPage = async ({
         return redirect("/");
     }
 
-    const subKomponen = await db.subKomponenLKE.findUnique({
+    const komponen = await db.komponenLKE.findUnique({
         where: {
-            id: params.subKomponenId,
+            id: params.komponenId,
         },
         include: {
-            kriteriaLKE: {
+            subKomponenLKE: {
                 orderBy: {
                     name: "asc"
                 },
                 include: {
-                    subKriteriaLKE: {
+                    kriteriaLKE: {
                         orderBy: {
                             name: "asc"
                         }
@@ -44,16 +45,16 @@ const SubKomponenIdPage = async ({
         },
     });
 
-    if (!subKomponen) {
+    if (!komponen) {
         return redirect("/");
     }
 
     const requiredFields = [
-        subKomponen.name,
-        subKomponen.kode,
-        subKomponen.tahun,
-        subKomponen.bobot,
-        subKomponen.kriteriaLKE.length,
+        komponen.name,
+        komponen.kode,
+        komponen.tahun,
+        komponen.bobot,
+        komponen.subKomponenLKE.length,
     ];
 
     const totalFields = requiredFields.length;
@@ -67,16 +68,16 @@ const SubKomponenIdPage = async ({
                 <div className="flex items-center justify-between">
                     <div className="w-full">
                         <Link
-                            href={`/koordinator/komponen-lke`}
+                            href={`/koordinator/variabel-lke/komponen`}
                             className="flex items-center text-sm hover:opacity-75 transition mb-6"
                         >
                             <ArrowLeft className="h-4 w-4 mr-2" />
-                            Back to sub komponen list
+                            Back to komponen list
                         </Link>
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-y-2">
                                 <h1 className="text-2xl font-medium">
-                                    Sub komponen setup
+                                    Komponen setup
                                 </h1>
                                 <span className="text-sm text-secondary-foreground">
                                     Complete all fields {completionText}
@@ -84,7 +85,7 @@ const SubKomponenIdPage = async ({
                             </div>
                             <Actions
                                 disabled={!isComplete}
-                                subKomponenId={params.subKomponenId}
+                                komponenId={params.komponenId}
                             />
                         </div>
                     </div>
@@ -99,11 +100,11 @@ const SubKomponenIdPage = async ({
                         </div>
                         <NameForm
                             initialData={komponen}
-                            komponenLKEId={komponen.id}
+                            komponenId={komponen.id}
                         />
                         <KodeForm
                             initialData={komponen}
-                            komponenLKEId={komponen.id}
+                            komponenId={komponen.id}
                         />
                     </div>
                     <div className="space-y-6">
@@ -116,11 +117,11 @@ const SubKomponenIdPage = async ({
                             </div>
                             <TahunForm
                                 initialData={komponen}
-                                komponenLKEId={komponen.id}
+                                komponenId={komponen.id}
                             />
                             <BobotForm
                                 initialData={komponen}
-                                komponenLKEId={komponen.id}
+                                komponenId={komponen.id}
                             />
                         </div>
                     </div>
@@ -133,7 +134,7 @@ const SubKomponenIdPage = async ({
                         </h2>
                     </div>
                     <div className="flex flex-col space-y-6">
-                        <CreatePage komponenId={komponen.id}  />
+                        <CreateSubKomponenPage komponenId={komponen.id}  />
                         <DataTable data={komponen.subKomponenLKE} columns={columns} />
                     </div>
                 </div>
@@ -142,4 +143,4 @@ const SubKomponenIdPage = async ({
     );
 }
 
-export default SubKomponenIdPage;
+export default KomponenIdPage;

@@ -49,7 +49,7 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
             },
             {
                 title: 'Variabel LKE',
-                path: '/koordinator/komponen-lke',
+                path: '/koordinator/variabel-lke/komponen',
                 icon: <TableProperties size={20} />,                
             },
         ]

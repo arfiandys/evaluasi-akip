@@ -1,21 +1,22 @@
 import { IconBadge } from "@/components/icon-badge";
 import { currentId } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { ArrowLeft, CircleDollarSign, File, LayoutDashboard, ListChecks, ListTree } from "lucide-react";
+import { ArrowLeft, LayoutDashboard, ListChecks, ListTree } from "lucide-react";
 import { redirect } from "next/navigation";
-import { NameForm } from "./_components/name-form";
-import { KodeForm } from "./_components/kode-form";
-import { Banner } from "@/components/banner";
 import { Actions } from "./_components/actions";
 import Link from "next/link";
-import { TahunForm } from "./_components/tahun-form";
 import { BobotForm } from "./_components/bobot-form";
-import CreatePage from "./_components/create-form";
+import CreateSubKriteriaPage from "./_components/create-form";
+import { DataTable } from "./subKriteria/_components/data-table";
+import { columns } from "./subKriteria/_components/columns";
+import { NameForm } from "./_components/name-form";
+import { KodeForm } from "./_components/kode-form";
+import { TahunForm } from "./_components/tahun-form";
 
-const SubKomponenIdPage = async ({
+const KriteriaIdPage = async ({
     params
 }: {
-    params: { subKomponenId: string }
+    params: { komponenId: string, subKomponenId: string, kriteriaId: string }
 }) => {
 
     const userId = await currentId();
@@ -24,36 +25,29 @@ const SubKomponenIdPage = async ({
         return redirect("/");
     }
 
-    const subKomponen = await db.subKomponenLKE.findUnique({
+    const kriteria = await db.kriteriaLKE.findUnique({
         where: {
-            id: params.subKomponenId,
+            id: params.kriteriaId,
         },
         include: {
-            kriteriaLKE: {
+            subKriteriaLKE: {
                 orderBy: {
                     name: "asc"
                 },
-                include: {
-                    subKriteriaLKE: {
-                        orderBy: {
-                            name: "asc"
-                        }
-                    }
-                }
             },
         },
     });
 
-    if (!subKomponen) {
+    if (!kriteria) {
         return redirect("/");
     }
 
     const requiredFields = [
-        subKomponen.name,
-        subKomponen.kode,
-        subKomponen.tahun,
-        subKomponen.bobot,
-        subKomponen.kriteriaLKE.length,
+        kriteria.name,
+        kriteria.kode,
+        kriteria.tahun,
+        kriteria.bobot,
+        kriteria.subKriteriaLKE.length,
     ];
 
     const totalFields = requiredFields.length;
@@ -67,16 +61,16 @@ const SubKomponenIdPage = async ({
                 <div className="flex items-center justify-between">
                     <div className="w-full">
                         <Link
-                            href={`/koordinator/komponen-lke`}
+                            href={`/koordinator/variabel-lke/komponen/${params.komponenId}/subKomponen/${kriteria.subKomponenLKEId}`}
                             className="flex items-center text-sm hover:opacity-75 transition mb-6"
                         >
                             <ArrowLeft className="h-4 w-4 mr-2" />
-                            Back to sub komponen list
+                            Back to kriteria list
                         </Link>
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-y-2">
                                 <h1 className="text-2xl font-medium">
-                                    Sub komponen setup
+                                    Kriteria setup
                                 </h1>
                                 <span className="text-sm text-secondary-foreground">
                                     Complete all fields {completionText}
@@ -84,7 +78,9 @@ const SubKomponenIdPage = async ({
                             </div>
                             <Actions
                                 disabled={!isComplete}
+                                kriteriaId={params.kriteriaId}
                                 subKomponenId={params.subKomponenId}
+                                komponenId={params.komponenId}
                             />
                         </div>
                     </div>
@@ -98,12 +94,16 @@ const SubKomponenIdPage = async ({
                             </h2>
                         </div>
                         <NameForm
-                            initialData={komponen}
-                            komponenLKEId={komponen.id}
+                            initialData={kriteria}
+                            kriteriaId={params.kriteriaId}
+                            subKomponenId={params.subKomponenId}
+                            komponenId={params.komponenId}
                         />
                         <KodeForm
-                            initialData={komponen}
-                            komponenLKEId={komponen.id}
+                            initialData={kriteria}
+                            kriteriaId={params.kriteriaId}
+                            subKomponenId={params.subKomponenId}
+                            komponenId={params.komponenId}
                         />
                     </div>
                     <div className="space-y-6">
@@ -115,12 +115,16 @@ const SubKomponenIdPage = async ({
                                 </h2>
                             </div>
                             <TahunForm
-                                initialData={komponen}
-                                komponenLKEId={komponen.id}
+                                initialData={kriteria}
+                                kriteriaId={params.kriteriaId}
+                                subKomponenId={params.subKomponenId}
+                                komponenId={params.komponenId}
                             />
                             <BobotForm
-                                initialData={komponen}
-                                komponenLKEId={komponen.id}
+                                initialData={kriteria}
+                                kriteriaId={params.kriteriaId}
+                                subKomponenId={params.subKomponenId}
+                                komponenId={params.komponenId}
                             />
                         </div>
                     </div>
@@ -129,12 +133,16 @@ const SubKomponenIdPage = async ({
                     <div className="flex items-center gap-x-2">
                         <IconBadge icon={ListTree} />
                         <h2 className="text-xl">
-                            Sub komponen
+                            Sub kriteria
                         </h2>
                     </div>
                     <div className="flex flex-col space-y-6">
-                        <CreatePage komponenId={komponen.id}  />
-                        <DataTable data={komponen.subKomponenLKE} columns={columns} />
+                        <CreateSubKriteriaPage
+                            komponenId={params.komponenId}
+                            subKomponenId={params.subKomponenId}
+                            kriteriaId={params.kriteriaId}
+                        />
+                        <DataTable data={kriteria.subKriteriaLKE} columns={columns} />
                     </div>
                 </div>
             </div>
@@ -142,4 +150,4 @@ const SubKomponenIdPage = async ({
     );
 }
 
-export default SubKomponenIdPage;
+export default KriteriaIdPage;

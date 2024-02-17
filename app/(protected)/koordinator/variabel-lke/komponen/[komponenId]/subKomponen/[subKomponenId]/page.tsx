@@ -1,16 +1,17 @@
 import { IconBadge } from "@/components/icon-badge";
 import { currentId } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { ArrowLeft, CircleDollarSign, File, LayoutDashboard, ListChecks, ListTree } from "lucide-react";
+import { ArrowLeft, LayoutDashboard, ListChecks, ListTree } from "lucide-react";
 import { redirect } from "next/navigation";
 import { NameForm } from "./_components/name-form";
 import { KodeForm } from "./_components/kode-form";
-import { Banner } from "@/components/banner";
 import { Actions } from "./_components/actions";
 import Link from "next/link";
 import { TahunForm } from "./_components/tahun-form";
 import { BobotForm } from "./_components/bobot-form";
-import CreatePage from "./_components/create-form";
+import CreateKriteriaPage from "./_components/create-form";
+import { DataTable } from "./kriteria/_components/data-table";
+import { columns } from "./kriteria/_components/columns";
 
 const SubKomponenIdPage = async ({
     params
@@ -67,7 +68,7 @@ const SubKomponenIdPage = async ({
                 <div className="flex items-center justify-between">
                     <div className="w-full">
                         <Link
-                            href={`/koordinator/komponen-lke`}
+                            href={`/koordinator/variabel-lke/komponen/${subKomponen.komponenLKEId}`}
                             className="flex items-center text-sm hover:opacity-75 transition mb-6"
                         >
                             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -85,6 +86,7 @@ const SubKomponenIdPage = async ({
                             <Actions
                                 disabled={!isComplete}
                                 subKomponenId={params.subKomponenId}
+                                komponenId={subKomponen?.komponenLKEId!}
                             />
                         </div>
                     </div>
@@ -98,12 +100,14 @@ const SubKomponenIdPage = async ({
                             </h2>
                         </div>
                         <NameForm
-                            initialData={komponen}
-                            komponenLKEId={komponen.id}
+                            initialData={subKomponen}
+                            subKomponenId={subKomponen.id}
+                            komponenId={subKomponen?.komponenLKEId!}
                         />
                         <KodeForm
-                            initialData={komponen}
-                            komponenLKEId={komponen.id}
+                            initialData={subKomponen}
+                            subKomponenId={subKomponen.id}
+                            komponenId={subKomponen?.komponenLKEId!}
                         />
                     </div>
                     <div className="space-y-6">
@@ -115,12 +119,14 @@ const SubKomponenIdPage = async ({
                                 </h2>
                             </div>
                             <TahunForm
-                                initialData={komponen}
-                                komponenLKEId={komponen.id}
+                                initialData={subKomponen}
+                                subKomponenId={subKomponen.id}
+                                komponenId={subKomponen?.komponenLKEId!}
                             />
                             <BobotForm
-                                initialData={komponen}
-                                komponenLKEId={komponen.id}
+                                initialData={subKomponen}
+                                subKomponenId={subKomponen.id}
+                                komponenId={subKomponen?.komponenLKEId!}
                             />
                         </div>
                     </div>
@@ -129,12 +135,12 @@ const SubKomponenIdPage = async ({
                     <div className="flex items-center gap-x-2">
                         <IconBadge icon={ListTree} />
                         <h2 className="text-xl">
-                            Sub komponen
+                            Kriteria
                         </h2>
                     </div>
                     <div className="flex flex-col space-y-6">
-                        <CreatePage komponenId={komponen.id}  />
-                        <DataTable data={komponen.subKomponenLKE} columns={columns} />
+                        <CreateKriteriaPage komponenId={subKomponen.komponenLKEId!} subKomponenId={subKomponen.id} />
+                        <DataTable data={subKomponen.kriteriaLKE} columns={columns} />
                     </div>
                 </div>
             </div>
