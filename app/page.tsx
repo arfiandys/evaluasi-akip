@@ -22,7 +22,7 @@ export default function Home() {
           Please Sign in to access this application
         </p>
         <div>
-          <LoginButton>
+          <LoginButton asChild>
           <Button variant="secondary" size="lg">
             Sign in
           </Button>

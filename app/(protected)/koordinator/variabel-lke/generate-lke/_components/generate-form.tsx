@@ -78,7 +78,7 @@ export const GeneratePage = ({
 
         setValue("data", data)
 
-    }, [tahun_filter,setValue,variabelLKE]);
+    }, [tahun_filter, setValue, variabelLKE]);
 
 
 
@@ -91,13 +91,13 @@ export const GeneratePage = ({
                 }
                 try {
                     const response = await axios.post("/api/variabel-lke/generate-lke", value);
-                    router.push(`/koordinator/variabel-lke/generate-lke`);
                     toast.success("Variabel created!")
                 } catch {
                     toast.error("Something when wrong!");
                 }
             })
             form.reset()
+            router.push(`/koordinator/variabel-lke/generate-lke`);
             router.refresh()
         } catch {
             toast.error("Can not generate LKE!");
@@ -105,18 +105,21 @@ export const GeneratePage = ({
     }
 
     return (
-        <div className="max-w-5xl mx-auto flex md:items-center md:justify-center h-full p-6">
-            <div>
+        <div className="grid grid-cols-2 md:grid-cols-3 justify-between items-start h-full p-6">
+
+            <div className="w-full col-span-2">
                 <h1 className="text-2xl">
                     Generate LKE unit kerja from your variabel list
                 </h1>
                 <p className="text-sm text-secondary-foreground">
                     What would you like to generate your LKE? Don&apos;t worry.
                 </p>
+            </div>
+            <div className="w-full">
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-4 mt-8"
+                        className="space-y-4"
                     >
                         <FormField
                             control={form.control}
@@ -154,7 +157,7 @@ export const GeneratePage = ({
                                 </FormItem>
                             )}
                         />
-                        <div className="flex items-center gap-x-2">
+                        <div className="flex items-center gap-x-2 justify-start md:justify-end">
                             <Button
                                 type="submit"
                                 disabled={!isValid || isSubmitting}
