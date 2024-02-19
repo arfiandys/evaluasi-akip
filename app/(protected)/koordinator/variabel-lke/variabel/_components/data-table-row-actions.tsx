@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { jenises } from "../_data/data"
-import { timEvaluasiSchema } from "../_data/schema"
+import { variabelLKESchema } from "../_data/schema"
 import Link from "next/link"
 
 interface DataTableRowActionsProps<TData> {
@@ -29,7 +29,7 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const timEvaluasi = timEvaluasiSchema.parse(row.original)
+  const variabelLKE = variabelLKESchema.parse(row.original)
 
   return (
     <DropdownMenu>
@@ -43,7 +43,7 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <Link href={`/koordinator/tim-evaluasi/${timEvaluasi.id}`}>
+        <Link href={`/koordinator/variabel-lke/variabel/${variabelLKE.id}`}>
           <DropdownMenuItem>Edit</DropdownMenuItem>
         </Link>
         <DropdownMenuItem>Make a copy</DropdownMenuItem>
@@ -52,7 +52,7 @@ export function DataTableRowActions<TData>({
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={timEvaluasi.name}>
+            <DropdownMenuRadioGroup value={variabelLKE.kode}>
               {jenises.map((jenis) => (
                 <DropdownMenuRadioItem key={jenis.value} value={jenis.value}>
                   {jenis.label}

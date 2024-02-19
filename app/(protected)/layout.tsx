@@ -1,6 +1,6 @@
-import Header from "./_component/header-l";
-import { PageWrapper } from "./_component/pagewrapper-l";
-import { SideBar } from "./_component/sidebar-l";
+import Header from "./_component/header";
+import { PageWrapper } from "./_component/pagewrapper";
+import { SideBar } from "./_component/sidebar";
 
 interface ProtectedLayoutProps {
     children: React.ReactNode;

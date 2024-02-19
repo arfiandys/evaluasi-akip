@@ -17,14 +17,14 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { IsianLKE, TimEvaluasi, UserOnTimEvaluasi, UserRole } from "@prisma/client";
+import { KomponenLKE, KriteriaLKE, SubKomponenLKE, VariabelLKE } from "@prisma/client";
 import { Combobox } from "@/components/ui/combobox";
 import { cn } from "@/lib/utils";
 
 interface KriteriaFormProps {
-  initialData: IsianLKE;
-  lkeId: string;
-  options: { label: string; value: string; }[];
+  initialData: VariabelLKE;
+  variabelId: string;
+  options: { label: string; value: string; data: (KriteriaLKE & { subKomponenLKE: (SubKomponenLKE & { komponenLKE: KomponenLKE | null }) | null }); }[];
 };
 
 const formSchema = z.object({
@@ -33,7 +33,7 @@ const formSchema = z.object({
 
 export const KriteriaForm = ({
   initialData,
-  lkeId,
+  variabelId,
   options,
 }: KriteriaFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -52,9 +52,21 @@ export const KriteriaForm = ({
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const selectedData = options.find((option) => option.value === values.kriteriaLKEId);
+    const kodeKomponen = selectedData?.data.subKomponenLKE?.komponenLKE?.kode || "";
+    const kodeSubKomponen = selectedData?.data.subKomponenLKE?.kode || "";
+    const kodeKriteria = selectedData?.data.kode || "";
+    const kode = kodeKomponen.concat(".", kodeSubKomponen.concat(".",kodeKriteria))
+    const value = {
+      kriteriaLKEId: values.kriteriaLKEId,
+      kode: kode,
+      tahun: selectedData?.data.tahun,
+      variabel: "kriteria",
+      action: "yearCodeGenerate"
+    }
     try {
-      await axios.patch(`/api/lke/${lkeId}`, values);
-      toast.success("LKE updated");
+      await axios.patch(`/api/variabel-lke/variabel/${variabelId}`, value);
+      toast.success("Variabel updated");
       toggleEdit();
       router.refresh();
     } catch {

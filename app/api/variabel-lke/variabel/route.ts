@@ -14,16 +14,16 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const isianLKE = await db.isianLKE.create({
+        const variabelLKE = await db.variabelLKE.create({
             data: {
                 ...values,
             }
         })
 
-        return NextResponse.json(isianLKE);
+        return NextResponse.json(variabelLKE);
 
     } catch (error) {
-        console.log("[TIM EVALUASI]", error);
+        console.log("[VARIABEL]", error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }

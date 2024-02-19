@@ -12,12 +12,12 @@ import { toast } from "sonner";
 
 interface ActionsProps {
   disabled: boolean;
-  lkeId: string;
+  variabelId: string;
 };
 
 export const Actions = ({
   disabled,
-  lkeId,
+  variabelId,
 }: ActionsProps) => {
   const router = useRouter();
   const confetti = useConfettiStore();
@@ -27,11 +27,12 @@ export const Actions = ({
     try {
       setIsLoading(true);
 
-      await axios.delete(`/api/lke/${lkeId}`);
+      await axios.delete(`/api/variabel-lke/variabel/${variabelId}`);
 
-      toast.success("LKE deleted");
+      toast.success("Variabel deleted");
+      
+      router.push(`/koordinator/variabel-lke/variabel`);
       router.refresh();
-      router.push(`/koordinator/lke`);
     } catch {
       toast.error("Something went wrong");
     } finally {

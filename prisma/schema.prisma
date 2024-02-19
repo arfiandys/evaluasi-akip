@@ -86,7 +86,7 @@ model UnitKerja {
   userId        String
 
   users UserOnUnitKerja[]
-  isianLKEs LKEUnitKerja[]
+  variabelLKEs LKEUnitKerja[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -147,13 +147,15 @@ model UserOnTimEvaluasi {
 model KomponenLKE {
   id String @id @default(cuid())
   kode String
-  name String @unique
+  name String 
   tahun String
   bobot Float
   subKomponenLKE SubKomponenLKE[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  @@unique([tahun,kode])
+  @@unique([tahun,name])
 }
 
 model SubKomponenLKE {
@@ -168,6 +170,8 @@ model SubKomponenLKE {
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  @@unique([tahun,kode,komponenLKEId])
+  @@unique([tahun,name])
   @@index([komponenLKEId])
 }
 // KRITERIA LKE
@@ -180,10 +184,12 @@ model KriteriaLKE {
   subKomponenLKEId String?
   subKomponenLKE   SubKomponenLKE? @relation(fields: [subKomponenLKEId], references: [id], onDelete: Cascade)
   subKriteriaLKE SubKriteriaLKE[]
-  isianLKE IsianLKE?
+  variabelLKE VariabelLKE?
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  @@unique([tahun,kode,subKomponenLKEId])
+  @@unique([tahun,name])
   @@index([subKomponenLKEId])
 }
 model SubKriteriaLKE {
@@ -194,16 +200,18 @@ model SubKriteriaLKE {
   bobot Float
   kriteriaLKEId String?
   kriteriaLKE   KriteriaLKE? @relation(fields: [kriteriaLKEId], references: [id], onDelete: Cascade)
-  isianLKE IsianLKE?
+  variabelLKE VariabelLKE?
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  @@unique([tahun,kode,kriteriaLKEId])
+  @@unique([tahun,name])
   @@index([kriteriaLKEId])
 }
 
-model IsianLKE {
+model VariabelLKE {
   id   String @id @default(cuid())
-  kode String
+  kode String 
   tahun String
   jenisIsian String
   isSubKriteria Boolean
@@ -216,6 +224,8 @@ model IsianLKE {
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([kode,tahun])
 }
 
 // LKE UNIT KERJA
@@ -224,19 +234,20 @@ model LKEUnitKerja {
   jenisIsian String
   isianKt String?
   nilaiKt String?
+  catatanKt String?
   isianAt String?
-  CatatanKt String?
   nilaiAt String?
+  catatanAt String?
 
-  isianLKE   IsianLKE @relation(fields: [IsianLKEId], references: [id], onDelete: Cascade)
-  IsianLKEId String // relation scalar field (used in the `@relation` attribute above)
+  variabelLKE   VariabelLKE @relation(fields: [variabelLKEId], references: [id], onDelete: Cascade)
+  variabelLKEId String // relation scalar field (used in the `@relation` attribute above)
   unitKerja          UnitKerja        @relation(fields: [unitKerjaId], references: [id], onDelete: Cascade)
   unitKerjaId        String // relation scalar field (used in the `@relation` attribute above)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@id(name: "LKEUnitKerjaId",[IsianLKEId, unitKerjaId])
+  @@id(name: "LKEUnitKerjaId",[variabelLKEId, unitKerjaId])
 }
 
 //-----------------------------------------------------\\

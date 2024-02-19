@@ -11,11 +11,13 @@ import { UserRole } from "@prisma/client";
 import { KodeForm } from "./_components/kode-form";
 import { JenisIsianForm } from "./_components/jenisIsian-form";
 import { IsSubKriteriaForm } from "./_components/isSubKriteria-form";
+import { SubKriteriaForm } from "./_components/subKriteria-form";
+import { KriteriaOrSubForm } from "./_components/kriteriaOrSub-form";
 
 const IsianLKEIdPage = async ({
     params
 }: {
-    params: { lkeId: string }
+    params: { variabelId: string }
 }) => {
 
     const userId = await currentId();
@@ -24,9 +26,9 @@ const IsianLKEIdPage = async ({
         return redirect("/");
     }
 
-    const isianLKE = await db.isianLKE.findUnique({
+    const variabelLKE = await db.variabelLKE.findUnique({
         where: {
-            id: params.lkeId,
+            id: params.variabelId,
         },        
     });
 
@@ -34,12 +36,30 @@ const IsianLKEIdPage = async ({
         orderBy: {
             kode: "asc",
         },
+        include: {
+            kriteriaLKE: {
+                include: {
+                    subKomponenLKE: {
+                        include: {
+                            komponenLKE: true
+                        }
+                    }
+                }
+            }
+        }
     });
 
     const kriteria = await db.kriteriaLKE.findMany({
         orderBy: {
             kode: "asc",
         },
+        include: {
+            subKomponenLKE: {
+                include: {
+                    komponenLKE: true
+                }
+            }
+        }
     });
 
     const subKomponen = await db.subKomponenLKE.findMany({
@@ -54,16 +74,16 @@ const IsianLKEIdPage = async ({
         },
     });
 
-    if (!isianLKE) {
+    if (!variabelLKE) {
         return redirect("/");
     }
 
     const requiredFields = [
-        isianLKE.kode,
-        isianLKE.tahun,
-        isianLKE.jenisIsian,
-        isianLKE.kriteriaLKEId,
-        isianLKE.subKriteriaLKEId
+        variabelLKE.kode,
+        variabelLKE.tahun,
+        variabelLKE.jenisIsian,
+        variabelLKE.kriteriaLKEId,
+        variabelLKE.subKriteriaLKEId
     ];
 
     const totalFields = requiredFields.length;
@@ -77,16 +97,16 @@ const IsianLKEIdPage = async ({
                 <div className="flex items-center justify-between">
                     <div className="w-full">
                         <Link
-                            href={`/koordinator/lke`}
+                            href={`/koordinator/variabel-lke/variabel`}
                             className="flex w-fit items-center text-sm hover:opacity-75 transition mb-6"
                         >
                             <ArrowLeft className="h-4 w-4 mr-2" />
-                            Back to LKE list
+                            Back to Variabel list
                         </Link>
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-y-2">
                                 <h1 className="text-2xl font-medium">
-                                    LKE setup
+                                Variabel setup
                                 </h1>
                                 <span className="text-sm text-secondary-foreground">
                                     Complete all fields {completionText}
@@ -94,7 +114,7 @@ const IsianLKEIdPage = async ({
                             </div>
                             <Actions
                                 disabled={!isComplete}
-                                lkeId={params.lkeId}
+                                variabelId={params.variabelId}
                             />
                         </div>
                     </div>
@@ -104,56 +124,38 @@ const IsianLKEIdPage = async ({
                         <div className="flex items-center gap-x-2">
                             <IconBadge icon={LayoutDashboard} />
                             <h2 className="text-xl">
-                                Customize your kriteria LKE details
+                                Customize your Variabel details
                             </h2>
                         </div>
                         <KodeForm
-                            initialData={isianLKE}
-                            lkeId={isianLKE.id}
+                            initialData={variabelLKE}
+                            variabelId={variabelLKE.id}
                         />
                         <TahunForm
-                            initialData={isianLKE}
-                            lkeId={isianLKE.id}
+                            initialData={variabelLKE}
+                            variabelId={variabelLKE.id}
                         />
                         <JenisIsianForm
-                            initialData={isianLKE}
-                            lkeId={isianLKE.id}
+                            initialData={variabelLKE}
+                            variabelId={variabelLKE.id}
                         />
                         <IsSubKriteriaForm
-                            initialData={isianLKE}
-                            lkeId={isianLKE.id}
+                            initialData={variabelLKE}
+                            variabelId={variabelLKE.id}
                         />
-                        {/* <DalnisForm
-                            initialData={timEvaluasi}
-                            timEvaluasiId={timEvaluasi.id}
-                            options={users.map((user) => ({
-                                label: user.name!,
-                                value: user.id,
-                            }))}
-                        />
-                        <KetuaForm
-                            initialData={timEvaluasi}
-                            timEvaluasiId={timEvaluasi.id}
-                            options={users.map((user) => ({
-                                label: user.name!,
-                                value: user.id,
-                            }))}
-                        /> */}
                     </div>
                     <div>
                         <div className="flex items-center gap-x-2">
                             <IconBadge icon={Building} />
                             <h2 className="text-xl">
-                                Customize kriteria of LKE
+                                Customize kriteria of Variabel
                             </h2>
                         </div>
-                        <KriteriaForm
-                            initialData={isianLKE}
-                            lkeId={isianLKE.id}
-                            options={kriteria.map((kriteria) => ({
-                                label: kriteria.name,
-                                value: kriteria.id,
-                            }))}
+                        <KriteriaOrSubForm
+                            variabelLKE={variabelLKE}
+                            variabelId={variabelLKE.id}
+                            kriteria={kriteria}
+                            subKriteria={subKriteria}
                         />
                     </div>
                 </div>

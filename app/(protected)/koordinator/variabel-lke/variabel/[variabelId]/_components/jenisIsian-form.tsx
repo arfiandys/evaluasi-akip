@@ -11,7 +11,6 @@ import { useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormMessage,
@@ -19,24 +18,25 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Checkbox } from "@/components/ui/checkbox";
-import { cn } from "@/lib/utils";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-interface IsSubKriteriaFormProps {
+interface JenisIsianFormProps {
   initialData: {
-    isSubKriteria: boolean;
+    jenisIsian: string;
   };
-  lkeId: string;
+  variabelId: string;
 };
 
 const formSchema = z.object({
-  isSubKriteria: z.boolean().default(false),
+  jenisIsian: z.string().min(1, {
+    message: "Jenis is required",
+  }),
 });
 
-export const IsSubKriteriaForm = ({
+export const JenisIsianForm = ({
   initialData,
-  lkeId
-}: IsSubKriteriaFormProps) => {
+  variabelId
+}: JenisIsianFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -45,17 +45,15 @@ export const IsSubKriteriaForm = ({
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      isSubKriteria: !!initialData.isSubKriteria
-    },
+    defaultValues: initialData,
   });
 
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/lke/${lkeId}`, values);
-      toast.success("LKE updated");
+      await axios.patch(`/api/variabel-lke/variabel/${variabelId}`, values);
+      toast.success("Variabel updated");
       toggleEdit();
       router.refresh();
     } catch {
@@ -66,28 +64,21 @@ export const IsSubKriteriaForm = ({
   return (
     <div className="mt-6 border bg-background rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Is sub kriteria?
+        Jenis isian
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit is sub kriteria
+              Edit jenis isian
             </>
           )}
         </Button>
       </div>
       {!isEditing && (
-        <p className={cn(
-          "text-sm mt-2",
-          !initialData.isSubKriteria && "text-slate-500 italic"
-        )}>
-          {initialData.isSubKriteria ? (
-            <>Isian is sub kriteria.</>
-          ) : (
-            <>Isian is kriteria.</>
-          )}
+        <p className="text-sm mt-2">
+          {initialData.jenisIsian}
         </p>
       )}
       {isEditing && (
@@ -98,20 +89,32 @@ export const IsSubKriteriaForm = ({
           >
             <FormField
               control={form.control}
-              name="isSubKriteria"
+              name="jenisIsian"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormDescription>
-                      Check this box if you want to make this sub kriteria
-                    </FormDescription>
-                  </div>
+                <FormItem>
+                  <Select
+                    disabled={isSubmitting}
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a isian" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="select">
+                        Select Yes / No
+                      </SelectItem>
+                      <SelectItem value="dropdown">
+                        Dropdown A/B/C
+                      </SelectItem>
+                      <SelectItem value="number">
+                        Number
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
                 </FormItem>
               )}
             />
