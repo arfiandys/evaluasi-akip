@@ -5,8 +5,8 @@ import { z } from "zod"
 
 export const userSchema = z.object({
   id: z.string().min(1),
-  email: z.string(),
-  name: z.string(),
+  email: z.string().nullable(),
+  name: z.string().nullable(),
   role: z.string().min(1),
   unitKerjas: z.object({
     unitKerjaId: z.string().min(1),

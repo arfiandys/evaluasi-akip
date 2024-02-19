@@ -30,7 +30,7 @@ interface RoleFormProps {
 };
 
 const formSchema = z.object({
-  role: z.enum([UserRole.ADMIN, UserRole.USER]),
+  role: z.enum([UserRole.ADMIN, UserRole.USER, UserRole.PIMPINAN, UserRole.PIC, UserRole.DALNIS, UserRole.KETUA, UserRole.ANGGOTA]),
 });
 
 export const RoleForm = ({
@@ -111,6 +111,21 @@ export const RoleForm = ({
                       <SelectItem value={UserRole.USER}>
                         User
                       </SelectItem>
+                      {/* <SelectItem value={UserRole.PIMPINAN}>
+                        Pimpinan
+                      </SelectItem>
+                      <SelectItem value={UserRole.PIC}>
+                        PIC
+                      </SelectItem>
+                      <SelectItem value={UserRole.KETUA}>
+                        Ketua
+                      </SelectItem>
+                      <SelectItem value={UserRole.DALNIS}>
+                        Dalnis
+                      </SelectItem>
+                      <SelectItem value={UserRole.ANGGOTA}>
+                        Anggota
+                      </SelectItem> */}
                     </SelectContent>
                   </Select>
                   <FormMessage />

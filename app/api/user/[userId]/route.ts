@@ -55,53 +55,53 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-  const dbUser = await getUserById(params.userId);
+    const dbUser = await getUserById(params.userId);
 
-  if (!dbUser) {
-      return { error: "Can not find user" }
-  }
+    if (!dbUser) {
+      return new NextResponse("Can not find user", { status: 401 });
+    }
 
-  if (dbUser.accounts.length) {
+    if (dbUser.accounts.length) {
       values.email = undefined;
       values.password = undefined;
       values.newPassword = undefined;
-  }
+    }
 
-  if (values.email && values.email !== dbUser.email) {
+    if (values.email && values.email !== dbUser.email) {
       const existingUser = await getUserByEmail(values.email);
 
       if (existingUser && existingUser.id !== dbUser.id) {
-          return { error: "Email already in use!" }
+        return new NextResponse("Email already in use!", { status: 401 });
       }
 
       const verificationToken = await generateVerificationToken(
-          values.email
+        values.email
       );
 
       await sendVerificationEmail(
-          verificationToken.email,
-          verificationToken.token,
+        verificationToken.email,
+        verificationToken.token,
       );
-      return { success: "Verification email sent!" };
-  }
+      return NextResponse.json(verificationToken);
+    }
 
-  if (values.password && values.newPassword && dbUser.password) {
+    if (values.password && values.newPassword && dbUser.password) {
       const passwordsMatch = await bcrypt.compare(
-          values.password,
-          dbUser.password,
+        values.password,
+        dbUser.password,
       );
 
       if (!passwordsMatch) {
-          return { error: "Incorrect password!" }
+        return new NextResponse("Incorrect password!", { status: 401 });
       }
 
       const hashedPassword = await bcrypt.hash(
-          values.newPassword,
-          10,
+        values.newPassword,
+        10,
       );
       values.password = hashedPassword;
       values.newPassword = undefined;
-  }
+    }
 
     const user = await db.user.update({
       where: {
