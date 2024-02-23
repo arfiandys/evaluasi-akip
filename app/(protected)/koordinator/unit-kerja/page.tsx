@@ -15,9 +15,6 @@ const UnitKerjaPage = async () => {
         return redirect("/")
     }
     const unitKerja = await db.unitKerja.findMany({
-        where: {
-            userId,
-        },
         orderBy: {
             createdAt: "desc",
         },

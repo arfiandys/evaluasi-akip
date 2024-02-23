@@ -15,7 +15,7 @@ datasource db {
 
 //===================== MODEL ==========================\\
 
-// USER AND AUTHENTICATION
+// USER AND AUTHENTICATION ================================================================================================
 enum UserRole {
   ADMIN
   USER
@@ -42,7 +42,6 @@ model User {
 
 model Account {
   id                String  @id @default(cuid())
-  userId            String
   type              String
   provider          String
   providerAccountId String
@@ -54,7 +53,8 @@ model Account {
   id_token          String? @db.Text
   session_state     String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -77,31 +77,34 @@ model PasswordResetToken {
   @@unique([email, token])
 }
 
-// UNIT KERJA
+// UNIT KERJA ================================================================================================
 model UnitKerja {
   id            String @id @default(cuid())
   kodeWilayah   String @db.Text
   kodeUnitKerja String @db.Text
   name          String @db.Text
-  userId        String
 
-  users UserOnUnitKerja[]
+  userId String
+  users  UserOnUnitKerja[]
+
   variabelLKEs LKEUnitKerja[]
+
+  permindoks PermindokUnitKerja[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model UserOnUnitKerja {
-  unitKerja    UnitKerja @relation(fields: [unitKerjaId], references: [id], onDelete: Cascade)
-  unitKerjaId  String // relation scalar field (used in the `@relation` attribute above)
-  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       String // relation scalar field (used in the `@relation` attribute above)
-  assignedAt   DateTime  @default(now())
-  assignedRole UserRole
+  unitKerja     UnitKerja @relation(fields: [unitKerjaId], references: [id], onDelete: Cascade)
+  unitKerjaId   String // relation scalar field (used in the `@relation` attribute above)
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String // relation scalar field (used in the `@relation` attribute above)
+  assignedAt    DateTime  @default(now())
+  assignedRole  UserRole
   timEvaluasiId String?
 
-  @@id(name: "userUnitKerjaId",[unitKerjaId, userId])
+  @@id(name: "userUnitKerjaId", [unitKerjaId, userId])
 }
 
 // TIM EVALUASI
@@ -124,16 +127,104 @@ model UserOnTimEvaluasi {
   assignedAt    DateTime    @default(now())
   assignedRole  UserRole
 
-  @@id(name: "userTimEvaluasiId",[timEvaluasiId, userId])
+  @@id(name: "userTimEvaluasiId", [timEvaluasiId, userId])
 }
 
 // PERMINDOK
+model Permindok {
+  id    String @id @default(cuid())
+  kode  String
+  tahun String
+  name  String
+
+  unitKerjas PermindokUnitKerja[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([kode, tahun])
+}
 
 // PERMINDOK UNIT KERJA
+model PermindokUnitKerja {
+  url String @db.Text
+
+  permindok   Permindok @relation(fields: [permindokId], references: [id], onDelete: Cascade)
+  permindokId String // relation scalar field (used in the `@relation` attribute above)
+  unitKerja   UnitKerja @relation(fields: [unitKerjaId], references: [id], onDelete: Cascade)
+  unitKerjaId String // relation scalar field (used in the `@relation` attribute above)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id(name: "permindokUnitKerjaId", [permindokId, unitKerjaId])
+}
 
 // IKU UNIT KERJA
+model IKU {
+  id         String       @id @default(cuid())
+  name       String
+  tahun      String
+  tujuanIKU TujuanIKU[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([tahun, name])
+}
+
+// TUJUAN IKU
+model TujuanIKU {
+  id         String       @id @default(cuid())
+  kode       String
+  name       String
+  tahun      String
+  IKUId  String?
+  IKU    IKU?     @relation(fields: [IKUId], references: [id], onDelete: Cascade)
+  sasaranIKU SasaranIKU[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([tahun, kode, IKUId])
+  @@unique([tahun, name])
+  @@index([IKUId])
+}
+
+// SASARAN IKU
+model SasaranIKU {
+  id           String         @id @default(cuid())
+  kode         String
+  name         String         @unique
+  tahun        String
+  tujuanIKUId  String?
+  tujuanIKU    TujuanIKU?     @relation(fields: [tujuanIKUId], references: [id], onDelete: Cascade)
+  indikatorIKU IndikatorIKU[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([tahun, kode, tujuanIKUId])
+  @@unique([tahun, name])
+  @@index([tujuanIKUId])
+}
 
 // INDIKATOR IKU
+model IndikatorIKU {
+  id           String      @id @default(cuid())
+  kode         String
+  name         String      @unique
+  tahun        String
+  sasaranIKUId String?
+  sasaranIKU   SasaranIKU? @relation(fields: [sasaranIKUId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([tahun, kode, sasaranIKUId])
+  @@unique([tahun, name])
+  @@index([sasaranIKUId])
+}
 
 // KKE
 
@@ -145,109 +236,118 @@ model UserOnTimEvaluasi {
 
 // KOMPONEN LKE
 model KomponenLKE {
-  id String @id @default(cuid())
-  kode String
-  name String 
-  tahun String
-  bobot Float
+  id             String           @id @default(cuid())
+  kode           String
+  name           String
+  tahun          String
+  bobot          Float
   subKomponenLKE SubKomponenLKE[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  @@unique([tahun,kode])
-  @@unique([tahun,name])
+
+  @@unique([tahun, kode])
+  @@unique([tahun, name])
 }
 
+// SUBKOMPONEN LKE
 model SubKomponenLKE {
-  id   String @id @default(cuid())
-  kode String
-  name String @unique
-  tahun String
-  bobot Float
+  id            String        @id @default(cuid())
+  kode          String
+  name          String        @unique
+  tahun         String
+  bobot         Float
   komponenLKEId String?
-  komponenLKE   KomponenLKE? @relation(fields: [komponenLKEId], references: [id], onDelete: Cascade)
-  kriteriaLKE KriteriaLKE[]
-  
+  komponenLKE   KomponenLKE?  @relation(fields: [komponenLKEId], references: [id], onDelete: Cascade)
+  kriteriaLKE   KriteriaLKE[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  @@unique([tahun,kode,komponenLKEId])
-  @@unique([tahun,name])
+
+  @@unique([tahun, kode, komponenLKEId])
+  @@unique([tahun, name])
   @@index([komponenLKEId])
 }
+
 // KRITERIA LKE
 model KriteriaLKE {
-  id   String @id @default(cuid())
-  kode String
-  name String @unique
-  tahun String
-  bobot Float
+  id               String           @id @default(cuid())
+  kode             String
+  name             String           @unique
+  tahun            String
+  bobot            Float
   subKomponenLKEId String?
-  subKomponenLKE   SubKomponenLKE? @relation(fields: [subKomponenLKEId], references: [id], onDelete: Cascade)
-  subKriteriaLKE SubKriteriaLKE[]
-  variabelLKE VariabelLKE?
-  
+  subKomponenLKE   SubKomponenLKE?  @relation(fields: [subKomponenLKEId], references: [id], onDelete: Cascade)
+  subKriteriaLKE   SubKriteriaLKE[]
+  variabelLKE      VariabelLKE?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  @@unique([tahun,kode,subKomponenLKEId])
-  @@unique([tahun,name])
+
+  @@unique([tahun, kode, subKomponenLKEId])
+  @@unique([tahun, name])
   @@index([subKomponenLKEId])
 }
+
+// SUBKRITERIA LKE
 model SubKriteriaLKE {
-  id   String @id @default(cuid())
-  kode String
-  name String @unique
-  tahun String
-  bobot Float
+  id            String       @id @default(cuid())
+  kode          String
+  name          String       @unique
+  tahun         String
+  bobot         Float
   kriteriaLKEId String?
   kriteriaLKE   KriteriaLKE? @relation(fields: [kriteriaLKEId], references: [id], onDelete: Cascade)
-  variabelLKE VariabelLKE?
-  
+  variabelLKE   VariabelLKE?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  @@unique([tahun,kode,kriteriaLKEId])
-  @@unique([tahun,name])
+
+  @@unique([tahun, kode, kriteriaLKEId])
+  @@unique([tahun, name])
   @@index([kriteriaLKEId])
 }
 
+// VARIABEL LKE
 model VariabelLKE {
-  id   String @id @default(cuid())
-  kode String 
-  tahun String
-  jenisIsian String
-  isSubKriteria Boolean
-  kriteriaLKEId String? @unique
-  kriteriaLKE   KriteriaLKE? @relation(fields: [kriteriaLKEId], references: [id], onDelete: Cascade)
-  subKriteriaLKEId String? @unique
+  id               String          @id @default(cuid())
+  kode             String
+  tahun            String
+  jenisIsian       String
+  isSubKriteria    Boolean
+  kriteriaLKEId    String?         @unique
+  kriteriaLKE      KriteriaLKE?    @relation(fields: [kriteriaLKEId], references: [id], onDelete: Cascade)
+  subKriteriaLKEId String?         @unique
   subKriteriaLKE   SubKriteriaLKE? @relation(fields: [subKriteriaLKEId], references: [id], onDelete: Cascade)
-  
+
   unitKerjas LKEUnitKerja[]
-  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([kode,tahun])
+  @@unique([kode, tahun])
 }
 
 // LKE UNIT KERJA
 model LKEUnitKerja {
-  tahun String
+  tahun      String
   jenisIsian String
-  isianKt String?
-  nilaiKt String?
-  catatanKt String?
-  isianAt String?
-  nilaiAt String?
-  catatanAt String?
+  isianKt    String?
+  nilaiKt    String?
+  catatanKt  String?
+  isianAt    String?
+  nilaiAt    String?
+  catatanAt  String?
 
   variabelLKE   VariabelLKE @relation(fields: [variabelLKEId], references: [id], onDelete: Cascade)
   variabelLKEId String // relation scalar field (used in the `@relation` attribute above)
-  unitKerja          UnitKerja        @relation(fields: [unitKerjaId], references: [id], onDelete: Cascade)
-  unitKerjaId        String // relation scalar field (used in the `@relation` attribute above)
+  unitKerja     UnitKerja   @relation(fields: [unitKerjaId], references: [id], onDelete: Cascade)
+  unitKerjaId   String // relation scalar field (used in the `@relation` attribute above)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@id(name: "LKEUnitKerjaId",[variabelLKEId, unitKerjaId])
+  @@id(name: "LKEUnitKerjaId", [variabelLKEId, unitKerjaId])
 }
 
 //-----------------------------------------------------\\

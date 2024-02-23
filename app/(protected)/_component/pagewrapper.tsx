@@ -11,10 +11,10 @@ export const PageWrapper = ({
 }: PageWrapperProps) => {
 
     const { toggleCollapse } = useSideBarToggle();
-    const bodyStyle = cn("h-screen bg-background flex-grow pt-16",
+    const bodyStyle = cn("h-screen bg-background flex-grow pt-16 xl:pt-32",
         {
-            ["sm:pl-[20rem]"]: !toggleCollapse,
-            ["sm:pl-[5.4rem]"]: toggleCollapse,
+            ["sm:pl-[20rem] xl:pl-[0rem]"]: !toggleCollapse,
+            ["sm:pl-[5.4rem] xl:pl-[0rem]"]: toggleCollapse,
         });
 
     return (

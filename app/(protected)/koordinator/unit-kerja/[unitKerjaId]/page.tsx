@@ -27,7 +27,6 @@ const UnitKerjaIdPage = async ({
     const unitKerja = await db.unitKerja.findUnique({
         where: {
             id: params.unitKerjaId,
-            userId
         },
         include: {
             users: {

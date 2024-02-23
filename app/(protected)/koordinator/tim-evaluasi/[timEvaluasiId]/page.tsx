@@ -26,7 +26,6 @@ const TimEvaluasiIdPage = async ({
     const timEvaluasi = await db.timEvaluasi.findUnique({
         where: {
             id: params.timEvaluasiId,
-            userId
         },
         include: {
             users: {

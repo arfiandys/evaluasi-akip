@@ -15,9 +15,6 @@ const TimEvaluasiPage = async () => {
         return redirect("/")
     }
     const timEvaluasi = await db.timEvaluasi.findMany({
-        where: {
-            userId,
-        },
         orderBy: {
             createdAt: "desc",
         },

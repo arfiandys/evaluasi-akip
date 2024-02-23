@@ -11,6 +11,7 @@ export const {
   auth,
   signIn,
   signOut,
+  update
 } = NextAuth({
   pages: {
     signIn: "/auth/login",
@@ -38,7 +39,7 @@ export const {
 
       return true;
     },
-    async session({ token, session }) {
+    async session({ token, session, trigger, newSession }) {
       if (token.sub && session.user) {
         session.user.id = token.sub;
       }
@@ -50,10 +51,13 @@ export const {
         session.user.email = token.email;
         session.user.isOAuth = token.isOAuth as boolean;
       }
+      if (trigger==="update") {
+        session.user.role = newSession.role
+      }
 
       return session;
     },
-    async jwt({ token }) {
+    async jwt({ token, user, trigger, session }) {
       if (!token.sub) return token;
 
       const existingUser = await getUserById(token.sub);
@@ -69,6 +73,12 @@ export const {
       token.name = existingUser.name;
       token.email = existingUser.email;
       token.role = existingUser.role;
+
+      if (trigger === "update" && session?.role) {
+        // Note, that `session` can be any arbitrary object, remember to validate it!
+        // token = { ...user, ...session }
+        token.role= session.role
+      }
 
       return token;
     }

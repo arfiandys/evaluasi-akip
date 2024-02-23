@@ -51,6 +51,22 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    if ((values.unitKerjaId!) && (values.input! === "input")) {
+      const LKEUnitKerja = await db.lKEUnitKerja.update({
+        where: {
+          LKEUnitKerjaId: {
+            variabelLKEId: variabelId,
+            unitKerjaId: values.unitKerjaId 
+          }
+        },
+        data: {        
+          isianAt: values.values.isianAt,       
+        },
+      });
+  
+      return NextResponse.json(LKEUnitKerja);
+    }
+
     if ((values.subKriteriaLKEId!) && (values.variabel! === "subKriteria") && (values.action! === "yearCodeGenerate")) {
       const variabelLKE = await db.variabelLKE.update({
         where: {
