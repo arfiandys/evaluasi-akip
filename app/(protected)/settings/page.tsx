@@ -35,7 +35,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { UserRole } from "@prisma/client";
+import { AccountRole } from "@prisma/client";
 
 const SettingPage = () => {
 
@@ -74,7 +74,7 @@ const SettingPage = () => {
         });
     }
     return (
-        <div className="h-full flex justify-center items-center">
+        <div className="flex justify-center items-center">
             <Card className="w-full max-w-[600px]">
                 <CardHeader>
                     <p className="text-2xl font-semibold text-center">
@@ -190,10 +190,10 @@ const SettingPage = () => {
                                                     </SelectTrigger>
                                                 </FormControl>
                                                 <SelectContent>
-                                                    <SelectItem value={UserRole.ADMIN}>
+                                                    <SelectItem value={AccountRole.ADMIN}>
                                                         Admin
                                                     </SelectItem>
-                                                    <SelectItem value={UserRole.USER}>
+                                                    <SelectItem value={AccountRole.USER}>
                                                         User
                                                     </SelectItem>
                                                 </SelectContent>

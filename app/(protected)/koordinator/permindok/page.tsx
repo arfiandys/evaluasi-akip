@@ -6,31 +6,27 @@ import { db } from "@/lib/db";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
-import CreateUserPage from "./_components/create-form";
+import CreatePermindokPage from "./_components/create-form";
 
 
-const UserPage = async () => {
+const PermindokPage = async () => {
     const session = await auth();
     const userId = session?.user.id;
     if (!userId) {
         return redirect("/")
     }
-    const user = await db.user.findMany({
+    const permindok = await db.permindok.findMany({
         orderBy: {
-            id: "desc",
-        },
-        include: {
-            unitKerjas: true,
-            timEvaluasis: true,
+            createdAt: "desc",
         },
     });
 
     return (
         <div className="flex h-full flex-1 flex-col space-y-8 p-8">
-            <CreateUserPage />
-            <DataTable data={user} columns={columns} />
+            <CreatePermindokPage />
+            <DataTable data={permindok} columns={columns} />
         </div>
     );
 }
 
-export default UserPage;
+export default PermindokPage;

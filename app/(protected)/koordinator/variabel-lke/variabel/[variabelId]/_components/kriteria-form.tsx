@@ -60,7 +60,7 @@ export const KriteriaForm = ({
     const value = {
       kriteriaLKEId: values.kriteriaLKEId,
       kode: kode,
-      tahun: selectedData?.data.tahun,
+      tahun: selectedData?.data.subKomponenLKE?.komponenLKE?.tahun,
       variabel: "kriteria",
       action: "yearCodeGenerate"
     }

@@ -52,7 +52,6 @@ const SubKomponenIdPage = async ({
     const requiredFields = [
         subKomponen.name,
         subKomponen.kode,
-        subKomponen.tahun,
         subKomponen.bobot,
         subKomponen.kriteriaLKE.length,
     ];
@@ -118,11 +117,6 @@ const SubKomponenIdPage = async ({
                                     Sub komponen details
                                 </h2>
                             </div>
-                            <TahunForm
-                                initialData={subKomponen}
-                                subKomponenId={subKomponen.id}
-                                komponenId={subKomponen?.komponenLKEId!}
-                            />
                             <BobotForm
                                 initialData={subKomponen}
                                 subKomponenId={subKomponen.id}

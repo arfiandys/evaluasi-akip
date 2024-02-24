@@ -61,7 +61,7 @@ export const SubKriteriaForm = ({
     const value = {
       subKriteriaLKEId: values.subKriteriaLKEId,
       kode: kode,
-      tahun: selectedData?.data.tahun,
+      tahun: selectedData?.data.kriteriaLKE?.subKomponenLKE?.komponenLKE?.tahun,
       variabel: "subKriteria",
       action: "yearCodeGenerate"
     }

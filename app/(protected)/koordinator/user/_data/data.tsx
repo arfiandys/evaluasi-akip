@@ -1,4 +1,4 @@
-import { UserRole } from "@prisma/client"
+import { AccountRole } from "@prisma/client"
 import {
   ArrowDownIcon,
   ArrowRightIcon,
@@ -14,12 +14,12 @@ import { User, UserCog } from "lucide-react"
 
 export const roles = [
   {
-    value: UserRole.ADMIN,
+    value: AccountRole.ADMIN,
     label: "Admin",
     icon: UserCog,
   },
   {
-    value: UserRole.USER,
+    value: AccountRole.USER,
     label: "User",
     icon: User,
   },

@@ -5,24 +5,15 @@ import { cn } from '@/lib/utils';
 import { Logo } from './logo';
 import { Account, accounts } from './menu_constants-l';
 import { useCurrentUser } from '@/hooks/use-current-user';
-import { User, UserOnTimEvaluasi, UserOnUnitKerja, UserRole } from '@prisma/client';
+import { User, UserOnTimEvaluasi, UserOnUnitKerja, UserRole, AccountRole } from '@prisma/client';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { SideNavItem, SideNavItemGroup } from '@/types/type';
-import { useRouter } from 'next/navigation';
+import { SideNavItemGroup } from '@/types/type';
+import { usePathname, useRouter } from 'next/navigation';
 import SidebarItemsPage from './sidebar-items';
+import { TopBarMenuItem } from './topbar-menu-item';
+import { Button } from '@/components/ui/button';
 
-import {
-    NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuIndicator,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger,
-    NavigationMenuViewport,
-} from "@/components/ui/navigation-menu"
-import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
-import Link from 'next/link';
+
 
 
 
@@ -36,6 +27,7 @@ export const SideBar = ({
     const [mounted, setMounted] = useState(false);
     const { toggleCollapse } = useSideBarToggle();
     const router = useRouter();
+    const pathname = usePathname();
 
     const asideStyle = cn("sidebar overflow-y-auto overflow-x-auto fixed bg-background h-full shadow-sm shadow-slate-500/40 transition duration-300 ease-in-out z-[12]",
         {
@@ -49,8 +41,8 @@ export const SideBar = ({
 
     function findRolesValue() {
         const existingRole: string[] = []
-        const asAdmin = user?.role === UserRole.ADMIN;
-        const asUsers = user?.role === UserRole.USER;
+        const asAdmin = user?.role === AccountRole.ADMIN;
+        const asUsers = user?.role === AccountRole.USER;
         const asAnggota = asUser?.timEvaluasis.some((user) => { return user.assignedRole === UserRole.ANGGOTA })
         const asKetua = asUser?.timEvaluasis.some((user) => { return user.assignedRole === UserRole.KETUA })
         const asDalnis = asUser?.timEvaluasis.some((user) => { return user.assignedRole === UserRole.DALNIS })
@@ -123,49 +115,18 @@ export const SideBar = ({
         router.refresh()
     }, [selectedRole, selectedAccount, selectedRoute, router]);
 
-
-    const ListItem = React.forwardRef<
-        React.ElementRef<"a">,
-        React.ComponentPropsWithoutRef<"a">
-    >(({ className, title, children, ...props }, ref) => {
-        return (
-            <li>
-                <NavigationMenuLink asChild>
-                    <a
-                        ref={ref}
-                        className={cn(
-                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                            className
-                        )}
-                        {...props}
-                    >
-                        <div className="text-sm font-medium leading-none">{title}</div>
-                        <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            {children}
-                        </p>
-                    </a>
-                </NavigationMenuLink>
-            </li>
-        )
-    })
-    ListItem.displayName = "ListItem"
-
     return (
         <>
             <div className='bg-background/30 backdrop-blur-sm shadow-sm shadow-slate-500/40 hidden xl:flex justify-between fixed w-screen z-[11] mt-16 h-16 items-center'>
-                <div className="fixed inset-y-0 left-5 flex items-center z-[13]">
+                <div className="fixed inset-y-0 pl-[20px] flex items-center z-[13] w-[200px]">
                     <Select defaultValue={selectedRole} onValueChange={setSelectedRole}>
                         <SelectTrigger
-                            className={cn(
-                                "flex items-center gap-2 [&>span]:line-clamp-1 [&>span]:flex [&>span]:w-full [&>span]:items-center [&>span]:gap-1 [&>span]:truncate [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0",
-                                toggleCollapse &&
-                                "flex h-9 w-9 shrink-0 items-center justify-center p-0 [&>span]:w-auto [&>svg]:hidden"
-                            )}
+                            className={cn("flex items-center gap-2 [&>span]:line-clamp-1 [&>span]:flex [&>span]:w-full [&>span]:items-center [&>span]:gap-1 [&>span]:truncate [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0")}
                             aria-label="Select account"
                         >
                             <SelectValue placeholder="Select an account">
                                 {accounts.find((account) => account.role === selectedRole)?.icon}
-                                <span className={cn("ml-2", toggleCollapse && "hidden")}>
+                                <span className={cn("ml-2")}>
                                     {
                                         accounts.find((account) => account.role === selectedRole)
                                             ?.label
@@ -191,48 +152,7 @@ export const SideBar = ({
                         </SelectContent>
                     </Select>
                 </div>
-                <NavigationMenu className=''>
-                    <NavigationMenuList className='flex flex-row gap-2 justify-center items-center w-screen'>
-                        {selectedRoute.map((item: SideNavItemGroup, idx) => {
-                            return (
-                                <div key={idx} className='flex flex-row gap-2'>
-                                    {item.menuList.map((items: SideNavItem, idxs) => {
-                                        if (!items.submenu) {
-                                            return (
-                                                <NavigationMenuItem key={idxs}>
-                                                    <Link href={items.path} legacyBehavior passHref>
-                                                        <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "bg-transparment")}>
-                                                            {items.title}
-                                                        </NavigationMenuLink>
-                                                    </Link>
-                                                </NavigationMenuItem>
-                                            )
-                                        } else {
-                                            return(
-                                            <NavigationMenuItem key={idxs}>
-                                                <NavigationMenuTrigger>{items.title}</NavigationMenuTrigger>
-                                                <NavigationMenuContent>
-                                                    <ul className="grid w-[200px] gap-3 p-4 ">
-                                                        {items?.subMenuItems!.map((component) => (
-                                                            <ListItem
-                                                                key={component.title}
-                                                                title={component.title}
-                                                                href={component.path}
-                                                            >
-                                                            </ListItem>
-                                                        ))}
-                                                    </ul>
-                                                </NavigationMenuContent>
-                                            </NavigationMenuItem>
-                                            )
-                                        }
-                                    })}
-                                </div>
-                            )
-                        })}
-
-                    </NavigationMenuList>
-                </NavigationMenu>
+                <TopBarMenuItem selectedRoute={selectedRoute} />                
             </div>
             {/* ============================= */}
             <aside className={asideStyle}>

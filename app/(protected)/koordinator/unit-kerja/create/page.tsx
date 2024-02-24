@@ -52,8 +52,6 @@ const CreatePage = () => {
         } catch {
             toast.error("Something went wrong!");  
         }
-        
-
     }
 
     return ( 

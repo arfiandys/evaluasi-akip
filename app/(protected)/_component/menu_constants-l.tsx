@@ -1,5 +1,5 @@
 import { SideNavItemGroup } from "@/types/type";
-import { UserRole } from "@prisma/client";
+import { UserRole, AccountRole } from "@prisma/client";
 import { Building2, FileCheck, HelpCircle, Home, Settings, Sheet, TableProperties, User, User2, UserCheck2, UserRoundCheck } from "lucide-react";
 
 export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
@@ -57,6 +57,17 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
                     { title: 'Komponen', path: '/koordinator/variabel-lke/komponen' },
                     { title: 'Variabel', path: '/koordinator/variabel-lke/variabel' },
                     { title: 'Generate LKE', path: '/koordinator/variabel-lke/generate-lke' },
+                ],
+            },
+            {
+                title: 'Permindok',
+                path: '/koordinator/permindok',
+                icon: <TableProperties size={20} />,
+                submenu: true,
+                subMenuItems: [
+                    { title: 'List', path: '/koordinator/permindok' },
+                    { title: 'Create', path: '/koordinator/permindok' },
+                    { title: 'Edit', path: '/koordinator/permindok' },
                 ],
             },
         ]
@@ -421,14 +432,14 @@ export const accounts = [
     {
         label: "Koordinator tim",
         role: "admin",
-        enumRole: UserRole.ADMIN,
+        enumRole: AccountRole.ADMIN,
         icon: <UserCheck2 size={20} />,
         route: SIDENAV_ITEMS_ADMIN
     },
     {
         label: "User default",
         role: "user",
-        enumRole: UserRole.USER,
+        enumRole: AccountRole.USER,
         icon: <UserCheck2 size={20} />,
         route: SIDENAV_ITEMS_USER
     },

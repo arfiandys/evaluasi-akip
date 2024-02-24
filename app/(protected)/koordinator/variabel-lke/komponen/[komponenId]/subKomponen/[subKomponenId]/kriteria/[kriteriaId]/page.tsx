@@ -45,7 +45,6 @@ const KriteriaIdPage = async ({
     const requiredFields = [
         kriteria.name,
         kriteria.kode,
-        kriteria.tahun,
         kriteria.bobot,
         kriteria.subKriteriaLKE.length,
     ];
@@ -114,12 +113,6 @@ const KriteriaIdPage = async ({
                                     Kriteria details
                                 </h2>
                             </div>
-                            <TahunForm
-                                initialData={kriteria}
-                                kriteriaId={params.kriteriaId}
-                                subKomponenId={params.subKomponenId}
-                                komponenId={params.komponenId}
-                            />
                             <BobotForm
                                 initialData={kriteria}
                                 kriteriaId={params.kriteriaId}

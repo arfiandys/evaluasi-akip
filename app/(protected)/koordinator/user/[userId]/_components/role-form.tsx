@@ -20,17 +20,17 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { UserRole } from "@prisma/client";
+import { AccountRole } from "@prisma/client";
 
 interface RoleFormProps {
   initialData: {
-    role: UserRole;
+    role: AccountRole;
   };
   userId: string;
 };
 
 const formSchema = z.object({
-  role: z.enum([UserRole.ADMIN, UserRole.USER, UserRole.PIMPINAN, UserRole.PIC, UserRole.DALNIS, UserRole.KETUA, UserRole.ANGGOTA]),
+  role: z.enum([AccountRole.ADMIN, AccountRole.USER]),
 });
 
 export const RoleForm = ({
@@ -105,27 +105,12 @@ export const RoleForm = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value={UserRole.ADMIN}>
+                      <SelectItem value={AccountRole.ADMIN}>
                         Admin
                       </SelectItem>
-                      <SelectItem value={UserRole.USER}>
+                      <SelectItem value={AccountRole.USER}>
                         User
                       </SelectItem>
-                      {/* <SelectItem value={UserRole.PIMPINAN}>
-                        Pimpinan
-                      </SelectItem>
-                      <SelectItem value={UserRole.PIC}>
-                        PIC
-                      </SelectItem>
-                      <SelectItem value={UserRole.KETUA}>
-                        Ketua
-                      </SelectItem>
-                      <SelectItem value={UserRole.DALNIS}>
-                        Dalnis
-                      </SelectItem>
-                      <SelectItem value={UserRole.ANGGOTA}>
-                        Anggota
-                      </SelectItem> */}
                     </SelectContent>
                   </Select>
                   <FormMessage />

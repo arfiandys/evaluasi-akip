@@ -6,6 +6,7 @@ import { db } from "@/lib/db";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
+import CreateTimEvaluasiPage from "./_components/create-form";
 
 
 const TimEvaluasiPage = async () => {
@@ -29,15 +30,7 @@ const TimEvaluasiPage = async () => {
 
     return (
         <div className="flex h-full flex-1 flex-col space-y-8 p-8">
-            <div className="flex justify-end">
-                <Link href="/koordinator/tim-evaluasi/create">
-                    <Button
-                    >
-                        <PlusCircle className="h-4 w-4 mr-2" />
-                        New tim evaluasi
-                    </Button>
-                </Link>
-            </div>
+            <CreateTimEvaluasiPage />
             <DataTable data={timEvaluasi} columns={columns} />
         </div>
     );

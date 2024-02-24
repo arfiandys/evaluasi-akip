@@ -36,35 +36,6 @@ export const columns: ColumnDef<User>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  // {
-  //   accessorKey: "name",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Name" />
-  //   ),
-  //   cell: ({ row }) => <div className="w-[120px]">{row.getValue("name")}</div>,
-  //   enableSorting: true,
-  //   enableHiding: false,
-  // },  
-  // {
-  //   accessorKey: "name",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Name" />
-  //   ),
-  //   cell: ({ row }) => {
-  //     const label = jenises.find((jenis) => jenis.value === row.original.name)
-
-  //     return (
-  //       <div className="flex space-x-2">
-  //         {label && <Badge variant="outline">{label.label}</Badge>}
-  //         <span className="max-w-[500px] truncate font-medium">
-  //           {row.getValue("name")}
-  //         </span>
-  //       </div>
-  //     )
-  //   },
-  //   enableSorting: true,
-  //   enableHiding: false,
-  // },
   {
     accessorKey: "id",
     header: ({ column }) => (

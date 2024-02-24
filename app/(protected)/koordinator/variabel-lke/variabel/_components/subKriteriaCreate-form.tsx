@@ -90,7 +90,7 @@ const SubCreateVariabelPage = (
             const kodeSubKriteria = selectedData?.data.kode || "";
             const kode = kodeKomponen.concat(".", kodeSubKomponen.concat(".", kodeKriteria.concat(".", kodeSubKriteria)))
             setValue("kode", kode);
-            setValue("tahun", selectedData?.data.tahun || "");
+            setValue("tahun", selectedData?.data.kriteriaLKE?.subKomponenLKE?.komponenLKE?.tahun || "");
         }
 
     }, [subKriteriaId, setValue, subKriteria_options]);
@@ -117,7 +117,7 @@ const SubCreateVariabelPage = (
                                 control={form.control}
                                 name="kode"
                                 render={({ field }) => (
-                                    <FormItem>
+                                    <FormItem className="w-full">
                                         <FormLabel>
                                             Variabel kode
                                         </FormLabel>
@@ -139,7 +139,7 @@ const SubCreateVariabelPage = (
                                 control={form.control}
                                 name="tahun"
                                 render={({ field }) => (
-                                    <FormItem>
+                                    <FormItem className="w-full">
                                         <FormLabel>
                                             Variabel tahun
                                         </FormLabel>
@@ -161,7 +161,7 @@ const SubCreateVariabelPage = (
                                 control={form.control}
                                 name="jenisIsian"
                                 render={({ field }) => (
-                                    <FormItem>
+                                    <FormItem className="w-full">
                                         <FormLabel>
                                             Variabel jenis isian
                                         </FormLabel>
@@ -197,7 +197,7 @@ const SubCreateVariabelPage = (
                                 control={form.control}
                                 name="subKriteriaLKEId"
                                 render={({ field }) => (
-                                    <FormItem>
+                                    <FormItem className="w-full">
                                         <FormLabel>
                                             Variabel sub kriteria
                                         </FormLabel>

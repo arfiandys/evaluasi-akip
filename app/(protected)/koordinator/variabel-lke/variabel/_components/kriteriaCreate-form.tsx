@@ -89,7 +89,7 @@ const CreateVariabelPage = (
             const kodeKriteria = selectedData?.data.kode || "";
             const kode = kodeKomponen.concat(".", kodeSubKomponen.concat(".", kodeKriteria));
             setValue("kode", kode);
-            setValue("tahun", selectedData?.data.tahun || "");
+            setValue("tahun", selectedData?.data.subKomponenLKE?.komponenLKE?.tahun || "");
         }
 
     }, [kriteriaId, setValue, kriteria_options]);
@@ -116,7 +116,7 @@ const CreateVariabelPage = (
                                 control={form.control}
                                 name="kode"
                                 render={({ field }) => (
-                                    <FormItem>
+                                    <FormItem className="w-full">
                                         <FormLabel>
                                             Variabel kode
                                         </FormLabel>
@@ -138,7 +138,7 @@ const CreateVariabelPage = (
                                 control={form.control}
                                 name="tahun"
                                 render={({ field }) => (
-                                    <FormItem>
+                                    <FormItem className="w-full">
                                         <FormLabel>
                                             Variabel tahun
                                         </FormLabel>
@@ -160,7 +160,7 @@ const CreateVariabelPage = (
                                 control={form.control}
                                 name="jenisIsian"
                                 render={({ field }) => (
-                                    <FormItem>
+                                    <FormItem className="w-full">
                                         <FormLabel>
                                             Variabel jenis isian
                                         </FormLabel>
@@ -196,7 +196,7 @@ const CreateVariabelPage = (
                                 control={form.control}
                                 name="kriteriaLKEId"
                                 render={({ field }) => (
-                                    <FormItem>
+                                    <FormItem className="w-full">
                                         <FormLabel>
                                             Variabel kriteria
                                         </FormLabel>

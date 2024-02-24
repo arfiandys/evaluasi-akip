@@ -8,7 +8,7 @@ import { KetuaForm } from "./_components/ketua-form";
 import { Actions } from "./_components/actions";
 import Link from "next/link";
 import { AnggotaForm } from "./_components/anggota-form";
-import { UserRole } from "@prisma/client";
+import { UserRole, AccountRole } from "@prisma/client";
 import { DalnisForm } from "./_components/dalnis-form";
 
 const TimEvaluasiIdPage = async ({
@@ -50,7 +50,7 @@ const TimEvaluasiIdPage = async ({
     const users = await db.user.findMany({
         where: {
             NOT: {
-                role: UserRole.ADMIN,
+                role: AccountRole.ADMIN,
             },
         },
         orderBy: {

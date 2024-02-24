@@ -7,7 +7,6 @@ export const subKriteriaSchema = z.object({
   id: z.string().min(1),
   kode: z.string().min(1),
   name: z.string().min(1),
-  tahun: z.string().min(1),
   kriteriaLKEId: z.string().nullable(),
   bobot: z.number({
     required_error: "Bobot is required",

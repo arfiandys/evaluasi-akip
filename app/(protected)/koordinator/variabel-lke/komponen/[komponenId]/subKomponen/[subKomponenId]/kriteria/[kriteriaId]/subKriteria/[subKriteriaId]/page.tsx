@@ -36,7 +36,6 @@ const KriteriaIdPage = async ({
     const requiredFields = [
         subKriteria.name,
         subKriteria.kode,
-        subKriteria.tahun,
         subKriteria.bobot,
     ];
 
@@ -106,14 +105,7 @@ const KriteriaIdPage = async ({
                                 <h2 className="text-xl">
                                     Detail Sub kriteria
                                 </h2>
-                            </div>
-                            <TahunForm
-                                initialData={subKriteria}
-                                subKriteriaId={params.subKriteriaId}
-                                kriteriaId={params.kriteriaId}
-                                subKomponenId={params.subKomponenId}
-                                komponenId={params.komponenId}
-                            />
+                            </div>                            
                             <BobotForm
                                 initialData={subKriteria}
                                 subKriteriaId={params.subKriteriaId}

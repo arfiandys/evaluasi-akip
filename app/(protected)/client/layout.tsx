@@ -1,6 +1,6 @@
 import { RoleGate } from "@/components/auth/role-gate";
 import { currentUser } from "@/lib/auth";
-import { UserRole } from "@prisma/client";
+import { AccountRole } from "@prisma/client";
 
 interface LayoutClientProps {
     children: React.ReactNode
@@ -11,7 +11,7 @@ const LayoutClient = async ({
 }: LayoutClientProps) => {
     const user = await currentUser();
     return (
-        <RoleGate allowedRole={UserRole.USER}>
+        <RoleGate allowedRole={AccountRole.USER}>
             {children}
         </RoleGate>
     );

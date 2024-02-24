@@ -10,7 +10,7 @@ import Link from "next/link";
 import { KodeWilayahForm } from "./_components/kode-wilayah-form";
 import { KodeUnitKerjaForm } from "./_components/kode-unit-kerja-form";
 import { PICForm } from "./_components/pic-form";
-import { UserRole } from "@prisma/client";
+import { UserRole, AccountRole } from "@prisma/client";
 
 const UnitKerjaIdPage = async ({
     params
@@ -40,7 +40,7 @@ const UnitKerjaIdPage = async ({
     const users = await db.user.findMany({
         where: {
             NOT: {
-                role: UserRole.ADMIN
+                role: AccountRole.ADMIN
             },
         },
         orderBy: {
