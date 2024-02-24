@@ -52,7 +52,7 @@ export const NumberForm = ({
     }
     try {
       await axios.patch(`/api/variabel-lke/variabel/${initialData.variabelLKEId}`, value);
-      // toast.success("LKE unit kerja updated");
+      toast.success("LKE unit kerja updated");
     } catch {
       toast.error("Something went wrong");
     }

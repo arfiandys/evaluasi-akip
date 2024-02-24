@@ -52,9 +52,9 @@ export function DataTableRowActions<TData>({
         <DropdownMenuItem>Favorite</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Tahun</DropdownMenuSubTrigger>
+          <DropdownMenuSubTrigger>Name</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={subKriteria.tahun}>
+            <DropdownMenuRadioGroup value={subKriteria.name}>
               {jenises.map((jenis) => (
                 <DropdownMenuRadioItem key={jenis.value} value={jenis.value}>
                   {jenis.label}

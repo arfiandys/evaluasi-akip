@@ -28,9 +28,6 @@ const formSchema = z.object({
     kode: z.string().min(1, {
         message: "Kode is required",
     }),
-    tahun: z.string().min(1, {
-        message: "Tahun is required",
-    }),
     bobot: z.coerce.number({
         required_error: "Bobot is required",
         invalid_type_error: "Bobot must be a number",
@@ -51,7 +48,6 @@ const CreateSubKomponenPage = ({
         resolver: zodResolver(formSchema),
         defaultValues: {
             kode: "",
-            tahun: "",
             name: "",
             bobot: undefined,
         },
@@ -140,26 +136,7 @@ const CreateSubKomponenPage = ({
                                             <FormMessage />
                                         </FormItem>
                                     )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="tahun"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>
-                                                Tahun
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    disabled={isSubmitting}
-                                                    placeholder="e.g. '2023'"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                                />                            
                                 <FormField
                                     control={form.control}
                                     name="bobot"

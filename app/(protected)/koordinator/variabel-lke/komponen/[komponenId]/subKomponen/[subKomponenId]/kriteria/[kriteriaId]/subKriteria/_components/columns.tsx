@@ -66,22 +66,6 @@ export const columns: ColumnDef<SubKriteria>[] = [
     },
   },
   {
-    accessorKey: "tahun",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Tahun" />
-    ),
-    cell: ({ row }) => {
-
-      return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("tahun")}
-          </span>
-        </div>
-      )
-    },
-  },
-  {
     accessorKey: "bobot",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Bobot" />

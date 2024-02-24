@@ -9,7 +9,6 @@ import { BobotForm } from "./_components/bobot-form";
 import CreateSubKriteriaPage from "./_components/create-form";
 import { NameForm } from "./_components/name-form";
 import { KodeForm } from "./_components/kode-form";
-import { TahunForm } from "./_components/tahun-form";
 
 const KriteriaIdPage = async ({
     params

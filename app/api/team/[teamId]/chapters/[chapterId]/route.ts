@@ -4,11 +4,6 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
 
-const { Video } = new Mux(
-  process.env.MUX_TOKEN_ID!,
-  process.env.MUX_TOKEN_SECRET!,
-);
-
 export async function DELETE(
   req: Request,
   { params }: { params: { teamId: string; chapterId: string } }
@@ -41,23 +36,6 @@ export async function DELETE(
 
     if (!chapter) {
       return new NextResponse("Not Found", { status: 404 });
-    }
-
-    if (chapter.videoUrl) {
-      const existingMuxData = await db.muxData.findFirst({
-        where: {
-          chapterId: params.chapterId,
-        }
-      });
-
-      if (existingMuxData) {
-        await Video.Assets.del(existingMuxData.assetId);
-        await db.muxData.delete({
-          where: {
-            id: existingMuxData.id,
-          }
-        });
-      }
     }
 
     const deletedChapter = await db.chapter.delete({
@@ -124,37 +102,6 @@ export async function PATCH(
         ...values,
       }
     });
-
-    if (values.videoUrl) {
-      const existingMuxData = await db.muxData.findFirst({
-        where: {
-          chapterId: params.chapterId,
-        }
-      });
-
-      if (existingMuxData) {
-        await Video.Assets.del(existingMuxData.assetId);
-        await db.muxData.delete({
-          where: {
-            id: existingMuxData.id,
-          }
-        });
-      }
-
-      const asset = await Video.Assets.create({
-        input: values.videoUrl,
-        playback_policy: "public",
-        test: false,
-      });
-
-      await db.muxData.create({
-        data: {
-          chapterId: params.chapterId,
-          assetId: asset.id,
-          playbackId: asset.playback_ids?.[0]?.id,
-        }
-      });
-    }
 
     return NextResponse.json(chapter);
   } catch (error) {

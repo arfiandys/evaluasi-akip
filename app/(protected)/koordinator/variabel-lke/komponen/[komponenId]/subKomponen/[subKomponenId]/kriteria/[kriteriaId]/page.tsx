@@ -11,7 +11,6 @@ import { DataTable } from "./subKriteria/_components/data-table";
 import { columns } from "./subKriteria/_components/columns";
 import { NameForm } from "./_components/name-form";
 import { KodeForm } from "./_components/kode-form";
-import { TahunForm } from "./_components/tahun-form";
 
 const KriteriaIdPage = async ({
     params

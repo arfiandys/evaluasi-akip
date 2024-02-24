@@ -24,8 +24,8 @@ import Link from "next/link"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { NumberForm } from "./number-form"
-import { DropdownForm } from "./dropdown-form"
 import { SelectForm } from "./select-form"
+import { DropdownForm } from "./dropdown-form"
 
 interface DataTableRowInputProps<TData> {
   row: Row<TData>

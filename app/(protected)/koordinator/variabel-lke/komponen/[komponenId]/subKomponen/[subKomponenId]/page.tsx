@@ -7,7 +7,6 @@ import { NameForm } from "./_components/name-form";
 import { KodeForm } from "./_components/kode-form";
 import { Actions } from "./_components/actions";
 import Link from "next/link";
-import { TahunForm } from "./_components/tahun-form";
 import { BobotForm } from "./_components/bobot-form";
 import CreateKriteriaPage from "./_components/create-form";
 import { DataTable } from "./kriteria/_components/data-table";
