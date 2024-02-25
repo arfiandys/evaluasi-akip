@@ -13,7 +13,9 @@ import { Combobox } from "@/components/ui/combobox";
 import { Button } from "@/components/ui/button";
 
 interface UnitKerjaProps {
-  value: UserOnTimEvaluasi & { user: User & { unitKerjas: UserOnUnitKerja[] } };
+  anggota: UserOnTimEvaluasi & { user: User & { unitKerjas: UserOnUnitKerja[] } };
+  ketua: string|undefined;
+  dalnis: string|undefined;
   initialData: TimEvaluasi & { users: (UserOnTimEvaluasi & { user: User & { unitKerjas: UserOnUnitKerja[] } })[] };
   timEvaluasiId: string;
   options_unitKerja: { label: string; value: string; }[];
@@ -21,7 +23,9 @@ interface UnitKerjaProps {
 };
 
 export const UnitKerjaForm = ({
-  value,
+  anggota,
+  ketua,
+  dalnis,
   initialData,
   timEvaluasiId,
   options_unitKerja,
@@ -36,11 +40,13 @@ export const UnitKerjaForm = ({
 
   const formSchema = z.object({
     userId: z.string().min(1),
+    ketuaId: z.string().min(1),
+    dalnisId: z.string().min(1),
     unitKerjaId: z.string().min(1)
   });
 
   const currentUser = initialData.users.find(function (user) {
-    return user.userId === value.userId;
+    return user.userId === anggota.userId;
   });
 
   const unitKerja = currentUser?.user.unitKerjas.filter(function (unit) {
@@ -50,7 +56,9 @@ export const UnitKerjaForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      userId: value.userId,
+      userId: anggota.userId,
+      ketuaId: ketua,
+      dalnisId: dalnis,
       unitKerjaId: "",
     },
   });
@@ -75,6 +83,8 @@ export const UnitKerjaForm = ({
       const values = {
         data: {
           anggotaTimEvaluasiId: id,
+          ketuaId: ketua,
+          dalnisId: dalnis,
           action: "disconnect"
         }
       };
@@ -95,12 +105,14 @@ export const UnitKerjaForm = ({
       const values = {
         data: {
           anggotaTimEvaluasiId: userId,
+          ketuaId: ketua,
+          dalnisId: dalnis,
           unitKerjaId: unitId,
           action: "disconnect"
         }
       };
       await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);
-      toast.success("Anggota deleted");
+      toast.success("Unit kreja deleted");
       form.reset();
       router.refresh();
     } catch {
@@ -119,17 +131,17 @@ export const UnitKerjaForm = ({
           <div className="flex items-center w-full">
             <User2 className="h-4 w-4 mr-2 flex-shrink-0" />
             <p className="text-md line-clamp-1">
-              {(options_user.find((option) => option.value === value.userId))?.label}
+              {(options_user.find((option) => option.value === anggota.userId))?.label}
             </p>
 
-            {deletingId === value.userId && (
+            {deletingId === anggota.userId && (
               <div className="ml-auto">
                 <Loader2 className="h-4 w-4 animate-spin" />
               </div>
             )}
-            {deletingId !== value.userId && (
+            {deletingId !== anggota.userId && (
               <button
-                onClick={() => onDelete(value.userId)}
+                onClick={() => onDelete(anggota.userId)}
                 className="ml-auto hover:opacity-75 transition"
               >
                 <Trash className="h-4 w-4" />
@@ -190,7 +202,7 @@ export const UnitKerjaForm = ({
                 )}
                 {deletingUnitKerjaId !== unit.unitKerjaId && (
                   <button
-                    onClick={() => onDeleteUnitKerja(value.userId, unit.unitKerjaId)}
+                    onClick={() => onDeleteUnitKerja(anggota.userId, unit.unitKerjaId)}
                     className="ml-2 hover:opacity-75 transition"
                   >
                     <X className="h-4 w-4" />
@@ -207,15 +219,15 @@ export const UnitKerjaForm = ({
           <div className="flex items-center w-full">
             <User2 className="h-4 w-4 mr-2 flex-shrink-0" />
             <p className="text-xs line-clamp-1">
-              {(options_user.find((option) => option.value === value.userId))?.label}
+              {(options_user.find((option) => option.value === anggota.userId))?.label}
             </p>
 
-            {deletingId === value.userId && (
+            {deletingId === anggota.userId && (
               <div className="ml-auto">
                 <Loader2 className="h-4 w-4 animate-spin" />
               </div>
             )}
-            {deletingId !== value.userId && (
+            {deletingId !== anggota.userId && (
               <button
                 onClick={toggleAnggotaEdit}
                 className="ml-auto hover:opacity-75 transition"

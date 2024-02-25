@@ -51,7 +51,13 @@ export const AnggotaForm = ({
 
   const anggota = initialData.users.filter(function (user) {
     return user.assignedRole === UserRole.ANGGOTA;
-  }).map(function (user) { return user })
+  }).map(function (user) { return user });
+  const ketua = initialData.users.find(function (user) {
+    return user.assignedRole === UserRole.KETUA;
+  })?.userId;
+  const dalnis = initialData.users.find(function (user) {
+    return user.assignedRole === UserRole.DALNIS;
+  })?.userId;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -101,7 +107,9 @@ export const AnggotaForm = ({
               {anggota.map((anggota) => (
                 <div key={anggota.userId}>
                   <UnitKerjaForm
-                    value={anggota}
+                    anggota={anggota}
+                    ketua={ketua}
+                    dalnis={dalnis}
                     initialData={initialData}
                     timEvaluasiId={timEvaluasiId}
                     options_unitKerja={options_unitKerja}

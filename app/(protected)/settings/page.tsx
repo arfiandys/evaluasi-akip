@@ -74,7 +74,7 @@ const SettingPage = () => {
         });
     }
     return (
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center h-screen">
             <Card className="w-full max-w-[600px]">
                 <CardHeader>
                     <p className="text-2xl font-semibold text-center">

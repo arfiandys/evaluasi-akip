@@ -17,18 +17,18 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { TimEvaluasi, UserOnTimEvaluasi, UserRole } from "@prisma/client";
+import { TimEvaluasi, User, UserOnTimEvaluasi, UserOnUnitKerja, UserRole } from "@prisma/client";
 import { Combobox } from "@/components/ui/combobox";
 
 interface DalnisFormProps {
-  initialData: TimEvaluasi & { users: UserOnTimEvaluasi[] };
+  initialData: TimEvaluasi & { users: (UserOnTimEvaluasi & { user: User & { unitKerjas: UserOnUnitKerja[] } })[] };
   timEvaluasiId: string;
   options: { label: string; value: string; }[];
 };
 
 const formSchema = z.object({
   dalnisTimEvaluasiId: z.string().min(1),
-  dalnisPassTimEvaluasiId: z.string()
+  dalnisPassTimEvaluasiId: z.string(),
 });
 
 export const DalnisForm = ({
@@ -47,6 +47,38 @@ export const DalnisForm = ({
     return user.assignedRole === UserRole.DALNIS;
   }).map(function (user) { return user.userId })
 
+  const isUnitKerjaInAnggota = initialData.users.filter(function (user) {
+    return user.assignedRole === UserRole.ANGGOTA;
+  }).map(function (user) { return user.user.unitKerjas })
+
+  function allArraysEmpty(arr: any[][]): boolean {
+    // Check if there are no arrays
+    if (arr.length === 0) {
+      return true;
+    }
+
+    // Check if every array is empty
+    return arr.every(subArr => subArr.length === 0);
+  }
+
+  const isEmpty = allArraysEmpty(isUnitKerjaInAnggota)
+
+  const arrayOfArrays: UserOnUnitKerja[][] = isUnitKerjaInAnggota;
+
+  const concatenatedArray: UserOnUnitKerja[] = arrayOfArrays.reduce((acc, curr) => acc.concat(curr), []);
+  const unitKerjaIdArray: any[] = concatenatedArray.map(obj => (
+    {
+      assignedRole: UserRole.DALNIS,
+      timEvaluasiId: timEvaluasiId,
+      unitKerja: {
+        connect: {
+          id: obj.unitKerjaId,
+        },
+      },
+    })
+  );
+  console.log(unitKerjaIdArray);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -58,8 +90,12 @@ export const DalnisForm = ({
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const value = {
+      ...values,
+      unitKerjaIdArray
+    }
     try {
-      await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);
+      await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value);
       toast.success("Tim evaluasi updated");
       toggleEdit();
       router.refresh();
@@ -69,22 +105,26 @@ export const DalnisForm = ({
   }
 
   const onDelete = async (id: string) => {
-    try {
-      setDeletingId(id);
-      const values = {
-        data: {
-          dalnisTimEvaluasiId: id,
-          action: "disconnect"
-        }
-      };
-      await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);
-      toast.success("Dalnis deleted");
-      form.reset();
-      router.refresh();
-    } catch {
-      toast.error("Something went wrong");
-    } finally {
-      setDeletingId(null);
+    if (!isEmpty) {
+      toast.error("Tidak bisa menghapus dalnis karena anggota punya unit kerja");
+    } else {
+      try {
+        setDeletingId(id);
+        const values = {
+          data: {
+            dalnisTimEvaluasiId: id,
+            action: "disconnect"
+          }
+        };
+        await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);
+        toast.success("Dalnis deleted");
+        form.reset();
+        router.refresh();
+      } catch {
+        toast.error("Something went wrong");
+      } finally {
+        setDeletingId(null);
+      }
     }
   }
 
