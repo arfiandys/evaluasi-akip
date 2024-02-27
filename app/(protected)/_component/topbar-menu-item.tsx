@@ -50,8 +50,8 @@ export const TopBarMenuItem = ({ selectedRoute }: TopBarMenuItemProps) => {
         }
     );
     return (
-        <NavigationMenu className='sidebar ml-[220px] overflow-y-auto overflow-x-auto'>
-            <NavigationMenuList className='flex flex-row gap-2 justify-center items-center'>
+        <NavigationMenu className='sidebar ml-[230px] mr-[30px] overflow-x-auto w-full flex justify-start'>
+            <NavigationMenuList className='gap-2'>
                 {selectedRoute.map((item: SideNavItemGroup, idx) => {
                     return (
                         <div key={idx} className='flex flex-row gap-2'>

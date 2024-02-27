@@ -70,6 +70,11 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
                     { title: 'Edit', path: '/koordinator/permindok' },
                 ],
             },
+            {
+                title: 'IKU Unit Kerja',
+                path: '/koordinator/iku',
+                icon: <TableProperties size={20} />,
+            },
         ]
     },
     {

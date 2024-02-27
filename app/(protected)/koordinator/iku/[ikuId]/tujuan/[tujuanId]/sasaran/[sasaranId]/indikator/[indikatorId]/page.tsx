@@ -7,17 +7,11 @@ import { NameForm } from "./_components/name-form";
 import { KodeForm } from "./_components/kode-form";
 import { Actions } from "./_components/actions";
 import Link from "next/link";
-import { TahunForm } from "./_components/tahun-form";
-import { BobotForm } from "./_components/bobot-form";
-import CreateSubKomponenPage from "./_components/create-form";
-import { DataTable } from "./sasaran/_components/data-table";
-import { columns } from "./sasaran/_components/columns";
-import CreateSasaranIKUPage from "./_components/create-form";
 
-const TujuanIdPage = async ({
+const IndikatorIdPage = async ({
     params
 }: {
-    params: { ikuId: string, tujuanId: string }
+    params: { ikuId: string, tujuanId: string, sasaranId: string, indikatorId: string }
 }) => {
 
     const userId = await currentId();
@@ -26,34 +20,19 @@ const TujuanIdPage = async ({
         return redirect("/");
     }
 
-    const tujuanIKU = await db.tujuanIKU.findUnique({
+    const indikatorIKU = await db.indikatorIKU.findUnique({
         where: {
-            id: params.tujuanId,
-        },
-        include: {
-            sasaranIKU: {
-                orderBy: {
-                    name: "asc"
-                },
-                include: {
-                    indikatorIKU: {
-                        orderBy: {
-                            name: "asc"
-                        }
-                    }
-                }
-            },
+            id: params.indikatorId,
         },
     });
 
-    if (!tujuanIKU) {
+    if (!indikatorIKU) {
         return redirect("/");
     }
 
     const requiredFields = [
-        tujuanIKU.name,
-        tujuanIKU.kode,
-        tujuanIKU.sasaranIKU.length,
+        indikatorIKU.name,
+        indikatorIKU.kode,
     ];
 
     const totalFields = requiredFields.length;
@@ -67,16 +46,16 @@ const TujuanIdPage = async ({
                 <div className="flex items-center justify-between">
                     <div className="w-full">
                         <Link
-                            href={`/koordinator/iku`}
+                            href={`/koordinator/iku/${params.ikuId}/tujuan/${params.tujuanId}/sasaran/${params.sasaranId}`}
                             className="flex items-center text-sm hover:opacity-75 transition mb-6"
                         >
                             <ArrowLeft className="h-4 w-4 mr-2" />
-                            Back to tujuan IKU list
+                            Back to indikator IKU list
                         </Link>
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-y-2">
                                 <h1 className="text-2xl font-medium">
-                                    Tujuan IKU setup
+                                Indikator IKU setup
                                 </h1>
                                 <span className="text-sm text-secondary-foreground">
                                     Complete all fields {completionText}
@@ -86,6 +65,8 @@ const TujuanIdPage = async ({
                                 disabled={!isComplete}
                                 IKUId={params.ikuId}
                                 tujuanId={params.tujuanId}
+                                sasaranId={params.sasaranId}
+                                indikatorId={params.indikatorId}
                             />
                         </div>
                     </div>
@@ -95,13 +76,16 @@ const TujuanIdPage = async ({
                         <div className="flex items-center gap-x-2">
                             <IconBadge icon={LayoutDashboard} />
                             <h2 className="text-xl">
-                                Customize your Tujuan IKU
+                                Customize your indikator IKU
                             </h2>
                         </div>
                         <NameForm
-                            initialData={tujuanIKU}
+                            initialData={indikatorIKU}
                             IKUId={params.ikuId}
                             tujuanId={params.tujuanId}
+                            sasaranId={params.sasaranId}
+                            indikatorId={params.indikatorId}
+
                         />
                     </div>
                     <div className="space-y-6">
@@ -109,27 +93,18 @@ const TujuanIdPage = async ({
                             <div className="flex items-center gap-x-2">
                                 <IconBadge icon={ListChecks} />
                                 <h2 className="text-xl">
-                                    Tujuan details
+                                Indikator details
                                 </h2>
                             </div>
                             <KodeForm
-                                initialData={tujuanIKU}
+                                initialData={indikatorIKU}
                                 IKUId={params.ikuId}
                                 tujuanId={params.tujuanId}
+                                sasaranId={params.sasaranId}
+                                indikatorId={params.indikatorId}
+
                             />
                         </div>
-                    </div>
-                </div>
-                <div className="grid grid-cols-1 gap-4 mt-16">
-                    <div className="flex items-center gap-x-2">
-                        <IconBadge icon={ListTree} />
-                        <h2 className="text-xl">
-                            Sasaran IKU
-                        </h2>
-                    </div>
-                    <div className="flex flex-col space-y-6">
-                        <CreateSasaranIKUPage IKUId={params.ikuId} tujuanId={params.tujuanId} />
-                        <DataTable data={tujuanIKU.sasaranIKU} columns={columns} />
                     </div>
                 </div>
             </div>
@@ -137,4 +112,4 @@ const TujuanIdPage = async ({
     );
 }
 
-export default TujuanIdPage;
+export default IndikatorIdPage;

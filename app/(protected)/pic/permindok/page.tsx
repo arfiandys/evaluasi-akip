@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import { GeneratePage } from "./_components/generate-form";
 import { DataTable } from "./_components/data-table";
 import { columns } from "./_components/columns";
 import { UserRole } from "@prisma/client";

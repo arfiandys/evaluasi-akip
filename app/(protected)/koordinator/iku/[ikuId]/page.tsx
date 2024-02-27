@@ -107,7 +107,7 @@ const IKUIdPage = async ({
                             <div className="flex items-center gap-x-2">
                                 <IconBadge icon={ListChecks} />
                                 <h2 className="text-xl">
-                                    Komponen details
+                                    IKU details
                                 </h2>
                             </div>
                             <TahunForm

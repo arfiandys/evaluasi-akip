@@ -29,7 +29,7 @@ const SasaranIdPage = async ({
 
     const sasaranIKU = await db.sasaranIKU.findUnique({
         where: {
-            id: params.tujuanId,
+            id: params.sasaranId,
         },
         include: {
             indikatorIKU: {
@@ -61,7 +61,7 @@ const SasaranIdPage = async ({
                 <div className="flex items-center justify-between">
                     <div className="w-full">
                         <Link
-                            href={`/koordinator/iku`}
+                            href={`/koordinator/iku/${params.ikuId}/tujuan/${params.tujuanId}`}
                             className="flex items-center text-sm hover:opacity-75 transition mb-6"
                         >
                             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -90,7 +90,7 @@ const SasaranIdPage = async ({
                         <div className="flex items-center gap-x-2">
                             <IconBadge icon={LayoutDashboard} />
                             <h2 className="text-xl">
-                                Customize your Tujuan IKU
+                                Customize your sasaran IKU
                             </h2>
                         </div>
                         <NameForm
@@ -106,7 +106,7 @@ const SasaranIdPage = async ({
                             <div className="flex items-center gap-x-2">
                                 <IconBadge icon={ListChecks} />
                                 <h2 className="text-xl">
-                                    Komponen details
+                                    Sasaran details
                                 </h2>
                             </div>
                             <KodeForm
@@ -123,7 +123,7 @@ const SasaranIdPage = async ({
                     <div className="flex items-center gap-x-2">
                         <IconBadge icon={ListTree} />
                         <h2 className="text-xl">
-                            Tujuan IKU
+                            Indikator IKU
                         </h2>
                     </div>
                     <div className="flex flex-col space-y-6">

@@ -30,15 +30,17 @@ const formSchema = z.object({
     }),
 });
 
-interface CreateTujuanIKUPageProps {
+interface CreateIndikatorIKUPageProps {
     IKUId: string;
     tujuanId: string;
+    sasaranId: string;
   };
 
-const CreateSasaranIKUPage = ({
+const CreateIndikatorIKUPage = ({
     IKUId,
-    tujuanId
-  }: CreateTujuanIKUPageProps) => {
+    tujuanId,
+    sasaranId
+  }: CreateIndikatorIKUPageProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const toggleEdit = () => setIsEditing((current) => !current);
     const router = useRouter();
@@ -54,8 +56,8 @@ const CreateSasaranIKUPage = ({
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            const response = await axios.post(`/api/iku/${IKUId}/tujuan/${tujuanId}/sasaran`, values);
-            toast.success("Sasaran IKU created!")
+            const response = await axios.post(`/api/iku/${IKUId}/tujuan/${tujuanId}/sasaran/${sasaranId}/indikator`, values);
+            toast.success("Indikator IKU created!")
             form.reset()
             setIsEditing((current) => !current)
             router.refresh()
@@ -75,7 +77,7 @@ const CreateSasaranIKUPage = ({
                     ) : (
                         <>
                             <PlusCircle className="h-4 w-4 mr-2" />
-                            Add Sasaran IKU
+                            Add Indikator IKU
                         </>
                     )}
                 </Button>
@@ -84,10 +86,10 @@ const CreateSasaranIKUPage = ({
                 <div className="flex flex-col">
                     <div>
                         <h1 className="text-2xl">
-                            Add your sasaran IKU
+                            Add your Indikator IKU
                         </h1>
                         <p className="text-sm text-secondary-foreground">
-                            What would you like to fill your sasaran IKU? Don&apos;t worry.
+                            What would you like to fill your Indikator IKU? Don&apos;t worry.
                         </p>
                     </div>
                     <Form {...form}>
@@ -126,7 +128,7 @@ const CreateSasaranIKUPage = ({
                                             <FormControl>
                                                 <Textarea
                                                     disabled={isSubmitting}
-                                                    placeholder="e.g. 'Sasaran IKU unit kerja...'"
+                                                    placeholder="e.g. 'Indikator IKU unit kerja...'"
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -151,4 +153,4 @@ const CreateSasaranIKUPage = ({
     );
 }
 
-export default CreateSasaranIKUPage;
+export default CreateIndikatorIKUPage;
