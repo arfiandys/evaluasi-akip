@@ -50,13 +50,13 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
             },
             {
                 title: 'Variabel LKE',
-                path: '/koordinator/variabel-lke',
+                path: '/koordinator/lke',
                 icon: <TableProperties size={20} />,
                 submenu: true,
                 subMenuItems: [
-                    { title: 'Komponen', path: '/koordinator/variabel-lke/komponen' },
-                    { title: 'Variabel', path: '/koordinator/variabel-lke/variabel' },
-                    { title: 'Generate LKE', path: '/koordinator/variabel-lke/generate-lke' },
+                    { title: 'Komponen', path: '/koordinator/lke/komponen' },
+                    { title: 'Variabel', path: '/koordinator/lke/variabel' },
+                    { title: 'Generate LKE', path: '/koordinator/lke/generate-lke' },
                 ],
             },
             {
