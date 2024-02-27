@@ -99,7 +99,6 @@ export const SideBar = ({
 
     useEffect(() => {
         setMounted(true);
-        console.log(selectedRole)
         function findAccount(arr1: Account[], arr2: string) {
             for (const value of arr1) {
                 if (arr2 === value.role) {
@@ -109,9 +108,7 @@ export const SideBar = ({
             return selectedAccount;
         }
         findAccount(accounts, selectedRole)
-        console.log(selectedAccount)
         setSelectedRoute(selectedAccount.route)
-        console.log(selectedRoute)
         router.refresh()
     }, [selectedRole, selectedAccount, selectedRoute, router]);
 

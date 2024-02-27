@@ -36,12 +36,13 @@ export const DalnisForm = ({
   timEvaluasiId,
   options,
 }: DalnisFormProps) => {
+  const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const toggleEdit = () => setIsEditing((current) => !current);
 
-  const router = useRouter();
+  
 
   const dalnisId = initialData.users.filter(function (user) {
     return user.assignedRole === UserRole.DALNIS;
@@ -77,7 +78,6 @@ export const DalnisForm = ({
       },
     })
   );
-  console.log(unitKerjaIdArray);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -92,16 +92,28 @@ export const DalnisForm = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const value = {
       ...values,
-      unitKerjaIdArray
+      unitKerjaIdArray,
+      action: "dalnisUpdateUnitKerja"
     }
     try {
-      await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value);
-      toast.success("Tim evaluasi updated");
+      await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);
+      toast.success("Dalnis Tim evaluasi updated");
       toggleEdit();
-      router.refresh();
     } catch {
       toast.error("Something went wrong");
     }
+
+    if (!!unitKerjaIdArray.length) {
+      try {
+        await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value);
+        toast.success("Unit Kerja Tim evaluasi updated");
+        toggleEdit();
+
+      } catch {
+        toast.error("Something went wrong");
+      }
+    }
+    router.refresh();
   }
 
   const onDelete = async (id: string) => {

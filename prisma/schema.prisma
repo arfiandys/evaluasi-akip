@@ -157,7 +157,8 @@ model Permindok {
 
 // PERMINDOK UNIT KERJA
 model PermindokUnitKerja {
-  url String @db.Text
+  url String?
+  nameDokumen String?
 
   permindok   Permindok @relation(fields: [permindokId], references: [id], onDelete: Cascade)
   permindokId String // relation scalar field (used in the `@relation` attribute above)

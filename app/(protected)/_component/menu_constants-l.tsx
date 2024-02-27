@@ -65,8 +65,8 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
                 icon: <TableProperties size={20} />,
                 submenu: true,
                 subMenuItems: [
-                    { title: 'List', path: '/koordinator/permindok' },
-                    { title: 'Create', path: '/koordinator/permindok' },
+                    { title: 'List', path: '/koordinator/permindok/list' },
+                    { title: 'Generate permindok', path: '/koordinator/permindok/generate-permindok' },
                     { title: 'Edit', path: '/koordinator/permindok' },
                 ],
             },
@@ -345,7 +345,7 @@ export const SIDENAV_ITEMS_PIC: SideNavItemGroup[] = [
                 icon: <FileCheck size={20} />,
                 submenu: true,
                 subMenuItems: [
-                    { title: 'List', path: '/pic/permindok/list' },
+                    { title: 'List', path: '/pic/permindok' },
                 ],
             },
         ]

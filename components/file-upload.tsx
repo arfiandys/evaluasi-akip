@@ -18,7 +18,7 @@ export const FileUpload = ({
         endpoint={endpoint}
         onClientUploadComplete={(res) => {
             onChange(res?.[0].url, res?.[0].name);
-            toast.error("Image uploaded!")
+            toast.success("Uploaded!")
         }}
         onUploadError={(error: Error) => {
             toast.error(`${error?.message}`)

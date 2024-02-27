@@ -19,6 +19,9 @@ export const ourFileRouter = {
     teamAttachment: f(["text", "image", "video", "audio", "pdf"])
     .middleware(() => handleAuth())
     .onUploadComplete(() => {}),
+    permindokDokumen: f(["pdf"])
+    .middleware(() => handleAuth())
+    .onUploadComplete(() => {}),
     chapterVideo: f({ video: { maxFileCount: 1, maxFileSize: "512GB"}})
     .middleware(() => handleAuth())
     .onUploadComplete(() => {})

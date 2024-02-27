@@ -462,29 +462,16 @@ export async function PATCH(
     }
 
     // ===================== TIM EVALUASI ADD
-    if (values.dalnisTimEvaluasiId! && !!values.unitKerjaIdArray.length) {
+    // ===================== DALNIS TIM EVALUASI UPDATE UNIT KERJA
+
+    if (values.dalnisTimEvaluasiId! && !!values.unitKerjaIdArray?.length && (values.action === "dalnisUpdateUnitKerja")) {
       const timEvaluasi = await db.timEvaluasi.update({
         where: {
           id: timEvaluasiId,
         },
         data: {
           users: {
-            deleteMany: [
-              {
-                assignedRole: UserRole.DALNIS,
-              }
-            ],
-            create: [
-              {
-                assignedRole: UserRole.DALNIS,
-                user: {
-                  connect: {
-                    id: values.dalnisTimEvaluasiId
-                  },
-                },
-              }
-            ],
-            update: [
+            update: [               
               {
                 where: {
                   userTimEvaluasiId: {
@@ -497,9 +484,9 @@ export async function PATCH(
                     update: {
                       data: {
                         unitKerjas: {
-                          create: [
+                          create:
                             values.unitKerjaIdArray
-                          ],
+                          ,
                         }
                       }
                     }
@@ -521,13 +508,73 @@ export async function PATCH(
       return NextResponse.json(timEvaluasi);
     }
 
-    if (values.dalnisTimEvaluasiId! && !values.unitKerjaIdArray.length) {
+    // ===================== DALNIS TIM EVALUASI ADD
+    if (values.dalnisTimEvaluasiId! && values.unitKerjaIdArray?.length!) {
+      const timEvaluasi = await db.timEvaluasi.update({
+        where: {
+          id: timEvaluasiId,
+        },
+        data: {
+          users: {            
+            deleteMany: [
+              {
+                assignedRole: UserRole.DALNIS,
+              }
+            ],
+            create: [
+              {
+                assignedRole: UserRole.DALNIS,
+                user: {
+                  connect: {
+                    id: values.dalnisTimEvaluasiId
+                  }
+                }
+
+              }
+            ],
+          }
+        },
+        include: {
+          users: {
+            orderBy: {
+              userId: "asc"
+            }
+          }
+        }
+      });
+
+      return NextResponse.json(timEvaluasi);
+    }
+    if (values.dalnisTimEvaluasiId!) {
       const timEvaluasi = await db.timEvaluasi.update({
         where: {
           id: timEvaluasiId,
         },
         data: {
           users: {
+            update: [
+              {
+                where: {
+                  userTimEvaluasiId: {
+                    timEvaluasiId: timEvaluasiId,
+                    userId: values.dalnisPassTimEvaluasiId
+                  }
+                },
+                data: {
+                  user: {
+                    update: {
+                      data: {
+                        unitKerjas: {
+                          deleteMany: {
+                            assignedRole: UserRole.DALNIS,
+                          },
+                        }
+                      }
+                    }
+                  },
+                },
+              },
+            ],
             deleteMany: [
               {
                 assignedRole: UserRole.DALNIS,
@@ -558,29 +605,17 @@ export async function PATCH(
       return NextResponse.json(timEvaluasi);
     }
 
-    if (values.ketuaTimEvaluasiId! && !!values.unitKerjaIdArray.length) {
+
+    // ===================== KETUA TIM EVALUASI UPDATE UNIT KERJA
+
+    if (values.ketuaTimEvaluasiId! && !!values.unitKerjaIdArray?.length && (values.action === "ketuaUpdateUnitKerja")) {
       const timEvaluasi = await db.timEvaluasi.update({
         where: {
           id: timEvaluasiId,
         },
         data: {
           users: {
-            deleteMany: [
-              {
-                assignedRole: UserRole.KETUA,
-              }
-            ],
-            create: [
-              {
-                assignedRole: UserRole.KETUA,
-                user: {
-                  connect: {
-                    id: values.ketuaTimEvaluasiId
-                  },
-                },
-              }
-            ],
-            update: [
+            update: [              
               {
                 where: {
                   userTimEvaluasiId: {
@@ -593,9 +628,9 @@ export async function PATCH(
                     update: {
                       data: {
                         unitKerjas: {
-                          create: [
+                          create:
                             values.unitKerjaIdArray
-                          ],
+                          ,
                         }
                       }
                     }
@@ -617,13 +652,16 @@ export async function PATCH(
       return NextResponse.json(timEvaluasi);
     }
 
-    if (values.ketuaTimEvaluasiId! && !values.unitKerjaIdArray.length) {
+
+    // ===================== KETUA TIM EVALUASI ADD
+
+    if (values.ketuaTimEvaluasiId! && !values.unitKerjaIdArray?.length!) {
       const timEvaluasi = await db.timEvaluasi.update({
         where: {
           id: timEvaluasiId,
         },
         data: {
-          users: {
+          users: {            
             deleteMany: [
               {
                 assignedRole: UserRole.KETUA,
@@ -653,6 +691,68 @@ export async function PATCH(
 
       return NextResponse.json(timEvaluasi);
     }
+
+    if (values.ketuaTimEvaluasiId!) {
+      const timEvaluasi = await db.timEvaluasi.update({
+        where: {
+          id: timEvaluasiId,
+        },
+        data: {
+          users: {
+            update:[
+              {
+                where: {
+                  userTimEvaluasiId: {
+                    timEvaluasiId: timEvaluasiId,
+                    userId: values.ketuaPassTimEvaluasiId
+                  }
+                },
+                data: {
+                  user: {
+                    update: {
+                      data: {
+                        unitKerjas: {
+                          deleteMany: {
+                            assignedRole: UserRole.KETUA,
+                          },
+                        }
+                      }
+                    }
+                  },
+                },
+              },
+            ],
+            deleteMany: [
+              {
+                assignedRole: UserRole.KETUA,
+              }
+            ],
+            create: [
+              {
+                assignedRole: UserRole.KETUA,
+                user: {
+                  connect: {
+                    id: values.ketuaTimEvaluasiId
+                  }
+                }
+
+              }
+            ],
+          }
+        },
+        include: {
+          users: {
+            orderBy: {
+              userId: "asc"
+            }
+          }
+        }
+      });
+
+      return NextResponse.json(timEvaluasi);
+    }
+
+    
 
     if (values.anggotaTimEvaluasiId!) {
       const timEvaluasi = await db.timEvaluasi.update({
