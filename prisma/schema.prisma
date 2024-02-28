@@ -314,12 +314,14 @@ model KelompokKriteriaKKE {
 
 // KRITERIA KKE
 model KriteriaKKE {
-  id                    String               @id @default(cuid())
+  id                    String              @id @default(cuid())
   kode                  String
-  name                  String               @unique
-  variabelLKEId         String
-  kelompokKriteriaKKEId String?
-  kelompokKriteriaKKE   KelompokKriteriaKKE? @relation(fields: [kelompokKriteriaKKEId], references: [id], onDelete: Cascade)
+  name                  String              @unique
+  jenisIsian            String
+  variabelLKEId         String              @unique
+  variabelLKE           VariabelLKE         @relation(fields: [variabelLKEId], references: [id], onDelete: Cascade)
+  kelompokKriteriaKKEId String
+  kelompokKriteriaKKE   KelompokKriteriaKKE @relation(fields: [kelompokKriteriaKKEId], references: [id], onDelete: Cascade)
 
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
@@ -413,6 +415,7 @@ model VariabelLKE {
   subKriteriaLKE   SubKriteriaLKE? @relation(fields: [subKriteriaLKEId], references: [id], onDelete: Cascade)
 
   unitKerjas LKEUnitKerja[]
+  kriteriaKKE KriteriaKKE?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -446,81 +449,3 @@ model LKEUnitKerja {
 }
 
 //-----------------------------------------------------\\
-
-// TEAM EXAMPLE
-model Team {
-  id          String  @id @default(cuid())
-  userId      String
-  name        String  @db.Text
-  description String? @db.Text
-  imageUrl    String? @db.Text
-  price       Float?
-  isPublished Boolean @default(false)
-
-  categoryId String?
-  category   Category? @relation(fields: [categoryId], references: [id])
-
-  attachments Attachment[]
-  chapters    Chapter[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([categoryId])
-}
-
-model Attachment {
-  id   String @id @default(cuid())
-  name String
-  url  String @db.Text
-
-  teamId String
-  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([teamId])
-}
-
-model Category {
-  id   String @id @default(cuid())
-  name String @unique
-  team Team[]
-}
-
-model Chapter {
-  id          String  @id @default(uuid())
-  title       String
-  description String? @db.Text
-  videoUrl    String? @db.Text
-  position    Int
-  isPublished Boolean @default(false)
-  isFree      Boolean @default(false)
-
-  teamId String
-  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
-
-  userProgress UserProgress[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([teamId])
-}
-
-model UserProgress {
-  id     String @id @default(uuid())
-  userId String
-
-  chapterId String
-  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
-
-  isCompleted Boolean @default(false)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([userId, chapterId])
-  @@index([chapterId])
-}

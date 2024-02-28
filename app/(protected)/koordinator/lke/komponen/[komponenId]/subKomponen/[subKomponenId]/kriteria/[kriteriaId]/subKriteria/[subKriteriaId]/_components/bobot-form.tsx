@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
-import { KomponenLKE, KriteriaLKE, SubKomponenLKE, SubKriteriaLKE, Team } from "@prisma/client";
+import { SubKriteriaLKE } from "@prisma/client";
 
 interface BobotFormProps {
   initialData: SubKriteriaLKE;

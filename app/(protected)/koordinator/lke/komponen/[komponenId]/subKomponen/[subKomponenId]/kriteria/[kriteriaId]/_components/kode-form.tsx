@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
-import { KomponenLKE, KriteriaLKE, SubKomponenLKE, Team } from "@prisma/client";
+import { KriteriaLKE } from "@prisma/client";
 
 interface KodeFormProps {
   initialData: KriteriaLKE;

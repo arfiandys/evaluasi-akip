@@ -23,6 +23,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Combobox } from "@/components/ui/combobox";
 import { KomponenLKE, KriteriaLKE, SubKomponenLKE, SubKriteriaLKE } from "@prisma/client";
 import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 
 interface CreateVariabelFormProps {
     kriteria_options: { label: string; value: string; data: (KriteriaLKE & { subKomponenLKE: (SubKomponenLKE & { komponenLKE: KomponenLKE | null }) | null }); }[];
@@ -36,12 +37,14 @@ const formSchema = z.object({
         message: "Tahun is required",
     }),
     jenisIsian: z.string().min(1, {
-        message: "Name is required",
+        message: "Jenis isian is required",
     }),
     isSubKriteria: z.boolean(),
     kriteriaLKEId: z.string().min(1, {
         message: "Kriteria is required",
     }),
+    catatanNegatif: z.string(),
+    catatanPositif: z.string(),
 });
 
 const CreateVariabelPage = (
@@ -60,6 +63,8 @@ const CreateVariabelPage = (
             jenisIsian: "",
             isSubKriteria: false,
             kriteriaLKEId: "",
+            catatanNegatif: "",
+            catatanPositif: "",
         },
         mode: "onChange"
     });
@@ -213,8 +218,48 @@ const CreateVariabelPage = (
                                     </FormItem>
                                 )}
                             />
-
-
+                            <FormField
+                                control={form.control}
+                                name="catatanNegatif"
+                                render={({ field }) => (
+                                    <FormItem className="w-full">
+                                        <FormLabel>
+                                            Catatan Negatif variabel
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Textarea
+                                                placeholder="e.g. '1.1.1'"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            What will you do in this Variabel?
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="catatanPositif"
+                                render={({ field }) => (
+                                    <FormItem className="w-full">
+                                        <FormLabel>
+                                            Catatan Positif variabel
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Textarea
+                                                placeholder="e.g. '1.1.1'"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            What will you do in this Variabel?
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                         </div>
                         <div className="flex items-center justify-end gap-x-2">
                             <Button

@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { KriteriaLKE, SubKomponenLKE, SubKriteriaLKE } from "@prisma/client";
+import { SubKriteriaLKE } from "@prisma/client";
 
 interface NameFormProps {
   initialData: SubKriteriaLKE;

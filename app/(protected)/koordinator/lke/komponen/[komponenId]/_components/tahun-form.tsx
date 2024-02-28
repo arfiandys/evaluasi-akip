@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
-import { KomponenLKE, Team } from "@prisma/client";
+import { KomponenLKE } from "@prisma/client";
 
 interface TahunFormProps {
   initialData: KomponenLKE;

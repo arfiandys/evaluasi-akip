@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { SasaranIKU, TujuanIKU } from "@prisma/client";
+import { SasaranIKU } from "@prisma/client";
 
 interface NameFormProps {
   initialData: SasaranIKU;

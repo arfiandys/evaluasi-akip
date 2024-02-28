@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
-import { SasaranIKU, TujuanIKU } from "@prisma/client";
+import { SasaranIKU } from "@prisma/client";
 
 interface KodeFormProps {
   initialData: SasaranIKU;

@@ -49,7 +49,7 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
                 ],
             },
             {
-                title: 'Variabel LKE',
+                title: 'LKE',
                 path: '/koordinator/lke',
                 icon: <TableProperties size={20} />,
                 submenu: true,
@@ -57,6 +57,18 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
                     { title: 'Komponen', path: '/koordinator/lke/komponen' },
                     { title: 'Variabel', path: '/koordinator/lke/variabel' },
                     { title: 'Generate LKE', path: '/koordinator/lke/generate-lke' },
+                ],
+            },
+            {
+                title: 'KKE',
+                path: '/koordinator/kke',
+                icon: <TableProperties size={20} />,
+                submenu: true,
+                subMenuItems: [
+                    { title: 'Kelompok Kriteria', path: '/koordinator/kke/kelompok-kriteria' },
+                    { title: 'KK Evaluasi Dokumen', path: '/koordinator/kke/kk-evaluasi-dokumen' },
+                    { title: 'KK Indikator Kinerja', path: '/koordinator/kke/kk-indikator-kinerja' },
+                    { title: 'Generate KKE', path: '/koordinator/kke/generate-kke' },
                 ],
             },
             {
