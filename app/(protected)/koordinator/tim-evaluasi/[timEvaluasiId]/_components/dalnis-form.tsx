@@ -95,25 +95,53 @@ export const DalnisForm = ({
       unitKerjaIdArray,
       action: "dalnisUpdateUnitKerja"
     }
-    try {
-      await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);
-      toast.success("Dalnis Tim evaluasi updated");
-      toggleEdit();
-    } catch {
-      toast.error("Something went wrong");
+    const value1 = {
+      ...values,
+      unitKerjaIdArray,
+      action: "dalnisUpdate"
+    }
+    const value2 = {
+      ...values,
+      unitKerjaIdArray,
+      action: "dalnisUpdateDisconnectUnitKerja"
     }
 
-    if (!!unitKerjaIdArray.length) {
+    if (!unitKerjaIdArray.length) {
       try {
-        await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value);
-        toast.success("Unit Kerja Tim evaluasi updated");
+        await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value1);
+        toast.success("Dalnis Tim evaluasi updated");
         toggleEdit();
-
+        router.refresh();
       } catch {
         toast.error("Something went wrong");
       }
     }
-    router.refresh();
+    if (!!unitKerjaIdArray.length) {
+      try {
+        await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value2);
+        toggleEdit();
+        router.refresh();
+      } catch {
+        toast.error("Something went wrong");
+      }
+      try {
+        await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value1);
+        toast.success("Dalnis Tim evaluasi updated");
+        toggleEdit();
+        router.refresh();
+      } catch {
+        toast.error("Something went wrong");
+      }
+      try {
+        await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value);
+        toast.success("Unit Kerja Dalnis Tim evaluasi updated");
+        toggleEdit();
+        router.refresh();
+      } catch {
+        toast.error("Something went wrong");
+      }
+    }
+    
   }
 
   const onDelete = async (id: string) => {
@@ -125,7 +153,7 @@ export const DalnisForm = ({
         const values = {
           data: {
             dalnisTimEvaluasiId: id,
-            action: "disconnect"
+            action: "disconnect-dalnis"
           }
         };
         await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);

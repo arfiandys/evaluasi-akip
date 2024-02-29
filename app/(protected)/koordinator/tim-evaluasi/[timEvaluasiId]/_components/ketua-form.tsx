@@ -97,25 +97,53 @@ export const KetuaForm = ({
       unitKerjaIdArray,
       action: "ketuaUpdateUnitKerja"
     }
-
-    try {
-      await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);
-      toast.success("Ketua Tim evaluasi updated");
-      toggleEdit();
-    } catch {
-      toast.error("Something went wrong");
+    const value1 = {
+      ...values,
+      unitKerjaIdArray,
+      action: "ketuaUpdate"
+    }
+    const value2 = {
+      ...values,
+      unitKerjaIdArray,
+      action: "ketuaUpdateDisconnectUnitKerja"
     }
 
-    if (!!unitKerjaIdArray.length) {
+    if (!unitKerjaIdArray.length) {
       try {
-        await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value);
-        toast.success("Unit Kerja Tim evaluasi updated");
+        await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value1);
+        toast.success("Ketua Tim evaluasi updated");
         toggleEdit();
+        router.refresh();
       } catch {
         toast.error("Something went wrong");
       }
     }
-    router.refresh();
+    if (!!unitKerjaIdArray.length) {
+      try {
+        await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value2);
+        toggleEdit();
+        router.refresh();
+      } catch {
+        toast.error("Something went wrong");
+      }
+      try {
+        await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value1);
+        toast.success("Ketua Tim evaluasi updated");
+        toggleEdit();
+        router.refresh();
+      } catch {
+        toast.error("Something went wrong");
+      }
+      try {
+        await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value);
+        toast.success("Unit Kerja Ketua Tim evaluasi updated");
+        toggleEdit();
+        router.refresh();
+      } catch {
+        toast.error("Something went wrong");
+      }
+    }
+    
   }
 
   const onDelete = async (id: string) => {
@@ -127,7 +155,7 @@ export const KetuaForm = ({
         const values = {
           data: {
             ketuaTimEvaluasiId: id,
-            action: "disconnect"
+            action: "disconnect-ketua"
           }
         };
         await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);

@@ -66,14 +66,18 @@ export const UnitKerjaForm = ({
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const value = {
+      ...values,
+      action: "addUnitKerja"
+    }
     try {
-      await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);
+      await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value);
       toast.success("Tim Evaluasi updated");
       toggleAnggotaEdit();
       form.reset();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong, atau coba reload dulu baru tambah unit kerja lagi");
     }
   }
 
@@ -82,10 +86,24 @@ export const UnitKerjaForm = ({
       setDeletingId(id);
       const values = {
         data: {
+          action: "disconnect-anggota-unitkerja"
+        }
+      };
+      await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);
+      toast.success("UnitKerja deleted");
+      form.reset();
+      router.refresh();
+    } catch {
+      toast.error("Something went wrong");
+    } finally {
+      setDeletingId(null);
+    }
+    try {
+      setDeletingId(id);
+      const values = {
+        data: {
           anggotaTimEvaluasiId: id,
-          ketuaId: ketua,
-          dalnisId: dalnis,
-          action: "disconnect"
+          action: "disconnect-anggota"
         }
       };
       await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);
@@ -104,11 +122,8 @@ export const UnitKerjaForm = ({
       setDeletingUnitKerjaId(unitId);
       const values = {
         data: {
-          anggotaTimEvaluasiId: userId,
-          ketuaId: ketua,
-          dalnisId: dalnis,
           unitKerjaId: unitId,
-          action: "disconnect"
+          action: "disconnect-unitkerja"
         }
       };
       await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);

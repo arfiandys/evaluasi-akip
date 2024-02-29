@@ -54,7 +54,7 @@ export async function PATCH(
 
     // UNIT KERJA ON TIM EVALUASI ADD
 
-    if (values?.userId! && values?.unitKerjaId! && values.dalnisId! && values.ketuaId!) {
+    if (values?.userId! && values?.unitKerjaId! && values.dalnisId! && values.ketuaId! && (values.action! === "addUnitKerja")) {
       const timEvaluasi = await db.timEvaluasi.update({
         where: {
           id: timEvaluasiId
@@ -166,175 +166,41 @@ export async function PATCH(
 
     // UNIT KERJA ON TIM EVALUASI DISCONNECT
 
-    if (values?.data?.anggotaTimEvaluasiId && values?.data?.ketuaId && values?.data?.dalnisId && values?.data?.unitKerjaId! && values?.data?.action! === "disconnect") {
-      const timEvaluasi = await db.timEvaluasi.update({
+    if (values?.data?.unitKerjaId! && values?.data?.action! === "disconnect-unitkerja") {
+      const userOnUnitKerja = await db.userOnUnitKerja.deleteMany({
         where: {
-          id: timEvaluasiId,
-        },
-        data: {
-          users: {
-            update: [
-              {
-                where: {
-                  userTimEvaluasiId: {
-                    timEvaluasiId: timEvaluasiId,
-                    userId: values?.data?.anggotaTimEvaluasiId
-                  }
-                },
-                data: {
-                  user: {
-                    update: {
-                      data: {
-                        unitKerjas: {
-                          delete: {
-                            userUnitKerjaId: {
-                              unitKerjaId: values?.data?.unitKerjaId,
-                              userId: values?.data?.anggotaTimEvaluasiId
-                            },
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-              },
-              {
-                where: {
-                  userTimEvaluasiId: {
-                    timEvaluasiId: timEvaluasiId,
-                    userId: values?.data?.ketuaId
-                  }
-                },
-                data: {
-                  user: {
-                    update: {
-                      data: {
-                        unitKerjas: {
-                          delete: {
-                            userUnitKerjaId: {
-                              unitKerjaId: values?.data?.unitKerjaId,
-                              userId: values?.data?.ketuaId
-                            },
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-              },
-              {
-                where: {
-                  userTimEvaluasiId: {
-                    timEvaluasiId: timEvaluasiId,
-                    userId: values?.data?.dalnisId
-                  }
-                },
-                data: {
-                  user: {
-                    update: {
-                      data: {
-                        unitKerjas: {
-                          delete: {
-                            userUnitKerjaId: {
-                              unitKerjaId: values?.data?.unitKerjaId,
-                              userId: values?.data?.dalnisId
-                            },
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-              },
-            ]
-          },
-        },
-        include: {
-          users: {
-            orderBy: {
-              userId: "asc"
+          AND: [
+            {
+              timEvaluasiId: timEvaluasiId,
+            },
+            {
+              unitKerjaId: values.data.unitKerjaId,
             }
-          }
-        }
+          ]
+        },
       });
 
-      return NextResponse.json(timEvaluasi);
+      return NextResponse.json(userOnUnitKerja);
     }
 
     // ======================== TIM EVALUASI DISCONNECT
+    if (values?.data?.action! === "disconnect-anggota-unitkerja") {
+      const userOnUnitKerja = await db.userOnUnitKerja.deleteMany({
+        where: {
+          timEvaluasiId: timEvaluasiId,
+        },
+      });
 
-    if (values?.data?.anggotaTimEvaluasiId! && values?.data?.ketuaId! && values?.data?.dalnisId! && values?.data?.action! === "disconnect") {
+      return NextResponse.json(userOnUnitKerja);
+    }
+
+    if (values?.data?.anggotaTimEvaluasiId && values?.data?.action! === "disconnect-anggota") {
       const timEvaluasi = await db.timEvaluasi.update({
         where: {
           id: timEvaluasiId,
         },
         data: {
           users: {
-            update: [
-              {
-                where: {
-                  userTimEvaluasiId: {
-                    timEvaluasiId: timEvaluasiId,
-                    userId: values?.data?.anggotaTimEvaluasiId
-                  }
-                },
-                data: {
-                  user: {
-                    update: {
-                      data: {
-                        unitKerjas: {
-                          deleteMany: {
-                            assignedRole: UserRole.ANGGOTA,
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-              },
-              {
-                where: {
-                  userTimEvaluasiId: {
-                    timEvaluasiId: timEvaluasiId,
-                    userId: values?.data?.ketuaId
-                  }
-                },
-                data: {
-                  user: {
-                    update: {
-                      data: {
-                        unitKerjas: {
-                          deleteMany: {
-                            assignedRole: UserRole.KETUA,
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-              },
-              {
-                where: {
-                  userTimEvaluasiId: {
-                    timEvaluasiId: timEvaluasiId,
-                    userId: values?.data?.dalnisId
-                  }
-                },
-                data: {
-                  user: {
-                    update: {
-                      data: {
-                        unitKerjas: {
-                          deleteMany: {
-                            assignedRole: UserRole.DALNIS,
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-              },
-            ],
             delete: [
               {
                 userTimEvaluasiId: {
@@ -357,7 +223,7 @@ export async function PATCH(
       return NextResponse.json(timEvaluasi);
     }
 
-    if (values?.data?.ketuaTimEvaluasiId! && values?.data?.action! === "disconnect") {
+    if (values?.data?.ketuaTimEvaluasiId! && values?.data?.action! === "disconnect-ketua") {
       const timEvaluasi = await db.timEvaluasi.update({
         where: {
           id: timEvaluasiId,
@@ -409,7 +275,7 @@ export async function PATCH(
       return NextResponse.json(timEvaluasi);
     }
 
-    if (values?.data?.dalnisTimEvaluasiId! && values?.data?.action! === "disconnect") {
+    if (values?.data?.dalnisTimEvaluasiId! && values?.data?.action! === "disconnect-dalnis") {
       const timEvaluasi = await db.timEvaluasi.update({
         where: {
           id: timEvaluasiId,
@@ -471,7 +337,7 @@ export async function PATCH(
         },
         data: {
           users: {
-            update: [               
+            update: [
               {
                 where: {
                   userTimEvaluasiId: {
@@ -508,14 +374,15 @@ export async function PATCH(
       return NextResponse.json(timEvaluasi);
     }
 
-    // ===================== DALNIS TIM EVALUASI ADD
-    if (values.dalnisTimEvaluasiId! && values.unitKerjaIdArray?.length!) {
+
+    // ===================== DALNIS TIM EVALUASI UPDATE
+    if (values.dalnisTimEvaluasiId! && !!values.unitKerjaIdArray?.length && (values.action === "dalnisUpdate")) {
       const timEvaluasi = await db.timEvaluasi.update({
         where: {
           id: timEvaluasiId,
         },
         data: {
-          users: {            
+          users: {
             deleteMany: [
               {
                 assignedRole: UserRole.DALNIS,
@@ -542,39 +409,35 @@ export async function PATCH(
           }
         }
       });
-
       return NextResponse.json(timEvaluasi);
     }
-    if (values.dalnisTimEvaluasiId!) {
+    // ===================== DALNIS TIM EVALUASI DISCONNECT UNIT KERJA
+    if (values.dalnisTimEvaluasiId! && !!values.unitKerjaIdArray?.length && (values.action === "dalnisUpdateDisconnectUnitKerja")) {
+      const userOnUnitKerja = await db.userOnUnitKerja.deleteMany({
+        where: {
+          AND: [
+            {
+              timEvaluasiId: timEvaluasiId,
+            },
+            {
+              assignedRole: UserRole.DALNIS,
+            },
+          ]
+
+        },
+      });
+
+      return NextResponse.json(userOnUnitKerja);
+    }
+
+    // ===================== DALNIS TIM EVALUASI ADD
+    if (values.dalnisTimEvaluasiId! && !values.unitKerjaIdArray?.length! && (values.action === "dalnisUpdate")) {
       const timEvaluasi = await db.timEvaluasi.update({
         where: {
           id: timEvaluasiId,
         },
         data: {
           users: {
-            update: [
-              {
-                where: {
-                  userTimEvaluasiId: {
-                    timEvaluasiId: timEvaluasiId,
-                    userId: values.dalnisPassTimEvaluasiId
-                  }
-                },
-                data: {
-                  user: {
-                    update: {
-                      data: {
-                        unitKerjas: {
-                          deleteMany: {
-                            assignedRole: UserRole.DALNIS,
-                          },
-                        }
-                      }
-                    }
-                  },
-                },
-              },
-            ],
             deleteMany: [
               {
                 assignedRole: UserRole.DALNIS,
@@ -615,7 +478,7 @@ export async function PATCH(
         },
         data: {
           users: {
-            update: [              
+            update: [
               {
                 where: {
                   userTimEvaluasiId: {
@@ -653,15 +516,69 @@ export async function PATCH(
     }
 
 
+    // ===================== KETUA TIM EVALUASI UPDATE
+    if (values.ketuaTimEvaluasiId! && !!values.unitKerjaIdArray?.length && (values.action === "ketuaUpdate")) {
+      const timEvaluasi = await db.timEvaluasi.update({
+        where: {
+          id: timEvaluasiId,
+        },
+        data: {
+          users: {
+            deleteMany: [
+              {
+                assignedRole: UserRole.KETUA,
+              }
+            ],
+            create: [
+              {
+                assignedRole: UserRole.KETUA,
+                user: {
+                  connect: {
+                    id: values.ketuaTimEvaluasiId
+                  }
+                }
+
+              }
+            ],
+          }
+        },
+        include: {
+          users: {
+            orderBy: {
+              userId: "asc"
+            }
+          }
+        }
+      });
+      return NextResponse.json(timEvaluasi);
+    }
+    // ===================== KETUA TIM EVALUASI DISCONNECT UNIT KERJA
+    if (values.ketuaTimEvaluasiId! && !!values.unitKerjaIdArray?.length && (values.action === "ketuaUpdateDisconnectUnitKerja")) {
+      const userOnUnitKerja = await db.userOnUnitKerja.deleteMany({
+        where: {
+          AND: [
+            {
+              timEvaluasiId: timEvaluasiId,
+            },
+            {
+              assignedRole: UserRole.KETUA,
+            },
+          ]
+
+        },
+      });
+
+      return NextResponse.json(userOnUnitKerja);
+    }
+
     // ===================== KETUA TIM EVALUASI ADD
-
-    if (values.ketuaTimEvaluasiId! && !values.unitKerjaIdArray?.length!) {
+    if (values.ketuaTimEvaluasiId! && !values.unitKerjaIdArray?.length! && (values.action === "ketuaUpdate")) {
       const timEvaluasi = await db.timEvaluasi.update({
         where: {
           id: timEvaluasiId,
         },
         data: {
-          users: {            
+          users: {
             deleteMany: [
               {
                 assignedRole: UserRole.KETUA,
@@ -692,67 +609,9 @@ export async function PATCH(
       return NextResponse.json(timEvaluasi);
     }
 
-    if (values.ketuaTimEvaluasiId!) {
-      const timEvaluasi = await db.timEvaluasi.update({
-        where: {
-          id: timEvaluasiId,
-        },
-        data: {
-          users: {
-            update:[
-              {
-                where: {
-                  userTimEvaluasiId: {
-                    timEvaluasiId: timEvaluasiId,
-                    userId: values.ketuaPassTimEvaluasiId
-                  }
-                },
-                data: {
-                  user: {
-                    update: {
-                      data: {
-                        unitKerjas: {
-                          deleteMany: {
-                            assignedRole: UserRole.KETUA,
-                          },
-                        }
-                      }
-                    }
-                  },
-                },
-              },
-            ],
-            deleteMany: [
-              {
-                assignedRole: UserRole.KETUA,
-              }
-            ],
-            create: [
-              {
-                assignedRole: UserRole.KETUA,
-                user: {
-                  connect: {
-                    id: values.ketuaTimEvaluasiId
-                  }
-                }
 
-              }
-            ],
-          }
-        },
-        include: {
-          users: {
-            orderBy: {
-              userId: "asc"
-            }
-          }
-        }
-      });
+    // ===================== ANGGOTA TIM EVALUASI ADD
 
-      return NextResponse.json(timEvaluasi);
-    }
-
-    
 
     if (values.anggotaTimEvaluasiId!) {
       const timEvaluasi = await db.timEvaluasi.update({
