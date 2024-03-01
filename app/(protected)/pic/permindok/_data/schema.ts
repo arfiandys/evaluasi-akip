@@ -19,7 +19,6 @@ export const permindokUnitKerjaSchema = z.object({
     kodeWilayah: z.string().min(1),
     kodeUnitKerja: z.string().min(1),
     name: z.string().min(1),
-    userId: z.string().min(1),
   }),
 })
 

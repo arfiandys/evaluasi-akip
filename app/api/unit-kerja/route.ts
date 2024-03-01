@@ -18,7 +18,6 @@ export async function POST(
 
         const unitKerja = await db.unitKerja.create({
             data: {
-                userId,
                 name,
                 kodeWilayah,
                 kodeUnitKerja,

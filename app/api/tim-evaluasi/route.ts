@@ -16,7 +16,6 @@ export async function POST(
 
         const timEvaluasi = await db.timEvaluasi.create({
             data: {
-                userId,
                 name,
             }
         })

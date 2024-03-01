@@ -38,8 +38,8 @@ model User {
   image         String?
   password      String?
   role          AccountRole @default(USER)
-  accounts      Account[]
 
+  accounts     Account[]
   unitKerjas   UserOnUnitKerja[]
   timEvaluasis UserOnTimEvaluasi[]
 }
@@ -83,18 +83,17 @@ model PasswordResetToken {
 
 // UNIT KERJA ================================================================================================
 model UnitKerja {
-  id            String @id @default(cuid())
-  kodeWilayah   String @db.Text
-  kodeUnitKerja String @db.Text
-  name          String @db.Text
+  id             String  @id @default(cuid())
+  kodeWilayah    String  @db.Text
+  kodeUnitKerja  String  @db.Text
+  name           String  @db.Text
+  jenisUnitKerja String? // tidak perlu
 
-  userId String // tidak perlu
-
-  users  UserOnUnitKerja[]
-  variabelLKEs LKEUnitKerja[]
-  permindoks PermindokUnitKerja[]
-  KKIndikatorKinerja KKIndikatorKinerja[]
-  KKEvaluasiDokumen KKEvaluasiDokumen[]
+  users                                         UserOnUnitKerja[]
+  variabelLKEs                                  LKEUnitKerja[]
+  permindoks                                    PermindokUnitKerja[]
+  tujuanSasaranIndikatorIKUVariabelKKEUnitKerja TujuanSasaranIndikatorIKUVariabelKKEUnitKerja[]
+  variabelKKEUnitKerja                          VariabelKKEUnitKerja[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -105,19 +104,17 @@ model UserOnUnitKerja {
   unitKerjaId   String // relation scalar field (used in the `@relation` attribute above)
   user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String // relation scalar field (used in the `@relation` attribute above)
-  assignedAt    DateTime  @default(now())
-  assignedRole  UserRole
   timEvaluasiId String?
+  assignedRole  UserRole
+  assignedAt    DateTime  @default(now())
 
   @@id(name: "userUnitKerjaId", [unitKerjaId, userId])
 }
 
 // TIM EVALUASI
 model TimEvaluasi {
-  id     String @id @default(cuid())
-  name   String @db.Text
-
-  userId String // tidak perlu
+  id   String @id @default(cuid())
+  name String @db.Text
 
   users UserOnTimEvaluasi[]
 
@@ -130,8 +127,8 @@ model UserOnTimEvaluasi {
   timEvaluasiId String // relation scalar field (used in the `@relation` attribute above)
   user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String // relation scalar field (used in the `@relation` attribute above)
-  assignedAt    DateTime    @default(now())
   assignedRole  UserRole
+  assignedAt    DateTime    @default(now())
 
   @@id(name: "userTimEvaluasiId", [timEvaluasiId, userId])
 }
@@ -155,7 +152,7 @@ model Permindok {
 
 // PERMINDOK UNIT KERJA
 model PermindokUnitKerja {
-  url String?
+  url         String?
   nameDokumen String?
 
   permindok   Permindok @relation(fields: [permindokId], references: [id], onDelete: Cascade)
@@ -171,9 +168,10 @@ model PermindokUnitKerja {
 
 // IKU UNIT KERJA
 model IKU {
-  id        String      @id @default(cuid())
-  name      String
-  tahun     String
+  id                        String                      @id @default(cuid())
+  name                      String
+  tahun                     String
+  tujuanSasaranIndikatorIKU TujuanSasaranIndikatorIKU[]
   tujuanIKU TujuanIKU[]
 
   createdAt DateTime @default(now())
@@ -183,6 +181,23 @@ model IKU {
 }
 
 // TUJUAN IKU
+model TujuanSasaranIndikatorIKU {
+  id    String  @id @default(cuid())
+  kode  String
+  nama  String
+  jenis String
+  IKUId String?
+  IKU   IKU?    @relation(fields: [IKUId], references: [id], onDelete: Cascade)
+
+  tujuanSasaranIndikatorIKUVariabelKKE TujuanSasaranIndikatorIKUVariabelKKE[]
+
+  createdAt                            DateTime                               @default(now())
+  updatedAt                            DateTime                               @updatedAt
+
+  @@unique([kode, nama, IKUId])
+  @@index([IKUId])
+}
+
 model TujuanIKU {
   id         String       @id @default(cuid())
   kode       String
@@ -193,7 +208,6 @@ model TujuanIKU {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  KKEIKU    KKEIKU?
 
   @@unique([name, kode, IKUId])
   @@index([IKUId])
@@ -210,7 +224,6 @@ model SasaranIKU {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  KKEIKU    KKEIKU?
 
   @@unique([name, kode, tujuanIKUId])
   @@index([tujuanIKUId])
@@ -223,7 +236,6 @@ model IndikatorIKU {
   name         String      @unique
   sasaranIKUId String?
   sasaranIKU   SasaranIKU? @relation(fields: [sasaranIKUId], references: [id], onDelete: Cascade)
-  KKEIKU       KKEIKU?
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
 
@@ -232,66 +244,81 @@ model IndikatorIKU {
 }
 
 // KRITERIA KKE INDIKATOR IKU
-model KKEIKU {
+model TujuanSasaranIndikatorIKUVariabelKKE {
   id       String @id @default(cuid())
-  jenisTSI String
+  jenisIKU String
 
-  kriteriaKKEId  String   // relation scalar field (used in the `@relation` attribute above)
-  kriteriaKKE    KriteriaKKE   @relation(fields: [kriteriaKKEId], references: [id], onDelete: Cascade)
+  variabelKKEId String // relation scalar field (used in the `@relation` attribute above)
+  variabelKKE   VariabelKKE @relation(fields: [variabelKKEId], references: [id], onDelete: Cascade)
 
-  indikatorIKUId String?       @unique
-  indikatorIKU   IndikatorIKU? @relation(fields: [indikatorIKUId], references: [id], onDelete: Cascade)
-  sasaranIKUId   String?       @unique
-  sasaranIKU     SasaranIKU?   @relation(fields: [sasaranIKUId], references: [id], onDelete: Cascade)
-  tujuanIKUId    String?       @unique
-  tujuanIKU      TujuanIKU?    @relation(fields: [tujuanIKUId], references: [id], onDelete: Cascade)
+  tujuanSasaranIndikatorIKUId String // relation scalar field (used in the `@relation` attribute above)
+  tujuanSasaranIndikatorIKU   TujuanSasaranIndikatorIKU @relation(fields: [tujuanSasaranIndikatorIKUId], references: [id], onDelete: Cascade)
 
-  KKIndikatorKinerja KKIndikatorKinerja[]
+  tujuanSasaranIndikatorIKUUnitKerja TujuanSasaranIndikatorIKUVariabelKKEUnitKerja[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 // KK INDIKATOR KINERJA
-model KKIndikatorKinerja {
-  tahun       String
+model TujuanSasaranIndikatorIKUVariabelKKEUnitKerja {
+  tahun       Int
   jenisIsian  String
   isianPIC    String?
-  isianProv   String?
   isianAt     String?
   isianKt     String?
   isianDalnis String?
 
-  KKEIKU      KKEIKU    @relation(fields: [KKEIKUId], references: [id], onDelete: Cascade)
-  KKEIKUId    String // relation scalar field (used in the `@relation` attribute above)
-  unitKerja   UnitKerja @relation(fields: [unitKerjaId], references: [id], onDelete: Cascade)
-  unitKerjaId String // relation scalar field (used in the `@relation` attribute above)
+  tujuanSasaranIndikatorIKUVariabelKKE   TujuanSasaranIndikatorIKUVariabelKKE @relation(fields: [tujuanSasaranIndikatorIKUVariabelKKEId], references: [id], onDelete: Cascade)
+  tujuanSasaranIndikatorIKUVariabelKKEId String // relation scalar field (used in the `@relation` attribute above)
+  unitKerja                              UnitKerja                            @relation(fields: [unitKerjaId], references: [id], onDelete: Cascade)
+  unitKerjaId                            String // relation scalar field (used in the `@relation` attribute above)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@id(name: "KKIndikatorKinerjaId", [KKEIKUId, unitKerjaId])
+  @@id(name: "KKIndikatorKinerjaId", [tujuanSasaranIndikatorIKUVariabelKKEId, unitKerjaId])
 }
 
 // KK EVALUASI DOKUMEN
-model KKEvaluasiDokumen {
-  tahun       String
+model VariabelKKEUnitKerja {
+  tahun       Int
   jenisIsian  String
   isianPIC    String?
-  isianProv   String?
   isianAt     String?
   isianKt     String?
   isianDalnis String?
 
-  kriteriaKKE   KriteriaKKE @relation(fields: [kriteriaKKEId], references: [id], onDelete: Cascade)
-  kriteriaKKEId String // relation scalar field (used in the `@relation` attribute above)
+  variabelKKE   VariabelKKE @relation(fields: [variabelKKEId], references: [id], onDelete: Cascade)
+  variabelKKEId String // relation scalar field (used in the `@relation` attribute above)
   unitKerja     UnitKerja   @relation(fields: [unitKerjaId], references: [id], onDelete: Cascade)
   unitKerjaId   String // relation scalar field (used in the `@relation` attribute above)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@id(name: "KKEvaluasiDokumenId", [kriteriaKKEId, unitKerjaId])
+  @@id(name: "KKEvaluasiDokumenId", [variabelKKEId, unitKerjaId])
+}
+
+// VariabelKKE
+model VariabelKKE {
+  id                 String  @id @default(cuid())
+  tahun              Int
+  jenisIsian         String
+  kode               String
+  nama               String
+  isIndikatorKinerja Boolean
+
+  kriteriaKKE   KriteriaKKE? @relation(fields: [kriteriaKKEId], references: [id], onDelete: Cascade)
+  kriteriaKKEId String       @unique // relation scalar field (used in the `@relation` attribute above)
+  variabelLKE   VariabelLKE? @relation(fields: [variabelLKEId], references: [id], onDelete: Cascade)
+  variabelLKEId String       @unique // relation scalar field (used in the `@relation` attribute above)
+
+  variabelUnitKerja                    VariabelKKEUnitKerja[]
+  tujuanSasaranIndikatorIKUVariabelKKE TujuanSasaranIndikatorIKUVariabelKKE[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // KELOMPOK KRITERIA KKE
@@ -316,16 +343,12 @@ model KriteriaKKE {
   kode                  String
   name                  String              @unique
   jenisIsian            String
-  variabelLKEId         String              @unique
-  variabelLKE           VariabelLKE         @relation(fields: [variabelLKEId], references: [id], onDelete: Cascade)
   kelompokKriteriaKKEId String
   kelompokKriteriaKKE   KelompokKriteriaKKE @relation(fields: [kelompokKriteriaKKEId], references: [id], onDelete: Cascade)
+  variabelKKE VariabelKKE?
 
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
-  KKevaluasiDokumen KKEvaluasiDokumen[]
-
-  KKEIKU KKEIKU[]
 
   @@unique([name, kode, kelompokKriteriaKKEId])
   @@index([kelompokKriteriaKKEId])
@@ -412,8 +435,8 @@ model VariabelLKE {
   subKriteriaLKEId String?         @unique
   subKriteriaLKE   SubKriteriaLKE? @relation(fields: [subKriteriaLKEId], references: [id], onDelete: Cascade)
 
-  unitKerjas LKEUnitKerja[]
-  kriteriaKKE KriteriaKKE?
+  unitKerjas  LKEUnitKerja[]
+  variabelKKE VariabelKKE?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

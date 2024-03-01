@@ -18,7 +18,6 @@ export async function DELETE(
     const unitKerja = await db.unitKerja.findUnique({
       where: {
         id: params.unitKerjaId,
-        userId: userId,
       },
     });
 
@@ -57,7 +56,6 @@ export async function PATCH(
       const unitKerja = await db.unitKerja.update({
         where: {
           id: unitKerjaId,
-          userId
         },
         data: {
           users: {
@@ -87,7 +85,6 @@ export async function PATCH(
       const unitKerja = await db.unitKerja.update({
         where: {
           id: unitKerjaId,
-          userId
         },
         data: {
           users: {
@@ -117,7 +114,6 @@ export async function PATCH(
       const unitKerja = await db.unitKerja.update({
         where: {
           id: unitKerjaId,
-          userId
         },
         data: {
           users: {
@@ -155,7 +151,6 @@ export async function PATCH(
       const unitKerja = await db.unitKerja.update({
         where: {
           id: unitKerjaId,
-          userId
         },
         data: {
           users: {
@@ -187,7 +182,6 @@ export async function PATCH(
     const unitKerja = await db.unitKerja.update({
       where: {
         id: unitKerjaId,
-        userId
       },
       data: {
         ...values,

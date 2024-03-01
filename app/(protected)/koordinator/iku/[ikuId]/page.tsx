@@ -46,6 +46,19 @@ const IKUIdPage = async ({
         },
     });
 
+    // const IKU = await db.iKU.findUnique({
+    //     where: {
+    //         id: params.ikuId,
+    //     },
+    //     include: {
+    //         tujuanSasaranIndikatorIKU: {
+    //             orderBy: {
+    //                 nama: "asc"
+    //             },                
+    //         },
+    //     },
+    // });
+
     if (!IKU) {
         return redirect("/");
     }
@@ -54,6 +67,7 @@ const IKUIdPage = async ({
         IKU.name,
         IKU.tahun,
         IKU.tujuanIKU.length,
+        // IKU.tujuanSasaranIndikatorIKU.length
     ];
 
     const totalFields = requiredFields.length;
