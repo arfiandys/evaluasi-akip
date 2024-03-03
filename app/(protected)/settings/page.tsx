@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { useTransition, useState } from "react";
 
-import { settings } from "@/action/settings";
 import { SettingsSchema } from "@/schemas";
 
 import { Button } from "@/components/ui/button";
@@ -36,6 +35,8 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { AccountRole } from "@prisma/client";
+import axios from "axios";
+import { toast } from "sonner";
 
 const SettingPage = () => {
 
@@ -45,7 +46,7 @@ const SettingPage = () => {
     const [success, setSuccess] = useState<string | undefined>();
 
     const { update } = useSession();
-    const [isPending, startTransition] = useTransition();
+
 
     const form = useForm<z.infer<typeof SettingsSchema>>({
         resolver: zodResolver(SettingsSchema),
@@ -54,25 +55,19 @@ const SettingPage = () => {
             newPassword: undefined,
             name: user?.name || undefined,
             email: user?.email || undefined,
-            role: user?.role || undefined,
         }
     })
+    const { isSubmitting, isValid } = form.formState;
 
-    const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
-        startTransition(() => {
-            settings(values)
-                .then((data) => {
-                    if (data.error) {
-                        setError(data.error);
-                    }
-                    if (data.success) {
-                        update();
-                        setSuccess(data.success);
-                    }
-                })
-                .catch(() => setError("Something went wrong!"))
-        });
+    const onSubmit = async (values: z.infer<typeof SettingsSchema>) => {
+        try {
+            await axios.patch(`/api/settings`, values);
+            toast.success("User updated");
+          } catch {
+            toast.error("Something went wrong");
+          }
     }
+
     return (
         <div className="flex justify-center items-center h-screen">
             <Card className="w-full max-w-[600px]">
@@ -100,7 +95,7 @@ const SettingPage = () => {
                                                 <Input
                                                     {...field}
                                                     placeholder="Jhon Doe"
-                                                    disabled={isPending}
+                                                    disabled={isSubmitting}
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -122,7 +117,7 @@ const SettingPage = () => {
                                                             {...field}
                                                             placeholder="jhon.doe@example.com"
                                                             type="email"
-                                                            disabled={isPending}
+                                                            disabled={isSubmitting}
                                                         />
                                                     </FormControl>
                                                     <FormMessage />
@@ -142,7 +137,7 @@ const SettingPage = () => {
                                                             {...field}
                                                             placeholder="******"
                                                             type="password"
-                                                            disabled={isPending}
+                                                            disabled={isSubmitting}
                                                         />
                                                     </FormControl>
                                                     <FormMessage />
@@ -162,7 +157,7 @@ const SettingPage = () => {
                                                             {...field}
                                                             placeholder="******"
                                                             type="password"
-                                                            disabled={isPending}
+                                                            disabled={isSubmitting}
                                                         />
                                                     </FormControl>
                                                     <FormMessage />
@@ -171,41 +166,10 @@ const SettingPage = () => {
                                         />
                                     </>
                                 )}
-                                <FormField
-                                    control={form.control}
-                                    name="role"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>
-                                                Role
-                                            </FormLabel>
-                                            <Select
-                                                disabled={isPending}
-                                                onValueChange={field.onChange}
-                                                defaultValue={field.value}
-                                            >
-                                                <FormControl>
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="Select a role" />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent>
-                                                    <SelectItem value={AccountRole.ADMIN}>
-                                                        Admin
-                                                    </SelectItem>
-                                                    <SelectItem value={AccountRole.USER}>
-                                                        User
-                                                    </SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
                             </div>
                             <FormError message={error} />
                             <FormSuccess message={success} />
-                            <Button disabled={isPending} type="submit">
+                            <Button disabled={isSubmitting || !isValid } type="submit">
                                 Save
                             </Button>
                         </form>
