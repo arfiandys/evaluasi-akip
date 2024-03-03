@@ -3,7 +3,7 @@ import { columns } from "./_components/columns";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import CreateKomponenPage from "./_components/create-form";
+import CreateIKUPage from "./_components/create-form";
 
 
 const IKUPage = async () => {
@@ -27,7 +27,7 @@ const IKUPage = async () => {
 
     return (
         <div className="flex h-screen flex-1 flex-col space-y-6 p-8">
-            <CreateKomponenPage />
+            <CreateIKUPage />
             <DataTable data={IKU} columns={columns} />
         </div>
     );

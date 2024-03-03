@@ -34,6 +34,22 @@ export const columns: ColumnDef<kriteriaKKE>[] = [
     enableHiding: false,
   }, 
   {
+    accessorKey: "kode",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Kode" />
+      ),
+      cell: ({ row }) => {
+        
+        return (
+          <div className="flex space-x-2">
+          <span className="max-w-[500px] truncate font-medium">
+            {row.getValue("kode")}
+          </span>
+        </div>
+      )
+    },
+  },
+  {
     accessorKey: "name",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Name" />
@@ -44,22 +60,6 @@ export const columns: ColumnDef<kriteriaKKE>[] = [
         <div className="flex space-x-2">
           <span className="max-w-[500px] text-wrap truncate font-medium">
             {row.getValue("name")}
-          </span>
-        </div>
-      )
-    },
-  },
-  {
-    accessorKey: "kode",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Kode" />
-    ),
-    cell: ({ row }) => {
-
-      return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("kode")}
           </span>
         </div>
       )

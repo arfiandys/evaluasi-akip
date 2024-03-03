@@ -68,7 +68,7 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
                     { title: 'Kelompok Kriteria', path: '/koordinator/kke/kelompok-kriteria' },
                     { title: 'KK Evaluasi Dokumen', path: '/koordinator/kke/kk-evaluasi-dokumen' },
                     { title: 'KK Indikator Kinerja', path: '/koordinator/kke/kk-indikator-kinerja' },
-                    { title: 'Generate KKE', path: '/koordinator/kke/generate-kke' },
+                    { title: 'Variabel KKE', path: '/koordinator/kke/variabel' },
                 ],
             },
             {

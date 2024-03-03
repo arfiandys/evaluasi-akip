@@ -34,9 +34,9 @@ const formSchema = z.object({
     jenisIsian: z.string().min(1, {
         message: "Jenis isian is required",
     }),
-    variabelLKEId: z.string().min(1, {
-        message: "Variabel is required",
-    }),
+    // variabelLKEId: z.string().min(1, {
+    //     message: "Variabel is required",
+    // }),
 });
 
 interface CreateKriteriaPageProps {
@@ -57,7 +57,7 @@ const CreateKriteriaPage = ({
             kode: "",
             name: "",
             jenisIsian: "",
-            variabelLKEId: "",
+            // variabelLKEId: "",
         },
     });
 
@@ -181,7 +181,7 @@ const CreateKriteriaPage = ({
                                         </FormItem>
                                     )}
                                 />
-                                <FormField
+                                {/* <FormField
                                     control={form.control}
                                     name="variabelLKEId"
                                     render={({ field }) => (
@@ -201,7 +201,7 @@ const CreateKriteriaPage = ({
                                             <FormMessage />
                                         </FormItem>
                                     )}
-                                />
+                                /> */}
                             </div>
                             <div className="flex items-center justify-end gap-x-2">
                                 <Button

@@ -33,30 +33,28 @@ export const DropdownForm = ({
     initialData.isianAt || ""
   )
 
-
-
-  useEffect(() => {
+  const onvaluechange = (value:string) => {
     const onSubmit = async () => {
-      const value = {
+      const values = {
         values: {
-          isianAt: selected
+          isianAt: value
         },
         input: "input",
         unitKerjaId: initialData.unitKerjaId
       }
       try {
-        await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, value);
+        await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, values);
         toast.success("LKE unit kerja updated");
       } catch {
         toast.error("Something went wrong");
       }
     }
     onSubmit()
-  }, [selected, initialData.unitKerjaId, initialData.variabelLKEId]);
+  }
 
   return (
 
-    <Select onValueChange={setSelected} defaultValue={selected}>
+    <Select onValueChange={onvaluechange} defaultValue={selected}>
       <SelectTrigger>
         <SelectValue placeholder="Select grade" />
       </SelectTrigger>

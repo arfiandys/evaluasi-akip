@@ -57,7 +57,6 @@ export const GeneratePage = ({
     const { isSubmitting, isValid } = form.formState;
     const { watch, setValue } = form;
     const tahun_filter = watch("tahun");
-    const data_filter = watch("data");
 
 
 

@@ -172,7 +172,7 @@ model IKU {
   name                      String
   tahun                     String
   tujuanSasaranIndikatorIKU TujuanSasaranIndikatorIKU[]
-  tujuanIKU TujuanIKU[]
+  tujuanIKU                 TujuanIKU[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -191,10 +191,10 @@ model TujuanSasaranIndikatorIKU {
 
   tujuanSasaranIndikatorIKUVariabelKKE TujuanSasaranIndikatorIKUVariabelKKE[]
 
-  createdAt                            DateTime                               @default(now())
-  updatedAt                            DateTime                               @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  @@unique([kode, nama, IKUId])
+  @@unique([kode, IKUId])
   @@index([IKUId])
 }
 
@@ -277,7 +277,7 @@ model TujuanSasaranIndikatorIKUVariabelKKEUnitKerja {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@id(name: "KKIndikatorKinerjaId", [tujuanSasaranIndikatorIKUVariabelKKEId, unitKerjaId])
+  @@id(name: "TujuanSasaranIndikatorIKUVariabelKKEUnitKerjaId", [tujuanSasaranIndikatorIKUVariabelKKEId, unitKerjaId])
 }
 
 // KK EVALUASI DOKUMEN
@@ -297,7 +297,7 @@ model VariabelKKEUnitKerja {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@id(name: "KKEvaluasiDokumenId", [variabelKKEId, unitKerjaId])
+  @@id(name: "VariabelKKEUnitKerjaId", [variabelKKEId, unitKerjaId])
 }
 
 // VariabelKKE
@@ -305,6 +305,7 @@ model VariabelKKE {
   id                 String  @id @default(cuid())
   tahun              Int
   jenisIsian         String
+  jenisIsianIKU      String
   kode               String
   nama               String
   isIndikatorKinerja Boolean
@@ -319,6 +320,8 @@ model VariabelKKE {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([kode, tahun])
 }
 
 // KELOMPOK KRITERIA KKE
@@ -345,10 +348,10 @@ model KriteriaKKE {
   jenisIsian            String
   kelompokKriteriaKKEId String
   kelompokKriteriaKKE   KelompokKriteriaKKE @relation(fields: [kelompokKriteriaKKEId], references: [id], onDelete: Cascade)
-  variabelKKE VariabelKKE?
+  variabelKKE           VariabelKKE?
 
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([name, kode, kelompokKriteriaKKEId])
   @@index([kelompokKriteriaKKEId])

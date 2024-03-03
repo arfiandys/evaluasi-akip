@@ -10,9 +10,12 @@ import Link from "next/link";
 import { TahunForm } from "./_components/tahun-form";
 import { BobotForm } from "./_components/bobot-form";
 import CreateSubKomponenPage from "./_components/create-form";
-import { DataTable } from "./tujuan/_components/data-table";
-import { columns } from "./tujuan/_components/columns";
-import CreateTujuanIKUPage from "./_components/create-form";
+// import { DataTable } from "./tujuan/_components/data-table";
+// import { columns } from "./tujuan/_components/columns";
+// import CreateTujuanIKUPage from "./_components/create-form";
+import CreateTujuanSasaranIndikatorIKUPage from "./_components/create-tsi-form";
+import { DataTable } from "./tujuanSasaranIndikator/_components/data-table";
+import { columns } from "./tujuanSasaranIndikator/_components/columns";
 
 const IKUIdPage = async ({
     params
@@ -26,38 +29,38 @@ const IKUIdPage = async ({
         return redirect("/");
     }
 
-    const IKU = await db.iKU.findUnique({
-        where: {
-            id: params.ikuId,
-        },
-        include: {
-            tujuanIKU: {
-                orderBy: {
-                    name: "asc"
-                },
-                include: {
-                    sasaranIKU: {
-                        orderBy: {
-                            name: "asc"
-                        }
-                    }
-                }
-            },
-        },
-    });
-
     // const IKU = await db.iKU.findUnique({
     //     where: {
     //         id: params.ikuId,
     //     },
     //     include: {
-    //         tujuanSasaranIndikatorIKU: {
+    //         tujuanIKU: {
     //             orderBy: {
-    //                 nama: "asc"
-    //             },                
+    //                 name: "asc"
+    //             },
+    //             include: {
+    //                 sasaranIKU: {
+    //                     orderBy: {
+    //                         name: "asc"
+    //                     }
+    //                 }
+    //             }
     //         },
     //     },
     // });
+
+    const IKU = await db.iKU.findUnique({
+        where: {
+            id: params.ikuId,
+        },
+        include: {
+            tujuanSasaranIndikatorIKU: {
+                orderBy: {
+                    nama: "asc"
+                },                
+            },
+        },
+    });
 
     if (!IKU) {
         return redirect("/");
@@ -66,8 +69,8 @@ const IKUIdPage = async ({
     const requiredFields = [
         IKU.name,
         IKU.tahun,
-        IKU.tujuanIKU.length,
-        // IKU.tujuanSasaranIndikatorIKU.length
+        // IKU.tujuanIKU.length,
+        IKU.tujuanSasaranIndikatorIKU.length
     ];
 
     const totalFields = requiredFields.length;
@@ -131,7 +134,7 @@ const IKUIdPage = async ({
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 gap-4 mt-16">
+                {/* <div className="grid grid-cols-1 gap-4 mt-16">
                     <div className="flex items-center gap-x-2">
                         <IconBadge icon={ListTree} />
                         <h2 className="text-xl">
@@ -141,6 +144,18 @@ const IKUIdPage = async ({
                     <div className="flex flex-col space-y-6">
                         <CreateTujuanIKUPage IKUId={IKU.id}  />
                         <DataTable data={IKU.tujuanIKU} columns={columns} />
+                    </div>
+                </div> */}
+                <div className="grid grid-cols-1 gap-4 mt-16">
+                    <div className="flex items-center gap-x-2">
+                        <IconBadge icon={ListTree} />
+                        <h2 className="text-xl">
+                            Tujuan/Sasaran/Indikator IKU
+                        </h2>
+                    </div>
+                    <div className="flex flex-col space-y-6">
+                        <CreateTujuanSasaranIndikatorIKUPage IKUId={IKU.id}  />
+                        <DataTable data={IKU.tujuanSasaranIndikatorIKU} columns={columns} />
                     </div>
                 </div>
             </div>
