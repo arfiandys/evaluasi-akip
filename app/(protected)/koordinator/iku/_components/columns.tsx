@@ -66,11 +66,11 @@ export const columns: ColumnDef<IKU>[] = [
     },
   },
   {
-    accessorKey: "tujuanIKU",
+    accessorKey: "tujuanSasaranIndikator",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Tujuan IKU" />
+      <DataTableColumnHeader column={column} title="Tujuan/Sasaran/Indikator IKU" />
     ),
-    cell: ({ row }) => <div className="w-[120px]">{row.original.tujuanIKU.length}</div>,
+    cell: ({ row }) => <div className="w-[120px]">{row.original.id}</div>,
   },
   {
     id: "actions",

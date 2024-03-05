@@ -16,13 +16,6 @@ const IKUPage = async () => {
         orderBy: {
             name: "asc",
         },
-        include: {
-            tujuanIKU: {
-                orderBy: {
-                    name: "asc"
-                }
-            }
-        }
     });
 
     return (

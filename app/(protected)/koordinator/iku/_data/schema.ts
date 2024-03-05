@@ -7,11 +7,6 @@ export const IKUSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
   tahun: z.string().min(1),
-  tujuanIKU: z.object({
-    id: z.string().min(1),
-    kode: z.string().min(1),
-    name: z.string().min(1),
-  }).array()
 })
 
 export type IKU = z.infer<typeof IKUSchema>

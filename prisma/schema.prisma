@@ -172,7 +172,6 @@ model IKU {
   name                      String
   tahun                     String
   tujuanSasaranIndikatorIKU TujuanSasaranIndikatorIKU[]
-  tujuanIKU                 TujuanIKU[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -196,51 +195,6 @@ model TujuanSasaranIndikatorIKU {
 
   @@unique([kode, IKUId])
   @@index([IKUId])
-}
-
-model TujuanIKU {
-  id         String       @id @default(cuid())
-  kode       String
-  name       String
-  IKUId      String?
-  IKU        IKU?         @relation(fields: [IKUId], references: [id], onDelete: Cascade)
-  sasaranIKU SasaranIKU[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([name, kode, IKUId])
-  @@index([IKUId])
-}
-
-// SASARAN IKU
-model SasaranIKU {
-  id           String         @id @default(cuid())
-  kode         String
-  name         String         @unique
-  tujuanIKUId  String?
-  tujuanIKU    TujuanIKU?     @relation(fields: [tujuanIKUId], references: [id], onDelete: Cascade)
-  indikatorIKU IndikatorIKU[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([name, kode, tujuanIKUId])
-  @@index([tujuanIKUId])
-}
-
-// INDIKATOR IKU
-model IndikatorIKU {
-  id           String      @id @default(cuid())
-  kode         String
-  name         String      @unique
-  sasaranIKUId String?
-  sasaranIKU   SasaranIKU? @relation(fields: [sasaranIKUId], references: [id], onDelete: Cascade)
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-
-  @@unique([name, kode, sasaranIKUId])
-  @@index([sasaranIKUId])
 }
 
 // KRITERIA KKE INDIKATOR IKU
@@ -308,6 +262,7 @@ model VariabelKKE {
   jenisIsianIKU      String
   kode               String
   nama               String
+  petunjukEvaluasi   String?
   isIndikatorKinerja Boolean
 
   kriteriaKKE   KriteriaKKE? @relation(fields: [kriteriaKKEId], references: [id], onDelete: Cascade)
@@ -432,6 +387,9 @@ model VariabelLKE {
   jenisIsian       String
   catatanPositif   String?
   catatanNegatif   String?
+  catatanA         String?
+  catatanB         String?
+  catatanC         String?
   isSubKriteria    Boolean
   kriteriaLKEId    String?         @unique
   kriteriaLKE      KriteriaLKE?    @relation(fields: [kriteriaLKEId], references: [id], onDelete: Cascade)
