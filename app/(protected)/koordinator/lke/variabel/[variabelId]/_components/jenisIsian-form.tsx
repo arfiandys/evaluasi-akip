@@ -51,8 +51,16 @@ export const JenisIsianForm = ({
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const value = {
+      ...values,
+      catatanA: null,
+      catatanB: null,
+      catatanC: null,
+      catatanNegatif: null,
+      catatanPositif: null,
+    }
     try {
-      await axios.patch(`/api/lke/variabel/${variabelId}`, values);
+      await axios.patch(`/api/lke/variabel/${variabelId}`, value);
       toast.success("Variabel updated");
       toggleEdit();
       router.refresh();

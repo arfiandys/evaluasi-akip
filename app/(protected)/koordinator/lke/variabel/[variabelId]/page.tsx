@@ -13,6 +13,7 @@ import { JenisIsianForm } from "./_components/jenisIsian-form";
 import { IsSubKriteriaForm } from "./_components/isSubKriteria-form";
 import { SubKriteriaForm } from "./_components/subKriteria-form";
 import { KriteriaOrSubForm } from "./_components/kriteriaOrSub-form";
+import { CatatanForm } from "./_components/catatan-form";
 
 const IsianLKEIdPage = async ({
     params
@@ -156,6 +157,10 @@ const IsianLKEIdPage = async ({
                             variabelId={variabelLKE.id}
                             kriteria={kriteria}
                             subKriteria={subKriteria}
+                        />
+                        <CatatanForm
+                            initialData={variabelLKE}
+                            variabelId={variabelLKE.id}
                         />
                     </div>
                 </div>

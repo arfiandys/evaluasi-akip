@@ -45,6 +45,9 @@ const formSchema = z.object({
     }),
     catatanNegatif: z.string(),
     catatanPositif: z.string(),
+    catatanA: z.string(),
+    catatanB: z.string(),
+    catatanC: z.string(),
 });
 
 const CreateVariabelPage = (
@@ -54,6 +57,11 @@ const CreateVariabelPage = (
 ) => {
     const [isEditing, setIsEditing] = useState(false);
     const toggleEdit = () => setIsEditing((current) => !current);
+
+    const [selectedJI, setSelectedJI] = useState<string>(
+        ""
+    )
+
     const router = useRouter();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -65,12 +73,15 @@ const CreateVariabelPage = (
             kriteriaLKEId: "",
             catatanNegatif: "",
             catatanPositif: "",
+            catatanA: "",
+            catatanB: "",
+            catatanC: "",
         },
         mode: "onChange"
     });
 
     const { isSubmitting, isValid } = form.formState;
-    const { setValue, getValues, watch } = form
+    const { setValue, getValues, watch, resetField } = form
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
 
@@ -93,11 +104,24 @@ const CreateVariabelPage = (
             const kodeSubKomponen = selectedData?.data.subKomponenLKE?.kode || "";
             const kodeKriteria = selectedData?.data.kode || "";
             const kode = kodeKomponen.concat(".", kodeSubKomponen.concat(".", kodeKriteria));
-            setValue("kode", kode);
-            setValue("tahun", selectedData?.data.subKomponenLKE?.komponenLKE?.tahun || "");
+            setValue("kode", kode, { shouldValidate: true });
+            setValue("tahun", selectedData?.data.subKomponenLKE?.komponenLKE?.tahun || "", { shouldValidate: true });
         }
 
     }, [kriteriaId, setValue, kriteria_options]);
+
+    const jenisisian = watch("jenisIsian");
+
+    useEffect(() => {
+        if (jenisisian) {
+            setSelectedJI(jenisisian)
+            resetField("catatanA")
+            resetField("catatanB")
+            resetField("catatanC")
+            resetField("catatanNegatif")
+            resetField("catatanPositif")
+        }
+    }, [jenisisian, resetField])
 
 
     return (
@@ -123,7 +147,7 @@ const CreateVariabelPage = (
                                 render={({ field }) => (
                                     <FormItem className="w-full">
                                         <FormLabel>
-                                            Variabel kode
+                                            Kode
                                         </FormLabel>
                                         <FormControl>
                                             <Input
@@ -145,7 +169,7 @@ const CreateVariabelPage = (
                                 render={({ field }) => (
                                     <FormItem className="w-full">
                                         <FormLabel>
-                                            Variabel tahun
+                                            Tahun
                                         </FormLabel>
                                         <FormControl>
                                             <Input
@@ -167,7 +191,7 @@ const CreateVariabelPage = (
                                 render={({ field }) => (
                                     <FormItem className="w-full">
                                         <FormLabel>
-                                            Variabel jenis isian
+                                            Jenis isian
                                         </FormLabel>
                                         <Select
                                             disabled={isSubmitting}
@@ -203,7 +227,7 @@ const CreateVariabelPage = (
                                 render={({ field }) => (
                                     <FormItem className="w-full">
                                         <FormLabel>
-                                            Variabel kriteria
+                                            Kriteria LKE
                                         </FormLabel>
                                         <FormControl>
                                             <Combobox
@@ -218,48 +242,124 @@ const CreateVariabelPage = (
                                     </FormItem>
                                 )}
                             />
-                            <FormField
-                                control={form.control}
-                                name="catatanNegatif"
-                                render={({ field }) => (
-                                    <FormItem className="w-full">
-                                        <FormLabel>
-                                            Catatan Negatif variabel
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Textarea
-                                                placeholder="e.g. '1.1.1'"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormDescription>
-                                            What will you do in this Variabel?
-                                        </FormDescription>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="catatanPositif"
-                                render={({ field }) => (
-                                    <FormItem className="w-full">
-                                        <FormLabel>
-                                            Catatan Positif variabel
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Textarea
-                                                placeholder="e.g. '1.1.1'"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormDescription>
-                                            What will you do in this Variabel?
-                                        </FormDescription>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                            {selectedJI === "select" ? (
+                                <>
+                                    <FormField
+                                        control={form.control}
+                                        name="catatanNegatif"
+                                        render={({ field }) => (
+                                            <FormItem className="w-full">
+                                                <FormLabel>
+                                                    Catatan Negatif
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Textarea
+                                                        placeholder="e.g. 'blablabla...'"
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormDescription>
+                                                    What will you do in this Variabel?
+                                                </FormDescription>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="catatanPositif"
+                                        render={({ field }) => (
+                                            <FormItem className="w-full">
+                                                <FormLabel>
+                                                    Catatan Positif
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Textarea
+                                                        placeholder="e.g. 'blablabla...'"
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormDescription>
+                                                    What will you do in this Variabel?
+                                                </FormDescription>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </>
+                            ) : (
+                                selectedJI === "dropdown" ? (
+                                    <>
+                                        <FormField
+                                            control={form.control}
+                                            name="catatanA"
+                                            render={({ field }) => (
+                                                <FormItem className="w-full">
+                                                    <FormLabel>
+                                                        Catatan A
+                                                    </FormLabel>
+                                                    <FormControl>
+                                                        <Textarea
+                                                            placeholder="e.g. 'blablabla...'"
+                                                            {...field}
+                                                        />
+                                                    </FormControl>
+                                                    <FormDescription>
+                                                        What will you do in this Variabel?
+                                                    </FormDescription>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <FormField
+                                            control={form.control}
+                                            name="catatanB"
+                                            render={({ field }) => (
+                                                <FormItem className="w-full">
+                                                    <FormLabel>
+                                                        Catatan B
+                                                    </FormLabel>
+                                                    <FormControl>
+                                                        <Textarea
+                                                            placeholder="e.g. 'blablabla...'"
+                                                            {...field}
+                                                        />
+                                                    </FormControl>
+                                                    <FormDescription>
+                                                        What will you do in this Variabel?
+                                                    </FormDescription>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <FormField
+                                            control={form.control}
+                                            name="catatanC"
+                                            render={({ field }) => (
+                                                <FormItem className="w-full">
+                                                    <FormLabel>
+                                                        Catatan C
+                                                    </FormLabel>
+                                                    <FormControl>
+                                                        <Textarea
+                                                            placeholder="e.g. 'blablabla...'"
+                                                            {...field}
+                                                        />
+                                                    </FormControl>
+                                                    <FormDescription>
+                                                        What will you do in this Variabel?
+                                                    </FormDescription>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </>
+                                ) : (
+                                    <>
+                                    </>
+                                )
+                            )}
+
                         </div>
                         <div className="flex items-center justify-end gap-x-2">
                             <Button

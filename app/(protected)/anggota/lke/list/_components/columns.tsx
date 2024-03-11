@@ -120,13 +120,41 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
     },
   },
   {
-    accessorKey: "isianAt",
+    id: "isianAt",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Isian Anggota" />
     ),
-    cell: ({ row }) => <DataTableRowInput row={row} />,
+    cell: ({ row }) => <DataTableRowInput role="at" row={row} />,
     enableSorting: false,
     enableHiding: true,
+  },
+  {
+    accessorKey: "nilaiAt",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Nilai Anggota" />
+    ),
+    cell: ({ row }) => {
+
+      if (row.original.variabelLKE) {
+        return (
+          <div className="w-[120px]">{row.getValue("nilaiAt")}</div>
+        )
+      }
+    },
+  },
+  {
+    accessorKey: "catataAt",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Catatan Anggota" />
+    ),
+    cell: ({ row }) => {
+
+      if (row.original.variabelLKE) {
+        return (
+          <div className="w-[120px]">{row.getValue("catatanAt")}</div>
+        )
+      }
+    },
   },
   {
     id: "actions",

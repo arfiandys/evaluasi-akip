@@ -120,11 +120,29 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
     },
   },
   {
-    accessorKey: "isianAt",
+    id: "isianAt",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Isian Anggota" />
     ),
-    cell: ({ row }) => <DataTableRowInput row={row} />,
+    cell: ({ row }) => <DataTableRowInput role="at" row={row} />,
+    enableSorting: false,
+    enableHiding: true,
+  },
+  {
+    id: "isianKt",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Isian Ketua" />
+    ),
+    cell: ({ row }) => <DataTableRowInput role="kt" row={row} />,
+    enableSorting: false,
+    enableHiding: true,
+  },
+  {
+    id: "isianDalnis",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Isian Pengendali Teknis" />
+    ),
+    cell: ({ row }) => <DataTableRowInput role="dalnis" row={row} />,
     enableSorting: false,
     enableHiding: true,
   },

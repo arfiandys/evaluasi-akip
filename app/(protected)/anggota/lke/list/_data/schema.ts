@@ -8,10 +8,13 @@ export const LKEUnitKerjaSchema = z.object({
   jenisIsian: z.string().min(1),
   isianKt: z.string().nullable(),
   isianAt: z.string().nullable(),
+  isianDalnis: z.string().nullable(),
   nilaiKt: z.string().nullable(),
   nilaiAt: z.string().nullable(),
+  nilaiDalnis: z.string().nullable(),
   catatanKt: z.string().nullable(),
   catatanAt: z.string().nullable(),
+  catatanDalnis: z.string().nullable(),
   variabelLKEId: z.string(),
   unitKerjaId: z.string(),
   variabelLKE: z.object({

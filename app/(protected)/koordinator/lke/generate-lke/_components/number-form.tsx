@@ -23,38 +23,74 @@ import { LKEUnitKerja } from "../_data/schema";
 
 interface NumberFormProps {
   initialData: LKEUnitKerja;
+  role: string;
 };
 
 const formSchema = z.object({
-  isianAt: z.string()
+  isian: z.string()
 });
 
 export const NumberForm = ({
   initialData,
+  role
 }: NumberFormProps) => {
 
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  let form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      isianAt: initialData.isianAt || ""
+      isian: role === "at" ? initialData.isianAt||"": (role === "kt" ? initialData.isianKt||"":(role === "dalnis" ? initialData.isianDalnis||"":""))
     },
   });
 
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const value = {
-      values: values,
-      input: "input",
-      unitKerjaId: initialData.unitKerjaId
+    if (role === "at") {
+      const value = {
+        values: {
+          isianAt: values
+        },
+        input: "input",
+        unitKerjaId: initialData.unitKerjaId
+      }
+      try {
+        await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, value);
+        toast.success("LKE unit kerja updated");
+      } catch {
+        toast.error("Something went wrong");
+      }
     }
-    try {
-      await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, value);
-      toast.success("LKE unit kerja updated");
-    } catch {
-      toast.error("Something went wrong");
+    if (role === "kt") {
+      const value = {
+        values: {
+          isianKt: values
+        },
+        input: "input",
+        unitKerjaId: initialData.unitKerjaId
+      }
+      try {
+        await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, value);
+        toast.success("LKE unit kerja updated");
+      } catch {
+        toast.error("Something went wrong");
+      }
+    }
+    if (role === "dalnis") {
+      const value = {
+        values: {
+          isianDalnis: values.isian
+        },
+        input: "input",
+        unitKerjaId: initialData.unitKerjaId
+      }
+      try {
+        await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, value);
+        toast.success("LKE unit kerja updated");
+      } catch {
+        toast.error("Something went wrong");
+      }
     }
   }
 
@@ -65,7 +101,7 @@ export const NumberForm = ({
       >
         <FormField
           control={form.control}
-          name="isianAt"
+          name="isian"
           render={({ field }) => (
             <FormItem className="max-w-[250px]">
               <FormControl>

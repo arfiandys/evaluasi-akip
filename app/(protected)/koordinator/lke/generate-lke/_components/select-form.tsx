@@ -1,52 +1,73 @@
 "use client";
 
-import * as z from "zod";
 import axios from "axios";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Pencil } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { LKEUnitKerja } from "../_data/schema";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface SelectFormProps {
   initialData: LKEUnitKerja;
+  role: string;
 };
 
 export const SelectForm = ({
   initialData,
+  role
 }: SelectFormProps) => {
 
   const router = useRouter();
   const [selected, setSelected] = React.useState<string>(
-    initialData.isianAt || ""
+    role === "at" ? initialData.isianAt||"": (role === "kt" ? initialData.isianKt||"":(role === "dalnis" ? initialData.isianDalnis||"":""))
   )
 
   const onvaluechange = (value:string) => {
     const onSubmit = async () => {
-      const values = {
-        values: {
-          isianAt: value
-        },
-        input: "input",
-        unitKerjaId: initialData.unitKerjaId
+      if (role === "at") {
+        const values = {
+          values: {
+            isianAt: value
+          },
+          input: "input",
+          unitKerjaId: initialData.unitKerjaId
+        }
+        try {
+          await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, values);
+          toast.success("LKE unit kerja updated");
+        } catch {
+          toast.error("Something went wrong");
+        }
       }
-      try {
-        await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, values);
-        toast.success("LKE unit kerja updated");
-      } catch {
-        toast.error("Something went wrong");
+      if (role === "kt") {
+        const values = {
+          values: {
+            isianKt: value
+          },
+          input: "input",
+          unitKerjaId: initialData.unitKerjaId
+        }
+        try {
+          await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, values);
+          toast.success("LKE unit kerja updated");
+        } catch {
+          toast.error("Something went wrong");
+        }
+      }
+      if (role === "dalnis") {
+        const values = {
+          values: {
+            isianDalnis: value
+          },
+          input: "input",
+          unitKerjaId: initialData.unitKerjaId
+        }
+        try {
+          await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, values);
+          toast.success("LKE unit kerja updated");
+        } catch {
+          toast.error("Something went wrong");
+        }
       }
     }
     onSubmit()

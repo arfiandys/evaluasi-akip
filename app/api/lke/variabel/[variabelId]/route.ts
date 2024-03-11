@@ -60,7 +60,9 @@ export async function PATCH(
           }
         },
         data: {        
-          isianAt: values.values.isianAt,       
+          isianAt: values.values.isianAt,
+          isianKt: values.values.isianKt,
+          isianDalnis: values.values.isianDalnis,       
         },
       });
   
@@ -109,7 +111,7 @@ export async function PATCH(
           subKriteriaLKE: {
             disconnect: true
           },
-          isSubKriteria: values.isSubKriteria
+          isSubKriteria: values.isSubKriteria,
         },
       });
   
