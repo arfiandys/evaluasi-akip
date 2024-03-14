@@ -12,6 +12,9 @@ import { DataTableRowActions } from "./data-table-row-actions"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { DataTableRowInput } from "./data-table-row-input"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { File } from "lucide-react"
 
 export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
   {
@@ -52,7 +55,7 @@ export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
     cell: ({ row }) => {
       if (row.original.variabelKKE) {
         return (
-          <div className="w-[120px]">{row.original.variabelKKE.nama}</div>
+          <div className="max-w-[400px]">{row.original.variabelKKE.nama}</div>
         )
       }
     },
@@ -106,6 +109,9 @@ export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
         )
       }
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
   },
   {
     accessorKey: "jenisIsian",
@@ -139,6 +145,45 @@ export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
     cell: ({ row }) => <DataTableRowInput role="at" row={row} />,
     enableSorting: false,
     enableHiding: true,
+  },
+  {
+    id: "permindok",
+    accessorFn: row => {
+      const permindok = row.unitKerja.permindoks
+      return (
+        `${permindok}`
+      )
+    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="File" />
+    ),
+    cell: ({ row }) => {
+      const permindok = row.original.unitKerja.permindoks.find(function (permindok) {
+        return permindok.permindokId === row.original.variabelKKE.kriteriaKKE?.kelompokKriteriaKKE.permindokId;
+      })?.url;
+      const name_permindok = row.original.unitKerja.permindoks.find(function (permindok) {
+        return permindok.permindokId === row.original.variabelKKE.kriteriaKKE?.kelompokKriteriaKKE.permindokId;
+      })?.nameDokumen;
+
+      if (permindok) {
+        return (
+          <Link href={permindok} legacyBehavior>
+            <a target="_blank">
+              <Button>
+                <File className="h-4 w-4 mr-2" />
+                <p className="truncate max-w-48">{name_permindok}</p>
+              </Button>
+            </a>
+          </Link>
+        )
+      } else {
+        return(
+        <Button>
+          <File className="h-4 w-4 mr-2" />
+          <p className="truncate max-w-48">?</p>
+        </Button>
+      )}
+    },
   },
   // {
   //   id: "actions",

@@ -14,8 +14,8 @@ import { Button } from "@/components/ui/button";
 
 interface UnitKerjaProps {
   anggota: UserOnTimEvaluasi & { user: User & { unitKerjas: UserOnUnitKerja[] } };
-  ketua: string|undefined;
-  dalnis: string|undefined;
+  ketua: string | undefined;
+  dalnis: string | undefined;
   initialData: TimEvaluasi & { users: (UserOnTimEvaluasi & { user: User & { unitKerjas: UserOnUnitKerja[] } })[] };
   timEvaluasiId: string;
   options_unitKerja: { label: string; value: string; }[];
@@ -53,6 +53,15 @@ export const UnitKerjaForm = ({
     return unit.assignedRole === UserRole.ANGGOTA && unit.timEvaluasiId === timEvaluasiId;
   }).map(function (unit) { return unit })
 
+  const unitKerjaId_arr: string[] = []
+
+  currentUser?.user.unitKerjas.forEach((unit) => {
+    if (unit.assignedRole === UserRole.ANGGOTA) {
+      unitKerjaId_arr.push(unit.unitKerjaId)
+    }
+  })
+  console.log(unitKerjaId_arr)
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -86,7 +95,8 @@ export const UnitKerjaForm = ({
       setDeletingId(id);
       const values = {
         data: {
-          action: "disconnect-anggota-unitkerja"
+          action: "disconnect-anggota-unitkerja",
+          unitKerjaId_arr: unitKerjaId_arr
         }
       };
       await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);

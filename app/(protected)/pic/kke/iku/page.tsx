@@ -25,7 +25,7 @@ const IKUPICPage = async () => {
     const unitKerja_arr: string[] = []
 
     User?.unitKerjas.forEach((unit)=>{
-        if (unit.assignedRole === UserRole.ANGGOTA) {
+        if (unit.assignedRole === UserRole.PIC) {
             unitKerja_arr.push(unit.unitKerjaId)
         }        
     })

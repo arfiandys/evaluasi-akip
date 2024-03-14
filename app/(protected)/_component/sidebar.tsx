@@ -31,8 +31,8 @@ export const SideBar = ({
 
     const asideStyle = cn("sidebar overflow-y-auto overflow-x-auto fixed bg-background h-full shadow-sm shadow-slate-500/40 transition duration-300 ease-in-out z-[12]",
         {
-            ["w-[20rem] xl:hidden"]: !toggleCollapse,
-            ["sm:w-[5.4rem] sm:left-0 left-[-100%] xl:hidden"]: toggleCollapse,
+            ["w-[20rem] 2xl:hidden"]: !toggleCollapse,
+            ["sm:w-[5.4rem] sm:left-0 left-[-100%] 2xl:hidden"]: toggleCollapse,
         });
 
     const user = useCurrentUser();
@@ -66,7 +66,7 @@ export const SideBar = ({
         if (asPIC) {
             existingRole.push("pic")
         }
-        if (asUsers) {
+        if (asUsers && !(asDalnis||asKetua||asAnggota||asPIC||asPimpinan)) {
             existingRole.push("user")
         }
 
@@ -114,7 +114,7 @@ export const SideBar = ({
 
     return (
         <>
-            <div className='bg-background/30 backdrop-blur-sm shadow-sm shadow-slate-500/40 hidden xl:flex justify-between fixed w-screen z-[11] mt-16 h-16 items-center'>
+            <div className='bg-background/30 backdrop-blur-sm shadow-sm shadow-slate-500/40 hidden 2xl:flex justify-between fixed w-screen z-[11] mt-16 h-16 items-center'>
                 <div className="fixed inset-y-0 pl-[20px] flex items-center z-[13] w-[200px]">
                     <Select defaultValue={selectedRole} onValueChange={setSelectedRole}>
                         <SelectTrigger

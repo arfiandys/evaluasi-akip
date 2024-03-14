@@ -67,11 +67,11 @@ const CreateKolompokKriteriaPage = ({
             form.reset()
             setIsEditing((current) => !current)
             router.refresh()
+            router.push(`/koordinator/kke/kelompok-kriteria/${response.data.id}`);
+            router.refresh()
         } catch {
             toast.error("Something went wrong!");
         }
-
-
     }
 
     return (

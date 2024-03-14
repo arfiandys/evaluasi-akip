@@ -94,6 +94,9 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
         )
       }
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
   },
   {
     accessorKey: "jenisIsian",
@@ -156,8 +159,8 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
       }
     },
   },
-  {
-    id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
-  },
+  // {
+  //   id: "actions",
+  //   cell: ({ row }) => <DataTableRowActions row={row} />,
+  // },
 ]

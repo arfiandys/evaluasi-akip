@@ -55,14 +55,16 @@ const CreateUserPage = () => {
     const { isSubmitting, isValid } = form.formState;
 
     // const onSubmit = (values: z.infer<typeof formSchema>) => {
-    //     setError("");
-    //     setSuccess("");
+    //     // setError("");
+    //     // setSuccess("");
 
     //     startTransition(() => {
     //         register(values)
     //             .then((data) => {
-    //                 setError(data.error);
-    //                 setSuccess(data.success);
+    //                 // setError(data.error);
+    //                 // setSuccess(data.success);
+    //                 toast.error(data.error);
+    //                 toast.success(data.success);
     //             })
     //     })
     // }

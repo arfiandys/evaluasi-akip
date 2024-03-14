@@ -1,16 +1,37 @@
-import { db } from "@/lib/db";
-import {
-  ArrowDownIcon,
-  ArrowRightIcon,
-  ArrowUpIcon,
-  CheckCircledIcon,
-  CircleIcon,
-  CrossCircledIcon,
-  GlobeIcon,
-  QuestionMarkCircledIcon,
-  StopwatchIcon,
-} from "@radix-ui/react-icons"
-
+export const unitkerjas =[
+  {
+    value: "BPS Provinsi Jawa Timur",
+    label: "BPS Provinsi Jawa Timur"
+  },
+  {
+    value: "BPS Kabupaten Lamongan",
+    label: "BPS Kabupaten Lamongan"
+  },
+  {
+    value: "BPS Kabupaten Tuban",
+    label: "BPS Kabupaten Tuban"
+  },
+  {
+    value: "BPS Kabupaten Bojonegoro",
+    label: "BPS Kabupaten Bojonegoro"
+  },
+  {
+    value: "BPS Kabupaten Jombang",
+    label: "BPS Kabupaten Jombang"
+  },
+  {
+    value: "BPS Kabupaten Malang",
+    label: "BPS Kabupaten Malang"
+  },
+  {
+    value: "BPS Kabupaten Gresik",
+    label: "BPS Kabupaten Gresik"
+  },
+  {
+    value: "BPS Kabupaten Mojokerjo",
+    label: "BPS Kabupaten Mojokerto"
+  },
+]
 
 export const jenises = [
   {
@@ -27,46 +48,6 @@ export const jenises = [
   },
 ]
 
-export const kodeWilayahs = [
-  {
-    value: "31",
-    label: "31",
-    icon: GlobeIcon,
-  },
-  {
-    value: "32",
-    label: "32",
-    icon: GlobeIcon,
-  },
-  {
-    value: "33",
-    label: "33",
-    icon: GlobeIcon,
-  },
-  {
-    value: "34",
-    label: "34",
-    icon: GlobeIcon,
-  },
-  {
-    value: "35",
-    label: "35",
-    icon: GlobeIcon,
-  },
-]
-
-export const statuses = [
-  {
-    label: "Incomplete",
-    value: "incomplete",
-    icon: CrossCircledIcon,
-  },
-  {
-    label: "Complete",
-    value: "complete",
-    icon: CheckCircledIcon,
-  },
-]
 
 export const tahuns = [
   {
@@ -84,5 +65,13 @@ export const tahuns = [
   {
     label: "2024",
     value: "2024",
+  },
+  {
+    label: "2025",
+    value: "2025",
+  },
+  {
+    label: "2026",
+    value: "2026",
   },
 ]

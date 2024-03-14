@@ -25,6 +25,9 @@ export const VariabelKKEUnitKerjaSchema = z.object({
       kode: z.string().min(1),
       nama: z.string().min(1),
       kelompokKriteriaKKEId: z.string().nullable(),
+      kelompokKriteriaKKE: z.object({
+        permindokId: z.string().nullable()
+      })
     }).nullable(),
   }),
   unitKerja: z.object({
@@ -32,6 +35,12 @@ export const VariabelKKEUnitKerjaSchema = z.object({
     kodeWilayah: z.string().min(1),
     kodeUnitKerja: z.string().min(1),
     name: z.string().min(1),
+    permindoks: z.object({
+      url: z.string().nullable(),
+      nameDokumen: z.string().nullable(),
+      permindokId: z.string(),
+      unitKerjaId: z.string(),
+    }).array()
   }),
 })
 

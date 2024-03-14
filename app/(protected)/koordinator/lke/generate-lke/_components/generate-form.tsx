@@ -91,13 +91,12 @@ export const GeneratePage = ({
                 try {
                     const response = await axios.post("/api/lke/generate-lke", value);
                     toast.success("Variabel created!")
+                    form.reset()
+                    router.refresh()
                 } catch {
                     toast.error("Something when wrong!");
                 }
             })
-            form.reset()
-            router.push(`/koordinator/lke/generate-lke`);
-            router.refresh()
         } catch {
             toast.error("Can not generate LKE!");
         }

@@ -144,6 +144,7 @@ export const SIDENAV_ITEMS_ANGGOTA: SideNavItemGroup[] = [
                 submenu: true,
                 subMenuItems: [
                     { title: 'List', path: '/anggota/kke/list' },
+                    { title: 'IKU', path: '/anggota/kke/iku' },
                 ],
             },
             {
@@ -211,6 +212,7 @@ export const SIDENAV_ITEMS_KETUA: SideNavItemGroup[] = [
                 submenu: true,
                 subMenuItems: [
                     { title: 'List', path: '/ketua/kke/list' },
+                    { title: 'IKU', path: '/ketua/kke/iku' },
                 ],
             },
             {
@@ -278,6 +280,7 @@ export const SIDENAV_ITEMS_DALNIS: SideNavItemGroup[] = [
                 submenu: true,
                 subMenuItems: [
                     { title: 'List', path: '/dalnis/kke/list' },
+                    { title: 'IKU', path: '/dalnis/kke/iku' },
                 ],
             },
             {
@@ -336,6 +339,7 @@ export const SIDENAV_ITEMS_PIC: SideNavItemGroup[] = [
                 submenu: true,
                 subMenuItems: [
                     { title: 'List', path: '/pic/kke/list' },
+                    { title: 'IKU', path: '/pic/kke/iku' },
                 ],
             },
             {

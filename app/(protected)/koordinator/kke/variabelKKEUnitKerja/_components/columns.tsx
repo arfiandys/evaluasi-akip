@@ -106,6 +106,9 @@ export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
         )
       }
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
   },
   {
     accessorKey: "jenisIsian",

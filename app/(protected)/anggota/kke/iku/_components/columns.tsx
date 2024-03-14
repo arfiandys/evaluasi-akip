@@ -52,7 +52,7 @@ export const columns: ColumnDef<VariabelIKUUnitKerja>[] = [
     cell: ({ row }) => {
       if (row.original.tujuanSasaranIndikatorIKUVariabelKKE) {
         return (
-          <div className="w-[120px]">{row.original.tujuanSasaranIndikatorIKUVariabelKKE.variabelKKE?.nama}</div>
+          <div className="max-w-[400px]">{row.original.tujuanSasaranIndikatorIKUVariabelKKE.variabelKKE?.nama}</div>
         )
       }
     },
@@ -71,7 +71,7 @@ export const columns: ColumnDef<VariabelIKUUnitKerja>[] = [
     cell: ({ row }) => {
       if (row.original.tujuanSasaranIndikatorIKUVariabelKKE) {
         return (
-          <div className="w-[120px]">{row.original.tujuanSasaranIndikatorIKUVariabelKKE.tujuanSasaranIndikatorIKU?.nama}</div>
+          <div className="max-w-[400px]">{row.original.tujuanSasaranIndikatorIKUVariabelKKE.tujuanSasaranIndikatorIKU?.nama}</div>
         )
       }
     },
@@ -124,6 +124,9 @@ export const columns: ColumnDef<VariabelIKUUnitKerja>[] = [
           <div className="w-[120px]">{row.original.unitKerja.name}</div>
         )
       }
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
     },
   },
   {

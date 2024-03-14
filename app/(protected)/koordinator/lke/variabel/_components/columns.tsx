@@ -62,12 +62,12 @@ export const columns: ColumnDef<VariabelLKE>[] = [
     cell: ({ row }) => {
       if (row.original.kriteriaLKEId) {
         return (
-          <div className="w-[120px]">{row.original.kriteriaLKE?.name}</div>
+          <div className="max-w-[500px] truncate font-medium text-wrap">{row.original.kriteriaLKE?.name}</div>
         )
       }
       if (row.original.subKriteriaLKEId) {
         return (
-          <div className="w-[120px]">{row.original.subKriteriaLKE?.name}</div>
+          <div className="max-w-[500px] truncate font-medium text-wrap">{row.original.subKriteriaLKE?.name}</div>
         )
       }
     },

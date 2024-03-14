@@ -115,10 +115,13 @@ export const columns: ColumnDef<timEvaluasi>[] = [
     cell: ({ row }) => {
       let unitKerja = 0;
       row.original.users.forEach((user)=>{
-        unitKerja += user.user.unitKerjas.length
+        if (user.assignedRole === UserRole.ANGGOTA) {
+          unitKerja = unitKerja + user.user.unitKerjas.length
+        }
+        
       })
       return (
-        <div className="w-[120px]">{row.original.users.length}</div>
+        <div className="w-[120px]">{unitKerja}</div>
       )
     }
   },

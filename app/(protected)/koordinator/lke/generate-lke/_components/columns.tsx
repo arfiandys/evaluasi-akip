@@ -94,6 +94,9 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
         )
       }
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
   },
   {
     accessorKey: "jenisIsian",

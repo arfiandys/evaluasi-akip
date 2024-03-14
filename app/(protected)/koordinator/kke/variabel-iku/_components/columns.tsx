@@ -45,7 +45,7 @@ export const columns: ColumnDef<VariabelIKU>[] = [
 
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
+          <span className="max-w-[500px] truncate font-medium text-wrap">
             {row.getValue("jenisIKU")}
           </span>
         </div>
@@ -83,7 +83,7 @@ export const columns: ColumnDef<VariabelIKU>[] = [
 
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
+          <span className="max-w-[500px] truncate font-medium text-wrap">
             {row.original.variabelKKE?.nama}
           </span>
         </div>
@@ -121,7 +121,7 @@ export const columns: ColumnDef<VariabelIKU>[] = [
 
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
+          <span className="max-w-[500px] truncate font-medium text-wrap">
             {row.original.tujuanSasaranIndikatorIKU?.nama}
           </span>
         </div>

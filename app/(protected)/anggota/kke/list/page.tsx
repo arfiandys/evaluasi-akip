@@ -41,10 +41,18 @@ const KKEAnggotaPage = async () => {
         include: {
             variabelKKE: {
                 include: {
-                    kriteriaKKE: true,
+                    kriteriaKKE: {
+                        include: {
+                            kelompokKriteriaKKE: true
+                        }
+                    },
                 }
             },
-            unitKerja: true,
+            unitKerja: {
+                include: {
+                    permindoks: true
+                }
+            },
         }
     })
 

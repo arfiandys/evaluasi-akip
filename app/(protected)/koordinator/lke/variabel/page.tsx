@@ -29,6 +29,11 @@ const VariabelLKEPage = async () => {
     });
 
     const kriteria = await db.kriteriaLKE.findMany({
+        where: {
+            subKriteriaLKE: {
+                none: {}
+            }
+        },
         orderBy: {
             kode: "asc",
         },

@@ -187,6 +187,16 @@ export async function PATCH(
     if (values?.data?.action! === "disconnect-anggota-unitkerja") {
       const userOnUnitKerja = await db.userOnUnitKerja.deleteMany({
         where: {
+          // AND: [
+          //   {
+          //     timEvaluasiId: timEvaluasiId,
+          //   },
+          //   {
+          //     unitKerjaId: { in: values.data.unitKerja_arr }
+          //   }
+          // ]
+          // TODO: MASIH ADA BUG DALAM MENGHAPUS ANGGOTA MENJADIKAN UNIT KERJA DI ANGGOTA LAIN TERHAPUS
+
           timEvaluasiId: timEvaluasiId,
         },
       });

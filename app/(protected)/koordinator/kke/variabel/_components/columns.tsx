@@ -63,7 +63,7 @@ export const columns: ColumnDef<VariabelKKE>[] = [
 
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
+          <span className="max-w-[500px] truncate font-medium text-wrap">
             {row.getValue("nama")}
           </span>
         </div>

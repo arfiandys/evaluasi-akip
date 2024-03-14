@@ -125,6 +125,9 @@ export const columns: ColumnDef<VariabelIKUUnitKerja>[] = [
         )
       }
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
   },
   {
     accessorKey: "jenisIsian",

@@ -25,7 +25,7 @@ const KKEPICPage = async () => {
     const unitKerja_arr: string[] = []
 
     User?.unitKerjas.forEach((unit)=>{
-        if (unit.assignedRole === UserRole.ANGGOTA) {
+        if (unit.assignedRole === UserRole.PIC) {
             unitKerja_arr.push(unit.unitKerjaId)
         }        
     })
@@ -41,10 +41,18 @@ const KKEPICPage = async () => {
         include: {
             variabelKKE: {
                 include: {
-                    kriteriaKKE: true,
+                    kriteriaKKE: {
+                        include: {
+                            kelompokKriteriaKKE: true
+                        }
+                    },
                 }
             },
-            unitKerja: true,
+            unitKerja: {
+                include: {
+                    permindoks: true
+                }
+            },
         }
     })
 
