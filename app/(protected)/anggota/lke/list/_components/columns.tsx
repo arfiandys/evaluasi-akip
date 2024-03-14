@@ -12,6 +12,7 @@ import { DataTableRowActions } from "./data-table-row-actions"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { DataTableRowInput } from "./data-table-row-input"
+import { DataTableRowCatatan } from "./data-table-row-catatan"
 
 export const columns: ColumnDef<LKEUnitKerja>[] = [
   {
@@ -150,14 +151,9 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Catatan Anggota" />
     ),
-    cell: ({ row }) => {
-
-      if (row.original.variabelLKE) {
-        return (
-          <div className="w-[120px]">{row.getValue("catatanAt")}</div>
-        )
-      }
-    },
+    cell: ({ row }) => <DataTableRowCatatan role="at" row={row} />,
+    enableSorting: false,
+    enableHiding: true,
   },
   // {
   //   id: "actions",

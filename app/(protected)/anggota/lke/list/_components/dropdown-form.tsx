@@ -21,16 +21,25 @@ export const DropdownForm = ({
   const router = useRouter();
 
   const [selected, setSelected] = React.useState<string>(
-    role === "at" ? initialData.isianAt||"": (role === "kt" ? initialData.isianKt||"":(role === "dalnis" ? initialData.isianDalnis||"":""))
+    role === "at" ? initialData.isianAt || "" : (role === "kt" ? initialData.isianKt || "" : (role === "dalnis" ? initialData.isianDalnis || "" : ""))
   )
-  
 
-  const onvaluechange = (value:string) => {
+
+  const onvaluechange = (value: string) => {
+    let catatan = ""
+    if (value === "a") {
+      catatan = initialData.variabelLKE.catatanA || ""
+    } else if (value === "b") {
+      catatan = initialData.variabelLKE.catatanB || ""
+    } else {
+      catatan = initialData.variabelLKE.catatanC || ""
+    }
     const onSubmit = async () => {
       if (role === "at") {
         const values = {
           values: {
-            isianAt: value
+            isianAt: value,
+            catatanAt: catatan
           },
           input: "input",
           unitKerjaId: initialData.unitKerjaId
@@ -38,6 +47,7 @@ export const DropdownForm = ({
         try {
           await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, values);
           toast.success("LKE unit kerja updated");
+          router.refresh()
         } catch {
           toast.error("Something went wrong");
         }
@@ -45,7 +55,8 @@ export const DropdownForm = ({
       if (role === "kt") {
         const values = {
           values: {
-            isianKt: value
+            isianKt: value,
+            catatanKt: catatan
           },
           input: "input",
           unitKerjaId: initialData.unitKerjaId
@@ -53,6 +64,7 @@ export const DropdownForm = ({
         try {
           await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, values);
           toast.success("LKE unit kerja updated");
+          router.refresh()
         } catch {
           toast.error("Something went wrong");
         }
@@ -60,7 +72,8 @@ export const DropdownForm = ({
       if (role === "dalnis") {
         const values = {
           values: {
-            isianDalnis: value
+            isianDalnis: value,
+            catatanDalnis: catatan
           },
           input: "input",
           unitKerjaId: initialData.unitKerjaId
@@ -68,10 +81,11 @@ export const DropdownForm = ({
         try {
           await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, values);
           toast.success("LKE unit kerja updated");
+          router.refresh()
         } catch {
           toast.error("Something went wrong");
         }
-      }      
+      }
     }
     onSubmit()
   }

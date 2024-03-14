@@ -51,7 +51,7 @@ export const NumberForm = ({
     if (role === "at") {
       const value = {
         values: {
-          isianAt: values
+          isianAt: values.isian
         },
         input: "input",
         unitKerjaId: initialData.unitKerjaId
@@ -59,6 +59,7 @@ export const NumberForm = ({
       try {
         await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, value);
         toast.success("LKE unit kerja updated");
+        router.refresh()
       } catch {
         toast.error("Something went wrong");
       }
@@ -66,7 +67,7 @@ export const NumberForm = ({
     if (role === "kt") {
       const value = {
         values: {
-          isianKt: values
+          isianKt: values.isian
         },
         input: "input",
         unitKerjaId: initialData.unitKerjaId
@@ -74,6 +75,7 @@ export const NumberForm = ({
       try {
         await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, value);
         toast.success("LKE unit kerja updated");
+        router.refresh()
       } catch {
         toast.error("Something went wrong");
       }
@@ -89,6 +91,7 @@ export const NumberForm = ({
       try {
         await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, value);
         toast.success("LKE unit kerja updated");
+        router.refresh()
       } catch {
         toast.error("Something went wrong");
       }

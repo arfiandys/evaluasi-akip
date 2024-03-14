@@ -24,18 +24,28 @@ export const SelectForm = ({
   )
 
   const onvaluechange = (value:string) => {
+    let catatan = ""
+    if (value==="ya") {
+      catatan = initialData.variabelLKE.catatanPositif||""
+    } else {
+      catatan = initialData.variabelLKE.catatanNegatif||""
+    }
     const onSubmit = async () => {
       if (role === "at") {
         const values = {
           values: {
-            isianAt: value
+            isianAt: value,
+            catatanAt: catatan
           },
           input: "input",
           unitKerjaId: initialData.unitKerjaId
         }
         try {
           await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, values);
-          toast.success("LKE unit kerja updated");
+          // toast.success("LKE unit kerja updated");
+          // router.push(`/anggota/lke/list`);
+          //TODO: DUA OPSI YG GAGAL UNTUK REFRESH CATATAN YG DIUPDATE
+          router.refresh()
         } catch {
           toast.error("Something went wrong");
         }
@@ -43,7 +53,8 @@ export const SelectForm = ({
       if (role === "kt") {
         const values = {
           values: {
-            isianKt: value
+            isianKt: value,
+            catatanKt: catatan
           },
           input: "input",
           unitKerjaId: initialData.unitKerjaId
@@ -51,6 +62,8 @@ export const SelectForm = ({
         try {
           await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, values);
           toast.success("LKE unit kerja updated");
+          router.push(`/anggota/lke/list`);
+          router.refresh()
         } catch {
           toast.error("Something went wrong");
         }
@@ -58,7 +71,8 @@ export const SelectForm = ({
       if (role === "dalnis") {
         const values = {
           values: {
-            isianDalnis: value
+            isianDalnis: value,
+            catatanDalnis: catatan
           },
           input: "input",
           unitKerjaId: initialData.unitKerjaId
@@ -66,6 +80,8 @@ export const SelectForm = ({
         try {
           await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, values);
           toast.success("LKE unit kerja updated");
+          router.push(`/anggota/lke/list`);
+          router.refresh()
         } catch {
           toast.error("Something went wrong");
         }
