@@ -19,34 +19,16 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
                 title: 'Tim Evaluasi',
                 path: '/koordinator/tim-evaluasi',
                 icon: <UserRoundCheck size={20} />,
-                submenu: true,
-                subMenuItems: [
-                    { title: 'List', path: '/koordinator/tim-evaluasi' },
-                    { title: 'Create', path: '/koordinator/tim-evaluasi/create' },
-                    { title: 'Edit', path: '/koordinator/tim-evaluasi/edit' },
-                ],
             },
             {
                 title: 'Unit Kerja',
                 path: '/koordinator/unit-kerja',
                 icon: <Building2 size={20} />,
-                submenu: true,
-                subMenuItems: [
-                    { title: 'List', path: '/koordinator/unit-kerja' },
-                    { title: 'Create', path: '/koordinator/unit-kerja/create' },
-                    { title: 'Edit', path: '/koordinator/unit-kerja/edit' },
-                ],
             },
             {
                 title: 'Pengguna',
                 path: '/koordinator/user',
                 icon: <User size={20} />,
-                submenu: true,
-                subMenuItems: [
-                    { title: 'List', path: '/koordinator/user' },
-                    { title: 'Create', path: '/koordinator/user/create' },
-                    { title: 'Edit', path: '/koordinator/user/edit' },
-                ],
             },
             {
                 title: 'LKE',
@@ -80,7 +62,6 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
                 subMenuItems: [
                     { title: 'List', path: '/koordinator/permindok/list' },
                     { title: 'Generate permindok', path: '/koordinator/permindok/generate-permindok' },
-                    { title: 'Edit', path: '/koordinator/permindok' },
                 ],
             },
             {

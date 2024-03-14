@@ -31,7 +31,7 @@ const KriteriaKKEIdPage = async ({
     }
 
     const requiredFields = [
-        kriteriaKKE.name,
+        kriteriaKKE.nama,
         kriteriaKKE.kode,
     ];
 
@@ -55,7 +55,7 @@ const KriteriaKKEIdPage = async ({
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-y-2">
                                 <h1 className="text-2xl font-medium">
-                                    Kriteria KKE setup
+                                    Detail kriteria KKE
                                 </h1>
                                 <span className="text-sm text-secondary-foreground">
                                     Complete all fields {completionText}
@@ -69,27 +69,19 @@ const KriteriaKKEIdPage = async ({
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
-                    <div>
+                <div className="mt-16">
                         <div className="flex items-center gap-x-2">
                             <IconBadge icon={LayoutDashboard} />
                             <h2 className="text-xl">
-                                Customize your kriteria KKE
+                               Edit detail kriteria KKE
                             </h2>
                         </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
                         <NameForm
                             initialData={kriteriaKKE}
                             kriteriaId={params.kriteriaId}
                             kelompokKriteriaKKEId={kriteriaKKE?.kelompokKriteriaKKEId!}
                         />
-                    </div>
-                    <div>
-                        <div className="flex items-center gap-x-2">
-                            <IconBadge icon={LayoutDashboard} />
-                            <h2 className="text-xl">
-                                Customize your kriteria KKE
-                            </h2>
-                        </div>
                         <KodeForm
                             initialData={kriteriaKKE}
                             kriteriaId={params.kriteriaId}

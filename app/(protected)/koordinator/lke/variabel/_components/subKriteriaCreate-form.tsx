@@ -125,7 +125,7 @@ const SubCreateVariabelPage = (
             <div className="flex flex-col">
                 <div>
                     <h1 className="text-2xl">
-                        Add your variabel LKE by sub kriteria
+                        Tambah variabel LKE by sub kriteria
                     </h1>
                     <p className="text-sm text-secondary-foreground">
                         What would you like to fill your variabel LKE? Don&apos;t worry.
@@ -143,7 +143,7 @@ const SubCreateVariabelPage = (
                                 render={({ field }) => (
                                     <FormItem className="w-full">
                                         <FormLabel>
-                                            Variabel kode
+                                            Kode
                                         </FormLabel>
                                         <FormControl>
                                             <Input
@@ -165,7 +165,7 @@ const SubCreateVariabelPage = (
                                 render={({ field }) => (
                                     <FormItem className="w-full">
                                         <FormLabel>
-                                            Variabel tahun
+                                            Tahun
                                         </FormLabel>
                                         <FormControl>
                                             <Input
@@ -187,7 +187,7 @@ const SubCreateVariabelPage = (
                                 render={({ field }) => (
                                     <FormItem className="w-full">
                                         <FormLabel>
-                                            Variabel jenis isian
+                                            Jenis isian
                                         </FormLabel>
                                         <Select
                                             disabled={isSubmitting}
@@ -223,7 +223,7 @@ const SubCreateVariabelPage = (
                                 render={({ field }) => (
                                     <FormItem className="w-full">
                                         <FormLabel>
-                                            Variabel sub kriteria
+                                            Sub kriteria
                                         </FormLabel>
                                         <FormControl>
                                             <Combobox

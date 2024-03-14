@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Komponen } from "../_data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
+import { tahuns } from "../_data/data"
 
 export const columns: ColumnDef<Komponen>[] = [
   {
@@ -36,7 +37,7 @@ export const columns: ColumnDef<Komponen>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Name" />
+      <DataTableColumnHeader column={column} title="Nama" />
     ),
     cell: ({ row }) => {
 
@@ -71,14 +72,22 @@ export const columns: ColumnDef<Komponen>[] = [
       <DataTableColumnHeader column={column} title="Tahun" />
     ),
     cell: ({ row }) => {
+      const tahun = tahuns.find(
+        (tahun) => tahun.value === row.original.tahun
+      )
+
+      if (!tahun) {
+        return null
+      }
 
       return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("tahun")}
-          </span>
+        <div className="max-w-[500px] truncate font-medium items-center">
+          <span>{tahun.label}</span>
         </div>
       )
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
     },
   },
   {

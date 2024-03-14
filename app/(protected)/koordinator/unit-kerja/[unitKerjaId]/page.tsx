@@ -11,6 +11,7 @@ import { KodeWilayahForm } from "./_components/kode-wilayah-form";
 import { KodeUnitKerjaForm } from "./_components/kode-unit-kerja-form";
 import { PICForm } from "./_components/pic-form";
 import { UserRole, AccountRole } from "@prisma/client";
+import { JenisUnitKerjaForm } from "./_components/jenisUnitKerja-form";
 
 const UnitKerjaIdPage = async ({
     params
@@ -80,7 +81,7 @@ const UnitKerjaIdPage = async ({
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-y-2">
                                 <h1 className="text-2xl font-medium">
-                                    Unit Kerja setup
+                                Detail unit Kerja
                                 </h1>
                                 <span className="text-sm text-secondary-foreground">
                                     Complete all fields {completionText}
@@ -98,7 +99,7 @@ const UnitKerjaIdPage = async ({
                         <div className="flex items-center gap-x-2">
                             <IconBadge icon={LayoutDashboard} />
                             <h2 className="text-xl">
-                                Customize your unit kerja details
+                                Edit detail unit kerja
                             </h2>
                         </div>
                         <NameForm
@@ -113,12 +114,16 @@ const UnitKerjaIdPage = async ({
                             initialData={unitKerja}
                             unitKerjaId={unitKerja.id}
                         />
+                        <JenisUnitKerjaForm
+                            initialData={unitKerja}
+                            unitKerjaId={unitKerja.id}
+                        />
                     </div>
                     <div>
                         <div className="flex items-center gap-x-2">
                             <IconBadge icon={User} />
                             <h2 className="text-xl">
-                                Customize members of unit kerja
+                                Edit anggota unit kerja
                             </h2>
                         </div>
                         <PimpinanForm

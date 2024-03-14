@@ -30,8 +30,8 @@ export const Actions = ({
       await axios.delete(`/api/user/${userId}`);
 
       toast.success("User deleted");
-      router.refresh();
       router.push(`/koordinator/user`);
+      router.refresh();
     } catch {
       toast.error("Something went wrong");
     } finally {

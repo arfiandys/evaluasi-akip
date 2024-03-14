@@ -92,7 +92,7 @@ const CreateKriteriaPage = ({
                 <div className="flex flex-col">
                     <div>
                         <h1 className="text-2xl">
-                            Add your kriteria LKE
+                            Tambah kriteria LKE
                         </h1>
                         <p className="text-sm text-secondary-foreground">
                             What would you like to fill your kriteria LKE? Don&apos;t worry.
@@ -108,9 +108,9 @@ const CreateKriteriaPage = ({
                                     control={form.control}
                                     name="name"
                                     render={({ field }) => (
-                                        <FormItem className="w-[700px]">
+                                        <FormItem className="w-full">
                                             <FormLabel>
-                                                Name
+                                                Nama
                                             </FormLabel>
                                             <FormControl>
                                                 <Textarea
@@ -127,7 +127,7 @@ const CreateKriteriaPage = ({
                                     control={form.control}
                                     name="kode"
                                     render={({ field }) => (
-                                        <FormItem>
+                                        <FormItem className="w-full">
                                             <FormLabel>
                                                 Kode
                                             </FormLabel>
@@ -146,7 +146,7 @@ const CreateKriteriaPage = ({
                                     control={form.control}
                                     name="bobot"
                                     render={({ field }) => (
-                                        <FormItem>
+                                        <FormItem className="w-full">
                                             <FormLabel>
                                                 Bobot
                                             </FormLabel>

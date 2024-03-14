@@ -50,16 +50,16 @@ export const columns: ColumnDef<kriteriaKKE>[] = [
     },
   },
   {
-    accessorKey: "name",
+    accessorKey: "nama",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Name" />
+      <DataTableColumnHeader column={column} title="Nama" />
     ),
     cell: ({ row }) => {
 
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] text-wrap truncate font-medium">
-            {row.getValue("name")}
+            {row.getValue("nama")}
           </span>
         </div>
       )

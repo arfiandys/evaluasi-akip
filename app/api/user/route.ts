@@ -7,11 +7,7 @@ export async function POST(
 ) {
     try {
         const userId = await currentId();
-        const data = await req.json();
-        const name = data.name;
-        const email = data.email;
-        const password = data.password;
-        const role = data.role
+        const values = await req.json();
 
         if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
@@ -19,17 +15,14 @@ export async function POST(
 
         const user = await db.user.create({
             data: {
-                name,
-                email,
-                password,
-                role,
+                ...values
             }
         })
 
         return NextResponse.json(user);
 
     } catch (error) {
-        console.log("[UNIT KERJA]", error);
+        console.log("[PENGGUNA]", error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }

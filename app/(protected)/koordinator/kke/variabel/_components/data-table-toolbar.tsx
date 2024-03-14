@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DataTableViewOptions } from "../_components/data-table-view-options"
 
-import { kodeWilayahs, statuses } from "../_data/data"
+import { jenises, jenisKK, jenisesIKU, tahuns } from "../_data/data"
 import { DataTableFacetedFilter } from "./data-table-faceted-filter"
 
 interface DataTableToolbarProps<TData> {
@@ -23,25 +23,39 @@ export function DataTableToolbar<TData>({
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Filter name..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter nama..."
+          value={(table.getColumn("nama")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("nama")?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn("kodeWilayah") && (
+        {table.getColumn("jenisIsian") && (
           <DataTableFacetedFilter
-            column={table.getColumn("kodeWilayah")}
-            title="Kode Wilayah"
-            options={kodeWilayahs}
+            column={table.getColumn("jenisIsian")}
+            title="Jenis isian variabel"
+            options={jenises}
           />
         )}
-        {table.getColumn("status") && (
+        {table.getColumn("tahun") && (
           <DataTableFacetedFilter
-            column={table.getColumn("status")}
-            title="Status"
-            options={statuses}
+            column={table.getColumn("tahun")}
+            title="Tahun"
+            options={tahuns}
+          />
+        )}
+        {table.getColumn("isIndikatorKinerja") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("isIndikatorKinerja")}
+            title="Jenis kertas kerja"
+            options={jenisKK}
+          />
+        )}
+        {table.getColumn("jenisIsianIKU") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("jenisIsianIKU")}
+            title="Jenis isian IKU"
+            options={jenisesIKU}
           />
         )}
         {isFiltered && (

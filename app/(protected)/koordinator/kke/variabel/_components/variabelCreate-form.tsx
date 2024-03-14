@@ -43,7 +43,9 @@ const formSchema = z.object({
     jenisIsian: z.string().min(1, {
         message: "Jenis isian is required",
     }),
-    isIndikatorKinerja: z.coerce.boolean(),
+    jenisIsianIKU: z.string(),
+    isIndikatorKinerja: z.string().min(1),
+    petunjukEvaluasi: z.string(),
     kriteriaKKEId: z.string().min(1, {
         message: "Kriteria is required",
     }),
@@ -60,14 +62,20 @@ const CreateVariabelPage = (
 ) => {
     const [isEditing, setIsEditing] = useState(false);
     const toggleEdit = () => setIsEditing((current) => !current);
+    const [selectedJKK, setSelectedJKK] = useState<string>(
+        "false"
+    )
     const router = useRouter();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            kode: "",   
+            kode: "",
             nama: "",
             tahun: undefined,
-            jenisIsian: "",
+            jenisIsian: "number",
+            isIndikatorKinerja:"false",
+            jenisIsianIKU: "",
+            petunjukEvaluasi: "",
             kriteriaKKEId: "",
             variabelLKEId: "",
         },
@@ -75,13 +83,17 @@ const CreateVariabelPage = (
     });
 
     const { isSubmitting, isValid } = form.formState;
-    const { setValue, getValues, watch } = form
+    const { setValue, getValues, watch, resetField, reset } = form
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        const value = {
+            ...values,
+            isIndikatorKinerja: (values.isIndikatorKinerja === "true")
+        }
         try {
-            const response = await axios.post("/api/kke/variabel", values);
-            // router.push(`/koordinator/kke/variabel/${response.data.id}`);
+            const response = await axios.post("/api/kke/variabel", value);
             toast.success("Variabel created!")
+            reset()
             router.refresh()
         } catch {
             toast.error("Something went wrong!");
@@ -94,14 +106,23 @@ const CreateVariabelPage = (
         if (kriteriaId) {
             const selectedData = kriteria_options.find((option) => option.value === kriteriaId);
             const kodeKriteria = selectedData?.data.kode || "";
-            setValue("kode", kodeKriteria);
-            setValue("nama", selectedData?.data.name || "");
-            setValue("jenisIsian", selectedData?.data.jenisIsian || "");
-            setValue("tahun", Number(selectedData?.data.kelompokKriteriaKKE?.tahun || undefined));
+            setValue("kode", kodeKriteria,{ shouldValidate: true });
+            setValue("nama", selectedData?.data.nama || "",{ shouldValidate: true });
+            setValue("tahun", Number(selectedData?.data.kelompokKriteriaKKE?.tahun || undefined),{ shouldValidate: true });
         }
 
     }, [kriteriaId, setValue, kriteria_options]);
 
+    const jenisKK = watch("isIndikatorKinerja");
+
+    useEffect(() => {
+        if (jenisKK) {
+            setSelectedJKK(jenisKK)
+            resetField("jenisIsian")
+            resetField("jenisIsianIKU")
+        }
+
+    }, [jenisKK, resetField])
 
     return (
         <>
@@ -121,7 +142,7 @@ const CreateVariabelPage = (
                 <div className="flex flex-col">
                     <div>
                         <h1 className="text-2xl">
-                            Add your variabel KKE by kriteria
+                            Tambah variabel KKE
                         </h1>
                         <p className="text-sm text-secondary-foreground">
                             What would you like to fill your variabel KKE? Don&apos;t worry.
@@ -153,46 +174,104 @@ const CreateVariabelPage = (
                                                 </SelectContent>
                                             </Select>
                                             <FormDescription>
-                                                Its a indikator kinerja?
-                                            </FormDescription>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                {/* <FormField
-                                    control={form.control}
-                                    name="kode"
-                                    render={({ field }) => (
-                                        <FormItem className="w-full">
-                                            <FormLabel>
-                                                Kode
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    disabled
-                                                    placeholder="e.g. '1.1.1'"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormDescription>
                                                 What will you do in this Variabel?
                                             </FormDescription>
                                             <FormMessage />
                                         </FormItem>
                                     )}
                                 />
+                                {!(selectedJKK === "true") ? (
+                                        <FormField
+                                            control={form.control}
+                                            name="jenisIsian"
+                                            render={({ field }) => (
+                                                <FormItem className="w-full">
+                                                    <FormLabel>
+                                                        Jenis isian variabel
+                                                    </FormLabel>
+                                                    <Select onValueChange={field.onChange} >
+                                                        <FormControl>
+                                                            <SelectTrigger>
+                                                                <SelectValue placeholder="Pilih isian" />
+                                                            </SelectTrigger>
+                                                        </FormControl>
+                                                        <SelectContent>
+                                                            <SelectItem value="select">
+                                                                Select Yes / No
+                                                            </SelectItem>
+                                                            <SelectItem value="dropdown">
+                                                                Dropdown A/B/C
+                                                            </SelectItem>
+                                                            <SelectItem value="number">
+                                                                Number
+                                                            </SelectItem>
+                                                        </SelectContent>
+                                                    </Select>
+                                                    <FormDescription>
+                                                        What will you do in this Variabel?
+                                                    </FormDescription>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                ) : (
+                                    <>
+                                       
+                                    </>
+                                )}
+                                {(selectedJKK === "true") ? (
+                                        <FormField
+                                        control={form.control}
+                                        name="jenisIsianIKU"
+                                        render={({ field }) => (
+                                            <FormItem className="w-full">
+                                                <FormLabel>
+                                                    Jenis isian IKU
+                                                </FormLabel>
+                                                <Select onValueChange={field.onChange}>
+                                                    <FormControl>
+                                                        <SelectTrigger>
+                                                            <SelectValue placeholder="Pilih isian" />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent>
+                                                        <SelectItem value="select">
+                                                            Select Yes / No
+                                                        </SelectItem>
+                                                        <SelectItem value="dropdown">
+                                                            Dropdown A/B/C
+                                                        </SelectItem>
+                                                        <SelectItem value="number">
+                                                            Number
+                                                        </SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                                <FormDescription>
+                                                    What will you do in this Variabel?
+                                                </FormDescription>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                ) : (
+                                    <>
+                                        
+                                    </>
+                                )}
+
+
                                 <FormField
                                     control={form.control}
-                                    name="nama"
+                                    name="petunjukEvaluasi"
                                     render={({ field }) => (
                                         <FormItem className="w-full">
                                             <FormLabel>
-                                                Nama
+                                                Petunjuk
                                             </FormLabel>
                                             <FormControl>
                                                 <Textarea
-                                                    disabled
-                                                    placeholder="e.g. '1.1.1'"
+                                                    disabled={isSubmitting}
+                                                    placeholder="e.g. '......'"
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -203,50 +282,6 @@ const CreateVariabelPage = (
                                         </FormItem>
                                     )}
                                 />
-                                <FormField
-                                    control={form.control}
-                                    name="tahun"
-                                    render={({ field }) => (
-                                        <FormItem className="w-full">
-                                            <FormLabel>
-                                                Tahun
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    disabled
-                                                    placeholder="e.g. '2023'"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormDescription>
-                                                What will you do in this Variabel?
-                                            </FormDescription>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="jenisIsian"
-                                    render={({ field }) => (
-                                        <FormItem className="w-full">
-                                            <FormLabel>
-                                                Jenis isian
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    disabled
-                                                    placeholder="e.g. 'Yes/No'"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormDescription>
-                                                What will you do in this Variabel?
-                                            </FormDescription>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                /> */}
                                 <FormField
                                     control={form.control}
                                     name="kriteriaKKEId"

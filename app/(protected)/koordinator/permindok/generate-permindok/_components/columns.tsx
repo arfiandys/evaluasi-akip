@@ -139,8 +139,4 @@ export const columns: ColumnDef<permindokUnitKerja>[] = [
       }
     },
   },
-  {
-    id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
-  },
 ]

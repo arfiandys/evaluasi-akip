@@ -26,8 +26,8 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 
 interface CreateVariabelFormProps {
-    variabel_options: { label: string; value: string; data: VariabelKKE }[];
-    tsi_options: { label: string; value: string; data: TujuanSasaranIndikatorIKU & { IKU: IKU | null }}[];
+    variabel_options: { label: string; value: string; tahun: string; data: VariabelKKE }[];
+    tsi_options: { label: string; value: string; tahun: string; data: TujuanSasaranIndikatorIKU & { IKU: IKU | null } }[];
 };
 
 const formSchema = z.object({
@@ -67,7 +67,6 @@ const CreateVariabelIKUPage = (
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.post("/api/kke/variabel-iku", values);
-            // router.push(`/koordinator/kke/variabel/${response.data.id}`);
             toast.success("Variabel created!")
             router.refresh()
         } catch {
@@ -81,7 +80,7 @@ const CreateVariabelIKUPage = (
         if (tujuanSasaranIndikatorIKUId) {
             const selectedData = tsi_options.find((option) => option.value === tujuanSasaranIndikatorIKUId);
             const jenisIKU = selectedData?.data.IKU?.name || "";
-            setValue("jenisIKU", jenisIKU);
+            setValue("jenisIKU", jenisIKU,{shouldValidate:true});
         }
 
     }, [tujuanSasaranIndikatorIKUId, setValue, tsi_options]);
@@ -105,7 +104,7 @@ const CreateVariabelIKUPage = (
                 <div className="flex flex-col">
                     <div>
                         <h1 className="text-2xl">
-                            Add your variabel KKE IKU by kriteria
+                            Tambah variabel KKE IKU by kriteria
                         </h1>
                         <p className="text-sm text-secondary-foreground">
                             What would you like to fill your variabel KKE IKU? Don&apos;t worry.
@@ -117,84 +116,18 @@ const CreateVariabelIKUPage = (
                             className="mt-8 space-y-4"
                         >
                             <div className="flex flex-row space-x-4 items-start justify-between w-full">
-                                {/* <FormField
-                                    control={form.control}
-                                    name="kode"
-                                    render={({ field }) => (
-                                        <FormItem className="w-full">
-                                            <FormLabel>
-                                                Kode
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    disabled
-                                                    placeholder="e.g. '1.1.1'"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormDescription>
-                                                What will you do in this Variabel?
-                                            </FormDescription>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="nama"
-                                    render={({ field }) => (
-                                        <FormItem className="w-full">
-                                            <FormLabel>
-                                                Nama
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Textarea
-                                                    disabled
-                                                    placeholder="e.g. '1.1.1'"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormDescription>
-                                                What will you do in this Variabel?
-                                            </FormDescription>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="tahun"
-                                    render={({ field }) => (
-                                        <FormItem className="w-full">
-                                            <FormLabel>
-                                                Tahun
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    disabled
-                                                    placeholder="e.g. '2023'"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormDescription>
-                                                What will you do in this Variabel?
-                                            </FormDescription>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                /> */}
                                 <FormField
                                     control={form.control}
                                     name="jenisIKU"
                                     render={({ field }) => (
                                         <FormItem className="w-full">
                                             <FormLabel>
-                                                Jenis IKU
+                                                Nama IKU
                                             </FormLabel>
                                             <FormControl>
                                                 <Input
                                                     disabled
-                                                    placeholder="e.g. 'Yes/No'"
+                                                    placeholder="e.g. 'Kab/Kota..'"
                                                     {...field}
                                                 />
                                             </FormControl>

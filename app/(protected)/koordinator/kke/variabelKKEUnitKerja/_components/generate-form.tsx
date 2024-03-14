@@ -93,14 +93,14 @@ export const GeneratePage = ({
                 }
                 try {
                     const response = await axios.post("/api/kke/variabelKKEUnitKerja", value);
-                    toast.success("KKE created!")
+                    toast.success("KKE unit kerja created!")
+                    form.reset()
+                    router.refresh()
+
                 } catch {
                     toast.error("Something when wrong!");
                 }
             })
-            form.reset()
-            router.push(`/koordinator/kke/variabelKKEUnitKerja`);
-            router.refresh()
         } catch {
             toast.error("Can not generate KKE!");
         }
@@ -111,7 +111,7 @@ export const GeneratePage = ({
 
             <div className="w-full col-span-2">
                 <h1 className="text-2xl">
-                    Generate KKE unit kerja from your variabel list
+                    Generate KKE unit kerja
                 </h1>
                 <p className="text-sm text-secondary-foreground">
                     What would you like to generate your KKE? Don&apos;t worry.
@@ -129,7 +129,7 @@ export const GeneratePage = ({
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>
-                                        Pilih tahun
+                                        Tahun
                                     </FormLabel>
                                     <Select
                                         disabled={isSubmitting}
@@ -137,7 +137,7 @@ export const GeneratePage = ({
                                     >
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select a year" />
+                                                <SelectValue placeholder="Pilih tahun" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>

@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { useState } from "react";
 import { PlusCircle } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const formSchema = z.object({
     name: z.string().min(1, {
@@ -29,6 +30,9 @@ const formSchema = z.object({
     }),
     kodeUnitKerja: z.string().min(1, {
         message: "Kame unit kerja is required",
+    }),
+    jenisUnitKerja: z.string().min(1, {
+        message: "Jenis unit kerja is required",
     }),
 });
 
@@ -43,6 +47,7 @@ const CreateUnitKerjaPage = () => {
             name: "",
             kodeWilayah: "",
             kodeUnitKerja: "",
+            jenisUnitKerja: "",
         },
     });
 
@@ -53,6 +58,7 @@ const CreateUnitKerjaPage = () => {
             const response = await axios.post("/api/unit-kerja", values);
             router.push(`/koordinator/unit-kerja/${response.data.id}`);
             toast.success("Unit Kerja created!")
+            router.refresh()
         } catch {
             toast.error("Something went wrong!");
         }
@@ -76,7 +82,7 @@ const CreateUnitKerjaPage = () => {
                 <div className="flex flex-col">
                     <div>
                         <h1 className="text-2xl">
-                            Add your unit kerja
+                            Tambah unit kerja
                         </h1>
                         <p className="text-sm text-secondary-foreground">
                             What would you like to fill your unit kerja? Don&apos;t worry.
@@ -94,12 +100,31 @@ const CreateUnitKerjaPage = () => {
                                     render={({ field }) => (
                                         <FormItem className="w-full">
                                             <FormLabel>
-                                                Unit kerja name
+                                                Nama
                                             </FormLabel>
                                             <FormControl>
                                                 <Input
                                                     disabled={isSubmitting}
                                                     placeholder="e.g. 'Unit one'"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />                                
+                                <FormField
+                                    control={form.control}
+                                    name="kodeUnitKerja"
+                                    render={({ field }) => (
+                                        <FormItem className="w-full">
+                                            <FormLabel>
+                                                Kode unit kerja
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    disabled={isSubmitting}
+                                                    placeholder="e.g. '0000'"
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -118,7 +143,7 @@ const CreateUnitKerjaPage = () => {
                                             <FormControl>
                                                 <Input
                                                     disabled={isSubmitting}
-                                                    placeholder="e.g. '3524'"
+                                                    placeholder="e.g. '00'"
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -127,24 +152,38 @@ const CreateUnitKerjaPage = () => {
                                     )}
                                 />
                                 <FormField
-                                    control={form.control}
-                                    name="kodeUnitKerja"
-                                    render={({ field }) => (
-                                        <FormItem className="w-full">
-                                            <FormLabel>
-                                                Kode unit kerja
-                                            </FormLabel>
+                                control={form.control}
+                                name="jenisUnitKerja"
+                                render={({ field }) => (
+                                    <FormItem className="w-full">
+                                        <FormLabel>
+                                            Jenis unit kerja
+                                        </FormLabel>
+                                        <Select
+                                            disabled={isSubmitting}
+                                            onValueChange={field.onChange}
+                                        >
                                             <FormControl>
-                                                <Input
-                                                    disabled={isSubmitting}
-                                                    placeholder="e.g. '0011'"
-                                                    {...field}
-                                                />
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Pilih isian" />
+                                                </SelectTrigger>
                                             </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                                            <SelectContent>
+                                                <SelectItem value="kab/kota">
+                                                    Kabupaten/Kota
+                                                </SelectItem>
+                                                <SelectItem value="provinsi">
+                                                    Provinsi
+                                                </SelectItem>
+                                                <SelectItem value="pusat">
+                                                    Pusat
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                             </div>
                             <div className="flex items-center justify-end gap-x-2">
                                 <Button

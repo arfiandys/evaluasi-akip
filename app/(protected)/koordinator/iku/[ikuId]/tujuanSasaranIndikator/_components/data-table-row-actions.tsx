@@ -47,21 +47,6 @@ export function DataTableRowActions<TData>({
         <Link href={`/koordinator/iku/${params.ikuId}/tujuanSasaranIndikator/${tujuanSasaranIndikatorIKU.id}`}>
           <DropdownMenuItem>Edit</DropdownMenuItem>
         </Link>
-        <DropdownMenuItem>Make a copy</DropdownMenuItem>
-        <DropdownMenuItem>Favorite</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Name</DropdownMenuSubTrigger>
-          <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={tujuanSasaranIndikatorIKU.kode}>
-              {jenises.map((jenis) => (
-                <DropdownMenuRadioItem key={jenis.value} value={jenis.value}>
-                  {jenis.label}
-                </DropdownMenuRadioItem>
-              ))}
-            </DropdownMenuRadioGroup>
-          </DropdownMenuSubContent>
-        </DropdownMenuSub>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           Delete

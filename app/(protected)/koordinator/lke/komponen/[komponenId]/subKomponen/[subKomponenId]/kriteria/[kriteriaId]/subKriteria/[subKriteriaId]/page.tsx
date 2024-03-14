@@ -13,7 +13,7 @@ import { KodeForm } from "./_components/kode-form";
 const KriteriaIdPage = async ({
     params
 }: {
-    params: { komponenId: string, subKomponenId: string, kriteriaId: string ,subKriteriaId: string}
+    params: { komponenId: string, subKomponenId: string, kriteriaId: string, subKriteriaId: string }
 }) => {
 
     const userId = await currentId();
@@ -58,7 +58,7 @@ const KriteriaIdPage = async ({
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-y-2">
                                 <h1 className="text-2xl font-medium">
-                                    Sub kriteria setup
+                                    Detail sub kriteria
                                 </h1>
                                 <span className="text-sm text-secondary-foreground">
                                     Complete all fields {completionText}
@@ -74,14 +74,14 @@ const KriteriaIdPage = async ({
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
-                    <div>
-                        <div className="flex items-center gap-x-2">
-                            <IconBadge icon={LayoutDashboard} />
-                            <h2 className="text-xl">
-                                Customize your sub kriteria
-                            </h2>
-                        </div>
+                <div className=" mt-16">
+                    <div className="flex items-center gap-x-2">
+                        <IconBadge icon={LayoutDashboard} />
+                        <h2 className="text-xl">
+                            Edit detail sub kriteria
+                        </h2>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <NameForm
                             initialData={subKriteria}
                             subKriteriaId={params.subKriteriaId}
@@ -96,25 +96,15 @@ const KriteriaIdPage = async ({
                             subKomponenId={params.subKomponenId}
                             komponenId={params.komponenId}
                         />
+                        <BobotForm
+                            initialData={subKriteria}
+                            subKriteriaId={params.subKriteriaId}
+                            kriteriaId={params.kriteriaId}
+                            subKomponenId={params.subKomponenId}
+                            komponenId={params.komponenId}
+                        />
                     </div>
-                    <div className="space-y-6">
-                        <div>
-                            <div className="flex items-center gap-x-2">
-                                <IconBadge icon={ListChecks} />
-                                <h2 className="text-xl">
-                                    Detail Sub kriteria
-                                </h2>
-                            </div>                            
-                            <BobotForm
-                                initialData={subKriteria}
-                                subKriteriaId={params.subKriteriaId}
-                                kriteriaId={params.kriteriaId}
-                                subKomponenId={params.subKomponenId}
-                                komponenId={params.komponenId}
-                            />
-                        </div>
-                    </div>
-                </div>                
+                </div>
             </div>
         </>
     );

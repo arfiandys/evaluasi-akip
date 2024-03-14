@@ -75,7 +75,7 @@ const SubKomponenIdPage = async ({
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-y-2">
                                 <h1 className="text-2xl font-medium">
-                                    Sub komponen setup
+                                    Detail sub komponen
                                 </h1>
                                 <span className="text-sm text-secondary-foreground">
                                     Complete all fields {completionText}
@@ -89,14 +89,14 @@ const SubKomponenIdPage = async ({
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
-                    <div>
-                        <div className="flex items-center gap-x-2">
-                            <IconBadge icon={LayoutDashboard} />
-                            <h2 className="text-xl">
-                                Customize your sub komponen
-                            </h2>
-                        </div>
+                <div className="mt-16">
+                    <div className="flex items-center gap-x-2">
+                        <IconBadge icon={LayoutDashboard} />
+                        <h2 className="text-xl">
+                            Edit detail sub komponen
+                        </h2>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
                         <NameForm
                             initialData={subKomponen}
                             subKomponenId={subKomponen.id}
@@ -107,21 +107,11 @@ const SubKomponenIdPage = async ({
                             subKomponenId={subKomponen.id}
                             komponenId={subKomponen?.komponenLKEId!}
                         />
-                    </div>
-                    <div className="space-y-6">
-                        <div>
-                            <div className="flex items-center gap-x-2">
-                                <IconBadge icon={ListChecks} />
-                                <h2 className="text-xl">
-                                    Sub komponen details
-                                </h2>
-                            </div>
-                            <BobotForm
-                                initialData={subKomponen}
-                                subKomponenId={subKomponen.id}
-                                komponenId={subKomponen?.komponenLKEId!}
-                            />
-                        </div>
+                        <BobotForm
+                            initialData={subKomponen}
+                            subKomponenId={subKomponen.id}
+                            komponenId={subKomponen?.komponenLKEId!}
+                        />
                     </div>
                 </div>
                 <div className="grid grid-cols-1 gap-4 mt-16">

@@ -90,7 +90,7 @@ const CreateSubKriteriaPage = ({
                 <div className="flex flex-col">
                     <div>
                         <h1 className="text-2xl">
-                            Add your sub kriteria LKE
+                            Tambah sub kriteria LKE
                         </h1>
                         <p className="text-sm text-secondary-foreground">
                             What would you like to fill your sub kriteria LKE? Don&apos;t worry.
@@ -106,9 +106,9 @@ const CreateSubKriteriaPage = ({
                                     control={form.control}
                                     name="name"
                                     render={({ field }) => (
-                                        <FormItem className="w-[700px]">
+                                        <FormItem className="w-full">
                                             <FormLabel>
-                                                Name
+                                                Nama
                                             </FormLabel>
                                             <FormControl>
                                                 <Textarea
@@ -125,7 +125,7 @@ const CreateSubKriteriaPage = ({
                                     control={form.control}
                                     name="kode"
                                     render={({ field }) => (
-                                        <FormItem>
+                                        <FormItem className="w-full">
                                             <FormLabel>
                                                 Kode
                                             </FormLabel>
@@ -144,7 +144,7 @@ const CreateSubKriteriaPage = ({
                                     control={form.control}
                                     name="bobot"
                                     render={({ field }) => (
-                                        <FormItem>
+                                        <FormItem className="w-full">
                                             <FormLabel>
                                                 Bobot
                                             </FormLabel>

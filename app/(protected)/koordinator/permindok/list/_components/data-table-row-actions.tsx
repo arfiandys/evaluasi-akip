@@ -43,24 +43,10 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <Link href={`/koordinator/permindok/${permindok.id}`}>
+        <Link href={`/koordinator/permindok/list/${permindok.id}`}>
           <DropdownMenuItem>Edit</DropdownMenuItem>
         </Link>
-        <DropdownMenuItem>Make a copy</DropdownMenuItem>
-        <DropdownMenuItem>Favorite</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Tahun</DropdownMenuSubTrigger>
-          <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={permindok.kode}>
-              {jenises.map((jenis) => (
-                <DropdownMenuRadioItem key={jenis.value} value={jenis.value}>
-                  {jenis.label}
-                </DropdownMenuRadioItem>
-              ))}
-            </DropdownMenuRadioGroup>
-          </DropdownMenuSubContent>
-        </DropdownMenuSub>
+        
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           Delete

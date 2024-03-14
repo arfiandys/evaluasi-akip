@@ -59,12 +59,12 @@ export const KriteriaOrSubCreateForm = ({
             {isKriteria ? (
               <>
                 <RefreshCcw className="h-4 w-4 mr-2" />
-                Swipe to sub kriteria
+                Swipe ke sub kriteria
               </>
             ) : (
               <>
                 <RefreshCcw className="h-4 w-4 mr-2" />
-                Swipe to kriteria
+                Swipe ke kriteria
               </>
             )}
           </Button>

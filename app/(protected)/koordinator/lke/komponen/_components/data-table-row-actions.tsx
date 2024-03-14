@@ -17,8 +17,6 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-
-import { jenises } from "../_data/data"
 import { komponenSchema } from "../_data/schema"
 import Link from "next/link"
 
@@ -46,21 +44,6 @@ export function DataTableRowActions<TData>({
         <Link href={`/koordinator/lke/komponen/${komponen.id}`}>
           <DropdownMenuItem>Edit</DropdownMenuItem>
         </Link>
-        <DropdownMenuItem>Make a copy</DropdownMenuItem>
-        <DropdownMenuItem>Favorite</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Name</DropdownMenuSubTrigger>
-          <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={komponen.name}>
-              {jenises.map((jenis) => (
-                <DropdownMenuRadioItem key={jenis.value} value={jenis.value}>
-                  {jenis.label}
-                </DropdownMenuRadioItem>
-              ))}
-            </DropdownMenuRadioGroup>
-          </DropdownMenuSubContent>
-        </DropdownMenuSub>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           Delete

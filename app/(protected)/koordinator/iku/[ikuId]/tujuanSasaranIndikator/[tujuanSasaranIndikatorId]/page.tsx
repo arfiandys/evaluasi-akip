@@ -52,12 +52,12 @@ const TujuanSasatanIndikatorIdPage = async ({
                             className="flex items-center text-sm hover:opacity-75 transition mb-6"
                         >
                             <ArrowLeft className="h-4 w-4 mr-2" />
-                            Back to tujuan IKU list
+                            Back to Tujuan/Sasaran/Indikator IKU list
                         </Link>
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-y-2">
                                 <h1 className="text-2xl font-medium">
-                                    Tujuan IKU setup
+                                    Detail Tujuan/Sasaran/Indikator IKU
                                 </h1>
                                 <span className="text-sm text-secondary-foreground">
                                     Complete all fields {completionText}
@@ -71,14 +71,14 @@ const TujuanSasatanIndikatorIdPage = async ({
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
-                    <div>
-                        <div className="flex items-center gap-x-2">
-                            <IconBadge icon={LayoutDashboard} />
-                            <h2 className="text-xl">
-                                Customize your Tujuan IKU
-                            </h2>
-                        </div>
+                <div className="mt-16">
+                    <div className="flex items-center gap-x-2">
+                        <IconBadge icon={LayoutDashboard} />
+                        <h2 className="text-xl">
+                            Edit Tujuan/Sasaran/Indikator IKU
+                        </h2>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
                         <NameForm
                             initialData={tujuanSasaranIndikatorIKU}
                             IKUId={params.ikuId}
@@ -89,21 +89,11 @@ const TujuanSasatanIndikatorIdPage = async ({
                             IKUId={params.ikuId}
                             tujuanId={params.tujuanSasaranIndikatorId}
                         />
-                    </div>
-                    <div className="space-y-6">
-                        <div>
-                            <div className="flex items-center gap-x-2">
-                                <IconBadge icon={ListChecks} />
-                                <h2 className="text-xl">
-                                    Tujuan/Sasaran/Indikator details
-                                </h2>
-                            </div>
-                            <KodeForm
-                                initialData={tujuanSasaranIndikatorIKU}
-                                IKUId={params.ikuId}
-                                tujuanId={params.tujuanSasaranIndikatorId}
-                            />
-                        </div>
+                        <KodeForm
+                            initialData={tujuanSasaranIndikatorIKU}
+                            IKUId={params.ikuId}
+                            tujuanId={params.tujuanSasaranIndikatorId}
+                        />
                     </div>
                 </div>
             </div>

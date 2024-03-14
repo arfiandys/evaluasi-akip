@@ -19,7 +19,7 @@ const KelompokKriteriaPage = async () => {
         include: {
             kriteriaKKE: {
                 orderBy: {
-                    name: "asc"
+                    nama: "asc"
                 }
             }
         }

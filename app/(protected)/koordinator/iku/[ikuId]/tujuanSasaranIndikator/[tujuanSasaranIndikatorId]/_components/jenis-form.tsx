@@ -65,14 +65,14 @@ export const JenisForm = ({
   return (
     <div className="mt-6 border bg-background rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Tujuan IKU jenis
+        Jenis
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit jenis
+              Edit Jenis
             </>
           )}
         </Button>
@@ -93,38 +93,35 @@ export const JenisForm = ({
               name="jenis"
               render={({ field }) => (
                 <FormField
-                                    control={form.control}
-                                    name="jenis"
-                                    render={({ field }) => (
-                                        <FormItem className="w-full">
-                                            <FormLabel>
-                                                Tujuan/Sasaran/Indikator
-                                            </FormLabel>
-                                            <Select
-                                                disabled={isSubmitting}
-                                                onValueChange={field.onChange}
-                                            >
-                                                <FormControl>
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="Select a isian" />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent>
-                                                    <SelectItem value="tujuan">
-                                                        Tujuan
-                                                    </SelectItem>
-                                                    <SelectItem value="sasaran">
-                                                        Sasaran
-                                                    </SelectItem>
-                                                    <SelectItem value="indikator">
-                                                        Indikator
-                                                    </SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                  control={form.control}
+                  name="jenis"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <Select
+                        disabled={isSubmitting}
+                        onValueChange={field.onChange}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a isian" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="tujuan">
+                            Tujuan
+                          </SelectItem>
+                          <SelectItem value="sasaran">
+                            Sasaran
+                          </SelectItem>
+                          <SelectItem value="indikator">
+                            Indikator
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               )}
             />
             <div className="flex items-center gap-x-2">

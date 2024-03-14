@@ -55,7 +55,7 @@ export const TahunForm = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/iku/${IKUId}`, values);
-      toast.success("Komponen updated");
+      toast.success("IKU updated");
       toggleEdit();
       router.refresh();
     } catch {
@@ -66,7 +66,7 @@ export const TahunForm = ({
   return (
     <div className="mt-6 border bg-background rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        IKU tahun
+        Tahun
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>

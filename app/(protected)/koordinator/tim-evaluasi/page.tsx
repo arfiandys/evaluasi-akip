@@ -23,6 +23,13 @@ const TimEvaluasiPage = async () => {
             users: {
                 orderBy: {
                     userId: "asc"
+                },
+                include: {
+                    user: {
+                        include: {
+                            unitKerjas: true
+                        }
+                    }
                 }
             }
         }

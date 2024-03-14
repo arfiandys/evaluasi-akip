@@ -51,7 +51,7 @@ export const NameForm = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/iku/${IKUId}`, values);
-      toast.success("Komponen updated");
+      toast.success("IKU updated");
       toggleEdit();
       router.refresh();
     } catch {
@@ -62,14 +62,14 @@ export const NameForm = ({
   return (
     <div className="mt-6 border bg-background rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        IKU name
+        Nama
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit name
+              Edit nama
             </>
           )}
         </Button>

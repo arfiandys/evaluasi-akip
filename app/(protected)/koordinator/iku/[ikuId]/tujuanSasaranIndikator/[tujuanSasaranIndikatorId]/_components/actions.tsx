@@ -30,9 +30,9 @@ export const Actions = ({
     try {
       setIsLoading(true);
 
-      await axios.delete(`/api/iku/${IKUId}/tujuan/${tujuanId}`);
+      await axios.delete(`/api/iku/${IKUId}/tujuanSasaranIndikator/${tujuanId}`);
 
-      toast.success("Tujuan deleted");
+      toast.success("Tujuan/Sasaran/Indikator deleted");
       router.refresh();
       router.push(`/koordinator/iku/${IKUId}`);
       router.refresh();

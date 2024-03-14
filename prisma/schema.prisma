@@ -34,7 +34,7 @@ model User {
   id            String      @id @default(cuid())
   name          String?
   email         String?     @unique
-  emailVerified DateTime?
+  emailVerified DateTime? //account
   image         String?
   password      String?
   role          AccountRole @default(USER)
@@ -83,11 +83,11 @@ model PasswordResetToken {
 
 // UNIT KERJA ================================================================================================
 model UnitKerja {
-  id             String  @id @default(cuid())
-  kodeWilayah    String  @db.Text
-  kodeUnitKerja  String  @db.Text
-  name           String  @db.Text
-  jenisUnitKerja String? // tidak perlu
+  id             String @id @default(cuid())
+  kodeWilayah    String @db.Text
+  kodeUnitKerja  String @unique @db.Text
+  name           String @unique @db.Text
+  jenisUnitKerja String
 
   users                                         UserOnUnitKerja[]
   variabelLKEs                                  LKEUnitKerja[]
@@ -150,7 +150,6 @@ model Permindok {
   @@unique([kode, tahun])
 }
 
-// PERMINDOK UNIT KERJA
 model PermindokUnitKerja {
   url         String?
   nameDokumen String?
@@ -212,6 +211,8 @@ model TujuanSasaranIndikatorIKUVariabelKKE {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([variabelKKEId,tujuanSasaranIndikatorIKUId])
 }
 
 // KK INDIKATOR KINERJA
@@ -259,7 +260,7 @@ model VariabelKKE {
   id                 String  @id @default(cuid())
   tahun              Int
   jenisIsian         String
-  jenisIsianIKU      String
+  jenisIsianIKU      String?
   kode               String
   nama               String
   petunjukEvaluasi   String?
@@ -299,8 +300,7 @@ model KelompokKriteriaKKE {
 model KriteriaKKE {
   id                    String              @id @default(cuid())
   kode                  String
-  name                  String              @unique
-  jenisIsian            String
+  nama                  String              @unique
   kelompokKriteriaKKEId String
   kelompokKriteriaKKE   KelompokKriteriaKKE @relation(fields: [kelompokKriteriaKKEId], references: [id], onDelete: Cascade)
   variabelKKE           VariabelKKE?
@@ -308,7 +308,7 @@ model KriteriaKKE {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([name, kode, kelompokKriteriaKKEId])
+  @@unique([nama, kode, kelompokKriteriaKKEId])
   @@index([kelompokKriteriaKKEId])
 }
 

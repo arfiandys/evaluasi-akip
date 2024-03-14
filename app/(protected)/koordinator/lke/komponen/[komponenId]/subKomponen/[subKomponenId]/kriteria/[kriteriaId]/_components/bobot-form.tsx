@@ -71,7 +71,7 @@ export const BobotForm = ({
   return (
     <div className="mt-6 border bg-background rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Komponen bobot
+        Bobot
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>

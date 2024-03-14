@@ -64,7 +64,7 @@ const UserIdPage = async ({
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-y-2">
                                 <h1 className="text-2xl font-medium">
-                                    User setup
+                                    Detail pengguna
                                 </h1>
                                 <span className="text-sm text-secondary-foreground">
                                     Complete all fields {completionText}
@@ -77,34 +77,37 @@ const UserIdPage = async ({
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+                <div className="mt-16">
                     <div>
                         <div className="flex items-center gap-x-2">
                             <IconBadge icon={LayoutDashboard} />
                             <h2 className="text-xl">
-                                Customize your unit kerja details
+                                Edit detail pengguna
                             </h2>
                         </div>
-                        <NameForm
-                            initialData={user}
-                            userId={user.id}
-                        />
-                        {!user.accounts.length && (
-                        <EmailForm
-                            initialData={user}
-                            userId={user.id}
-                        />
-                        )}                    
-                        <RoleForm
-                            initialData={user}
-                            userId={user.id}
-                        />
-                        {!user.accounts.length && (
-                        <PasswordForm
-                            initialData={user}
-                            userId={user.id}
-                        />
-                        )}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
+
+                            <NameForm
+                                initialData={user}
+                                userId={user.id}
+                            />
+                            <RoleForm
+                                initialData={user}
+                                userId={user.id}
+                            />
+                            {!user.accounts.length && (
+                                <EmailForm
+                                    initialData={user}
+                                    userId={user.id}
+                                />
+                            )}
+                            {!user.accounts.length && (
+                                <PasswordForm
+                                    initialData={user}
+                                    userId={user.id}
+                                />
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -38,7 +38,7 @@ export const columns: ColumnDef<Kriteria>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Name" />
+      <DataTableColumnHeader column={column} title="Nama" />
     ),
     cell: ({ row }) => {
 

@@ -17,8 +17,6 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-
-import { jenises } from "../_data/data"
 import { kriteriaSchema } from "../_data/schema"
 import Link from "next/link"
 import { useParams } from "next/navigation"
@@ -48,21 +46,6 @@ export function DataTableRowActions<TData>({
         <Link href={`/koordinator/lke/komponen/${params.komponenId}/subKomponen/${kriteria.subKomponenLKEId}/kriteria/${kriteria.id}`}>
           <DropdownMenuItem>Edit</DropdownMenuItem>
         </Link>
-        <DropdownMenuItem>Make a copy</DropdownMenuItem>
-        <DropdownMenuItem>Favorite</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Name</DropdownMenuSubTrigger>
-          <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={kriteria.name}>
-              {jenises.map((jenis) => (
-                <DropdownMenuRadioItem key={jenis.value} value={jenis.value}>
-                  {jenis.label}
-                </DropdownMenuRadioItem>
-              ))}
-            </DropdownMenuRadioGroup>
-          </DropdownMenuSubContent>
-        </DropdownMenuSub>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           Delete

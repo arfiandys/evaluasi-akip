@@ -46,21 +46,6 @@ export function DataTableRowActions<TData>({
         <Link href={`/koordinator/unit-kerja/${unitKerja.id}`}>
           <DropdownMenuItem>Edit</DropdownMenuItem>
         </Link>
-        <DropdownMenuItem>Make a copy</DropdownMenuItem>
-        <DropdownMenuItem>Favorite</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
-          <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={unitKerja.kodeWilayah}>
-              {jenises.map((jenis) => (
-                <DropdownMenuRadioItem key={jenis.value} value={jenis.value}>
-                  {jenis.label}
-                </DropdownMenuRadioItem>
-              ))}
-            </DropdownMenuRadioGroup>
-          </DropdownMenuSubContent>
-        </DropdownMenuSub>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           Delete

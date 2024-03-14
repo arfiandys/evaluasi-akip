@@ -36,19 +36,10 @@ export const columns: ColumnDef<unitKerja>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  // {
-  //   accessorKey: "name",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Name" />
-  //   ),
-  //   cell: ({ row }) => <div className="w-[120px]">{row.getValue("name")}</div>,
-  //   enableSorting: true,
-  //   enableHiding: false,
-  // },  
   {
     accessorKey: "name",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Name" />
+      <DataTableColumnHeader column={column} title="Nama" />
     ),
     cell: ({ row }) => {
       const label = jenises.find((jenis) => jenis.value === row.original.name)
@@ -108,6 +99,30 @@ export const columns: ColumnDef<unitKerja>[] = [
     },
   },
   {
+    accessorKey: "jenisUnitKerja",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Jenis Unit Kerja" />
+    ),
+    cell: ({ row }) => {
+      const jenis = jenises.find(
+        (jenis) => jenis.value === row.original.jenisUnitKerja
+      )
+
+      if (!jenis) {
+        return null
+      }
+
+      return (
+        <div className="flex w-[100px] items-center">
+          <span>{jenis.label}</span>
+        </div>
+      )
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
+  },
+  {
     id: "status",
     accessorFn: row => {
       const status =
@@ -159,7 +174,7 @@ export const columns: ColumnDef<unitKerja>[] = [
   {
     accessorKey: "users",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Member" />
+      <DataTableColumnHeader column={column} title="Anggota" />
     ),
     cell: ({ row }) => <div className="w-[120px]">{row.original.users.length}</div>,
   },

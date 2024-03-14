@@ -173,14 +173,14 @@ export const DalnisForm = ({
   return (
     <div className="mt-6 border bg-background rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Dalnis tim evaluasi
+        Pengendali teknis tim evaluasi
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit dalnis
+              Edit pengendali teknis
             </>
           )}
         </Button>
@@ -189,7 +189,7 @@ export const DalnisForm = ({
         <>
           {!selectedOption?.label && (
             <p className="text-sm mt-2 text-slate-500 italic">
-              No ketua yet
+              No dalnis yet
             </p>
           )}
           {selectedOption?.label && (

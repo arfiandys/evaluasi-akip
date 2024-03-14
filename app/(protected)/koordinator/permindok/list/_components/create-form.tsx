@@ -76,7 +76,7 @@ const CreatePermindokPage = () => {
                 <div className="flex flex-col">
                     <div>
                         <h1 className="text-2xl">
-                            Add your permindok
+                            Tambah permintaan dokumen
                         </h1>
                         <p className="text-sm text-secondary-foreground">
                             What would you like to fill your permindok? Don&apos;t worry.
@@ -94,7 +94,7 @@ const CreatePermindokPage = () => {
                                     render={({ field }) => (
                                         <FormItem className="w-full">
                                             <FormLabel>
-                                                Permindok name
+                                                Nama
                                             </FormLabel>
                                             <FormControl>
                                                 <Input
@@ -118,7 +118,7 @@ const CreatePermindokPage = () => {
                                             <FormControl>
                                                 <Input
                                                     disabled={isSubmitting}
-                                                    placeholder="e.g. '3524'"
+                                                    placeholder="e.g. '1...'"
                                                     {...field}
                                                 />
                                             </FormControl>

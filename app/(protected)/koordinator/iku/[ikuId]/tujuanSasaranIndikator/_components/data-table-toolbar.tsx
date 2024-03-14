@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DataTableViewOptions } from "./data-table-view-options"
 
-import { kodeWilayahs, statuses } from "../_data/data"
+import { jenises } from "../_data/data"
 import { DataTableFacetedFilter } from "./data-table-faceted-filter"
 
 interface DataTableToolbarProps<TData> {
@@ -30,18 +30,11 @@ export function DataTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn("kodeWilayah") && (
+        {table.getColumn("jenis") && (
           <DataTableFacetedFilter
-            column={table.getColumn("kodeWilayah")}
-            title="Kode Wilayah"
-            options={kodeWilayahs}
-          />
-        )}
-        {table.getColumn("status") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("status")}
-            title="Status"
-            options={statuses}
+            column={table.getColumn("jenis")}
+            title="Jenis"
+            options={jenises}
           />
         )}
         {isFiltered && (

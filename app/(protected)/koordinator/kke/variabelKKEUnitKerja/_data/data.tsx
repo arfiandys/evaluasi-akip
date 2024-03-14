@@ -11,57 +11,40 @@ import {
   StopwatchIcon,
 } from "@radix-ui/react-icons"
 
-//=================mencoba yang gagal====//
-
-// const variabel = async () => {
-//   try {
-//     const variabelLKE = await db.variabelLKE.findMany({
-//       orderBy: {
-//         kode: "asc",
-//       },
-//     });
-//     const variabel_tahun = variabelLKE.filter(function (variabel) {
-//       return variabel.tahun;
-//     }).map(function (variabel) { return variabel.tahun })
-
-//     const tahun = variabel_tahun.filter(function (v, i, self) {
-//       return i == self.indexOf(v);
-//     }).map(function (variabel) { return {value: variabel, label: variabel }})
-
-//     return tahun
-//   } catch (error) {
-//     console.error(`ERROR:${error}`)
-//   }  
-// }
-// Inisialisasi objek array konstan
-// const tahun = [];
-
-// // Function untuk mengambil data dan menyimpannya dalam objek array
-// const fetchDataAndStore = async () => {
-//   try {
-//     // Memanggil async function getData
-//     const result = await variabel();
-
-//     // Menyimpan hasil dalam objek array konstan
-//     if (result) {
-//       result.forEach(element => {
-//         tahun.push(element);
-//       });
-//     }
-
-
-//     // Lakukan operasi lain di sini jika diperlukan
-//   } catch (error) {
-//     console.error('Error:', error);
-//   }
-// };
-
-// // Memanggil function fetchDataAndStore
-// fetchDataAndStore();
-
-//=================mencoba yang gagal====//
-
-
+export const unitkerjas =[
+  {
+    value: "BPS Provinsi Jawa Timur",
+    label: "BPS Provinsi Jawa Timur"
+  },
+  {
+    value: "BPS Kabupaten Lamongan",
+    label: "BPS Kabupaten Lamongan"
+  },
+  {
+    value: "BPS Kabupaten Tuban",
+    label: "BPS Kabupaten Tuban"
+  },
+  {
+    value: "BPS Kabupaten Bojonegoro",
+    label: "BPS Kabupaten Bojonegoro"
+  },
+  {
+    value: "BPS Kabupaten Jombang",
+    label: "BPS Kabupaten Jombang"
+  },
+  {
+    value: "BPS Kabupaten Malang",
+    label: "BPS Kabupaten Malang"
+  },
+  {
+    value: "BPS Kabupaten Gresik",
+    label: "BPS Kabupaten Gresik"
+  },
+  {
+    value: "BPS Kabupaten Mojokerjo",
+    label: "BPS Kabupaten Mojokerto"
+  },
+]
 
 export const jenises = [
   {
@@ -78,46 +61,6 @@ export const jenises = [
   },
 ]
 
-export const kodeWilayahs = [
-  {
-    value: "31",
-    label: "31",
-    icon: GlobeIcon,
-  },
-  {
-    value: "32",
-    label: "32",
-    icon: GlobeIcon,
-  },
-  {
-    value: "33",
-    label: "33",
-    icon: GlobeIcon,
-  },
-  {
-    value: "34",
-    label: "34",
-    icon: GlobeIcon,
-  },
-  {
-    value: "35",
-    label: "35",
-    icon: GlobeIcon,
-  },
-]
-
-export const statuses = [
-  {
-    label: "Incomplete",
-    value: "incomplete",
-    icon: CrossCircledIcon,
-  },
-  {
-    label: "Complete",
-    value: "complete",
-    icon: CheckCircledIcon,
-  },
-]
 
 export const tahuns = [
   {
@@ -135,5 +78,13 @@ export const tahuns = [
   {
     label: "2024",
     value: "2024",
+  },
+  {
+    label: "2025",
+    value: "2025",
+  },
+  {
+    label: "2026",
+    value: "2026",
   },
 ]

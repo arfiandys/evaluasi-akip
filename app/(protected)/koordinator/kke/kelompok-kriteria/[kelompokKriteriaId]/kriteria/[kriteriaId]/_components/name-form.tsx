@@ -27,8 +27,8 @@ interface NameFormProps {
 };
 
 const formSchema = z.object({
-  name: z.string().min(1, {
-    message: "Name is required",
+  nama: z.string().min(1, {
+    message: "Nama is required",
   }),
 });
 
@@ -64,21 +64,21 @@ export const NameForm = ({
   return (
     <div className="mt-6 border bg-background rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Kriteria KKE name
+        Nama
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit name
+              Edit nama
             </>
           )}
         </Button>
       </div>
       {!isEditing && (
         <p className="text-sm mt-2">
-          {initialData.name}
+          {initialData.nama}
         </p>
       )}
       {isEditing && (
@@ -89,7 +89,7 @@ export const NameForm = ({
           >
             <FormField
               control={form.control}
-              name="name"
+              name="nama"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>

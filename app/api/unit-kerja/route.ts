@@ -7,10 +7,7 @@ export async function POST(
 ) {
     try {
         const userId = await currentId();
-        const data = await req.json();
-        const name = data.name;
-        const kodeWilayah = data.kodeWilayah;
-        const kodeUnitKerja = data.kodeUnitKerja;
+        const values = await req.json();
 
         if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
@@ -18,10 +15,9 @@ export async function POST(
 
         const unitKerja = await db.unitKerja.create({
             data: {
-                name,
-                kodeWilayah,
-                kodeUnitKerja,
+                ...values
             }
+
         })
 
         return NextResponse.json(unitKerja);

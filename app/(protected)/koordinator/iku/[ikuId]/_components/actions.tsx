@@ -30,7 +30,7 @@ export const Actions = ({
 
       await axios.delete(`/api/iku/${IKUId}`);
 
-      toast.success("Komponen deleted");
+      toast.success("IKU deleted");
       router.refresh();
       router.push(`/koordinator/iku`);
       router.refresh();

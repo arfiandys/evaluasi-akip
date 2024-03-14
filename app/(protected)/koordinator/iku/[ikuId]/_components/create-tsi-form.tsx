@@ -87,7 +87,7 @@ const CreateTujuanSasaranIndikatorIKUPage = ({
                 <div className="flex flex-col">
                     <div>
                         <h1 className="text-2xl">
-                            Add your Tujuan/Sasaran/Indikator IKU
+                            Tambah Tujuan/Sasaran/Indikator IKU
                         </h1>
                         <p className="text-sm text-secondary-foreground">
                             What would you like to fill your Tujuan/Sasaran/Indikator IKU? Don&apos;t worry.
@@ -124,7 +124,7 @@ const CreateTujuanSasaranIndikatorIKUPage = ({
                                     render={({ field }) => (
                                         <FormItem className="w-full">
                                             <FormLabel>
-                                                Name
+                                                Nama
                                             </FormLabel>
                                             <FormControl>
                                                 <Input
@@ -143,7 +143,7 @@ const CreateTujuanSasaranIndikatorIKUPage = ({
                                     render={({ field }) => (
                                         <FormItem className="w-full">
                                             <FormLabel>
-                                                Tujuan/Sasaran/Indikator
+                                                Jenis
                                             </FormLabel>
                                             <Select
                                                 disabled={isSubmitting}
@@ -151,7 +151,7 @@ const CreateTujuanSasaranIndikatorIKUPage = ({
                                             >
                                                 <FormControl>
                                                     <SelectTrigger>
-                                                        <SelectValue placeholder="Select a isian" />
+                                                        <SelectValue placeholder="Pilih isian" />
                                                     </SelectTrigger>
                                                 </FormControl>
                                                 <SelectContent>

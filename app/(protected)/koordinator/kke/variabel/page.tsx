@@ -3,7 +3,7 @@ import { columns } from "./_components/columns";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import CreateVariabelPage from "./_components/kriteriaCreate-form";
+import CreateVariabelPage from "./_components/variabelCreate-form";
 
 
 const VariabelKKEPage = async () => {
@@ -52,7 +52,7 @@ const VariabelKKEPage = async () => {
         <div className="flex h-full flex-1 flex-col space-y-8 p-8">
             <CreateVariabelPage
                 kriteria_options={kriteria.map((kriteria) => ({
-                    label: kriteria.name,
+                    label: kriteria.nama,
                     value: kriteria.id,
                     data: kriteria
                 }))}

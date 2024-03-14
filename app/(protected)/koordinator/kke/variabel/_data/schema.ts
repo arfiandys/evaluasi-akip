@@ -9,14 +9,15 @@ export const variabelKKESchema = z.object({
   nama: z.string().min(1),
   tahun: z.number().min(1),
   jenisIsian: z.string().min(1),
+  jenisIsianIKU: z.string().nullable(),
+  petunjukEvaluasi: z.string().nullable(),
   isIndikatorKinerja: z.boolean(),
   kriteriaKKEId: z.string().nullable(),
   variabelLKEId: z.string().nullable(),
   kriteriaKKE: z.object({
     id: z.string().min(1),
     kode: z.string().min(1),
-    name: z.string().min(1),
-    jenisIsian: z.string().min(1),
+    nama: z.string().min(1),
     kelompokKriteriaKKEId: z.string().nullable(),
   }).nullable(),
   variabelUnitKerja: z.object({

@@ -5,7 +5,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
 
-import { jenises, kodeWilayahs, statuses } from "../_data/data"
+import { jenises, jenisKK, jenisesIKU, tahuns } from "../_data/data"
 import { VariabelKKE } from "../_data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
@@ -71,19 +71,33 @@ export const columns: ColumnDef<VariabelKKE>[] = [
     },
   },
   {
-    accessorKey: "tahun",
+    id: "tahun",
+    accessorFn: row => {
+      const tahun = row.tahun
+      return (
+        `${tahun}`
+      )
+    },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Tahun" />
     ),
     cell: ({ row }) => {
+      const tahun = tahuns.find(
+        (tahun) => tahun.value === row.original.tahun.toString()
+      )
+
+      if (!tahun) {
+        return null
+      }
 
       return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("tahun")}
-          </span>
+        <div className="max-w-[500px] truncate font-medium">
+          <span>{tahun.label}</span>
         </div>
       )
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
     },
   },
   {
@@ -92,36 +106,74 @@ export const columns: ColumnDef<VariabelKKE>[] = [
       <DataTableColumnHeader column={column} title="Jenis isian" />
     ),
     cell: ({ row }) => {
+      const jenis = jenises.find(
+        (jenis) => jenis.value === row.original.jenisIsian
+      )
+
+      if (!jenis) {
+        return null
+      }
 
       return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("jenisIsian")}
-          </span>
+        <div className="max-w-[500px] truncate font-medium">
+          <span>{jenis.label}</span>
         </div>
       )
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
     },
   },
   {
     accessorKey: "isIndikatorKinerja",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="KKIndikatorKinerja/KKEvaluasiDokumen" />
+      <DataTableColumnHeader column={column} title="Jenis kertas kerja" />
     ),
     cell: ({ row }) => {
-      if (row.original.isIndikatorKinerja) {
-        return (
-          <div className="max-w-[500px]">KK Indikator Kinerja</div>
-        )
+      const jenis = jenisKK.find(
+        (jenis) => jenis.value === row.original.isIndikatorKinerja
+      )
+
+      if (!jenis) {
+        return null
       }
-      if (!row.original.isIndikatorKinerja) {
-        return (
-          <div className="max-w-[500px]">KK Evaluasi Dokumen</div>
-        )
-      }
+
+      return (
+        <div className="max-w-[500px] truncate font-medium">
+          <span>{jenis.label}</span>
+        </div>
+      )
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
     },
   },
   {
-    id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    accessorKey: "jenisIsianIKU",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Jenis isian IKU" />
+    ),
+    cell: ({ row }) => {
+      const jenis = jenisesIKU.find(
+        (jenis) => jenis.value === row.original.jenisIsianIKU
+      )
+
+      if (!jenis) {
+        return null
+      }
+
+      return (
+        <div className="max-w-[500px] truncate font-medium">
+          <span>{jenis.label}</span>
+        </div>
+      )
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
   },
+  // {
+  //   id: "actions",
+  //   cell: ({ row }) => <DataTableRowActions row={row} />,
+  // },
 ]

@@ -54,20 +54,28 @@ const CreateUserPage = () => {
 
     const { isSubmitting, isValid } = form.formState;
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        setError("");
-        setSuccess("");
+    // const onSubmit = (values: z.infer<typeof formSchema>) => {
+    //     setError("");
+    //     setSuccess("");
 
-        startTransition(() => {
-            register(values)
-                .then((data) => {
-                    setError(data.error);
-                    setSuccess(data.success);
-                })
-        })
-
-
-    }
+    //     startTransition(() => {
+    //         register(values)
+    //             .then((data) => {
+    //                 setError(data.error);
+    //                 setSuccess(data.success);
+    //             })
+    //     })
+    // }
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        try {
+          await axios.post(`/api/user`, values);
+          toast.success("Pengguna ditambahkan");
+          toggleEdit();
+          router.refresh();
+        } catch {
+          toast.error("Something went wrong");
+        }
+      }
 
     return (
         <div className="">
@@ -78,7 +86,7 @@ const CreateUserPage = () => {
                     ) : (
                         <>
                             <PlusCircle className="h-4 w-4 mr-2" />
-                            Add user
+                            Add pengguna
                         </>
                     )}
                 </Button>
@@ -87,10 +95,10 @@ const CreateUserPage = () => {
                 <div className="flex flex-col">
                     <div>
                         <h1 className="text-2xl">
-                            Add new user
+                            Tambah pengguna
                         </h1>
                         <p className="text-sm text-secondary-foreground">
-                            What would you like to fill your user? Don&apos;t worry.
+                            What would you like to fill your pengguna? Don&apos;t worry.
                         </p>
                     </div>
                     <Form {...form}>
@@ -105,7 +113,7 @@ const CreateUserPage = () => {
                                     render={({ field }) => (
                                         <FormItem className="w-full">
                                             <FormLabel>
-                                                Name
+                                                Nama
                                             </FormLabel>
                                             <FormControl>
                                                 <Input

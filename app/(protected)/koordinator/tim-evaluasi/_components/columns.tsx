@@ -35,18 +35,15 @@ export const columns: ColumnDef<timEvaluasi>[] = [
     ),
     enableSorting: false,
     enableHiding: false,
-  }, 
+  },
   {
     accessorKey: "name",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Name" />
     ),
     cell: ({ row }) => {
-      // const label = jenises.find((jenis) => jenis.value === row.original.name)
-
       return (
         <div className="flex space-x-2">
-          {/* {label && <Badge variant="outline">{label.label}</Badge>} */}
           <span className="max-w-[500px] truncate font-medium">
             {row.getValue("name")}
           </span>
@@ -56,48 +53,6 @@ export const columns: ColumnDef<timEvaluasi>[] = [
     enableSorting: true,
     enableHiding: false,
   },
-  // {
-  //   accessorKey: "kodeUnitKerja",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Kode Unit Kerja" />
-  //   ),
-  //   cell: ({ row }) => {
-  //     return (
-  //       <div className="flex space-x-2">
-  //         <span className="max-w-[500px]">
-  //           {row.getValue("kodeUnitKerja")}
-  //         </span>
-  //       </div>
-  //     )
-  //   },
-  // },
-  // {
-  //   accessorKey: "kodeWilayah",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Kode Wilayah" />
-  //   ),
-  //   cell: ({ row }) => {
-  //     const kodeWilayah = kodeWilayahs.find(
-  //       (kodeWilayah) => kodeWilayah.value === row.getValue("kodeWilayah")
-  //     )
-
-  //     if (!kodeWilayah) {
-  //       return null
-  //     }
-
-  //     return (
-  //       <div className="flex w-[100px] items-center">
-  //         {kodeWilayah.icon && (
-  //           <kodeWilayah.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-  //         )}
-  //         <span>{kodeWilayah.label}</span>
-  //       </div>
-  //     )
-  //   },
-  //   filterFn: (row, id, value) => {
-  //     return value.includes(row.getValue(id))
-  //   },
-  // },
   {
     accessorKey: "status",
     accessorFn: row => {
@@ -148,9 +103,24 @@ export const columns: ColumnDef<timEvaluasi>[] = [
   {
     accessorKey: "users",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Member" />
+      <DataTableColumnHeader column={column} title="Anggota" />
     ),
     cell: ({ row }) => <div className="w-[120px]">{row.original.users.length}</div>,
+  },
+  {
+    id: "unitKerja",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Unit Kerja" />
+    ),
+    cell: ({ row }) => {
+      let unitKerja = 0;
+      row.original.users.forEach((user)=>{
+        unitKerja += user.user.unitKerjas.length
+      })
+      return (
+        <div className="w-[120px]">{row.original.users.length}</div>
+      )
+    }
   },
   {
     id: "actions",

@@ -66,7 +66,7 @@ export const TahunForm = ({
   return (
     <div className="mt-6 border bg-background rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Komponen tahun
+        Tahun
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>

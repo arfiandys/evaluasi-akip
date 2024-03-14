@@ -60,7 +60,10 @@ export async function PATCH(
           }
         },
         data: {        
-          isianAt: values.values.isianAt,       
+          isianAt: values.values.isianAt,
+          isianKt: values.values.isianKt,
+          isianDalnis: values.values.isianDalnis,
+          isianPIC: values.values.isianPIC       
         },
       });
   

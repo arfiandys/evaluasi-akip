@@ -35,7 +35,7 @@ const TimEvaluasiIdPage = async ({
                 include: {
                     user: {
                         include: {
-                            unitKerjas : {
+                            unitKerjas: {
                                 orderBy: {
                                     unitKerjaId: "asc"
                                 }
@@ -102,7 +102,7 @@ const TimEvaluasiIdPage = async ({
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-y-2">
                                 <h1 className="text-2xl font-medium">
-                                    Tim evaluasi setup
+                                    Detail tim evaluasi
                                 </h1>
                                 <span className="text-sm text-secondary-foreground">
                                     Complete all fields {completionText}
@@ -120,19 +120,23 @@ const TimEvaluasiIdPage = async ({
                         <div className="flex items-center gap-x-2">
                             <IconBadge icon={LayoutDashboard} />
                             <h2 className="text-xl">
-                                Customize your tim evaluasi details
+                                Edit detail tim evaluasi
                             </h2>
                         </div>
                         <NameForm
                             initialData={timEvaluasi}
                             timEvaluasiId={timEvaluasi.id}
                         />
-                        <div className="flex mt-6 items-center gap-x-2">
-                            <IconBadge icon={User} />
-                            <h2 className="text-xl">
-                                Customize dalnis and ketua of tim evaluasi
-                            </h2>
-                        </div>
+                    </div>
+                </div>
+                <div className="mt-16">
+                    <div className="flex mt-6 items-center gap-x-2">
+                        <IconBadge icon={User} />
+                        <h2 className="text-xl">
+                            Edit anggota tim evaluasi
+                        </h2>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
                         <DalnisForm
                             initialData={timEvaluasi}
                             timEvaluasiId={timEvaluasi.id}
@@ -141,22 +145,6 @@ const TimEvaluasiIdPage = async ({
                                 value: user.id,
                             }))}
                         />
-                        <KetuaForm
-                            initialData={timEvaluasi}
-                            timEvaluasiId={timEvaluasi.id}
-                            options={users.map((user) => ({
-                                label: user.name!,
-                                value: user.id,
-                            }))}
-                        />
-                    </div>
-                    <div>
-                        <div className="flex items-center gap-x-2">
-                            <IconBadge icon={Building} />
-                            <h2 className="text-xl">
-                                Customize members and unit kerja of tim evaluasi
-                            </h2>
-                        </div>                        
                         <AnggotaForm
                             initialData={timEvaluasi}
                             initialData_User={users}
@@ -168,6 +156,14 @@ const TimEvaluasiIdPage = async ({
                             options_unitKerja={unitKerjas.map((unitKerja) => ({
                                 label: unitKerja.name!,
                                 value: unitKerja.id,
+                            }))}
+                        />
+                        <KetuaForm
+                            initialData={timEvaluasi}
+                            timEvaluasiId={timEvaluasi.id}
+                            options={users.map((user) => ({
+                                label: user.name!,
+                                value: user.id,
                             }))}
                         />
                     </div>

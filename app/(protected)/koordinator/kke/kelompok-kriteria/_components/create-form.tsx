@@ -92,7 +92,7 @@ const CreateKolompokKriteriaPage = ({
                 <div className="flex flex-col">
                     <div>
                         <h1 className="text-2xl">
-                            Add your Kelompok Kriteria
+                            Tambah kelompok kriteria
                         </h1>
                         <p className="text-sm text-secondary-foreground">
                             What would you like to fill your Kelompok Kriteria? Don&apos;t worry.
@@ -110,7 +110,7 @@ const CreateKolompokKriteriaPage = ({
                                     render={({ field }) => (
                                         <FormItem className="w-full">
                                             <FormLabel>
-                                                Name
+                                                Nama
                                             </FormLabel>
                                             <FormControl>
                                                 <Textarea

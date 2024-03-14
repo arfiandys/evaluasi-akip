@@ -25,18 +25,12 @@ import { Combobox } from "@/components/ui/combobox";
 import { VariabelLKE } from "@prisma/client";
 
 const formSchema = z.object({
-    name: z.string().min(1, {
+    nama: z.string().min(1, {
         message: "Name is required",
     }),
     kode: z.string().min(1, {
         message: "Kode is required",
     }),
-    jenisIsian: z.string().min(1, {
-        message: "Jenis isian is required",
-    }),
-    // variabelLKEId: z.string().min(1, {
-    //     message: "Variabel is required",
-    // }),
 });
 
 interface CreateKriteriaPageProps {
@@ -55,9 +49,7 @@ const CreateKriteriaPage = ({
         resolver: zodResolver(formSchema),
         defaultValues: {
             kode: "",
-            name: "",
-            jenisIsian: "",
-            // variabelLKEId: "",
+            nama: "",
         },
     });
 
@@ -95,7 +87,7 @@ const CreateKriteriaPage = ({
                 <div className="flex flex-col">
                     <div>
                         <h1 className="text-2xl">
-                            Add your kriteria KKE
+                            Tambah kriteria KKE
                         </h1>
                         <p className="text-sm text-secondary-foreground">
                             What would you like to fill your kriteria KKE? Don&apos;t worry.
@@ -107,25 +99,6 @@ const CreateKriteriaPage = ({
                             className="mt-8 space-y-4"
                         >
                             <div className="flex flex-row space-x-4 items-start justify-between w-full">
-                                <FormField
-                                    control={form.control}
-                                    name="name"
-                                    render={({ field }) => (
-                                        <FormItem className="w-full">
-                                            <FormLabel>
-                                                Name
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Textarea
-                                                    disabled={isSubmitting}
-                                                    placeholder="e.g. 'Kriteria harus...'"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
                                 <FormField
                                     control={form.control}
                                     name="kode"
@@ -147,61 +120,23 @@ const CreateKriteriaPage = ({
                                 />
                                 <FormField
                                     control={form.control}
-                                    name="jenisIsian"
+                                    name="nama"
                                     render={({ field }) => (
                                         <FormItem className="w-full">
                                             <FormLabel>
-                                                Variabel jenis isian
-                                            </FormLabel>
-                                            <Select
-                                                disabled={isSubmitting}
-                                                onValueChange={field.onChange}
-                                            >
-                                                <FormControl>
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="Select a isian" />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent>
-                                                    <SelectItem value="select">
-                                                        Select Yes / No
-                                                    </SelectItem>
-                                                    <SelectItem value="dropdown">
-                                                        Dropdown A/B/C
-                                                    </SelectItem>
-                                                    <SelectItem value="number">
-                                                        Number
-                                                    </SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                            <FormDescription>
-                                                What will you do in this Variabel?
-                                            </FormDescription>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                {/* <FormField
-                                    control={form.control}
-                                    name="variabelLKEId"
-                                    render={({ field }) => (
-                                        <FormItem className="w-full">
-                                            <FormLabel>
-                                                Variabel LKE
+                                                Nama
                                             </FormLabel>
                                             <FormControl>
-                                                <Combobox
-                                                    options={variabel_options}
+                                                <Textarea
+                                                    disabled={isSubmitting}
+                                                    placeholder="e.g. 'Renstra periode...'"
                                                     {...field}
                                                 />
                                             </FormControl>
-                                            <FormDescription>
-                                                What will you do in this Variabel?
-                                            </FormDescription>
                                             <FormMessage />
                                         </FormItem>
                                     )}
-                                /> */}
+                                />                                
                             </div>
                             <div className="flex items-center justify-end gap-x-2">
                                 <Button

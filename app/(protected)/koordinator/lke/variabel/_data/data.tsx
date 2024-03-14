@@ -12,56 +12,34 @@ import {
 
 export const jenises = [
   {
-    value: "pusat",
-    label: "Pusat",
+    value: "dropdown",
+    label: "Dropdown A/B/C",
   },
   {
-    value: "provinsi",
-    label: "Provinsi",
+    value: "number",
+    label: "Number",
   },
   {
-    value: "kabKota",
-    label: "Kabupaten/kota",
-  },
-]
-
-export const kodeWilayahs = [
-  {
-    value: "31",
-    label: "31",
-    icon: GlobeIcon,
-  },
-  {
-    value: "32",
-    label: "32",
-    icon: GlobeIcon,
-  },
-  {
-    value: "33",
-    label: "33",
-    icon: GlobeIcon,
-  },
-  {
-    value: "34",
-    label: "34",
-    icon: GlobeIcon,
-  },
-  {
-    value: "35",
-    label: "35",
-    icon: GlobeIcon,
+    value: "select",
+    label: "Select Yes/No",
   },
 ]
 
-export const statuses = [
+export const tahuns = [
   {
-    label: "Incomplete",
-    value: "incomplete",
-    icon: CrossCircledIcon,
+    label: "2021",
+    value: "2021",
   },
   {
-    label: "Complete",
-    value: "complete",
-    icon: CheckCircledIcon,
+    label: "2022",
+    value: "2022",
+  },
+  {
+    label: "2023",
+    value: "2023",
+  },
+  {
+    label: "2024",
+    value: "2024",
   },
 ]

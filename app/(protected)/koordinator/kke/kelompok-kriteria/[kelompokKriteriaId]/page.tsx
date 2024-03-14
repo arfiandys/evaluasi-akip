@@ -32,7 +32,7 @@ const KelompokKriteriaIdPage = async ({
         include: {
             kriteriaKKE: {
                 orderBy: {
-                    name: "asc"
+                    nama: "asc"
                 },
             },
         },
@@ -70,12 +70,12 @@ const KelompokKriteriaIdPage = async ({
                             className="flex items-center text-sm hover:opacity-75 transition mb-6"
                         >
                             <ArrowLeft className="h-4 w-4 mr-2" />
-                            Back to kelompok Kriteria KKE list
+                            Back to kelompok kriteria KKE list
                         </Link>
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-y-2">
                                 <h1 className="text-2xl font-medium">
-                                    Kelompok Kriteria KKE setup
+                                    Detail kelompok kriteria KKE
                                 </h1>
                                 <span className="text-sm text-secondary-foreground">
                                     Complete all fields {completionText}
@@ -88,14 +88,14 @@ const KelompokKriteriaIdPage = async ({
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
-                    <div>
+                <div className="mt-16">
                         <div className="flex items-center gap-x-2">
                             <IconBadge icon={LayoutDashboard} />
                             <h2 className="text-xl">
-                                Customize your Kelompok Kriteria KKE
+                                Edit detail kelompok kriteria KKE
                             </h2>
                         </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
                         <NameForm
                             initialData={kelompokKriteria}
                             kelompokKriteriaId={kelompokKriteria.id}
@@ -104,20 +104,10 @@ const KelompokKriteriaIdPage = async ({
                             initialData={kelompokKriteria}
                             kelompokKriteriaId={kelompokKriteria.id}
                         />
-                    </div>
-                    <div className="space-y-6">
-                        <div>
-                            <div className="flex items-center gap-x-2">
-                                <IconBadge icon={ListChecks} />
-                                <h2 className="text-xl">
-                                    Kelompok Kriteria KKE details
-                                </h2>
-                            </div>
-                            <TahunForm
+                        <TahunForm
                                 initialData={kelompokKriteria}
                                 kelompokKriteriaId={kelompokKriteria.id}
                             />
-                        </div>
                     </div>
                 </div>
                 <div className="grid grid-cols-1 gap-4 mt-16">

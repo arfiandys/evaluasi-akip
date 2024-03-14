@@ -108,7 +108,7 @@ export const GeneratePage = ({
 
             <div className="w-full col-span-2">
                 <h1 className="text-2xl">
-                    Generate LKE unit kerja from your variabel list
+                    Generate LKE unit kerja
                 </h1>
                 <p className="text-sm text-secondary-foreground">
                     What would you like to generate your LKE? Don&apos;t worry.
@@ -126,7 +126,7 @@ export const GeneratePage = ({
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>
-                                        Pilih tahun
+                                        Tahun
                                     </FormLabel>
                                     <Select
                                         disabled={isSubmitting}
@@ -134,7 +134,7 @@ export const GeneratePage = ({
                                     >
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select a year" />
+                                                <SelectValue placeholder="Pilih tahun" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>

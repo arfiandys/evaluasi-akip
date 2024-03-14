@@ -34,7 +34,7 @@ const IKUIdPage = async ({
             tujuanSasaranIndikatorIKU: {
                 orderBy: {
                     nama: "asc"
-                },                
+                },
             },
         },
     });
@@ -69,7 +69,7 @@ const IKUIdPage = async ({
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-y-2">
                                 <h1 className="text-2xl font-medium">
-                                    IKU setup
+                                    Detail Indikator Kinerja Utama
                                 </h1>
                                 <span className="text-sm text-secondary-foreground">
                                     Complete all fields {completionText}
@@ -82,32 +82,22 @@ const IKUIdPage = async ({
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
-                    <div>
-                        <div className="flex items-center gap-x-2">
-                            <IconBadge icon={LayoutDashboard} />
-                            <h2 className="text-xl">
-                                Customize your IKU
-                            </h2>
-                        </div>
+                <div className="mt-16">
+                    <div className="flex items-center gap-x-2">
+                        <IconBadge icon={LayoutDashboard} />
+                        <h2 className="text-xl">
+                            Edit detail IKU
+                        </h2>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
                         <NameForm
                             initialData={IKU}
                             IKUId={IKU.id}
                         />
-                    </div>
-                    <div className="space-y-6">
-                        <div>
-                            <div className="flex items-center gap-x-2">
-                                <IconBadge icon={ListChecks} />
-                                <h2 className="text-xl">
-                                    IKU details
-                                </h2>
-                            </div>
-                            <TahunForm
-                                initialData={IKU}
-                                IKUId={IKU.id}
-                            />
-                        </div>
+                        <TahunForm
+                            initialData={IKU}
+                            IKUId={IKU.id}
+                        />
                     </div>
                 </div>
                 <div className="grid grid-cols-1 gap-4 mt-16">
@@ -118,7 +108,7 @@ const IKUIdPage = async ({
                         </h2>
                     </div>
                     <div className="flex flex-col space-y-6">
-                        <CreateTujuanSasaranIndikatorIKUPage IKUId={IKU.id}  />
+                        <CreateTujuanSasaranIndikatorIKUPage IKUId={IKU.id} />
                         <DataTable data={IKU.tujuanSasaranIndikatorIKU} columns={columns} />
                     </div>
                 </div>

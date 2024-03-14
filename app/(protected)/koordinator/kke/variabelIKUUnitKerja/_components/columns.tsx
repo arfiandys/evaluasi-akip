@@ -39,20 +39,51 @@ export const columns: ColumnDef<VariabelIKUUnitKerja>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "variabelLKE",
+    id: "variabelKKE",
+    accessorFn: row => {
+      const variabelKKE = row.tujuanSasaranIndikatorIKUVariabelKKE.variabelKKE?.nama
+      return (
+        `${variabelKKE}`
+      )
+    },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Kode" />
+      <DataTableColumnHeader column={column} title="Variabel KKE" />
     ),
     cell: ({ row }) => {
       if (row.original.tujuanSasaranIndikatorIKUVariabelKKE) {
         return (
-          <div className="w-[120px]">{row.original.tujuanSasaranIndikatorIKUVariabelKKE.tujuanSasaranIndikatorIKU?.kode}</div>
+          <div className="w-[120px]">{row.original.tujuanSasaranIndikatorIKUVariabelKKE.variabelKKE?.nama}</div>
         )
       }
     },
   },
   {
-    accessorKey: "tahun",
+    id: "tsi",
+    accessorFn: row => {
+      const tsi = row.tujuanSasaranIndikatorIKUVariabelKKE.tujuanSasaranIndikatorIKU?.nama
+      return (
+        `${tsi}`
+      )
+    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Tujuan/Sasaran/Indikator" />
+    ),
+    cell: ({ row }) => {
+      if (row.original.tujuanSasaranIndikatorIKUVariabelKKE) {
+        return (
+          <div className="w-[120px]">{row.original.tujuanSasaranIndikatorIKUVariabelKKE.tujuanSasaranIndikatorIKU?.nama}</div>
+        )
+      }
+    },
+  },
+  {
+    id: "tahun",
+    accessorFn: row => {
+      const tahun = row.tahun
+      return (
+        `${tahun}`
+      )
+    },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Tahun" />
     ),
@@ -120,16 +151,43 @@ export const columns: ColumnDef<VariabelIKUUnitKerja>[] = [
     },
   },
   {
-    accessorKey: "isianAt",
+    id: "isianAt",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Isian Anggota" />
     ),
-    cell: ({ row }) => <DataTableRowInput row={row} />,
+    cell: ({ row }) => <DataTableRowInput role="at" row={row} />,
     enableSorting: false,
     enableHiding: true,
   },
   {
-    id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    id: "isianKt",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Isian Ketua" />
+    ),
+    cell: ({ row }) => <DataTableRowInput role="kt" row={row} />,
+    enableSorting: false,
+    enableHiding: true,
   },
+  {
+    id: "isianDalnis",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Isian Pengendali Teknis" />
+    ),
+    cell: ({ row }) => <DataTableRowInput role="dalnis" row={row} />,
+    enableSorting: false,
+    enableHiding: true,
+  },
+  {
+    id: "isianPIC",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Isian PIC" />
+    ),
+    cell: ({ row }) => <DataTableRowInput role="pic" row={row} />,
+    enableSorting: false,
+    enableHiding: true,
+  },
+  // {
+  //   id: "actions",
+  //   cell: ({ row }) => <DataTableRowActions row={row} />,
+  // },
 ]

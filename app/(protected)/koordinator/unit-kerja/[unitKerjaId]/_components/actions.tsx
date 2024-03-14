@@ -30,8 +30,8 @@ export const Actions = ({
       await axios.delete(`/api/unit-kerja/${unitKerjaId}`);
 
       toast.success("Unit kerja deleted");
-      router.refresh();
       router.push(`/koordinator/unit-kerja`);
+      router.refresh()
     } catch {
       toast.error("Something went wrong");
     } finally {

@@ -36,7 +36,7 @@ export const columns: ColumnDef<IKU>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Name" />
+      <DataTableColumnHeader column={column} title="Nama" />
     ),
     cell: ({ row }) => {
 
@@ -64,13 +64,6 @@ export const columns: ColumnDef<IKU>[] = [
         </div>
       )
     },
-  },
-  {
-    accessorKey: "tujuanSasaranIndikator",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Tujuan/Sasaran/Indikator IKU" />
-    ),
-    cell: ({ row }) => <div className="w-[120px]">{row.original.id}</div>,
   },
   {
     id: "actions",

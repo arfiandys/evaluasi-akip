@@ -37,6 +37,21 @@ export const columns: ColumnDef<Permindok>[] = [
     enableHiding: false,
   }, 
   {
+    accessorKey: "name",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Nama" />
+      ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex space-x-2">
+          <span className="max-w-[500px]">
+            {row.getValue("name")}
+          </span>
+        </div>
+      )
+    },
+  },
+  {
     accessorKey: "kode",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Kode" />
@@ -46,21 +61,6 @@ export const columns: ColumnDef<Permindok>[] = [
         <div className="flex space-x-2">
           <span className="max-w-[500px]">
             {row.getValue("kode")}
-          </span>
-        </div>
-      )
-    },
-  },
-  {
-    accessorKey: "name",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Name" />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px]">
-            {row.getValue("name")}
           </span>
         </div>
       )

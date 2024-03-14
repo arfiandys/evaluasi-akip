@@ -63,7 +63,7 @@ export const KodeUnitKerjaForm = ({
   return (
     <div className="mt-6 border bg-background rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Kode unit kerja unit kerja
+        Kode unit kerja
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>

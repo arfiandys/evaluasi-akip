@@ -10,6 +10,11 @@ export const timEvaluasiSchema = z.object({
     timEvaluasiId: z.string().min(1),
     userId: z.string().min(1),
     assignedRole: z.string().min(1),
+    user: z.object({
+      unitKerjas: z.object({
+        unitKerjaId: z.string().min(1),
+      }).array()
+    })
   }).array()
 })
 

@@ -89,17 +89,16 @@ export const GeneratePage = ({
                     try {
                         const response = await axios.post("/api/permindok/generate-permindok", value);
                         toast.success("Permindok created!")
+                        form.reset()
+                        router.refresh()
                     } catch {
                         toast.error("Something when wrong!");
                     }
                 } else {
                     toast.error("Tidak ada data pada tahun itu!");
                 }
-                
+
             })
-            form.reset()
-            router.push(`/koordinator/permindok/generate-permindok`);
-            router.refresh()
         } catch {
             toast.error("Can not generate LKE!");
         }
@@ -110,10 +109,10 @@ export const GeneratePage = ({
 
             <div className="w-full col-span-2">
                 <h1 className="text-2xl">
-                    Generate Permindok unit kerja from your permindok list
+                    Generate permintaan dokumen unit kerja
                 </h1>
                 <p className="text-sm text-secondary-foreground">
-                    What would you like to generate your Permindok? Don&apos;t worry.
+                    What would you like to generate your permindok? Don&apos;t worry.
                 </p>
             </div>
             <div className="w-full">
@@ -128,7 +127,7 @@ export const GeneratePage = ({
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>
-                                        Pilih tahun
+                                        Tahun
                                     </FormLabel>
                                     <Select
                                         disabled={isSubmitting}
@@ -136,7 +135,7 @@ export const GeneratePage = ({
                                     >
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select a year" />
+                                                <SelectValue placeholder="pilih tahun" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
@@ -152,7 +151,7 @@ export const GeneratePage = ({
                                         </SelectContent>
                                     </Select>
                                     <FormDescription>
-                                        What will you do in this Permindok?
+                                        What will you do in this permindok?
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>

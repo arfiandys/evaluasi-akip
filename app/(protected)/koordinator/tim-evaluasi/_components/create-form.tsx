@@ -45,6 +45,7 @@ const CreateTimEvaluasiPage = () => {
             const response = await axios.post("/api/tim-evaluasi", values);
             router.push(`/koordinator/tim-evaluasi/${response.data.id}`);
             toast.success("Tim evaluasi created!")
+            router.refresh()
         } catch {
             toast.error("Something went wrong!");
         }
@@ -70,7 +71,7 @@ const CreateTimEvaluasiPage = () => {
                 <div className="flex flex-col">
                     <div>
                         <h1 className="text-2xl">
-                            Add your tim evaluasi
+                            Tambah tim evaluasi
                         </h1>
                         <p className="text-sm text-secondary-foreground">
                             What would you like to fill your tim evaluasi? Don&apos;t worry.
@@ -86,14 +87,14 @@ const CreateTimEvaluasiPage = () => {
                                     control={form.control}
                                     name="name"
                                     render={({ field }) => (
-                                        <FormItem className="w-full">
+                                        <FormItem className=" w-4/12">
                                             <FormLabel>
-                                                Tim evaluasi name
+                                                Nama
                                             </FormLabel>
                                             <FormControl>
                                                 <Input
                                                     disabled={isSubmitting}
-                                                    placeholder="e.g. 'Team one'"
+                                                    placeholder="e.g. 'Tim evaluasi 1'"
                                                     {...field}
                                                 />
                                             </FormControl>

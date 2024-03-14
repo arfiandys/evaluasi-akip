@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DataTableViewOptions } from "../_components/data-table-view-options"
 
-import { kodeWilayahs, statuses } from "../_data/data"
+import { tahuns, jenises } from "../_data/data"
 import { DataTableFacetedFilter } from "./data-table-faceted-filter"
 
 interface DataTableToolbarProps<TData> {
@@ -23,25 +23,25 @@ export function DataTableToolbar<TData>({
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Filter name..."
+          placeholder="Filter nama..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn("kodeWilayah") && (
+        {table.getColumn("tahun") && (
           <DataTableFacetedFilter
-            column={table.getColumn("kodeWilayah")}
-            title="Kode Wilayah"
-            options={kodeWilayahs}
+            column={table.getColumn("tahun")}
+            title="Tahun"
+            options={tahuns}
           />
         )}
-        {table.getColumn("status") && (
+        {table.getColumn("jenisIsian") && (
           <DataTableFacetedFilter
-            column={table.getColumn("status")}
-            title="Status"
-            options={statuses}
+            column={table.getColumn("jenisIsian")}
+            title="Jenis Isian"
+            options={jenises}
           />
         )}
         {isFiltered && (

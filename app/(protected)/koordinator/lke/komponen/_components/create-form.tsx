@@ -85,7 +85,7 @@ const CreateKomponenPage = () => {
                 <div className="flex flex-col">
                     <div>
                         <h1 className="text-2xl">
-                            Add your komponen LKE
+                            Tambah komponen LKE
                         </h1>
                         <p className="text-sm text-secondary-foreground">
                             What would you like to fill your komponen LKE? Don&apos;t worry.
@@ -101,9 +101,9 @@ const CreateKomponenPage = () => {
                                     control={form.control}
                                     name="name"
                                     render={({ field }) => (
-                                        <FormItem className="w-[700px]">
+                                        <FormItem className="w-full">
                                             <FormLabel>
-                                                Name
+                                                Nama
                                             </FormLabel>
                                             <FormControl>
                                                 <Textarea
@@ -120,7 +120,7 @@ const CreateKomponenPage = () => {
                                     control={form.control}
                                     name="kode"
                                     render={({ field }) => (
-                                        <FormItem>
+                                        <FormItem className="w-full">
                                             <FormLabel>
                                                 Kode
                                             </FormLabel>
@@ -139,7 +139,7 @@ const CreateKomponenPage = () => {
                                     control={form.control}
                                     name="tahun"
                                     render={({ field }) => (
-                                        <FormItem>
+                                        <FormItem className="w-full">
                                             <FormLabel>
                                                 Tahun
                                             </FormLabel>
@@ -158,7 +158,7 @@ const CreateKomponenPage = () => {
                                     control={form.control}
                                     name="bobot"
                                     render={({ field }) => (
-                                        <FormItem>
+                                        <FormItem className="w-full">
                                             <FormLabel>
                                                 Bobot
                                             </FormLabel>

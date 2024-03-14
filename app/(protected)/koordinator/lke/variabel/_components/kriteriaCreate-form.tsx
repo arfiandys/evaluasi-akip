@@ -129,7 +129,7 @@ const CreateVariabelPage = (
             <div className="flex flex-col">
                 <div>
                     <h1 className="text-2xl">
-                        Add your variabel LKE by kriteria
+                        Tambah variabel LKE by kriteria
                     </h1>
                     <p className="text-sm text-secondary-foreground">
                         What would you like to fill your variabel LKE? Don&apos;t worry.

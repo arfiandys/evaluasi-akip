@@ -11,7 +11,7 @@ export const kelompokKriteriaSchema = z.object({
   kriteriaKKE: z.object({
     id: z.string().min(1),
     kode: z.string().min(1),
-    name: z.string().min(1),
+    nama: z.string().min(1),
   }).array()
 })
 

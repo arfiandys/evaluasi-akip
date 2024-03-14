@@ -6,7 +6,7 @@ import { string, z } from "zod"
 export const kriteriaKKESchema = z.object({
   id: z.string().min(1),
   kode: z.string().min(1),
-  name: z.string().min(1),
+  nama: z.string().min(1),
   kelompokKriteriaKKEId: z.string().nullable()
 })
 

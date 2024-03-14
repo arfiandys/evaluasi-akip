@@ -98,13 +98,13 @@ export const GeneratePage = ({
                 try {
                     const response = await axios.post("/api/kke/variabelIKUUnitKerja", value);
                     toast.success("IKU Unit Kerja created!")
+                    form.reset()
+                    form.resetField("tahun")
+                    router.refresh()
                 } catch {
                     toast.error("Something when wrong!");
                 }
             })
-            form.reset()
-            router.push(`/koordinator/kke/variabelIKUUnitKerja`);
-            router.refresh()
         } catch {
             toast.error("Can not generate KKE!");
         }
@@ -115,7 +115,7 @@ export const GeneratePage = ({
 
             <div className="w-full col-span-2">
                 <h1 className="text-2xl">
-                    Generate IKU unit kerja from your variabel list
+                    Generate IKU unit kerja
                 </h1>
                 <p className="text-sm text-secondary-foreground">
                     What would you like to generate your IKU? Don&apos;t worry.
@@ -133,7 +133,7 @@ export const GeneratePage = ({
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>
-                                        Pilih tahun
+                                        Tahun
                                     </FormLabel>
                                     <Select
                                         disabled={isSubmitting}
@@ -141,7 +141,7 @@ export const GeneratePage = ({
                                     >
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select a year" />
+                                                <SelectValue placeholder="Pilih tahun" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
@@ -164,7 +164,7 @@ export const GeneratePage = ({
                             )}
                         />
                         <div className="flex items-center gap-x-2 justify-start md:justify-end">
-                            <Button
+                            <Button                        
                                 type="submit"
                                 disabled={!isValid || isSubmitting}
                             >

@@ -12,56 +12,15 @@ import {
 
 export const jenises = [
   {
-    value: "pusat",
-    label: "Pusat",
+    value: "tujuan",
+    label: "Tujuan",
   },
   {
-    value: "provinsi",
-    label: "Provinsi",
+    value: "sasaran",
+    label: "Sasaran",
   },
   {
-    value: "kabKota",
-    label: "Kabupaten/kota",
-  },
-]
-
-export const kodeWilayahs = [
-  {
-    value: "31",
-    label: "31",
-    icon: GlobeIcon,
-  },
-  {
-    value: "32",
-    label: "32",
-    icon: GlobeIcon,
-  },
-  {
-    value: "33",
-    label: "33",
-    icon: GlobeIcon,
-  },
-  {
-    value: "34",
-    label: "34",
-    icon: GlobeIcon,
-  },
-  {
-    value: "35",
-    label: "35",
-    icon: GlobeIcon,
-  },
-]
-
-export const statuses = [
-  {
-    label: "Incomplete",
-    value: "incomplete",
-    icon: CrossCircledIcon,
-  },
-  {
-    label: "Complete",
-    value: "complete",
-    icon: CheckCircledIcon,
+    value: "indikator",
+    label: "Indikator",
   },
 ]

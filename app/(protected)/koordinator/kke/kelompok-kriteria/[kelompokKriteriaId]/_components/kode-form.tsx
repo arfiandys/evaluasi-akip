@@ -66,7 +66,7 @@ export const KodeForm = ({
   return (
     <div className="mt-6 border bg-background rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Kelompok Kriteria KKE kode
+        Kode
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>

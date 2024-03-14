@@ -76,7 +76,7 @@ const CreateIKUPage = () => {
                 <div className="flex flex-col">
                     <div>
                         <h1 className="text-2xl">
-                            Add your IKU
+                            Tambah Indikator Kinerja Utama
                         </h1>
                         <p className="text-sm text-secondary-foreground">
                             What would you like to fill your IKU? Don&apos;t worry.
@@ -94,7 +94,7 @@ const CreateIKUPage = () => {
                                     render={({ field }) => (
                                         <FormItem className="w-full">
                                             <FormLabel>
-                                                Name
+                                                Nama
                                             </FormLabel>
                                             <FormControl>
                                                 <Input

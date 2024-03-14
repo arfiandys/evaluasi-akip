@@ -44,11 +44,13 @@ const VariabelKKEIKUPage = async () => {
               variabel_options={variabelKKE.map((variabel) => ({
                 label: variabel.nama,
                 value: variabel.id,
+                tahun: variabel.tahun.toString(),
                 data: variabel
               }))}
               tsi_options={tujuanSasaranIndikatorIKU.map((tsi) => ({
                 label: tsi.nama,
                 value: tsi.id,
+                tahun: tsi.IKU?.tahun || "",
                 data: tsi
               }))}
             />

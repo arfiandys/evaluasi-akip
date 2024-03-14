@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { TujuanSasaranIndikatorIKU } from "../_data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
+import { jenises } from "../_data/data"
 
 export const columns: ColumnDef<TujuanSasaranIndikatorIKU>[] = [
   {
@@ -52,7 +53,7 @@ export const columns: ColumnDef<TujuanSasaranIndikatorIKU>[] = [
   {
     accessorKey: "nama",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Tujuan/Sasaran/Indikator" />
+      <DataTableColumnHeader column={column} title="Nama" />
     ),
     cell: ({ row }) => {
 
@@ -65,13 +66,30 @@ export const columns: ColumnDef<TujuanSasaranIndikatorIKU>[] = [
       )
     },
   },
-  // {
-  //   accessorKey: "jenis",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Tujuan/Sasaran/Indikator" />
-  //   ),
-  //   cell: ({ row }) => <div className="w-[120px]">{row.original.jenis}</div>,
-  // },
+  {
+    accessorKey: "jenis",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Jenis" />
+    ),
+    cell: ({ row }) => {
+      const jenis = jenises.find(
+        (jenis) => jenis.value === row.original.jenis
+      )
+
+      if (!jenis) {
+        return null
+      }
+
+      return (
+        <div className="max-w-[500px] items-center">
+          <span>{jenis.label}</span>
+        </div>
+      )
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
+  },
   {
     id: "actions",
     cell: ({ row }) => <DataTableRowActions row={row} />,

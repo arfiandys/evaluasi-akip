@@ -30,7 +30,7 @@ const IsianLKEIdPage = async ({
     const variabelLKE = await db.variabelLKE.findUnique({
         where: {
             id: params.variabelId,
-        },        
+        },
     });
 
     const subKriteria = await db.subKriteriaLKE.findMany({
@@ -83,8 +83,7 @@ const IsianLKEIdPage = async ({
         variabelLKE.kode,
         variabelLKE.tahun,
         variabelLKE.jenisIsian,
-        variabelLKE.kriteriaLKEId,
-        variabelLKE.subKriteriaLKEId
+        variabelLKE.kriteriaLKEId || variabelLKE.subKriteriaLKEId
     ];
 
     const totalFields = requiredFields.length;
@@ -107,7 +106,7 @@ const IsianLKEIdPage = async ({
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-y-2">
                                 <h1 className="text-2xl font-medium">
-                                Variabel setup
+                                    Detail variabel LKE
                                 </h1>
                                 <span className="text-sm text-secondary-foreground">
                                     Complete all fields {completionText}
@@ -120,14 +119,14 @@ const IsianLKEIdPage = async ({
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
-                    <div>
-                        <div className="flex items-center gap-x-2">
-                            <IconBadge icon={LayoutDashboard} />
-                            <h2 className="text-xl">
-                                Customize your Variabel details
-                            </h2>
-                        </div>
+                <div className="mt-16">
+                    <div className="flex items-center gap-x-2">
+                        <IconBadge icon={LayoutDashboard} />
+                        <h2 className="text-xl">
+                            Edit detail variabel
+                        </h2>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
                         <KodeForm
                             initialData={variabelLKE}
                             variabelId={variabelLKE.id}
@@ -144,14 +143,6 @@ const IsianLKEIdPage = async ({
                             initialData={variabelLKE}
                             variabelId={variabelLKE.id}
                         />
-                    </div>
-                    <div>
-                        <div className="flex items-center gap-x-2">
-                            <IconBadge icon={Building} />
-                            <h2 className="text-xl">
-                                Customize kriteria of Variabel
-                            </h2>
-                        </div>
                         <KriteriaOrSubForm
                             variabelLKE={variabelLKE}
                             variabelId={variabelLKE.id}
