@@ -14,10 +14,13 @@ import {
   FormField,
   FormItem,
   FormMessage,
+  FormLabel
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 
 interface TahunProps {
   initialData: {
@@ -85,21 +88,41 @@ export const TahunForm = ({
             className="space-y-4 mt-4"
           >
             <FormField
-              control={form.control}
-              name="tahun"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      disabled={isSubmitting}
-                      placeholder="e.g. '2023'"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                                    control={form.control}
+                                    name="tahun"
+                                    render={({ field }) => (
+                                        <FormItem className="w-full">
+                                        <FormLabel>
+                                            Tahun
+                                        </FormLabel>
+                                        <Select
+                                            disabled={isSubmitting}
+                                            onValueChange={field.onChange}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Pilih tahun" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectItem value="2023">
+                                                    2023
+                                                </SelectItem>
+                                                <SelectItem value="2024">
+                                                    2024
+                                                </SelectItem>
+                                                <SelectItem value="2025">
+                                                    2025
+                                                </SelectItem>
+                                                <SelectItem value="2026">
+                                                    2026
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                    )}
+                                />
             <div className="flex items-center gap-x-2">
               <Button
                 disabled={!isValid || isSubmitting}

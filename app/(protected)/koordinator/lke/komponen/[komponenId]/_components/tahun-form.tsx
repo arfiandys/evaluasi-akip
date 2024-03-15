@@ -13,6 +13,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -21,6 +22,8 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import { KomponenLKE } from "@prisma/client";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 
 interface TahunFormProps {
   initialData: KomponenLKE;
@@ -96,14 +99,34 @@ export const TahunForm = ({
               control={form.control}
               name="tahun"
               render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      disabled={isSubmitting}
-                      placeholder="e.g. '1'"
-                      {...field}
-                    />
-                  </FormControl>
+                <FormItem className="w-full">
+                  <FormLabel>
+                    Tahun
+                  </FormLabel>
+                  <Select
+                    disabled={isSubmitting}
+                    onValueChange={field.onChange}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Pilih tahun" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="2023">
+                        2023
+                      </SelectItem>
+                      <SelectItem value="2024">
+                        2024
+                      </SelectItem>
+                      <SelectItem value="2025">
+                        2025
+                      </SelectItem>
+                      <SelectItem value="2026">
+                        2026
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

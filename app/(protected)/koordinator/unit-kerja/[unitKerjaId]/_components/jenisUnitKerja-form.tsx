@@ -102,7 +102,7 @@ export const JenisUnitKerjaForm = ({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a isian" />
+                        <SelectValue placeholder="Pilih isian" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>

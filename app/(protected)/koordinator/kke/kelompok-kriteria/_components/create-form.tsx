@@ -22,6 +22,8 @@ import { useState } from "react";
 import { Pencil, PlusCircle } from "lucide-react";
 import { Combobox } from "@/components/ui/combobox";
 import { Permindok } from "@prisma/client";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 
 const formSchema = z.object({
     name: z.string().min(1, {
@@ -147,18 +149,35 @@ const CreateKolompokKriteriaPage = ({
                                     name="tahun"
                                     render={({ field }) => (
                                         <FormItem className="w-full">
-                                            <FormLabel>
-                                                Tahun
-                                            </FormLabel>
+                                        <FormLabel>
+                                            Tahun
+                                        </FormLabel>
+                                        <Select
+                                            disabled={isSubmitting}
+                                            onValueChange={field.onChange}
+                                        >
                                             <FormControl>
-                                                <Input
-                                                    disabled={isSubmitting}
-                                                    placeholder="e.g. '2023'"
-                                                    {...field}
-                                                />
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Pilih tahun" />
+                                                </SelectTrigger>
                                             </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
+                                            <SelectContent>
+                                                <SelectItem value="2023">
+                                                    2023
+                                                </SelectItem>
+                                                <SelectItem value="2024">
+                                                    2024
+                                                </SelectItem>
+                                                <SelectItem value="2025">
+                                                    2025
+                                                </SelectItem>
+                                                <SelectItem value="2026">
+                                                    2026
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
                                     )}
                                 />
                                 <FormField

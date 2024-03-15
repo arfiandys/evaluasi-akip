@@ -42,10 +42,11 @@ export const SelectForm = ({
         }
         try {
           await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, values);
-          // toast.success("LKE unit kerja updated");
+          toast.success("LKE unit kerja updated");
           // router.push(`/anggota/lke/list`);
-          //TODO: DUA OPSI YG GAGAL UNTUK REFRESH CATATAN YG DIUPDATE
           router.refresh()
+          //TODO: DUA OPSI YG GAGAL UNTUK REFRESH CATATAN YG DIUPDATE
+          
         } catch {
           toast.error("Something went wrong");
         }
