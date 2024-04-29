@@ -107,14 +107,22 @@ export const NumberForm = ({
           control={form.control}
           name="isian"
           render={({ field }) => (
-            <FormItem className="max-w-[250px]">
+            <FormItem className="">
               <FormControl>
-                <Input
-
-                  type="number"
-                  placeholder="Isikan nilai"
-                  {...field}
-                />
+              {initialData.variabelLKE.variabelKKE ? (
+                  <Input
+                    type="number"
+                    disabled
+                    placeholder="Isikan nilai"
+                    {...field}
+                  />
+                ) : (
+                  <Input
+                    type="number"
+                    placeholder="Isikan nilai"
+                    {...field}
+                  />
+                )}
               </FormControl>
               <FormMessage />
             </FormItem>

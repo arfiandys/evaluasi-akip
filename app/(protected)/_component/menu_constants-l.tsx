@@ -130,40 +130,40 @@ export const SIDENAV_ITEMS_ANGGOTA: SideNavItemGroup[] = [
         menuList: [
             {
                 title: 'LKE',
-                path: '/anggota/lke',
+                path: '/anggota/lke/list',
                 icon: <Sheet size={20} />,
-                submenu: true,
-                subMenuItems: [
-                    { title: 'List', path: '/anggota/lke/list' },
-                ],
+                // submenu: true,
+                // subMenuItems: [
+                //     { title: 'List', path: '/anggota/lke/list' },
+                // ],
             },
             {
                 title: 'KKE',
-                path: '/anggota/kke',
+                path: '/anggota/kke/list',
                 icon: <TableProperties size={20} />,
-                submenu: true,
-                subMenuItems: [
-                    { title: 'List', path: '/anggota/kke/list' },
-                    { title: 'IKU', path: '/anggota/kke/iku' },
-                ],
+                // submenu: true,
+                // subMenuItems: [
+                //     { title: 'List', path: '/anggota/kke/list' },
+                //     { title: 'IKU', path: '/anggota/kke/iku' },
+                // ],
             },
             {
                 title: 'Permindok',
-                path: '/anggota/permindok',
+                path: '/anggota/permindok/list',
                 icon: <FileCheck size={20} />,
-                submenu: true,
-                subMenuItems: [
-                    { title: 'List', path: '/anggota/permindok/list' },
-                ],
+                // submenu: true,
+                // subMenuItems: [
+                //     { title: 'List', path: '/anggota/permindok/list' },
+                // ],
             },
             {
                 title: 'Unit kerja',
-                path: '/anggota/unitKerja',
+                path: '/anggota/unitKerja/list',
                 icon: <Building2 size={20} />,
-                submenu: true,
-                subMenuItems: [
-                    { title: 'List', path: '/anggota/unitKerja/list' },
-                ],
+                // submenu: true,
+                // subMenuItems: [
+                //     { title: 'List', path: '/anggota/unitKerja/list' },
+                // ],
             },
         ]
     },

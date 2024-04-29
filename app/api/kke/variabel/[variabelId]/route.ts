@@ -56,17 +56,51 @@ export async function PATCH(
         where: {
           VariabelKKEUnitKerjaId: {
             variabelKKEId: variabelId,
-            unitKerjaId: values.unitKerjaId 
+            unitKerjaId: values.unitKerjaId
           }
         },
-        data: {        
+        data: {
           isianAt: values.values.isianAt,
           isianKt: values.values.isianKt,
           isianDalnis: values.values.isianDalnis,
-          isianPIC: values.values.isianPIC       
+          isianPIC: values.values.isianPIC
         },
       });
-  
+
+      const variabelLKE = await db.variabelLKE.findUnique({
+        where: {
+          id: values.variabelLKEId
+        },
+        include: {
+          kriteriaLKE: true,
+          subKriteriaLKE: true,
+        }
+      })
+
+      let catatan = ""
+      let nilai = ""
+      if (values.values.isianAt === "ya") {
+        catatan = variabelLKE?.catatanPositif || "";
+        nilai = ((variabelLKE?.kriteriaLKE?.bobot || (variabelLKE?.subKriteriaLKE?.bobot || 0)) * 100).toString();
+      } else {
+        catatan = variabelLKE?.catatanNegatif || "";
+        nilai = "0";
+      }
+
+      const variabelLKEUnitKerja = await db.lKEUnitKerja.update({
+        where: {
+          LKEUnitKerjaId: {
+            variabelLKEId: values.variabelLKEId,
+            unitKerjaId: values.unitKerjaId
+          }
+        },
+        data: {
+          isianAt: values.values.isianAt,
+          nilaiAt: nilai,
+          catatanAt: catatan,
+        },
+      });
+
       return NextResponse.json(KKEUnitKerja);
     }
 
@@ -75,13 +109,13 @@ export async function PATCH(
         where: {
           id: variabelId,
         },
-        data: {        
+        data: {
           kriteriaKKEId: values.kriteriaLKEId,
           kode: values.kode,
           tahun: values.tahun
         },
       });
-  
+
       return NextResponse.json(variabelKKE);
     }
 

@@ -31,19 +31,24 @@ import { DataTableToolbar } from "../_components/data-table-toolbar"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  uniqueData: ({
+    value: string;
+    label: string;
+  })[][]
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  uniqueData
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({'tahun':false,'jenisIsian':false})
+    React.useState<VisibilityState>({ 'tahun': false, 'jenisIsian': false })
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   )
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [sorting, setSorting] = React.useState<SortingState>([{ id: 'unitKerja', desc: false }, { id: 'kodeVariabel', desc: false }])
 
   const table = useReactTable({
     data,
@@ -69,7 +74,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      <DataTableToolbar table={table} uniqueData={uniqueData} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -81,9 +86,9 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   )
                 })}

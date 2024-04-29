@@ -1,12 +1,12 @@
 import { auth } from "@/auth";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
-// import { UploadThingError } from "uploadthing/server";
+import { UploadThingError } from "uploadthing/server";
 const f = createUploadthing();
 
 const handleAuth = async () => {
     const session = await auth();
     const userId = session?.user?.id;
-    if (!userId) throw new Error("Unauthorized!");
+    if (!userId) throw new UploadThingError("Unauthorized!");
     return { userId };
 }; // auth function
 

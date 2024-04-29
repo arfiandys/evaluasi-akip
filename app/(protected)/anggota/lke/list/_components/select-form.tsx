@@ -20,22 +20,26 @@ export const SelectForm = ({
   const router = useRouter();
 
   const [selected, setSelected] = React.useState<string>(
-    role === "at" ? initialData.isianAt||"": (role === "kt" ? initialData.isianKt||"":(role === "dalnis" ? initialData.isianDalnis||"":""))
+    role === "at" ? initialData.isianAt || "" : (role === "kt" ? initialData.isianKt || "" : (role === "dalnis" ? initialData.isianDalnis || "" : ""))
   )
 
-  const onvaluechange = (value:string) => {
+  const onvaluechange = (value: string) => {
     let catatan = ""
-    if (value==="ya") {
-      catatan = initialData.variabelLKE.catatanPositif||""
+    let nilai = ""
+    if (value === "ya") {
+      catatan = initialData.variabelLKE.catatanPositif || "";
+      nilai = ((initialData.variabelLKE.kriteriaLKE?.bobot || (initialData.variabelLKE.subKriteriaLKE?.bobot || 0)) * 100).toString();
     } else {
-      catatan = initialData.variabelLKE.catatanNegatif||""
+      catatan = initialData.variabelLKE.catatanNegatif || "";
+      nilai = "0";
     }
     const onSubmit = async () => {
       if (role === "at") {
         const values = {
           values: {
             isianAt: value,
-            catatanAt: catatan
+            catatanAt: catatan,
+            nilaiAt: nilai
           },
           input: "input",
           unitKerjaId: initialData.unitKerjaId
@@ -46,7 +50,7 @@ export const SelectForm = ({
           // router.push(`/anggota/lke/list`);
           router.refresh()
           //TODO: DUA OPSI YG GAGAL UNTUK REFRESH CATATAN YG DIUPDATE
-          
+
         } catch {
           toast.error("Something went wrong");
         }
@@ -55,7 +59,8 @@ export const SelectForm = ({
         const values = {
           values: {
             isianKt: value,
-            catatanKt: catatan
+            catatanKt: catatan,
+            nilaiKt: nilai
           },
           input: "input",
           unitKerjaId: initialData.unitKerjaId
@@ -73,7 +78,8 @@ export const SelectForm = ({
         const values = {
           values: {
             isianDalnis: value,
-            catatanDalnis: catatan
+            catatanDalnis: catatan,
+            nilaiDalnis: nilai
           },
           input: "input",
           unitKerjaId: initialData.unitKerjaId
@@ -94,9 +100,15 @@ export const SelectForm = ({
   return (
 
     <Select onValueChange={onvaluechange} defaultValue={selected}>
-      <SelectTrigger>
-        <SelectValue placeholder="Select yes/no" />
-      </SelectTrigger>
+      {initialData.variabelLKE.variabelKKE ? (
+        <SelectTrigger disabled>
+          <SelectValue placeholder="Select yes/no" />
+        </SelectTrigger>
+      ) : (
+        <SelectTrigger>
+          <SelectValue placeholder="Select yes/no" />
+        </SelectTrigger>
+      )}
       <SelectContent>
         <SelectItem value="ya">Ya</SelectItem>
         <SelectItem value="tidak">Tidak</SelectItem>

@@ -49,6 +49,9 @@ export const LKEUnitKerjaSchema = z.object({
         invalid_type_error: "Bobot must be a number",
       }),
     }).nullable(),
+    variabelKKE: z.object({
+      id: z.string().min(1),
+    }).nullable(),
   }),
   unitKerja: z.object({
     id: z.string().min(1),

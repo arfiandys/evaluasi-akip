@@ -39,9 +39,17 @@ const VariabelKKEPage = async () => {
 
     const variabelLKE = await db.variabelLKE.findMany({
         where: {
-            variabelKKE: {
-                is: null
-            }
+            AND: [
+                {
+                    variabelKKE: {
+                        is: null
+                    }
+                },
+                {
+                    jenisIsian: "number"
+                }
+            ]
+
         },
         orderBy: {
             id: "asc"

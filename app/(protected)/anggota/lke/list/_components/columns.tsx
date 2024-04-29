@@ -40,7 +40,13 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "variabelLKE",
+    id: "kodeVariabel",
+    accessorFn: row => {
+      const kode = row.variabelLKE.kode;
+      return (
+        `${kode}`
+      )
+    },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Kode" />
     ),
@@ -48,6 +54,26 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
       if (row.original.variabelLKE) {
         return (
           <div className="w-[120px]">{row.original.variabelLKE.kode}</div>
+        )
+      }
+    },
+  },
+  {
+    id: "namaVariabel",
+    accessorFn: row => {
+      const nama = row.variabelLKE.kriteriaLKE?.name||row.variabelLKE.subKriteriaLKE?.name;
+      return (
+        `${nama}`
+      )
+    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Kriteria / Sub Kriteria" />
+    ),
+    cell: ({ row }) => {
+
+      if (row.original.variabelLKE) {
+        return (
+          <div className="w-[120px]">{row.original.variabelLKE.kriteriaLKE?.name||row.original.variabelLKE.subKriteriaLKE?.name}</div>
         )
       }
     },
@@ -147,7 +173,7 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
     },
   },
   {
-    accessorKey: "catataAt",
+    accessorKey: "catatanAt",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Catatan Anggota" />
     ),
@@ -155,8 +181,4 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
     enableSorting: false,
     enableHiding: true,
   },
-  // {
-  //   id: "actions",
-  //   cell: ({ row }) => <DataTableRowActions row={row} />,
-  // },
 ]

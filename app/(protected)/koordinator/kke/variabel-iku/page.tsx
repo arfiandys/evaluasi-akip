@@ -24,12 +24,20 @@ const VariabelKKEIKUPage = async () => {
     });
 
     const variabelKKE = await db.variabelKKE.findMany({
+        where: {
+            isIndikatorKinerja: true
+        },
         orderBy: {
             kode: "asc",
         },
     });
 
     const tujuanSasaranIndikatorIKU = await db.tujuanSasaranIndikatorIKU.findMany({
+        where: {
+            tujuanSasaranIndikatorIKUVariabelKKE: {
+                none: {}
+            }
+        },
         orderBy: {
             id: "asc"
         },

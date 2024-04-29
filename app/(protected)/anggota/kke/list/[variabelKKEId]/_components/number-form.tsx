@@ -19,11 +19,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { KomponenLKE, UnitKerja, VariabelLKE } from "@prisma/client";
-import { VariabelKKEUnitKerja } from "../_data/schema";
+import { VariabelIKUUnitKerja } from "../_data/schema";
 
 interface NumberFormProps {
-  initialData: VariabelKKEUnitKerja;
-  role: string;
+  initialData: VariabelIKUUnitKerja;
+  role: string
 };
 
 const formSchema = z.object({
@@ -31,7 +31,7 @@ const formSchema = z.object({
 });
 
 export const NumberForm = ({
-  initialData, role
+  initialData,role
 }: NumberFormProps) => {
 
   const router = useRouter();
@@ -39,7 +39,7 @@ export const NumberForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      isian: role === "at" ? initialData.isianAt || "" : (role === "kt" ? initialData.isianKt || "" : (role === "dalnis" ? initialData.isianDalnis || "" : (role === "pic" ? initialData.isianPIC || "" : "")))
+      isian: role === "at" ? initialData.isianAt||"": (role === "kt" ? initialData.isianKt||"":(role === "dalnis" ? initialData.isianDalnis||"":(role === "pic" ? initialData.isianPIC||"":"")))
     },
   });
 
@@ -55,8 +55,8 @@ export const NumberForm = ({
         unitKerjaId: initialData.unitKerjaId
       }
       try {
-        await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, value);
-        toast.success("LKE unit kerja updated");
+        await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, value);
+      toast.success("IKU unit kerja updated");
       } catch {
         toast.error("Something went wrong");
       }
@@ -70,8 +70,8 @@ export const NumberForm = ({
         unitKerjaId: initialData.unitKerjaId
       }
       try {
-        await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, value);
-        toast.success("LKE unit kerja updated");
+        await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, value);
+      toast.success("IKU unit kerja updated");
       } catch {
         toast.error("Something went wrong");
       }
@@ -85,8 +85,8 @@ export const NumberForm = ({
         unitKerjaId: initialData.unitKerjaId
       }
       try {
-        await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, value);
-        toast.success("LKE unit kerja updated");
+        await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, value);
+      toast.success("IKU unit kerja updated");
       } catch {
         toast.error("Something went wrong");
       }
@@ -100,12 +100,12 @@ export const NumberForm = ({
         unitKerjaId: initialData.unitKerjaId
       }
       try {
-        await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, value);
-        toast.success("LKE unit kerja updated");
+        await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, value);
+      toast.success("IKU unit kerja updated");
       } catch {
         toast.error("Something went wrong");
       }
-    }
+    } 
   }
 
   return (
@@ -119,21 +119,12 @@ export const NumberForm = ({
           render={({ field }) => (
             <FormItem className="max-w-[250px]">
               <FormControl>
-                {initialData.variabelKKE.isIndikatorKinerja === true ? (
-                  <Input
-                    type="number"
-                    disabled
-                    placeholder="Isikan nilai"
-                    {...field}
-                  />
-                ) : (
-                  <Input
-                    type="number"
-                    placeholder="Isikan nilai"
-                    {...field}
-                  />
-                )}
+                <Input
 
+                  type="number"
+                  placeholder="Isikan nilai"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

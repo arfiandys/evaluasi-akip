@@ -33,7 +33,7 @@ export function DataTableRowCatatan<TData>({
 
   let form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    values: {
       isian: role === "at" ? initialData.catatanAt||"": (role === "kt" ? initialData.catatanKt||"":(role === "dalnis" ? initialData.catatanDalnis||"":""))
     },
   });

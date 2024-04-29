@@ -65,7 +65,10 @@ export async function PATCH(
           isianDalnis: values.values.isianDalnis,
           catatanAt: values.values.catatanAt,
           catatanKt: values.values.catatanKt,
-          catatanDalnis: values.values.catatanDalnis,       
+          catatanDalnis: values.values.catatanDalnis,
+          nilaiAt: values.values.nilaiAt,
+          nilaiKt: values.values.nilaiKt,
+          nilaiDalnis: values.values.nilaiDalnis,       
         },
       });
   

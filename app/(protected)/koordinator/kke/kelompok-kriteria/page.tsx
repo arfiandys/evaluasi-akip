@@ -26,6 +26,11 @@ const KelompokKriteriaPage = async () => {
     });
 
     const permindok = await db.permindok.findMany({
+        where: {
+            kelompokKriteriaKKE: {
+                isNot: {}
+            }
+        },
         orderBy: {
             name: "asc",
         },

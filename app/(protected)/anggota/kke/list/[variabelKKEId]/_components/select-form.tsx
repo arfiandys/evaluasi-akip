@@ -5,7 +5,7 @@ import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Pencil } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import {
@@ -17,11 +17,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { VariabelKKEUnitKerja } from "../_data/schema";
+import { VariabelIKUUnitKerja } from "../_data/schema";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface SelectFormProps {
-  initialData: VariabelKKEUnitKerja;
+  initialData: VariabelIKUUnitKerja;
   role: string
 };
 
@@ -42,12 +42,20 @@ export const SelectForm = ({
             isianAt: value
           },
           input: "input",
+          unitKerjaId: initialData.unitKerjaId
+        }
+        const values2 = {
           unitKerjaId: initialData.unitKerjaId,
-          variabelLKEId: initialData.variabelKKE.variabelLKEId,
+          variabelKKEId: initialData.tujuanSasaranIndikatorIKUVariabelKKE.variabelKKEId,
+          variabelLKEId: initialData.tujuanSasaranIndikatorIKUVariabelKKE.variabelKKE?.variabelLKEId,
+          action: "updateIsianVariabel",
+
         }
         try {
-          await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, values);
-          toast.success("KKE unit kerja updated");
+          await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values);
+          await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values2);
+          router.refresh();
+          toast.success("IKU unit kerja updated");
         } catch {
           toast.error("Something went wrong");
         }
@@ -61,8 +69,8 @@ export const SelectForm = ({
           unitKerjaId: initialData.unitKerjaId
         }
         try {
-          await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, values);
-          toast.success("KKE unit kerja updated");
+          await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values);
+          toast.success("IKU unit kerja updated");
         } catch {
           toast.error("Something went wrong");
         }
@@ -76,8 +84,8 @@ export const SelectForm = ({
           unitKerjaId: initialData.unitKerjaId
         }
         try {
-          await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, values);
-          toast.success("KKE unit kerja updated");
+          await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values);
+          toast.success("IKU unit kerja updated");
         } catch {
           toast.error("Something went wrong");
         }
@@ -91,8 +99,8 @@ export const SelectForm = ({
           unitKerjaId: initialData.unitKerjaId
         }
         try {
-          await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, values);
-          toast.success("KKE unit kerja updated");
+          await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values);
+          toast.success("IKU unit kerja updated");
         } catch {
           toast.error("Something went wrong");
         }

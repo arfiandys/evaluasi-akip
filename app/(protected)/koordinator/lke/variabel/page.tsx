@@ -30,9 +30,19 @@ const VariabelLKEPage = async () => {
 
     const kriteria = await db.kriteriaLKE.findMany({
         where: {
-            subKriteriaLKE: {
-                none: {}
-            }
+            AND: [
+                {
+                    subKriteriaLKE: {
+                        none: {}
+                    }
+                },
+                {
+                    variabelLKE: {
+                        isNot: {}
+                    }
+                }
+            ]
+
         },
         orderBy: {
             kode: "asc",
@@ -47,6 +57,11 @@ const VariabelLKEPage = async () => {
     });
 
     const subKriteria = await db.subKriteriaLKE.findMany({
+        where: {
+            variabelLKE: {
+                isNot: {}
+            }
+        },
         orderBy: {
             kode: "asc",
         },
@@ -65,7 +80,7 @@ const VariabelLKEPage = async () => {
 
     return (
         <div className="flex h-full flex-1 flex-col space-y-8 p-8">
-            <KriteriaOrSubCreateForm kriteria={kriteria} subKriteria={subKriteria}/>
+            <KriteriaOrSubCreateForm kriteria={kriteria} subKriteria={subKriteria} />
             <DataTable data={variabelLKE} columns={columns} />
         </div>
     );

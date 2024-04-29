@@ -44,10 +44,31 @@ const GenerateLKEPage = async () => {
         },
     });
 
+    interface Items {
+        value: string;
+        label: string;
+    }
+
+    // Tahun
+    const dataTahun = Array.from(new Set(LKEUnitKerja.map(item => item.tahun)))
+    const tahunUnique: Items[] = dataTahun.map(item => ({
+        value: item,
+        label: item
+    }));
+
+    // Unit Kerja
+    const dataUnitKerja = Array.from(new Set(LKEUnitKerja.map(item => item.unitKerja.name)))
+    const unitKejaUnique: Items[] = dataUnitKerja.map(item => ({
+        value: item,
+        label: item
+    }));
+
+    const data:(Items)[][] = [tahunUnique,unitKejaUnique]
+
     return (
         <div className="flex h-full flex-1 flex-col space-y-8 p-8">
             <GeneratePage variabelLKE={variabelLKE} unitKerja={unitKerja}/>
-            <DataTable data={LKEUnitKerja} columns={columns} />
+            <DataTable data={LKEUnitKerja} columns={columns} uniqueData={data}/>
         </div>
     );
 }

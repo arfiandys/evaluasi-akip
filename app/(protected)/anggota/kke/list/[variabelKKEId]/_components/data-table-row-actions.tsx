@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { jenises } from "../_data/data"
-import { VariabelKKEUnitKerjaSchema } from "../_data/schema"
+import { VariabelIKUUnitKerjaSchema } from "../_data/schema"
 import Link from "next/link"
 
 interface DataTableRowActionsProps<TData> {
@@ -29,7 +29,7 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const VariabelKKEUnitKerja = VariabelKKEUnitKerjaSchema.parse(row.original)
+  const VariabelIKUUnitKerja = VariabelIKUUnitKerjaSchema.parse(row.original)
 
   return (
     <DropdownMenu>
@@ -43,9 +43,29 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <Link href={`/anggota/kke/list/${VariabelKKEUnitKerja.variabelKKEId}`}>
-          <DropdownMenuItem>Isi IKU</DropdownMenuItem>
+        <Link href={`/koordinator/kke/VariabelIKUUnitKerja`}>
+          <DropdownMenuItem>Edit</DropdownMenuItem>
         </Link>
+        <DropdownMenuItem>Make a copy</DropdownMenuItem>
+        <DropdownMenuItem>Favorite</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
+          <DropdownMenuSubContent>
+            <DropdownMenuRadioGroup value={VariabelIKUUnitKerja.tujuanSasaranIndikatorIKUVariabelKKEId}>
+              {jenises.map((jenis) => (
+                <DropdownMenuRadioItem key={jenis.value} value={jenis.value}>
+                  {jenis.label}
+                </DropdownMenuRadioItem>
+              ))}
+            </DropdownMenuRadioGroup>
+          </DropdownMenuSubContent>
+        </DropdownMenuSub>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          Delete
+          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

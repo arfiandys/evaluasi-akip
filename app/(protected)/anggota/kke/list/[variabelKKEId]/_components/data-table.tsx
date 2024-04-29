@@ -31,16 +31,13 @@ import { DataTableToolbar } from "./data-table-toolbar"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-  uniqueData: ({
-    value: string;
-    label: string;
-  })[][]
+  nama: string | undefined
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  uniqueData
+  nama
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
@@ -74,7 +71,10 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} uniqueData={uniqueData}/>
+      <h2 className="scroll-m-20 border-4 border-dashed rounded-md p-1 text-xl font-semibold tracking-tight first:mt-0 w-6/12">
+        {nama}
+      </h2>
+      <DataTableToolbar table={table} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

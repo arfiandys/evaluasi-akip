@@ -39,7 +39,13 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "variabelLKE",
+    id: "kodeVariabel",
+    accessorFn: row => {
+      const kode = row.variabelLKE.kode;
+      return (
+        `${kode}`
+      )
+    },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Kode" />
     ),
@@ -52,22 +58,34 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
     },
   },
   {
+    id: "namaVariabel",
+    accessorFn: row => {
+      const nama = row.variabelLKE.kriteriaLKE?.name||row.variabelLKE.subKriteriaLKE?.name;
+      return (
+        `${nama}`
+      )
+    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Kriteria / Sub Kriteria" />
+    ),
+    cell: ({ row }) => {
+
+      if (row.original.variabelLKE) {
+        return (
+          <div className="w-[120px]">{row.original.variabelLKE.kriteriaLKE?.name||row.original.variabelLKE.subKriteriaLKE?.name}</div>
+        )
+      }
+    },
+  },
+  {
     accessorKey: "tahun",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Tahun" />
     ),
     cell: ({ row }) => {
-      const tahun = tahuns.find(
-        (tahun) => tahun.value === row.original.tahun
-      )
-
-      if (!tahun) {
-        return null
-      }
-
       return (
         <div className="flex w-[100px] items-center">
-          <span>{tahun.label}</span>
+          <span>{row.getValue("tahun")}</span>
         </div>
       )
     },
@@ -123,34 +141,72 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
     },
   },
   {
-    id: "isianAt",
+    accessorKey: "nilaiAt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Isian Anggota" />
+      <DataTableColumnHeader column={column} title="Nilai Anggota" />
     ),
-    cell: ({ row }) => <DataTableRowInput role="at" row={row} />,
-    enableSorting: false,
-    enableHiding: true,
+    cell: ({ row }) => {
+
+      if (row.original.variabelLKE) {
+        return (
+          <div className="w-[120px]">{row.getValue("nilaiAt")}</div>
+        )
+      }
+    },
   },
   {
-    id: "isianKt",
+    accessorKey: "nilaiKt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Isian Ketua" />
+      <DataTableColumnHeader column={column} title="Nilai Ketua" />
     ),
-    cell: ({ row }) => <DataTableRowInput role="kt" row={row} />,
-    enableSorting: false,
-    enableHiding: true,
+    cell: ({ row }) => {
+
+      if (row.original.variabelLKE) {
+        return (
+          <div className="w-[120px]">{row.getValue("nilaiKt")}</div>
+        )
+      }
+    },
   },
   {
-    id: "isianDalnis",
+    accessorKey: "nilaiDalnis",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Isian Pengendali Teknis" />
+      <DataTableColumnHeader column={column} title="Nilai Dalnis" />
     ),
-    cell: ({ row }) => <DataTableRowInput role="dalnis" row={row} />,
-    enableSorting: false,
-    enableHiding: true,
+    cell: ({ row }) => {
+
+      if (row.original.variabelLKE) {
+        return (
+          <div className="w-[120px]">{row.getValue("nilaiDalnis")}</div>
+        )
+      }
+    },
   },
-  {
-    id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
-  },
+  // {
+  //   id: "isianAt",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Isian Anggota" />
+  //   ),
+  //   cell: ({ row }) => <DataTableRowInput role="at" row={row} />,
+  //   enableSorting: false,
+  //   enableHiding: true,
+  // },
+  // {
+  //   id: "isianKt",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Isian Ketua" />
+  //   ),
+  //   cell: ({ row }) => <DataTableRowInput role="kt" row={row} />,
+  //   enableSorting: false,
+  //   enableHiding: true,
+  // },
+  // {
+  //   id: "isianDalnis",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Isian Pengendali Teknis" />
+  //   ),
+  //   cell: ({ row }) => <DataTableRowInput role="dalnis" row={row} />,
+  //   enableSorting: false,
+  //   enableHiding: true,
+  // },
 ]

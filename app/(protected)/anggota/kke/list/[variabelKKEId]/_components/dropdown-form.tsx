@@ -17,24 +17,25 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { VariabelKKEUnitKerja } from "../_data/schema";
+import { VariabelIKUUnitKerja } from "../_data/schema";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-interface SelectFormProps {
-  initialData: VariabelKKEUnitKerja;
-  role: string
+interface DropdownFormProps {
+  initialData: VariabelIKUUnitKerja;
+  role: string;
 };
 
-export const SelectForm = ({
-  initialData, role
-}: SelectFormProps) => {
+export const DropdownForm = ({
+  initialData,
+  role
+}: DropdownFormProps) => {
 
   const router = useRouter();
   const [selected, setSelected] = React.useState<string>(
-    role === "at" ? initialData.isianAt || "" : (role === "kt" ? initialData.isianKt || "" : (role === "dalnis" ? initialData.isianDalnis || "" : (role === "pic" ? initialData.isianPIC || "" : "")))
+    role === "at" ? initialData.isianAt||"": (role === "kt" ? initialData.isianKt||"":(role === "dalnis" ? initialData.isianDalnis||"":(role === "pic" ? initialData.isianPIC||"":"")))
   )
 
-  const onvaluechange = (value: string) => {
+  const onvaluechange = (value:string) => {
     const onSubmit = async () => {
       if (role === "at") {
         const values = {
@@ -42,12 +43,11 @@ export const SelectForm = ({
             isianAt: value
           },
           input: "input",
-          unitKerjaId: initialData.unitKerjaId,
-          variabelLKEId: initialData.variabelKKE.variabelLKEId,
+          unitKerjaId: initialData.unitKerjaId
         }
         try {
-          await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, values);
-          toast.success("KKE unit kerja updated");
+          await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values);
+        toast.success("IKU unit kerja updated");
         } catch {
           toast.error("Something went wrong");
         }
@@ -61,8 +61,8 @@ export const SelectForm = ({
           unitKerjaId: initialData.unitKerjaId
         }
         try {
-          await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, values);
-          toast.success("KKE unit kerja updated");
+          await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values);
+        toast.success("IKU unit kerja updated");
         } catch {
           toast.error("Something went wrong");
         }
@@ -76,8 +76,8 @@ export const SelectForm = ({
           unitKerjaId: initialData.unitKerjaId
         }
         try {
-          await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, values);
-          toast.success("KKE unit kerja updated");
+          await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values);
+        toast.success("IKU unit kerja updated");
         } catch {
           toast.error("Something went wrong");
         }
@@ -91,12 +91,12 @@ export const SelectForm = ({
           unitKerjaId: initialData.unitKerjaId
         }
         try {
-          await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, values);
-          toast.success("KKE unit kerja updated");
+          await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values);
+        toast.success("IKU unit kerja updated");
         } catch {
           toast.error("Something went wrong");
         }
-      }
+      }      
     }
     onSubmit()
   }
@@ -105,11 +105,12 @@ export const SelectForm = ({
 
     <Select onValueChange={onvaluechange} defaultValue={selected}>
       <SelectTrigger>
-        <SelectValue placeholder="Select yes/no" />
+        <SelectValue placeholder="Select grade" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="ya">Ya</SelectItem>
-        <SelectItem value="tidak">Tidak</SelectItem>
+        <SelectItem value="a">A</SelectItem>
+        <SelectItem value="b">B</SelectItem>
+        <SelectItem value="c">C</SelectItem>
       </SelectContent>
     </Select>
   )

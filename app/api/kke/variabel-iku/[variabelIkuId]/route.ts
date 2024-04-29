@@ -70,6 +70,74 @@ export async function PATCH(
       return NextResponse.json(IKUUnitKerja);
     }
 
+    if ((values.unitKerjaId!) && (values.variabelKKEId!) && (values.action! === "updateIsianVariabel")) {
+
+      const isianIKUKKIndikatorUnitKerja = await db.tujuanSasaranIndikatorIKUVariabelKKEUnitKerja.findMany({
+        where: {
+          AND: [
+            {
+              tujuanSasaranIndikatorIKUVariabelKKE: {
+                variabelKKEId: values.variabelKKEId
+              }
+            },
+            {
+              unitKerjaId: values.unitKerjaId
+            }
+          ]
+        }
+      })
+      
+      let jumlah: number = 0;
+      let banyak: number = 0;
+
+      isianIKUKKIndikatorUnitKerja.forEach((data)=>{
+        jumlah += (data.isianAt==="ya") ? (1):(0);
+        banyak += 1;
+      })
+
+      const variabelKKEUnitKerja = await db.variabelKKEUnitKerja.update({
+        where: {
+          VariabelKKEUnitKerjaId: {
+            variabelKKEId: values.variabelKKEId,
+            unitKerjaId: values.unitKerjaId
+          }
+        },
+        data: {
+          isianAt: ((jumlah*100)/banyak).toString(),
+        },
+      });
+
+      const variabelLKE = await db.variabelLKE.findUnique({
+        where: {
+          id: values.variabelLKEId
+        },
+        include: {
+          kriteriaLKE: true,
+          subKriteriaLKE: true,
+        }
+      })
+
+      let nilai = ""
+      if (((jumlah*100)/banyak).toString()) {
+        nilai = ((variabelLKE?.kriteriaLKE?.bobot || (variabelLKE?.subKriteriaLKE?.bobot || 0)) * Number(((jumlah*100)/banyak).toString())).toString();
+      }
+
+      const variabelLKEUnitKerja = await db.lKEUnitKerja.update({
+        where: {
+          LKEUnitKerjaId: {
+            variabelLKEId: values.variabelLKEId,
+            unitKerjaId: values.unitKerjaId
+          }
+        },
+        data: {
+          isianAt: ((jumlah*100)/banyak).toString(),
+          nilaiAt: nilai
+        },
+      });
+
+      return NextResponse.json(variabelKKEUnitKerja);
+    }
+
     // TODO: edit variabelKKEIKU
 
     // if ((values.kriteriaKKEId!) && (values.variabel! === "kriteria") && (values.action! === "yearCodeGenerate")) {
