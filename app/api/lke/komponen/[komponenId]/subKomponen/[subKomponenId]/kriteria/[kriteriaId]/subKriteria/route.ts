@@ -9,25 +9,54 @@ export async function POST(
     try {
         const userId = await currentId();
         const values = await req.json();
-        
+
 
         if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
         const kriteria = await db.kriteriaLKE.findUnique({
             where: {
-              id: params.kriteriaId,
+                id: params.kriteriaId,
             }
-          });
-      
-          if (!kriteria) {
+        });
+
+        if (!kriteria) {
             return new NextResponse("Unauthorized", { status: 401 });
-          }
+        }
 
         const subKriteriaLKE = await db.subKriteriaLKE.create({
             data: {
                 kriteriaLKEId: params.kriteriaId,
-                ...values
+                kode: values.kode,
+                name: values.name,
+                bobot: values.bobot,
+            },
+            include: {
+                kriteriaLKE: {
+                    include: {
+                        subKomponenLKE: {
+                            include: {
+                                komponenLKE: true
+                            }
+                        }
+                    }
+                }
+            }
+        })
+
+        const variabelLKE = await db.variabelLKE.create({
+            data: {
+                evaluasiId: values.evaluasiId,
+                subKriteriaLKEId: subKriteriaLKE.id,
+                kode: subKriteriaLKE.kriteriaLKE?.subKomponenLKE?.komponenLKE?.kode.concat(".", subKriteriaLKE.kriteriaLKE?.subKomponenLKE?.kode.concat(".", subKriteriaLKE.kriteriaLKE?.kode.concat(".", subKriteriaLKE.kode))) || "",
+                tahun: subKriteriaLKE.kriteriaLKE?.subKomponenLKE?.komponenLKE?.tahun || "",
+                jenisIsian: values.jenisIsian,
+                levelVariabel: values.levelVariabel,
+                catatanPositif: values.catatanPositif,
+                catatanNegatif: values.catatanNegatif,
+                catatanA: values.catatanA,
+                catatanB: values.catatanB,
+                catatanC: values.catatanC,
             }
         })
 

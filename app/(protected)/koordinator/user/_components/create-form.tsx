@@ -70,14 +70,14 @@ const CreateUserPage = () => {
     // }
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-          await axios.post(`/api/user`, values);
-          toast.success("Pengguna ditambahkan");
-          toggleEdit();
-          router.refresh();
+            await axios.post(`/api/user`, values);
+            toast.success("Pengguna ditambahkan");
+            toggleEdit();
+            router.refresh();
         } catch {
-          toast.error("Something went wrong");
+            toast.error("Something went wrong");
         }
-      }
+    }
 
     return (
         <div className="">

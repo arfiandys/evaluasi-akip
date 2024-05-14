@@ -144,10 +144,14 @@ model Permindok {
 
   unitKerjas PermindokUnitKerja[]
 
+  evaluasiId String
+  evaluasi   Evaluasi @relation(fields: [evaluasiId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([kode, tahun])
+  @@unique([kode, evaluasiId])
+  @@unique([name, evaluasiId])
 }
 
 model PermindokUnitKerja {
@@ -175,7 +179,10 @@ model IKU {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([tahun, name])
+  evaluasiId String
+  evaluasi   Evaluasi @relation(fields: [evaluasiId], references: [id], onDelete: Cascade)
+
+  @@unique([name, evaluasiId])
 }
 
 // TUJUAN IKU
@@ -193,6 +200,7 @@ model TujuanSasaranIndikatorIKU {
   updatedAt DateTime @updatedAt
 
   @@unique([kode, IKUId])
+  @@unique([nama, IKUId])
   @@index([IKUId])
 }
 
@@ -212,13 +220,11 @@ model TujuanSasaranIndikatorIKUVariabelKKE {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([variabelKKEId,tujuanSasaranIndikatorIKUId])
+  @@unique([variabelKKEId, tujuanSasaranIndikatorIKUId])
 }
 
 // KK INDIKATOR KINERJA
 model TujuanSasaranIndikatorIKUVariabelKKEUnitKerja {
-  tahun       Int
-  jenisIsian  String
   isianPIC    String?
   isianAt     String?
   isianKt     String?
@@ -237,8 +243,6 @@ model TujuanSasaranIndikatorIKUVariabelKKEUnitKerja {
 
 // KK EVALUASI DOKUMEN
 model VariabelKKEUnitKerja {
-  tahun       Int
-  jenisIsian  String
   isianPIC    String?
   isianAt     String?
   isianKt     String?
@@ -258,11 +262,10 @@ model VariabelKKEUnitKerja {
 // VariabelKKE
 model VariabelKKE {
   id                 String  @id @default(cuid())
-  tahun              Int
+  tahun              String
   jenisIsian         String
   jenisIsianIKU      String?
   kode               String
-  nama               String
   petunjukEvaluasi   String?
   isIndikatorKinerja Boolean
 
@@ -271,13 +274,16 @@ model VariabelKKE {
   variabelLKE   VariabelLKE? @relation(fields: [variabelLKEId], references: [id], onDelete: Cascade)
   variabelLKEId String       @unique // relation scalar field (used in the `@relation` attribute above)
 
+  evaluasiId String
+  evaluasi   Evaluasi @relation(fields: [evaluasiId], references: [id], onDelete: Cascade)
+
   variabelUnitKerja                    VariabelKKEUnitKerja[]
   tujuanSasaranIndikatorIKUVariabelKKE TujuanSasaranIndikatorIKUVariabelKKE[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([kode, tahun])
+  @@unique([kode, evaluasiId])
 }
 
 // KELOMPOK KRITERIA KKE
@@ -290,10 +296,14 @@ model KelompokKriteriaKKE {
   permindokId String?       @unique
   kriteriaKKE KriteriaKKE[]
 
+  evaluasiId String
+  evaluasi   Evaluasi @relation(fields: [evaluasiId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([name, tahun, kode])
+  @@unique([name, evaluasiId])
+  @@unique([kode, evaluasiId])
 }
 
 // KRITERIA KKE
@@ -308,7 +318,8 @@ model KriteriaKKE {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([nama, kode, kelompokKriteriaKKEId])
+  @@unique([nama, kelompokKriteriaKKEId])
+  @@unique([kode, kelompokKriteriaKKEId])
   @@index([kelompokKriteriaKKEId])
 }
 
@@ -320,27 +331,31 @@ model KomponenLKE {
   tahun          String
   bobot          Float
   subKomponenLKE SubKomponenLKE[]
+  variabelLKE    VariabelLKE?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([name, tahun, kode])
+  @@unique([name, tahun])
+  @@unique([kode, tahun])
 }
 
 // SUBKOMPONEN LKE
 model SubKomponenLKE {
   id            String        @id @default(cuid())
   kode          String
-  name          String        @unique
+  name          String
   bobot         Float
   komponenLKEId String?
   komponenLKE   KomponenLKE?  @relation(fields: [komponenLKEId], references: [id], onDelete: Cascade)
   kriteriaLKE   KriteriaLKE[]
+  variabelLKE   VariabelLKE?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([name, kode, komponenLKEId])
+  @@unique([name, komponenLKEId])
+  @@unique([kode, komponenLKEId])
   @@index([komponenLKEId])
 }
 
@@ -348,7 +363,7 @@ model SubKomponenLKE {
 model KriteriaLKE {
   id               String           @id @default(cuid())
   kode             String
-  name             String           @unique
+  name             String
   bobot            Float
   subKomponenLKEId String?
   subKomponenLKE   SubKomponenLKE?  @relation(fields: [subKomponenLKEId], references: [id], onDelete: Cascade)
@@ -358,7 +373,8 @@ model KriteriaLKE {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([name, kode, subKomponenLKEId])
+  @@unique([name, subKomponenLKEId])
+  @@unique([kode, subKomponenLKEId])
   @@index([subKomponenLKEId])
 }
 
@@ -366,7 +382,7 @@ model KriteriaLKE {
 model SubKriteriaLKE {
   id            String       @id @default(cuid())
   kode          String
-  name          String       @unique
+  name          String
   bobot         Float
   kriteriaLKEId String?
   kriteriaLKE   KriteriaLKE? @relation(fields: [kriteriaLKEId], references: [id], onDelete: Cascade)
@@ -375,7 +391,8 @@ model SubKriteriaLKE {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([name, kode, kriteriaLKEId])
+  @@unique([name, kriteriaLKEId])
+  @@unique([kode, kriteriaLKEId])
   @@index([kriteriaLKEId])
 }
 
@@ -390,11 +407,19 @@ model VariabelLKE {
   catatanA         String?
   catatanB         String?
   catatanC         String?
-  isSubKriteria    Boolean
+  catatanDefault   String?
+  levelVariabel    String
+  komponenLKEId    String?         @unique
+  komponenLKE      KomponenLKE?    @relation(fields: [komponenLKEId], references: [id], onDelete: Cascade)
+  subKomponenLKEId String?         @unique
+  subKomponenLKE   SubKomponenLKE? @relation(fields: [subKomponenLKEId], references: [id], onDelete: Cascade)
   kriteriaLKEId    String?         @unique
   kriteriaLKE      KriteriaLKE?    @relation(fields: [kriteriaLKEId], references: [id], onDelete: Cascade)
   subKriteriaLKEId String?         @unique
   subKriteriaLKE   SubKriteriaLKE? @relation(fields: [subKriteriaLKEId], references: [id], onDelete: Cascade)
+
+  evaluasiId String
+  evaluasi   Evaluasi @relation(fields: [evaluasiId], references: [id], onDelete: Cascade)
 
   unitKerjas  LKEUnitKerja[]
   variabelKKE VariabelKKE?
@@ -402,13 +427,11 @@ model VariabelLKE {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([kode, tahun])
+  @@unique([kode, evaluasiId])
 }
 
 // LKE UNIT KERJA
 model LKEUnitKerja {
-  tahun         String
-  jenisIsian    String
   isianKt       String?
   nilaiKt       String?
   catatanKt     String?
@@ -428,6 +451,24 @@ model LKEUnitKerja {
   updatedAt DateTime @updatedAt
 
   @@id(name: "LKEUnitKerjaId", [variabelLKEId, unitKerjaId])
+}
+
+// EVALUASI AKIP
+model Evaluasi {
+  id          String  @id @default(uuid())
+  title       String  @db.Text
+  tahun       String  @db.Text @unique
+  description String? @db.Text
+  status String @default("draft")
+
+  variabelsLKE        VariabelLKE[]
+  variabelsKKE        VariabelKKE[]
+  IKUs                IKU[]
+  permindoks          Permindok[]
+  kelompokKriteriaKKE KelompokKriteriaKKE[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 //-----------------------------------------------------\\

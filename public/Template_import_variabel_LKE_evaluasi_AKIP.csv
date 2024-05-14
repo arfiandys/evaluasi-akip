@@ -1,0 +1,13 @@
+﻿level,namaKomponen,namaSubKomponen,namaKriteria,namaSubKriteria,kode,bobot,jenisIsian,catatanPositif,catatanNegatif,catatanA,catatanB,catatanC
+komponen,Nama komponen,,,,1,0.3,number,,,,,
+subKomponen,PERENCANAAN KINERJA,Nama sub komponen,,,1,0.2,number,,,,,
+kriteria,PERENCANAAN KINERJA,Dokumen perencanaan kinerja telah tersedia.,Nama kriteria,,1,0.1,select,Catatan positif,Catatan negatif,,,
+subKriteria,PERENCANAAN KINERJA,Dokumen perencanaan kinerja telah tersedia.,Terdapat dokumen perencanaan aktivitas yang mendukung kinerja.,Nama sub kriteria,1,1,select,Catatan positif,Catatan negatif,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+"~Notes: lengkapi kolom di atas sebagaimana mestinya, kosongi cell apabila tidak diperlukan.",,,,,,,,,,,,
+"~Pengisian level harus sama yaitu lowercase ""komponen, subKomponen, kriteria, subKriteria"".",,,,,,,,,,,,
+~Untuk bobot gunakan titik sebagai tanda desimal dengan range 0-1.,,,,,,,,,,,,
+~Kode hanya angka.,,,,,,,,,,,,
+"~Jenis isian harus sama yaitu lowercase ""number, select, dropdown"".",,,,,,,,,,,,
+"~Catatan positif dan negatif hanya untuk jenis isian ""select"", catatan a,b,c hanya untuk jenis isian dropdown, jenis isian number tidak perlu catatan.",,,,,,,,,,,,

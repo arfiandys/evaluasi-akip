@@ -9,25 +9,41 @@ export async function POST(
     try {
         const userId = await currentId();
         const values = await req.json();
-        
+
 
         if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
         const komponen = await db.komponenLKE.findUnique({
             where: {
-              id: params.komponenId,
+                id: params.komponenId,
             }
-          });
-      
-          if (!komponen) {
+        });
+
+        if (!komponen) {
             return new NextResponse("Unauthorized", { status: 401 });
-          }
+        }
 
         const subKomponenLKE = await db.subKomponenLKE.create({
             data: {
                 komponenLKEId: params.komponenId,
-                ...values
+                kode: values.kode,
+                name: values.name,
+                bobot: values.bobot,
+            },
+            include: {
+                komponenLKE: true
+            }
+        })
+
+        const variabelLKE = await db.variabelLKE.create({
+            data: {
+                evaluasiId: values.evaluasiId,
+                subKomponenLKEId: subKomponenLKE.id,
+                kode: subKomponenLKE.komponenLKE?.kode.concat(".", subKomponenLKE.kode) || "",
+                tahun: subKomponenLKE.komponenLKE?.tahun || "",
+                jenisIsian: "number",
+                levelVariabel: "subKomponen",
             }
         })
 

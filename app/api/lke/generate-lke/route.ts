@@ -14,20 +14,39 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-
-        if (values.data! && values.unitKerjaId!) {
-            const assignVariabel = await db.unitKerja.update({
-                where: {
-                    id: values.unitKerjaId
-                },
-                data: {
-                    variabelLKEs: {
-                        create: values.data
-                    }
+        if (values.tahun!) {
+            const variabelLKE = await db.variabelLKE.findMany({
+                orderBy: {
+                    id: "asc"
                 }
             })
 
-            return NextResponse.json(assignVariabel);
+            const variabel_filtered = variabelLKE.filter(function (item) {
+                return item.tahun === values.tahun;
+            }).map(function (variabel) { return variabel })
+
+            const data = Array.from(variabel_filtered).map((variabel) => ({
+                variabelLKE: {
+                    connect: {
+                        id: variabel.id
+                    }
+                }
+            }))
+
+            if (values.unitKerjaId!) {
+                const assignVariabel = await db.unitKerja.update({
+                    where: {
+                        id: values.unitKerjaId
+                    },
+                    data: {
+                        variabelLKEs: {
+                            create: data
+                        }
+                    }
+                })
+    
+                return NextResponse.json(assignVariabel);
+            }
         }
 
 

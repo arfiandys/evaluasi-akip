@@ -56,10 +56,10 @@ export async function PATCH(
         where: {
           LKEUnitKerjaId: {
             variabelLKEId: variabelId,
-            unitKerjaId: values.unitKerjaId 
+            unitKerjaId: values.unitKerjaId
           }
         },
-        data: {        
+        data: {
           isianAt: values.values.isianAt,
           isianKt: values.values.isianKt,
           isianDalnis: values.values.isianDalnis,
@@ -68,10 +68,687 @@ export async function PATCH(
           catatanDalnis: values.values.catatanDalnis,
           nilaiAt: values.values.nilaiAt,
           nilaiKt: values.values.nilaiKt,
-          nilaiDalnis: values.values.nilaiDalnis,       
+          nilaiDalnis: values.values.nilaiDalnis,
         },
+        include: {
+          variabelLKE: {
+            include: {
+              subKriteriaLKE: true,
+              kriteriaLKE: true,
+              subKomponenLKE: true,
+              komponenLKE: true,
+            }
+          }
+        }
       });
-  
+
+      if (LKEUnitKerja.variabelLKE.levelVariabel === "subKriteria") {
+        // SUB KRITERIA
+        const LKESubKriteria = await db.lKEUnitKerja.findMany({
+          where: {
+            AND: [
+              {
+                variabelLKE: {
+                  subKriteriaLKE: {
+                    kriteriaLKEId: LKEUnitKerja.variabelLKE.subKriteriaLKE?.kriteriaLKEId!
+                  }
+                }
+              },
+              {
+                unitKerjaId: values.unitKerjaId
+              }
+            ],
+          },
+          include: {
+            variabelLKE: true,
+          }
+        })
+
+        const variabelLKEKriteria = await db.variabelLKE.findUnique({
+          where: {
+            kriteriaLKEId: LKEUnitKerja.variabelLKE.subKriteriaLKE?.kriteriaLKEId!
+          },
+          include: {
+            kriteriaLKE: true,
+            subKriteriaLKE: true,
+          }
+        })
+
+        let jumlah_subKriteria: number = 0;
+
+        if (values.role === "at") {
+          LKESubKriteria.forEach((data) => {
+            jumlah_subKriteria += Number(data.nilaiAt)
+          })
+          const LKEUnitKerjaKriteria = await db.lKEUnitKerja.update({
+            where: {
+              LKEUnitKerjaId: {
+                variabelLKEId: variabelLKEKriteria?.id!,
+                unitKerjaId: values.unitKerjaId
+              }
+            },
+            data: {
+              isianAt: jumlah_subKriteria.toString(),
+              nilaiAt: (variabelLKEKriteria?.kriteriaLKE?.bobot! * jumlah_subKriteria).toString()
+            },
+            include: {
+              variabelLKE: {
+                include: {
+                  kriteriaLKE: true
+                }
+              }
+            }
+          });
+
+          // KRITERIA
+          const LKEKriteria = await db.lKEUnitKerja.findMany({
+            where: {
+              AND: [
+                {
+                  variabelLKE: {
+                    kriteriaLKE: {
+                      subKomponenLKEId: LKEUnitKerjaKriteria.variabelLKE.kriteriaLKE?.subKomponenLKEId!
+                    }
+                  }
+                },
+                {
+                  unitKerjaId: values.unitKerjaId
+                }
+              ],
+            },
+            include: {
+              variabelLKE: true,
+            }
+          })
+
+          const variabelLKESubKomponen = await db.variabelLKE.findUnique({
+            where: {
+              subKomponenLKEId: LKEUnitKerjaKriteria.variabelLKE.kriteriaLKE?.subKomponenLKEId!
+            },
+            include: {
+              kriteriaLKE: true,
+              subKomponenLKE: true,
+            }
+          })
+
+          let jumlah: number = 0;
+          LKEKriteria.forEach((data) => {
+            jumlah += Number(data.nilaiAt)
+          })
+          const LKEUnitKerjaSubKomponen = await db.lKEUnitKerja.update({
+            where: {
+              LKEUnitKerjaId: {
+                variabelLKEId: variabelLKESubKomponen?.id!,
+                unitKerjaId: values.unitKerjaId
+              }
+            },
+            data: {
+              isianAt: jumlah.toString(),
+              nilaiAt: (variabelLKESubKomponen?.subKomponenLKE?.bobot! * jumlah).toString()
+            },
+            include: {
+              variabelLKE: {
+                include: {
+                  subKomponenLKE: true
+                }
+              }
+            }
+          });
+
+          // SUB KOMPONEN
+          const LKESubKomponen = await db.lKEUnitKerja.findMany({
+            where: {
+              AND: [
+                {
+                  variabelLKE: {
+                    subKomponenLKE: {
+                      komponenLKEId: LKEUnitKerjaSubKomponen.variabelLKE.subKomponenLKE?.komponenLKEId!
+                    }
+                  }
+                },
+                {
+                  unitKerjaId: values.unitKerjaId
+                }
+              ],
+            },
+            include: {
+              variabelLKE: true,
+            }
+          })
+
+          const variabelLKEKomponen = await db.variabelLKE.findUnique({
+            where: {
+              komponenLKEId: LKEUnitKerjaSubKomponen.variabelLKE.subKomponenLKE?.komponenLKEId!
+            },
+            include: {
+              subKomponenLKE: true,
+              komponenLKE: true
+            }
+          })
+
+          let jumlah_subKomponen: number = 0
+          LKESubKomponen.forEach((data) => {
+            jumlah_subKomponen += Number(data.nilaiAt)
+          })
+          const LKEUnitKerjaKomponen = await db.lKEUnitKerja.update({
+            where: {
+              LKEUnitKerjaId: {
+                variabelLKEId: variabelLKEKomponen?.id!,
+                unitKerjaId: values.unitKerjaId
+              }
+            },
+            data: {
+              isianAt: jumlah_subKomponen.toString(),
+              nilaiAt: (variabelLKEKomponen?.komponenLKE?.bobot! * jumlah_subKomponen).toString()
+            },
+          });
+
+        } else if (values.role === "kt") {
+          LKESubKriteria.forEach((data) => {
+            jumlah_subKriteria += Number(data.nilaiKt)
+          })
+          const LKEUnitKerjaKriteria = await db.lKEUnitKerja.update({
+            where: {
+              LKEUnitKerjaId: {
+                variabelLKEId: variabelLKEKriteria?.id!,
+                unitKerjaId: values.unitKerjaId
+              }
+            },
+            data: {
+              isianKt: jumlah_subKriteria.toString(),
+              nilaiKt: (variabelLKEKriteria?.kriteriaLKE?.bobot! * jumlah_subKriteria).toString()
+            },
+            include: {
+              variabelLKE: {
+                include: {
+                  kriteriaLKE: true
+                }
+              }
+            }
+          });
+
+          // KRITERIA
+          const LKEKriteria = await db.lKEUnitKerja.findMany({
+            where: {
+              AND: [
+                {
+                  variabelLKE: {
+                    kriteriaLKE: {
+                      subKomponenLKEId: LKEUnitKerjaKriteria.variabelLKE.kriteriaLKE?.subKomponenLKEId!
+                    }
+                  }
+                },
+                {
+                  unitKerjaId: values.unitKerjaId
+                }
+              ],
+            },
+            include: {
+              variabelLKE: true,
+            }
+          })
+
+          const variabelLKESubKomponen = await db.variabelLKE.findUnique({
+            where: {
+              subKomponenLKEId: LKEUnitKerjaKriteria.variabelLKE.kriteriaLKE?.subKomponenLKEId!
+            },
+            include: {
+              kriteriaLKE: true,
+              subKomponenLKE: true,
+            }
+          })
+
+          let jumlah: number = 0;
+          LKEKriteria.forEach((data) => {
+            jumlah += Number(data.nilaiKt)
+          })
+          const LKEUnitKerjaSubKomponen = await db.lKEUnitKerja.update({
+            where: {
+              LKEUnitKerjaId: {
+                variabelLKEId: variabelLKESubKomponen?.id!,
+                unitKerjaId: values.unitKerjaId
+              }
+            },
+            data: {
+              isianKt: jumlah.toString(),
+              nilaiKt: (variabelLKESubKomponen?.subKomponenLKE?.bobot! * jumlah).toString()
+            },
+            include: {
+              variabelLKE: {
+                include: {
+                  subKomponenLKE: true
+                }
+              }
+            }
+          });
+
+          // SUB KOMPONEN
+          const LKESubKomponen = await db.lKEUnitKerja.findMany({
+            where: {
+              AND: [
+                {
+                  variabelLKE: {
+                    subKomponenLKE: {
+                      komponenLKEId: LKEUnitKerjaSubKomponen.variabelLKE.subKomponenLKE?.komponenLKEId!
+                    }
+                  }
+                },
+                {
+                  unitKerjaId: values.unitKerjaId
+                }
+              ],
+            },
+            include: {
+              variabelLKE: true,
+            }
+          })
+
+          const variabelLKEKomponen = await db.variabelLKE.findUnique({
+            where: {
+              komponenLKEId: LKEUnitKerjaSubKomponen.variabelLKE.subKomponenLKE?.komponenLKEId!
+            },
+            include: {
+              subKomponenLKE: true,
+              komponenLKE: true
+            }
+          })
+
+          let jumlah_subKomponen: number = 0
+          LKESubKomponen.forEach((data) => {
+            jumlah_subKomponen += Number(data.nilaiKt)
+          })
+          const LKEUnitKerjaKomponen = await db.lKEUnitKerja.update({
+            where: {
+              LKEUnitKerjaId: {
+                variabelLKEId: variabelLKEKomponen?.id!,
+                unitKerjaId: values.unitKerjaId
+              }
+            },
+            data: {
+              isianKt: jumlah_subKomponen.toString(),
+              nilaiKt: (variabelLKEKomponen?.komponenLKE?.bobot! * jumlah_subKomponen).toString()
+            },
+          });
+        } else if (values.role === "dalnis") {
+          LKESubKriteria.forEach((data) => {
+            jumlah_subKriteria += Number(data.nilaiDalnis)
+          })
+          const LKEUnitKerjaKriteria = await db.lKEUnitKerja.update({
+            where: {
+              LKEUnitKerjaId: {
+                variabelLKEId: variabelLKEKriteria?.id!,
+                unitKerjaId: values.unitKerjaId
+              }
+            },
+            data: {
+              isianDalnis: jumlah_subKriteria.toString(),
+              nilaiDalnis: (variabelLKEKriteria?.kriteriaLKE?.bobot! * jumlah_subKriteria).toString()
+            },
+            include: {
+              variabelLKE: {
+                include: {
+                  kriteriaLKE: true
+                }
+              }
+            }
+          });
+
+          // KRITERIA
+          const LKEKriteria = await db.lKEUnitKerja.findMany({
+            where: {
+              AND: [
+                {
+                  variabelLKE: {
+                    kriteriaLKE: {
+                      subKomponenLKEId: LKEUnitKerjaKriteria.variabelLKE.kriteriaLKE?.subKomponenLKEId!
+                    }
+                  }
+                },
+                {
+                  unitKerjaId: values.unitKerjaId
+                }
+              ],
+            },
+            include: {
+              variabelLKE: true,
+            }
+          })
+
+          const variabelLKESubKomponen = await db.variabelLKE.findUnique({
+            where: {
+              subKomponenLKEId: LKEUnitKerjaKriteria.variabelLKE.kriteriaLKE?.subKomponenLKEId!
+            },
+            include: {
+              kriteriaLKE: true,
+              subKomponenLKE: true,
+            }
+          })
+
+          let jumlah: number = 0;
+          LKEKriteria.forEach((data) => {
+            jumlah += Number(data.nilaiDalnis)
+          })
+          const LKEUnitKerjaSubKomponen = await db.lKEUnitKerja.update({
+            where: {
+              LKEUnitKerjaId: {
+                variabelLKEId: variabelLKESubKomponen?.id!,
+                unitKerjaId: values.unitKerjaId
+              }
+            },
+            data: {
+              isianDalnis: jumlah.toString(),
+              nilaiDalnis: (variabelLKESubKomponen?.subKomponenLKE?.bobot! * jumlah).toString()
+            },
+            include: {
+              variabelLKE: {
+                include: {
+                  subKomponenLKE: true
+                }
+              }
+            }
+          });
+
+          // SUB KOMPONEN
+          const LKESubKomponen = await db.lKEUnitKerja.findMany({
+            where: {
+              AND: [
+                {
+                  variabelLKE: {
+                    subKomponenLKE: {
+                      komponenLKEId: LKEUnitKerjaSubKomponen.variabelLKE.subKomponenLKE?.komponenLKEId!
+                    }
+                  }
+                },
+                {
+                  unitKerjaId: values.unitKerjaId
+                }
+              ],
+            },
+            include: {
+              variabelLKE: true,
+            }
+          })
+
+          const variabelLKEKomponen = await db.variabelLKE.findUnique({
+            where: {
+              komponenLKEId: LKEUnitKerjaSubKomponen.variabelLKE.subKomponenLKE?.komponenLKEId!
+            },
+            include: {
+              subKomponenLKE: true,
+              komponenLKE: true
+            }
+          })
+
+          let jumlah_subKomponen: number = 0
+          LKESubKomponen.forEach((data) => {
+            jumlah_subKomponen += Number(data.nilaiDalnis)
+          })
+          const LKEUnitKerjaKomponen = await db.lKEUnitKerja.update({
+            where: {
+              LKEUnitKerjaId: {
+                variabelLKEId: variabelLKEKomponen?.id!,
+                unitKerjaId: values.unitKerjaId
+              }
+            },
+            data: {
+              isianDalnis: jumlah_subKomponen.toString(),
+              nilaiDalnis: (variabelLKEKomponen?.komponenLKE?.bobot! * jumlah_subKomponen).toString()
+            },
+          });
+        }
+      }
+
+      if (LKEUnitKerja.variabelLKE.levelVariabel === "kriteria") {
+        // KRITERIA
+        const LKEKriteria = await db.lKEUnitKerja.findMany({
+          where: {
+            AND: [
+              {
+                variabelLKE: {
+                  kriteriaLKE: {
+                    subKomponenLKEId: LKEUnitKerja.variabelLKE.kriteriaLKE?.subKomponenLKEId!
+                  }
+                }
+              },
+              {
+                unitKerjaId: values.unitKerjaId
+              }
+            ],
+          },
+          include: {
+            variabelLKE: true,
+          }
+        })
+
+        const variabelLKESubKomponen = await db.variabelLKE.findUnique({
+          where: {
+            subKomponenLKEId: LKEUnitKerja.variabelLKE.kriteriaLKE?.subKomponenLKEId!
+          },
+          include: {
+            kriteriaLKE: true,
+            subKomponenLKE: true,
+          }
+        })
+
+        let jumlah: number = 0;
+
+        if (values.role === "at") {
+          LKEKriteria.forEach((data) => {
+            jumlah += Number(data.nilaiAt)
+          })
+          const LKEUnitKerjaSubKomponen = await db.lKEUnitKerja.update({
+            where: {
+              LKEUnitKerjaId: {
+                variabelLKEId: variabelLKESubKomponen?.id!,
+                unitKerjaId: values.unitKerjaId
+              }
+            },
+            data: {
+              isianAt: jumlah.toString(),
+              nilaiAt: (variabelLKESubKomponen?.subKomponenLKE?.bobot! * jumlah).toString()
+            },
+            include: {
+              variabelLKE: {
+                include: {
+                  subKomponenLKE: true
+                }
+              }
+            }
+          });
+
+          // SUB KOMPONEN
+          const LKESubKomponen = await db.lKEUnitKerja.findMany({
+            where: {
+              AND: [
+                {
+                  variabelLKE: {
+                    subKomponenLKE: {
+                      komponenLKEId: LKEUnitKerjaSubKomponen.variabelLKE.subKomponenLKE?.komponenLKEId!
+                    }
+                  }
+                },
+                {
+                  unitKerjaId: values.unitKerjaId
+                }
+              ],
+            },
+            include: {
+              variabelLKE: true,
+            }
+          })
+
+          const variabelLKEKomponen = await db.variabelLKE.findUnique({
+            where: {
+              komponenLKEId: LKEUnitKerjaSubKomponen.variabelLKE.subKomponenLKE?.komponenLKEId!
+            },
+            include: {
+              subKomponenLKE: true,
+              komponenLKE: true
+            }
+          })
+
+          let jumlah_subKomponen: number = 0
+          LKESubKomponen.forEach((data) => {
+            jumlah_subKomponen += Number(data.nilaiAt)
+          })
+          const LKEUnitKerjaKomponen = await db.lKEUnitKerja.update({
+            where: {
+              LKEUnitKerjaId: {
+                variabelLKEId: variabelLKEKomponen?.id!,
+                unitKerjaId: values.unitKerjaId
+              }
+            },
+            data: {
+              isianAt: jumlah_subKomponen.toString(),
+              nilaiAt: (variabelLKEKomponen?.komponenLKE?.bobot! * jumlah_subKomponen).toString()
+            },
+          });
+
+        } else if (values.role === "kt") {
+          LKEKriteria.forEach((data) => {
+            jumlah += Number(data.nilaiKt)
+          })
+          const LKEUnitKerjaSubKomponen = await db.lKEUnitKerja.update({
+            where: {
+              LKEUnitKerjaId: {
+                variabelLKEId: variabelLKESubKomponen?.id!,
+                unitKerjaId: values.unitKerjaId
+              }
+            },
+            data: {
+              isianKt: jumlah.toString(),
+              nilaiKt: (variabelLKESubKomponen?.subKomponenLKE?.bobot! * jumlah).toString()
+            },
+            include: {
+              variabelLKE: {
+                include: {
+                  subKomponenLKE: true
+                }
+              }
+            }
+          });
+
+          // SUB KOMPONEN
+          const LKESubKomponen = await db.lKEUnitKerja.findMany({
+            where: {
+              AND: [
+                {
+                  variabelLKE: {
+                    subKomponenLKE: {
+                      komponenLKEId: LKEUnitKerjaSubKomponen.variabelLKE.subKomponenLKE?.komponenLKEId!
+                    }
+                  }
+                },
+                {
+                  unitKerjaId: values.unitKerjaId
+                }
+              ],
+            },
+            include: {
+              variabelLKE: true,
+            }
+          })
+
+          const variabelLKEKomponen = await db.variabelLKE.findUnique({
+            where: {
+              komponenLKEId: LKEUnitKerjaSubKomponen.variabelLKE.subKomponenLKE?.komponenLKEId!
+            },
+            include: {
+              subKomponenLKE: true,
+              komponenLKE: true
+            }
+          })
+
+          let jumlah_subKomponen: number = 0
+          LKESubKomponen.forEach((data) => {
+            jumlah_subKomponen += Number(data.nilaiKt)
+          })
+          const LKEUnitKerjaKomponen = await db.lKEUnitKerja.update({
+            where: {
+              LKEUnitKerjaId: {
+                variabelLKEId: variabelLKEKomponen?.id!,
+                unitKerjaId: values.unitKerjaId
+              }
+            },
+            data: {
+              isianKt: jumlah_subKomponen.toString(),
+              nilaiKt: (variabelLKEKomponen?.komponenLKE?.bobot! * jumlah_subKomponen).toString()
+            },
+          });
+        } else if (values.role === "dalnis") {
+          LKEKriteria.forEach((data) => {
+            jumlah += Number(data.nilaiDalnis)
+          })
+          const LKEUnitKerjaSubKomponen = await db.lKEUnitKerja.update({
+            where: {
+              LKEUnitKerjaId: {
+                variabelLKEId: variabelLKESubKomponen?.id!,
+                unitKerjaId: values.unitKerjaId
+              }
+            },
+            data: {
+              isianDalnis: jumlah.toString(),
+              nilaiDalnis: (variabelLKESubKomponen?.subKomponenLKE?.bobot! * jumlah).toString()
+            },
+            include: {
+              variabelLKE: {
+                include: {
+                  subKomponenLKE: true
+                }
+              }
+            }
+          });
+
+          // SUB KOMPONEN
+          const LKESubKomponen = await db.lKEUnitKerja.findMany({
+            where: {
+              AND: [
+                {
+                  variabelLKE: {
+                    subKomponenLKE: {
+                      komponenLKEId: LKEUnitKerjaSubKomponen.variabelLKE.subKomponenLKE?.komponenLKEId!
+                    }
+                  }
+                },
+                {
+                  unitKerjaId: values.unitKerjaId
+                }
+              ],
+            },
+            include: {
+              variabelLKE: true,
+            }
+          })
+
+          const variabelLKEKomponen = await db.variabelLKE.findUnique({
+            where: {
+              komponenLKEId: LKEUnitKerjaSubKomponen.variabelLKE.subKomponenLKE?.komponenLKEId!
+            },
+            include: {
+              subKomponenLKE: true,
+              komponenLKE: true
+            }
+          })
+
+          let jumlah_subKomponen: number = 0
+          LKESubKomponen.forEach((data) => {
+            jumlah_subKomponen += Number(data.nilaiDalnis)
+          })
+          const LKEUnitKerjaKomponen = await db.lKEUnitKerja.update({
+            where: {
+              LKEUnitKerjaId: {
+                variabelLKEId: variabelLKEKomponen?.id!,
+                unitKerjaId: values.unitKerjaId
+              }
+            },
+            data: {
+              isianDalnis: jumlah_subKomponen.toString(),
+              nilaiDalnis: (variabelLKEKomponen?.komponenLKE?.bobot! * jumlah_subKomponen).toString()
+            },
+          });
+        }
+      }
+
       return NextResponse.json(LKEUnitKerja);
     }
 
@@ -80,13 +757,13 @@ export async function PATCH(
         where: {
           id: variabelId,
         },
-        data: {        
+        data: {
           subKriteriaLKEId: values.subKriteriaLKEId,
           kode: values.kode,
           tahun: values.tahun
         },
       });
-  
+
       return NextResponse.json(variabelLKE);
     }
 
@@ -95,13 +772,13 @@ export async function PATCH(
         where: {
           id: variabelId,
         },
-        data: {        
+        data: {
           kriteriaLKEId: values.kriteriaLKEId,
           kode: values.kode,
           tahun: values.tahun
         },
       });
-  
+
       return NextResponse.json(variabelLKE);
     }
 
@@ -110,17 +787,17 @@ export async function PATCH(
         where: {
           id: variabelId,
         },
-        data: {          
+        data: {
           kriteriaLKE: {
             disconnect: true
           },
           subKriteriaLKE: {
             disconnect: true
           },
-          isSubKriteria: values.isSubKriteria,
+          levelVariabel: values.levelVariabel,
         },
       });
-  
+
       return NextResponse.json(variabelLKE);
     }
 

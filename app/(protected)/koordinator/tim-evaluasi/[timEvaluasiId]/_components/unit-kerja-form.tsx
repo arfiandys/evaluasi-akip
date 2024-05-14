@@ -255,9 +255,10 @@ export const UnitKerjaForm = ({
             {deletingId !== anggota.userId && (
               <button
                 onClick={toggleAnggotaEdit}
-                className="ml-auto hover:opacity-75 transition"
+                className="ml-auto hover:opacity-75 transition flex flex-row justify-center items-center"
               >
                 <Pencil className="h-4 w-4" />
+                <span className="text-sm">Add unit kerja</span>
               </button>
             )}
           </div>

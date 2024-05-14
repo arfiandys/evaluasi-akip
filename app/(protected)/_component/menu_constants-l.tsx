@@ -31,42 +31,8 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
                 icon: <User size={20} />,
             },
             {
-                title: 'LKE',
-                path: '/koordinator/lke',
-                icon: <TableProperties size={20} />,
-                submenu: true,
-                subMenuItems: [
-                    { title: 'Komponen', path: '/koordinator/lke/komponen' },
-                    { title: 'Variabel', path: '/koordinator/lke/variabel' },
-                    { title: 'Generate LKE', path: '/koordinator/lke/generate-lke' },
-                ],
-            },
-            {
-                title: 'KKE',
-                path: '/koordinator/kke',
-                icon: <TableProperties size={20} />,
-                submenu: true,
-                subMenuItems: [
-                    { title: 'Kelompok Kriteria', path: '/koordinator/kke/kelompok-kriteria' },
-                    { title: 'Variabel KKE', path: '/koordinator/kke/variabel' },
-                    { title: 'Variabel IKU', path: '/koordinator/kke/variabel-iku' },
-                    { title: 'IKU Unit Kerja', path: '/koordinator/kke/variabelIKUUnitKerja' },
-                    { title: 'KKE Unit Kerja', path: '/koordinator/kke/variabelKKEUnitKerja' },
-                ],
-            },
-            {
-                title: 'Permindok',
-                path: '/koordinator/permindok',
-                icon: <TableProperties size={20} />,
-                submenu: true,
-                subMenuItems: [
-                    { title: 'List', path: '/koordinator/permindok/list' },
-                    { title: 'Generate permindok', path: '/koordinator/permindok/generate-permindok' },
-                ],
-            },
-            {
-                title: 'IKU Unit Kerja',
-                path: '/koordinator/iku',
+                title: 'Evaluasi',
+                path: '/koordinator/evaluasi',
                 icon: <TableProperties size={20} />,
             },
         ]
@@ -129,41 +95,14 @@ export const SIDENAV_ITEMS_ANGGOTA: SideNavItemGroup[] = [
         title: "Manage",
         menuList: [
             {
-                title: 'LKE',
-                path: '/anggota/lke/list',
+                title: 'Evaluasi',
+                path: '/anggota/evaluasi',
                 icon: <Sheet size={20} />,
-                // submenu: true,
-                // subMenuItems: [
-                //     { title: 'List', path: '/anggota/lke/list' },
-                // ],
-            },
-            {
-                title: 'KKE',
-                path: '/anggota/kke/list',
-                icon: <TableProperties size={20} />,
-                // submenu: true,
-                // subMenuItems: [
-                //     { title: 'List', path: '/anggota/kke/list' },
-                //     { title: 'IKU', path: '/anggota/kke/iku' },
-                // ],
-            },
-            {
-                title: 'Permindok',
-                path: '/anggota/permindok/list',
-                icon: <FileCheck size={20} />,
-                // submenu: true,
-                // subMenuItems: [
-                //     { title: 'List', path: '/anggota/permindok/list' },
-                // ],
             },
             {
                 title: 'Unit kerja',
                 path: '/anggota/unitKerja/list',
                 icon: <Building2 size={20} />,
-                // submenu: true,
-                // subMenuItems: [
-                //     { title: 'List', path: '/anggota/unitKerja/list' },
-                // ],
             },
         ]
     },

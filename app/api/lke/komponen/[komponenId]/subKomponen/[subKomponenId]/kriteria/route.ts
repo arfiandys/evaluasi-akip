@@ -27,7 +27,32 @@ export async function POST(
         const kriteriaLKE = await db.kriteriaLKE.create({
             data: {
                 subKomponenLKEId: params.subKomponenId,
-                ...values
+                kode: values.kode,
+                name: values.name,
+                bobot: values.bobot,
+            },
+            include: {
+                subKomponenLKE: {
+                    include: {
+                        komponenLKE: true
+                    }
+                }
+            }
+        })
+
+        const variabelLKE = await db.variabelLKE.create({
+            data: {
+                evaluasiId: values.evaluasiId,
+                kriteriaLKEId: kriteriaLKE.id,
+                kode: kriteriaLKE.subKomponenLKE?.komponenLKE?.kode.concat(".", kriteriaLKE?.subKomponenLKE?.kode.concat(".", kriteriaLKE?.kode))||"",
+                tahun: kriteriaLKE.subKomponenLKE?.komponenLKE?.tahun||"",
+                jenisIsian: values.jenisIsian,
+                levelVariabel: values.levelVariabel,
+                catatanPositif: values.catatanPositif,
+                catatanNegatif: values.catatanNegatif,
+                catatanA: values.catatanA,
+                catatanB: values.catatanB,
+                catatanC: values.catatanC,
             }
         })
 

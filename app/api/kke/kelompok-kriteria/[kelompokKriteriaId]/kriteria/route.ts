@@ -9,27 +9,64 @@ export async function POST(
     try {
         const userId = await currentId();
         const values = await req.json();
-        
+
 
         if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
         const kelompokKriteria = await db.kelompokKriteriaKKE.findUnique({
             where: {
-              id: params.kelompokKriteriaId,
+                id: params.kelompokKriteriaId,
             }
-          });
-      
-          if (!kelompokKriteria) {
+        });
+
+        if (!kelompokKriteria) {
             return new NextResponse("Unauthorized", { status: 401 });
-          }
+        }
 
         const kriteriaKKE = await db.kriteriaKKE.create({
             data: {
                 kelompokKriteriaKKEId: params.kelompokKriteriaId,
-                ...values
+                kode: values.kode,
+                nama: values.nama,
+            },
+            include:{
+                kelompokKriteriaKKE: true
             }
         })
+
+        const variabelKKE = await db.variabelKKE.create({
+            data: {
+                evaluasiId: values.evaluasiId,
+                kriteriaKKEId: kriteriaKKE.id,
+                tahun: kriteriaKKE.kelompokKriteriaKKE.tahun,
+                variabelLKEId: values.variabelLKEId,
+                kode: values.kode,
+                jenisIsian: values.jenisIsian,
+                isIndikatorKinerja: values.isIndikatorKinerja,
+                jenisIsianIKU: values.jenisIsianIKU,
+                petunjukEvaluasi: values.petunjukEvaluasi,
+            }
+        })
+
+        values.items.forEach(async (element:string) => {
+            console.log(element)
+            const tsi = await db.tujuanSasaranIndikatorIKU.findUnique({
+                where: {
+                    id: element,
+                },
+                include: {
+                    IKU: true
+                }
+            });
+            const tujuanSasaranIndikatorIKUVariabelKKE = await db.tujuanSasaranIndikatorIKUVariabelKKE.create({
+                data: {
+                    jenisIKU: tsi?.IKU?.name||"",
+                    variabelKKEId: variabelKKE.id,
+                    tujuanSasaranIndikatorIKUId: element
+                }
+            })
+        });
 
         return NextResponse.json(kriteriaKKE);
 

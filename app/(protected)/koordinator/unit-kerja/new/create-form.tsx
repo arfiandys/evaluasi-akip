@@ -1,0 +1,197 @@
+"use client"
+
+import * as z from "zod";
+import axios from "axios";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+
+
+const formSchema = z.object({
+    name: z.string().min(1, {
+        message: "Name is required",
+    }),
+    kodeWilayah: z.string().min(1, {
+        message: "Kode wilayah is required",
+    }),
+    kodeUnitKerja: z.string().min(1, {
+        message: "Kame unit kerja is required",
+    }),
+    jenisUnitKerja: z.string().min(1, {
+        message: "Jenis unit kerja is required",
+    }),
+});
+
+const UnitKerjaNewCreate = () => {
+
+    const router = useRouter();
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            name: "",
+            kodeWilayah: "",
+            kodeUnitKerja: "",
+            jenisUnitKerja: "",
+        },
+    });
+
+    const { isSubmitting, isValid } = form.formState;
+
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        try {
+            const response = await axios.post("/api/unit-kerja", values);
+            router.push(`/koordinator/unit-kerja/${response.data.id}`);
+            toast.success("Unit Kerja created!")
+            form.reset()
+            router.refresh()
+        } catch {
+            toast.error("Terdapat kesalahan!");
+        }
+
+
+    }
+
+    return (
+
+        <Card className=" col-span-2">
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="mt-8 space-y-4"
+                >
+                    <CardHeader>
+                        <CardTitle>Buat unit kerja</CardTitle>
+                        <CardDescription>Terapkan sebuah unit kerja baru dalam satu kali klik.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="flex flex-col space-y-4 items-start justify-between w-full">
+                            <FormField
+                                control={form.control}
+                                name="name"
+                                render={({ field }) => (
+                                    <FormItem className="w-full">
+                                        <FormLabel>
+                                            Nama
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                disabled={isSubmitting}
+                                                placeholder="e.g. 'Unit one'"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="kodeUnitKerja"
+                                render={({ field }) => (
+                                    <FormItem className="w-full">
+                                        <FormLabel>
+                                            Kode unit kerja
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                disabled={isSubmitting}
+                                                placeholder="e.g. '0000'"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="kodeWilayah"
+                                render={({ field }) => (
+                                    <FormItem className="w-full">
+                                        <FormLabel>
+                                            Kode wilayah
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                disabled={isSubmitting}
+                                                placeholder="e.g. '00'"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="jenisUnitKerja"
+                                render={({ field }) => (
+                                    <FormItem className="w-full">
+                                        <FormLabel>
+                                            Jenis unit kerja
+                                        </FormLabel>
+                                        <Select
+                                            disabled={isSubmitting}
+                                            onValueChange={field.onChange}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Pilih isian" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectItem value="kab/kota">
+                                                    Kabupaten/Kota
+                                                </SelectItem>
+                                                <SelectItem value="provinsi">
+                                                    Provinsi
+                                                </SelectItem>
+                                                <SelectItem value="pusat">
+                                                    Pusat
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                    </CardContent>
+                    <CardFooter className="flex justify-end">
+                        <Button
+                            type="submit"
+                            disabled={!isValid || isSubmitting}
+                        >
+                            Buat Unit Kerja
+                        </Button>
+                    </CardFooter>
+                </form>
+            </Form>
+        </Card>
+    );
+}
+
+export default UnitKerjaNewCreate;

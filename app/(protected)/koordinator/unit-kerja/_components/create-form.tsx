@@ -112,7 +112,7 @@ const CreateUnitKerjaPage = () => {
                                             <FormMessage />
                                         </FormItem>
                                     )}
-                                />                                
+                                />
                                 <FormField
                                     control={form.control}
                                     name="kodeUnitKerja"
@@ -152,38 +152,38 @@ const CreateUnitKerjaPage = () => {
                                     )}
                                 />
                                 <FormField
-                                control={form.control}
-                                name="jenisUnitKerja"
-                                render={({ field }) => (
-                                    <FormItem className="w-full">
-                                        <FormLabel>
-                                            Jenis unit kerja
-                                        </FormLabel>
-                                        <Select
-                                            disabled={isSubmitting}
-                                            onValueChange={field.onChange}
-                                        >
-                                            <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Pilih isian" />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                <SelectItem value="kab/kota">
-                                                    Kabupaten/Kota
-                                                </SelectItem>
-                                                <SelectItem value="provinsi">
-                                                    Provinsi
-                                                </SelectItem>
-                                                <SelectItem value="pusat">
-                                                    Pusat
-                                                </SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                                    control={form.control}
+                                    name="jenisUnitKerja"
+                                    render={({ field }) => (
+                                        <FormItem className="w-full">
+                                            <FormLabel>
+                                                Jenis unit kerja
+                                            </FormLabel>
+                                            <Select
+                                                disabled={isSubmitting}
+                                                onValueChange={field.onChange}
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Pilih isian" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectItem value="kab/kota">
+                                                        Kabupaten/Kota
+                                                    </SelectItem>
+                                                    <SelectItem value="provinsi">
+                                                        Provinsi
+                                                    </SelectItem>
+                                                    <SelectItem value="pusat">
+                                                        Pusat
+                                                    </SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
                             </div>
                             <div className="flex items-center justify-end gap-x-2">
                                 <Button

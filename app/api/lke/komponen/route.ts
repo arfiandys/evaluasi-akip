@@ -8,7 +8,7 @@ export async function POST(
     try {
         const userId = await currentId();
         const values = await req.json();
-        
+
 
         if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
@@ -16,7 +16,21 @@ export async function POST(
 
         const komponenLKE = await db.komponenLKE.create({
             data: {
-                ...values,
+                kode: values.kode,
+                tahun: values.tahun,
+                name: values.name,
+                bobot: values.bobot,
+            }
+        })
+
+        const variabelLKE = await db.variabelLKE.create({
+            data: {
+                evaluasiId: values.evaluasiId,
+                komponenLKEId: komponenLKE.id,
+                kode: komponenLKE.kode || "",
+                tahun: komponenLKE.tahun || "",
+                jenisIsian: "number",
+                levelVariabel: "komponen",
             }
         })
 
