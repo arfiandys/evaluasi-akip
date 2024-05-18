@@ -2,81 +2,12 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 
-import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
-
-import { jenises, tahuns } from "../_data/data"
+import { jenises } from "../_data/data"
 import { LKEUnitKerja } from "../_data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { DataTableRowInput } from "./data-table-row-input"
 
 export const columns: ColumnDef<LKEUnitKerja>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="translate-y-[2px]"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="translate-y-[2px]"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    id: "kodeVariabel",
-    accessorFn: row => {
-      const kode = row.variabelLKE.kode;
-      return (
-        `${kode}`
-      )
-    },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Kode" />
-    ),
-    cell: ({ row }) => {
-      if (row.original.variabelLKE) {
-        return (
-          <div className="w-[120px]">{row.original.variabelLKE.kode}</div>
-        )
-      }
-    },
-  },
-  {
-    id: "namaVariabel",
-    accessorFn: row => {
-      const nama = row.variabelLKE.komponenLKE?.name||row.variabelLKE.subKomponenLKE?.name||row.variabelLKE.kriteriaLKE?.name||row.variabelLKE.subKriteriaLKE?.name;
-      return (
-        `${nama}`
-      )
-    },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Kriteria / Sub Kriteria" />
-    ),
-    cell: ({ row }) => {
-
-      if (row.original.variabelLKE) {
-        return (
-          <div className="w-[120px]">{row.original.variabelLKE.komponenLKE?.name||row.original.variabelLKE.subKomponenLKE?.name||row.original.variabelLKE.kriteriaLKE?.name||row.original.variabelLKE.subKriteriaLKE?.name}</div>
-        )
-      }
-    },
-  },
   {
     id: "unitKerja",
     accessorFn: row => {
@@ -92,12 +23,51 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
 
       if (row.original.variabelLKE) {
         return (
-          <div className="w-[120px]">{row.original.unitKerja.name}</div>
+          <div className="w-auto">{row.original.unitKerja.name}</div>
         )
       }
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id))
+    },
+  },
+  {
+    id: "kode",
+    accessorFn: row => {
+      const kode = row.variabelLKE.kode;
+      return (
+        `${kode}`
+      )
+    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Kode" />
+    ),
+    cell: ({ row }) => {
+      if (row.original.variabelLKE.kode) {
+        return (
+          <div className="w-auto">{row.original.variabelLKE.kode}</div>
+        )
+      }
+    },
+  },
+  {
+    id: "variabel",
+    accessorFn: row => {
+      const nama = row.variabelLKE.komponenLKE?.name||row.variabelLKE.subKomponenLKE?.name||row.variabelLKE.kriteriaLKE?.name||row.variabelLKE.subKriteriaLKE?.name;
+      return (
+        `${nama}`
+      )
+    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Kriteria" />
+    ),
+    cell: ({ row }) => {
+
+      if (row.original.variabelLKE) {
+        return (
+          <div className="max-w-[500px]">{row.original.variabelLKE.komponenLKE?.name||row.original.variabelLKE.subKomponenLKE?.name||row.original.variabelLKE.kriteriaLKE?.name||row.original.variabelLKE.subKriteriaLKE?.name}</div>
+        )
+      }
     },
   },
   {
@@ -131,12 +101,14 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
     ),
     cell: ({ row }) => {
 
-      if (row.original.variabelLKE) {
+      if (row.original.nilaiAt) {
         return (
-          <div className="w-[120px]">{row.getValue("nilaiAt")}</div>
+          <div className="w-[120px]">{row.original.nilaiAt}</div>
         )
       }
     },
+    enableSorting: false,
+    enableHiding: false,
   },
   {
     accessorKey: "nilaiKt",
@@ -145,12 +117,14 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
     ),
     cell: ({ row }) => {
 
-      if (row.original.variabelLKE) {
+      if (row.original.nilaiKt) {
         return (
-          <div className="w-[120px]">{row.getValue("nilaiKt")}</div>
+          <div className="w-[120px]">{row.original.nilaiKt}</div>
         )
       }
     },
+    enableSorting: false,
+    enableHiding: false,
   },
   {
     accessorKey: "nilaiDalnis",
@@ -159,38 +133,13 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
     ),
     cell: ({ row }) => {
 
-      if (row.original.variabelLKE) {
+      if (row.original.nilaiDalnis) {
         return (
-          <div className="w-[120px]">{row.getValue("nilaiDalnis")}</div>
+          <div className="w-[120px]">{row.original.nilaiDalnis}</div>
         )
       }
     },
+    enableSorting: false,
+    enableHiding: false,
   },
-  // {
-  //   id: "isianAt",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Isian Anggota" />
-  //   ),
-  //   cell: ({ row }) => <DataTableRowInput role="at" row={row} />,
-  //   enableSorting: false,
-  //   enableHiding: true,
-  // },
-  // {
-  //   id: "isianKt",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Isian Ketua" />
-  //   ),
-  //   cell: ({ row }) => <DataTableRowInput role="kt" row={row} />,
-  //   enableSorting: false,
-  //   enableHiding: true,
-  // },
-  // {
-  //   id: "isianDalnis",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Isian Pengendali Teknis" />
-  //   ),
-  //   cell: ({ row }) => <DataTableRowInput role="dalnis" row={row} />,
-  //   enableSorting: false,
-  //   enableHiding: true,
-  // },
 ]

@@ -25,6 +25,25 @@ export const jenises = [
   },
 ]
 
+export const jeniseVar = [
+  {
+    value: "komponen",
+    label: "Komponen",
+  },
+  {
+    value: "subKomponen",
+    label: "Sub Komponen",
+  },
+  {
+    value: "kriteria",
+    label: "Kriteria",
+  },
+  {
+    value: "subKriteria",
+    label: "Sub Kriteria",
+  },
+]
+
 export const tahuns = [
   {
     label: "2021",

@@ -34,32 +34,22 @@ export const columns: ColumnDef<IKU>[] = [
     enableHiding: false,
   }, 
   {
-    accessorKey: "name",
+    id: "iKU",
+    accessorFn: row => {
+      const name = row.name
+      return (
+        `${name}`
+      )
+    },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Nama" />
+      <DataTableColumnHeader column={column} title="Indikator Kinerja Utama" />
     ),
     cell: ({ row }) => {
 
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] text-wrap truncate font-medium">
-            {row.getValue("name")}
-          </span>
-        </div>
-      )
-    },
-  },
-  {
-    accessorKey: "tahun",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Tahun" />
-    ),
-    cell: ({ row }) => {
-
-      return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("tahun")}
+            {row.getValue("iKU")}
           </span>
         </div>
       )

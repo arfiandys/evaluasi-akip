@@ -52,7 +52,17 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    // KOMPONEN LKE DETAIL EDIT
+    const IKUName = await db.iKU.findUnique({
+      where: {
+        id: ikuId
+      },
+    });
+
+    if (!IKUName) {
+      return new NextResponse("Not Found", { status: 401 });
+    }
+
+    // IKU DETAIL EDIT
 
     const IKU = await db.iKU.update({
       where: {
@@ -62,6 +72,24 @@ export async function PATCH(
         ...values,
       },
     });
+
+    const TSIKKE = await db.tujuanSasaranIndikatorIKUVariabelKKE.findMany({
+      where: {
+        jenisIKU: IKUName.name
+      },
+    });
+
+    for (const item of TSIKKE) {
+      const IKUKKE = await db.tujuanSasaranIndikatorIKUVariabelKKE.update({
+        where: {
+          id: item.id,
+        },
+        data: {
+          jenisIKU: values.name,
+        },
+      });
+    }
+
 
     return NextResponse.json(IKU);
   } catch (error) {

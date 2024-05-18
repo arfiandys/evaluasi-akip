@@ -152,12 +152,6 @@ export function DataTableRowActions<TData>({
               )}
             </>
           </div>
-          {/* <DrawerFooter>
-            <Button>Submit</Button>
-            <DrawerClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DrawerClose>
-          </DrawerFooter> */}
         </div>
       </DrawerContent>
     </Drawer>

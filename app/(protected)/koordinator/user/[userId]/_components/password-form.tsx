@@ -81,7 +81,7 @@ export const PasswordForm = ({
   }
 
   return (
-    <div className="mt-6 border bg-background rounded-md p-4">
+    <div className="bg-background rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Password
         <Button onClick={toggleEdit} variant="ghost">
@@ -90,7 +90,7 @@ export const PasswordForm = ({
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit password
+              Edit
             </>
           )}
         </Button>

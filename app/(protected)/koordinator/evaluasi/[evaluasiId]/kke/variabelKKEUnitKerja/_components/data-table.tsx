@@ -31,9 +31,14 @@ import { DataTableToolbar } from "../_components/data-table-toolbar"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  uniqueData: ({
+    value: string;
+    label: string;
+  })[][]
 }
 
 export function DataTable<TData, TValue>({
+  uniqueData,
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -69,7 +74,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      <DataTableToolbar table={table} uniqueData={uniqueData} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

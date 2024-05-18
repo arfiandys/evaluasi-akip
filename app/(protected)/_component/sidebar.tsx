@@ -12,6 +12,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import SidebarItemsPage from './sidebar-items';
 import { TopBarMenuItem } from './topbar-menu-item';
 import { Button } from '@/components/ui/button';
+import Header from './header';
+import { useSession } from 'next-auth/react';
 
 
 
@@ -28,6 +30,7 @@ export const SideBar = ({
     const { toggleCollapse } = useSideBarToggle();
     const router = useRouter();
     const pathname = usePathname();
+    const { data: session, status, update } = useSession();
 
     const asideStyle = cn("sidebar overflow-y-auto overflow-x-auto fixed bg-background h-full shadow-sm shadow-slate-500/40 transition duration-300 ease-in-out z-[12]",
         {
@@ -37,10 +40,10 @@ export const SideBar = ({
 
     const user = useCurrentUser();
 
-    const existingRole: string[] = findRolesValue()
+    const existingRole: UserRole[] = findRolesValue()
 
     function findRolesValue() {
-        const existingRole: string[] = []
+        const existingRole: UserRole[] = []
         const asAdmin = user?.role === AccountRole.ADMIN;
         const asUsers = user?.role === AccountRole.USER;
         const asAnggota = asUser?.timEvaluasis.some((user) => { return user.assignedRole === UserRole.ANGGOTA })
@@ -49,25 +52,25 @@ export const SideBar = ({
         const asPIC = asUser?.unitKerjas.some((user) => { return user.assignedRole === UserRole.PIC })
         const asPimpinan = asUser?.unitKerjas.some((user) => { return user.assignedRole === UserRole.PIMPINAN })
         if (asAdmin) {
-            existingRole.push("admin")
+            existingRole.push(UserRole.KOORDINATOR)
         }
         if (asDalnis) {
-            existingRole.push("dalnis")
+            existingRole.push(UserRole.DALNIS)
         }
         if (asKetua) {
-            existingRole.push("ketua")
+            existingRole.push(UserRole.KETUA)
         }
         if (asAnggota) {
-            existingRole.push("anggota")
+            existingRole.push(UserRole.ANGGOTA)
         }
         if (asPimpinan) {
-            existingRole.push("pimpinan")
+            existingRole.push(UserRole.PIMPINAN)
         }
         if (asPIC) {
-            existingRole.push("pic")
+            existingRole.push(UserRole.PIC)
         }
-        if (asUsers && !(asDalnis||asKetua||asAnggota||asPIC||asPimpinan)) {
-            existingRole.push("user")
+        if (asUsers && !(asDalnis || asKetua || asAnggota || asPIC || asPimpinan)) {
+            existingRole.push(UserRole.NONE)
         }
 
         return existingRole;
@@ -75,13 +78,24 @@ export const SideBar = ({
 
 
 
-    function findDefaultAccount(arr1: Account[], arr2: string[]) {
-        for (const value of arr1) {
-            if (arr2.includes(value.role)) {
-                return value;
+    function findDefaultAccount(arr1: Account[], arr2: UserRole[]) {
+        if (user?.userRole === UserRole.NONE) {
+            for (const value of arr1) {
+                if (arr2.includes(value.enumRole)) {
+                    update({ userRole: value.enumRole })
+                    return value;
+                }
             }
+            return arr1[6];
+        } else {
+            for (const value of arr1) {
+                if (value.enumRole === user?.userRole) {
+                    return value;
+                }
+            }
+            update({ userRole: UserRole.NONE })
+            return arr1[6];
         }
-        return arr1[6];
     }
 
 
@@ -90,18 +104,24 @@ export const SideBar = ({
         findDefaultAccount(accounts, existingRole)
     )
 
-    const [selectedRole, setSelectedRole] = React.useState<string>(
-        selectedAccount.role
+    const [selectedRole, setSelectedRole] = React.useState<UserRole>(
+        selectedAccount.enumRole
     )
     const [selectedRoute, setSelectedRoute] = React.useState<SideNavItemGroup[]>(
         selectedAccount.route
     )
 
+
+    const setRole = (data: UserRole) => {
+        setSelectedRole(data)
+        update({ userRole: data })
+    }
+
     useEffect(() => {
         setMounted(true);
-        function findAccount(arr1: Account[], arr2: string) {
+        function findAccount(arr1: Account[], arr2: UserRole) {
             for (const value of arr1) {
-                if (arr2 === value.role) {
+                if (arr2 === value.enumRole) {
                     return setSelectedAccount(value);
                 }
             }
@@ -114,42 +134,9 @@ export const SideBar = ({
 
     return (
         <>
-            <div className='bg-background/30 backdrop-blur-sm shadow-sm shadow-slate-500/40 hidden 2xl:flex justify-between fixed w-screen z-[11] mt-16 h-16 items-center'>
-                <div className="fixed inset-y-0 pl-[20px] flex items-center z-[13] w-[200px]">
-                    <Select defaultValue={selectedRole} onValueChange={setSelectedRole}>
-                        <SelectTrigger
-                            className={cn("flex items-center gap-2 [&>span]:line-clamp-1 [&>span]:flex [&>span]:w-full [&>span]:items-center [&>span]:gap-1 [&>span]:truncate [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0")}
-                            aria-label="Select account"
-                        >
-                            <SelectValue placeholder="Select an account">
-                                {accounts.find((account) => account.role === selectedRole)?.icon}
-                                <span className={cn("ml-2")}>
-                                    {
-                                        accounts.find((account) => account.role === selectedRole)
-                                            ?.label
-                                    }
-                                </span>
-                            </SelectValue>
-                        </SelectTrigger>
-                        <SelectContent>
-                            {accounts.map((account) => {
-                                const exist = existingRole.includes(account.role);
-                                if (exist) {
-                                    return (
-                                        <SelectItem key={account.role} value={account.role}>
-                                            <div className="flex items-center gap-3 [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0 [&_svg]:text-foreground">
-                                                {account.icon}
-                                                {account.label}
-                                            </div>
-                                        </SelectItem>)
-                                } else {
-                                    <></>
-                                }
-                            })}
-                        </SelectContent>
-                    </Select>
-                </div>
-                <TopBarMenuItem selectedRoute={selectedRoute} />                
+            <Header setSelectedRole={setRole} selectedRole={selectedRole} existingRole={existingRole} />
+            <div className='border-t border-dashed bg-background/30 backdrop-blur-sm shadow-sm shadow-slate-500/40 hidden 2xl:flex justify-center fixed w-screen z-[11] mt-16 h-16 items-center'>
+                <TopBarMenuItem selectedRoute={selectedRoute} />
             </div>
             {/* ============================= */}
             <aside className={asideStyle}>
@@ -158,44 +145,6 @@ export const SideBar = ({
                     <h3 className={cn("pl-2 font-bold text-xl min-w-max",
                         { hidden: toggleCollapse })}>
                         AKIP Evaluation</h3>
-                </div>
-                <div className="sidebar-top relative flex items-center px-5 py-5">
-                    <Select defaultValue={selectedRole} onValueChange={setSelectedRole}>
-                        <SelectTrigger
-                            className={cn(
-                                "flex items-center gap-2 [&>span]:line-clamp-1 [&>span]:flex [&>span]:w-full [&>span]:items-center [&>span]:gap-1 [&>span]:truncate [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0",
-                                toggleCollapse &&
-                                "flex h-9 w-9 shrink-0 items-center justify-center p-0 [&>span]:w-auto [&>svg]:hidden"
-                            )}
-                            aria-label="Select account"
-                        >
-                            <SelectValue placeholder="Select an account">
-                                {accounts.find((account) => account.role === selectedRole)?.icon}
-                                <span className={cn("ml-2", toggleCollapse && "hidden")}>
-                                    {
-                                        accounts.find((account) => account.role === selectedRole)
-                                            ?.label
-                                    }
-                                </span>
-                            </SelectValue>
-                        </SelectTrigger>
-                        <SelectContent>
-                            {accounts.map((account) => {
-                                const exist = existingRole.includes(account.role);
-                                if (exist) {
-                                    return (
-                                        <SelectItem key={account.role} value={account.role}>
-                                            <div className="flex items-center gap-3 [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0 [&_svg]:text-foreground">
-                                                {account.icon}
-                                                {account.label}
-                                            </div>
-                                        </SelectItem>)
-                                } else {
-                                    <></>
-                                }
-                            })}
-                        </SelectContent>
-                    </Select>
                 </div>
                 <SidebarItemsPage selectedRoute={selectedRoute} />
             </aside>

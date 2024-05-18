@@ -43,7 +43,7 @@ export const columns: ColumnDef<TujuanSasaranIndikatorIKU>[] = [
 
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
+          <span className="w-auto truncate font-medium">
             {row.getValue("kode")}
           </span>
         </div>
@@ -81,7 +81,7 @@ export const columns: ColumnDef<TujuanSasaranIndikatorIKU>[] = [
       }
 
       return (
-        <div className="max-w-[500px] items-center">
+        <div className="w-auto items-center">
           <span>{jenis.label}</span>
         </div>
       )

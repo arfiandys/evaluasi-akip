@@ -173,7 +173,7 @@ export const KetuaForm = ({
   const selectedOption = options.find((option) => option.value === ketuaId[0]);
 
   return (
-    <div className="mt-6 border bg-background rounded-md p-4">
+    <div className="border bg-background rounded-3xl p-4">
       <div className="font-medium flex items-center justify-between">
         Ketua tim evaluasi
         <Button onClick={toggleEdit} variant="ghost">
@@ -182,7 +182,7 @@ export const KetuaForm = ({
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit ketua
+              Edit
             </>
           )}
         </Button>

@@ -9,8 +9,8 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import EvaluasiNewCreate from "./create-form";
 import { db } from "@/lib/db";
+import PermindokNewCreate from "./create-form";
 
 const PermindokNewPage = async ({
     params
@@ -63,7 +63,7 @@ const PermindokNewPage = async ({
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-y-2">
                                 <h2 className="text-xl font-medium">
-                                    Detail
+                                    Rincian dasar
                                 </h2>
                                 <span className="text-sm text-secondary-foreground">
                                     Nama, kode, tahun...
@@ -71,7 +71,7 @@ const PermindokNewPage = async ({
                             </div>
                         </div>
                     </div>
-                    <EvaluasiNewCreate evaluasi={evaluasi!} />
+                    <PermindokNewCreate evaluasi={evaluasi!} />
                 </div>
             </div>
         </>

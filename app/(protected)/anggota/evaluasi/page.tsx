@@ -3,9 +3,7 @@ import { columns } from "./_components/columns";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { PlusCircle } from "lucide-react";
 
 import {
     Breadcrumb,
@@ -16,6 +14,7 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { EvaluasiCard } from "./_components/evaluasi-card";
+import { UserRole } from "@prisma/client";
 
 
 const EvaluasiPage = async () => {
@@ -24,6 +23,28 @@ const EvaluasiPage = async () => {
     if (!userId) {
         return redirect("/")
     }
+
+    const User = await db.user.findUnique({
+        where: {
+            id: userId
+        },
+        include: {
+            unitKerjas: true
+        }
+    })
+
+    if (!User) {
+        return redirect("/")
+    }
+
+    const unitKerja_arr: string[] = []
+
+    User?.unitKerjas.forEach((unit) => {
+        if (unit.assignedRole === UserRole.ANGGOTA) {
+            unitKerja_arr.push(unit.unitKerjaId)
+        }
+    })
+
     const evaluasi = await db.evaluasi.findMany({
         orderBy: {
             id: "asc",
@@ -39,8 +60,14 @@ const EvaluasiPage = async () => {
                     id: "asc"
                 }
             },
+            permindoks: {
+                orderBy: {
+                    id: "asc"
+                },
+            },
         }
     });
+
 
     return (
         <div className="flex h-screen flex-1 flex-col space-y-6 p-8">
@@ -67,24 +94,31 @@ const EvaluasiPage = async () => {
                 </div>
             </div>
             {/* <DataTable data={evaluasi} columns={columns} /> */}
-            <div className="flex flex-row">
-                {evaluasi.map((item) => (
-                    <EvaluasiCard
-                        key={item.id}
-                        id={item.id}
-                        title={item.title}
-                        imageUrl={"/logo.svg"}
-                        LKELength={item.variabelsLKE.length}
-                        KKELength={item.variabelsKKE.length}
-                        progress={50}
-                        tahun={item.tahun!}
-                        description={item.description!}
-                    />
-                ))}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-4 px-4 lg:px-10">
+                {evaluasi.map((item) => {
+                    if (item.status !== "draft") {
+                        return (
+                            <EvaluasiCard
+                                key={item.id}
+                                id={item.id}
+                                title={item.title}
+                                imageUrl={"/logo.svg"}
+                                LKELength={item.variabelsLKE.length}
+                                KKELength={item.variabelsKKE.length}
+                                PermindokLength={item.permindoks.length}
+                                UnitKerjaLength={unitKerja_arr.length}
+                                progress={50}
+                                tahun={item.tahun!}
+                                description={item.description!}
+                                status={item.status}
+                            />
+                        )
+                    }
+                })}
             </div>
             {evaluasi.length === 0 && (
                 <div className="text-center text-sm text-muted-foreground mt-10">
-                    No evaluasi found
+                    Tidak ada evaluasi yang ditemukan
                 </div>
             )}
         </div >

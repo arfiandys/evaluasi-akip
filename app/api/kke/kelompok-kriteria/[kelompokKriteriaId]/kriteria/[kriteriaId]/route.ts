@@ -40,7 +40,7 @@ export async function DELETE(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { kriteriaId: string } }
+  { params }: { params: { kriteriaId: string, kelompokKriteriaId: string } }
 ) {
   try {
     const session = await auth();
@@ -53,15 +53,72 @@ export async function PATCH(
     }
 
 
-    // SUB KOMPONEN DETAIL EDIT
+    // KRITERIA KKE DETAIL EDIT
+
+    const kelompokKriteria = await db.kelompokKriteriaKKE.findUnique({
+      where: {
+        id: params.kelompokKriteriaId,
+      }
+    });
+
+    if (!kelompokKriteria) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
 
     const kriteriaKKE = await db.kriteriaKKE.update({
       where: {
-        id: kriteriaId,
+        id: params.kriteriaId
       },
       data: {
-        ...values,
+        kode: values.kode,
+        nama: values.nama,
       },
+      include: {
+        kelompokKriteriaKKE: true,
+        variabelKKE: true
+      }
+    })
+
+    const variabelKKE = await db.variabelKKE.update({
+      where: {
+        id: kriteriaKKE.variabelKKE?.id
+      },
+      data: {
+        evaluasiId: values.evaluasiId,
+        kriteriaKKEId: kriteriaKKE.id,
+        tahun: kriteriaKKE.kelompokKriteriaKKE.tahun,
+        variabelLKEId: values.variabelLKEId,
+        kode: values.kode,
+        jenisIsian: values.jenisIsian,
+        isIndikatorKinerja: values.isIndikatorKinerja,
+        jenisIsianIKU: values.jenisIsianIKU,
+        petunjukEvaluasi: values.petunjukEvaluasi,
+      }
+    })
+
+    const deleteTSI = await db.tujuanSasaranIndikatorIKUVariabelKKE.deleteMany({
+      where: {
+        variabelKKEId: variabelKKE.id
+      }
+    })
+
+    values.items.forEach(async (element: string) => {
+      console.log(element)
+      const tsi = await db.tujuanSasaranIndikatorIKU.findUnique({
+        where: {
+          id: element,
+        },
+        include: {
+          IKU: true
+        }
+      });
+      const tujuanSasaranIndikatorIKUVariabelKKE = await db.tujuanSasaranIndikatorIKUVariabelKKE.create({
+        data: {
+          jenisIKU: tsi?.IKU?.name || "",
+          variabelKKEId: variabelKKE.id,
+          tujuanSasaranIndikatorIKUId: element
+        }
+      })
     });
 
     return NextResponse.json(kriteriaKKE);

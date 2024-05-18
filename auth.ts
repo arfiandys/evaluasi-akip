@@ -4,14 +4,13 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 import { db } from "@/lib/db"
 import { getUserById } from "@/data/user"
 import { getAccountByUserId } from "@/data/account"
-import { AccountRole } from "@prisma/client"
+import { AccountRole, UserRole } from "@prisma/client"
 
 export const {
   handlers: { GET, POST },
   auth,
   signIn,
   signOut,
-  update
 } = NextAuth({
   pages: {
     signIn: "/auth/login",
@@ -46,13 +45,13 @@ export const {
       if (token.role && session.user) {
         session.user.role = token.role as AccountRole;
       }
+      if (token.userRole && session.user) {
+        session.user.userRole = token.userRole as UserRole;
+      }
       if (session.user) {
         session.user.name = token.name;
         session.user.email = token.email;
         session.user.isOAuth = token.isOAuth as boolean;
-      }
-      if (trigger==="update") {
-        session.user.role = newSession.role
       }
 
       return session;
@@ -74,10 +73,12 @@ export const {
       token.email = existingUser.email;
       token.role = existingUser.role;
 
-      if (trigger === "update" && session?.role) {
-        // Note, that `session` can be any arbitrary object, remember to validate it!
-        // token = { ...user, ...session }
-        token.role= session.role
+      if (trigger === "signIn") {
+        token.userRole = UserRole.NONE;
+      }
+
+      if (trigger === "update" && session.userRole) {
+        token.userRole = session.userRole
       }
 
       return token;

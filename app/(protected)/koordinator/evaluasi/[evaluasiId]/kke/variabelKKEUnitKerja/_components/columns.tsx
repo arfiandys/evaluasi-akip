@@ -2,80 +2,12 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 
-import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
-
-import { jenises, tahuns } from "../_data/data"
+import { jenises } from "../_data/data"
 import { VariabelKKEUnitKerja } from "../_data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { DataTableRowInput } from "./data-table-row-input"
 
 export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="translate-y-[2px]"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="translate-y-[2px]"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    id: "kode",
-    accessorFn: row => {
-      const kode = row.variabelKKE.kriteriaKKE?.kode
-      return (
-        `${kode}`
-      )
-    },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Variabel KKE" />
-    ),
-    cell: ({ row }) => {
-      if (row.original.variabelKKE) {
-        return (
-          <div className="w-[120px]">{row.original.variabelKKE.kriteriaKKE?.kode}</div>
-        )
-      }
-    },
-  },
-  {
-    id: "variabelKKE",
-    accessorFn: row => {
-      const variabelKKE = row.variabelKKE.kriteriaKKE?.nama
-      return (
-        `${variabelKKE}`
-      )
-    },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Variabel KKE" />
-    ),
-    cell: ({ row }) => {
-      if (row.original.variabelKKE) {
-        return (
-          <div className="w-[120px]">{row.original.variabelKKE.kriteriaKKE?.nama}</div>
-        )
-      }
-    },
-  },
   {
     id: "unitKerja",
     accessorFn: row => {
@@ -91,12 +23,50 @@ export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
 
       if (row.original.variabelKKE) {
         return (
-          <div className="w-[120px]">{row.original.unitKerja.name}</div>
+          <div className="w-auto">{row.original.unitKerja.name}</div>
         )
       }
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id))
+    },
+  },
+  {
+    id: "kode",
+    accessorFn: row => {
+      const kode = row.variabelKKE.kriteriaKKE?.kode
+      return (
+        `${kode}`
+      )
+    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Kode" />
+    ),
+    cell: ({ row }) => {
+      if (row.original.variabelKKE) {
+        return (
+          <div className="w-auto">{row.original.variabelKKE.kriteriaKKE?.kode}</div>
+        )
+      }
+    },
+  },
+  {
+    id: "variabel",
+    accessorFn: row => {
+      const variabelKKE = row.variabelKKE.kriteriaKKE?.nama
+      return (
+        `${variabelKKE}`
+      )
+    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Dokumen/Kriteria" />
+    ),
+    cell: ({ row }) => {
+      if (row.original.variabelKKE) {
+        return (
+          <div className="max-w-[500px]">{row.original.variabelKKE.kriteriaKKE?.nama}</div>
+        )
+      }
     },
   },
   {
@@ -128,7 +98,13 @@ export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Isian Anggota" />
     ),
-    cell: ({ row }) => <DataTableRowInput role="at" row={row} />,
+    cell: ({ row }) => {
+      if (row.original.isianAt) {
+        return (
+          <div className="w-[120px]">{row.original.isianAt}</div>
+        )
+      }
+    },
     enableSorting: false,
     enableHiding: true,
   },
@@ -137,7 +113,13 @@ export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Isian Ketua" />
     ),
-    cell: ({ row }) => <DataTableRowInput role="kt" row={row} />,
+    cell: ({ row }) => {
+      if (row.original.isianKt) {
+        return (
+          <div className="w-[120px]">{row.original.isianKt}</div>
+        )
+      }
+    },
     enableSorting: false,
     enableHiding: true,
   },
@@ -146,7 +128,13 @@ export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Isian Pengendali Teknis" />
     ),
-    cell: ({ row }) => <DataTableRowInput role="dalnis" row={row} />,
+    cell: ({ row }) => {
+      if (row.original.isianDalnis) {
+        return (
+          <div className="w-[120px]">{row.original.isianDalnis}</div>
+        )
+      }
+    },
     enableSorting: false,
     enableHiding: true,
   },
@@ -155,12 +143,14 @@ export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Isian PIC" />
     ),
-    cell: ({ row }) => <DataTableRowInput role="pic" row={row} />,
+    cell: ({ row }) => {
+      if (row.original.isianPIC) {
+        return (
+          <div className="w-[120px]">{row.original.isianPIC}</div>
+        )
+      }
+    },
     enableSorting: false,
     enableHiding: true,
   },
-  // {
-  //   id: "actions",
-  //   cell: ({ row }) => <DataTableRowActions row={row} />,
-  // },
 ]

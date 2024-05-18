@@ -13,30 +13,6 @@ import { UserRole } from "@prisma/client"
 
 export const columns: ColumnDef<VariabelKKE>[] = [
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="translate-y-[2px]"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="translate-y-[2px]"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
     accessorKey: "kode",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Kode" />
@@ -45,7 +21,7 @@ export const columns: ColumnDef<VariabelKKE>[] = [
 
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
+          <span className="w-auto truncate font-medium">
             {row.getValue("kode")}
           </span>
         </div>
@@ -55,9 +31,15 @@ export const columns: ColumnDef<VariabelKKE>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "nama",
+    id: "variabel",
+    accessorFn: row => {
+      const name = row.kriteriaKKE?.nama
+      return (
+        `${name}`
+      )
+    },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Nama" />
+      <DataTableColumnHeader column={column} title="Dokumen/Kriteria" />
     ),
     cell: ({ row }) => {
 
@@ -71,39 +53,9 @@ export const columns: ColumnDef<VariabelKKE>[] = [
     },
   },
   {
-    id: "tahun",
-    accessorFn: row => {
-      const tahun = row.tahun
-      return (
-        `${tahun}`
-      )
-    },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Tahun" />
-    ),
-    cell: ({ row }) => {
-      const tahun = tahuns.find(
-        (tahun) => tahun.value === row.original.tahun.toString()
-      )
-
-      if (!tahun) {
-        return null
-      }
-
-      return (
-        <div className="max-w-[500px] truncate font-medium">
-          <span>{tahun.label}</span>
-        </div>
-      )
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
-    },
-  },
-  {
     accessorKey: "jenisIsian",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Jenis isian" />
+      <DataTableColumnHeader column={column} title="Jenis isian variabel" />
     ),
     cell: ({ row }) => {
       const jenis = jenises.find(
@@ -115,7 +67,7 @@ export const columns: ColumnDef<VariabelKKE>[] = [
       }
 
       return (
-        <div className="max-w-[500px] truncate font-medium">
+        <div className="w-auto truncate font-medium">
           <span>{jenis.label}</span>
         </div>
       )
@@ -139,7 +91,7 @@ export const columns: ColumnDef<VariabelKKE>[] = [
       }
 
       return (
-        <div className="max-w-[500px] truncate font-medium">
+        <div className="w-auto truncate font-medium">
           <span>{jenis.label}</span>
         </div>
       )
@@ -163,7 +115,7 @@ export const columns: ColumnDef<VariabelKKE>[] = [
       }
 
       return (
-        <div className="max-w-[500px] truncate font-medium">
+        <div className="w-auto truncate font-medium">
           <span>{jenis.label}</span>
         </div>
       )

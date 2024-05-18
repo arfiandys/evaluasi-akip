@@ -81,7 +81,7 @@ const VariabelKKEPage = async ({
                             href={`/koordinator/evaluasi/${params.evaluasiId}/kke/kelompok-kriteria`}
                         >
                             <Settings className="h-4 w-4 mr-2" />
-                            Kelola unsur variabel KKE
+                            Kelola variabel KKE
                         </Link>
                     </Button>
                     <ImportPage evaluasi={evaluasi} />

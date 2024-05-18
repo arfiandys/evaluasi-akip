@@ -12,7 +12,8 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { Activity, ArrowLeft } from "lucide-react";
+import { IconBadge } from "@/components/icon-badge";
 
 
 const VariabelKKEIKUPage = async ({
@@ -38,9 +39,16 @@ const VariabelKKEIKUPage = async ({
                 }
             ]
         },
-        orderBy: {
-            id: "asc",
-        },
+        orderBy: [
+            {
+                jenisIKU: "asc"
+            },
+            {
+                tujuanSasaranIndikatorIKU: {
+                    kode: "asc"
+                },
+            },
+        ],
         include: {
             tujuanSasaranIndikatorIKU: {
                 include: {
@@ -65,6 +73,20 @@ const VariabelKKEIKUPage = async ({
         }
     });
 
+    interface Items {
+        value: string;
+        label: string;
+    }
+
+    // Unit Kerja
+    const dataIKU = Array.from(new Set(variabelIKU.map(item => item.jenisIKU)))
+    const IKUUnique: Items[] = dataIKU.map(item => ({
+        value: item,
+        label: item
+    }));
+
+    const data: (Items)[][] = [IKUUnique]
+
     return (
         <>
             <div className="p-6">
@@ -80,7 +102,7 @@ const VariabelKKEIKUPage = async ({
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-y-2">
                                 <h1 className="text-2xl font-medium">
-                                    Detail variabel KKE
+                                    Rincian variabel KKE
                                 </h1>
                             </div>
                         </div>
@@ -88,10 +110,12 @@ const VariabelKKEIKUPage = async ({
                 </div>
                 <div className=" mt-16">
                     <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-6">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Detail variabel KKE</CardTitle>
-                                <CardDescription>Card Description</CardDescription>
+                        <Card className="rounded-3xl">
+                            <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
+                                <div className="flex flex-row gap-x-4 justify-start items-center">
+                                    <IconBadge icon={Activity} />
+                                    <CardTitle>Rincian dasar</CardTitle>
+                                </div>
                             </CardHeader>
                             <CardContent>
                                 <div
@@ -166,15 +190,15 @@ const VariabelKKEIKUPage = async ({
                             </CardContent>
                         </Card>
                         {(variabelKKE?.isIndikatorKinerja === true) ? (
-                            < Card className="shadow-lg col-span-3">
-                                <CardHeader className="flex flex-row justify-between">
-                                    <div>
+                            < Card className="shadow-lg col-span-3 rounded-3xl">
+                                <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
+                                    <div className="flex flex-row gap-x-4 justify-start items-center">
+                                        <IconBadge icon={Activity} />
                                         <CardTitle>IKU</CardTitle>
-                                        <CardDescription>Card Description</CardDescription>
                                     </div>
                                 </CardHeader>
                                 <CardContent className="px-6">
-                                    <DataTable data={variabelIKU} columns={columns} />
+                                    <DataTable data={variabelIKU} columns={columns} uniqueData={data} />
                                 </CardContent>
                             </Card>
                         ) : (<></>)

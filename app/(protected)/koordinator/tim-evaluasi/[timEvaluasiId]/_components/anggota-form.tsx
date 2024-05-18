@@ -81,16 +81,16 @@ export const AnggotaForm = ({
   }
 
   return (
-    <div className="mt-6 border bg-background rounded-md p-4">
+    <div className="border bg-background rounded-3xl p-4">
       <div className="font-medium flex items-center justify-between">
-        Anggota tim evaluasi
+        Anggota
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <PlusCircle className="h-4 w-4 mr-2" />
-              Add anggota
+              Baru
             </>
           )}
         </Button>

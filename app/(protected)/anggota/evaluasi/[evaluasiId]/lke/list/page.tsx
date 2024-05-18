@@ -41,7 +41,6 @@ const LKEAnggotaPage = async ({
             unitKerja_arr.push(unit.unitKerjaId)
         }        
     })
-    console.log(unitKerja_arr)
     
     const LKEUnitKerja = await db.lKEUnitKerja.findMany({
         where: {

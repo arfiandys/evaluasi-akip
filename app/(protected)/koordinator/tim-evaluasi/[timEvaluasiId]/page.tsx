@@ -1,7 +1,7 @@
 import { IconBadge } from "@/components/icon-badge";
 import { currentId } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { ArrowLeft, Building, LayoutDashboard, User } from "lucide-react";
+import { Activity, ArrowLeft, Building, LayoutDashboard, User, Users } from "lucide-react";
 import { redirect } from "next/navigation";
 import { NameForm } from "./_components/name-form";
 import { KetuaForm } from "./_components/ketua-form";
@@ -10,6 +10,18 @@ import Link from "next/link";
 import { AnggotaForm } from "./_components/anggota-form";
 import { UserRole, AccountRole } from "@prisma/client";
 import { DalnisForm } from "./_components/dalnis-form";
+
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 
 const TimEvaluasiIdPage = async ({
     params
@@ -97,15 +109,15 @@ const TimEvaluasiIdPage = async ({
                             className="flex w-fit items-center text-sm hover:opacity-75 transition mb-6"
                         >
                             <ArrowLeft className="h-4 w-4 mr-2" />
-                            Back to tim evaluasi list
+                            kembali ke daftar tim evaluasi
                         </Link>
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-y-2">
                                 <h1 className="text-2xl font-medium">
-                                    Detail tim evaluasi
+                                    Rincian tim evaluasi
                                 </h1>
                                 <span className="text-sm text-secondary-foreground">
-                                    Complete all fields {completionText}
+                                    Lengkapi semua isian {completionText}
                                 </span>
                             </div>
                             <Actions
@@ -115,58 +127,60 @@ const TimEvaluasiIdPage = async ({
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
-                    <div>
-                        <div className="flex items-center gap-x-2">
-                            <IconBadge icon={LayoutDashboard} />
-                            <h2 className="text-xl">
-                                Edit detail tim evaluasi
-                            </h2>
-                        </div>
-                        <NameForm
-                            initialData={timEvaluasi}
-                            timEvaluasiId={timEvaluasi.id}
-                        />
-                    </div>
-                </div>
-                <div className="mt-16">
-                    <div className="flex mt-6 items-center gap-x-2">
-                        <IconBadge icon={User} />
-                        <h2 className="text-xl">
-                            Edit anggota tim evaluasi
-                        </h2>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
-                        <DalnisForm
-                            initialData={timEvaluasi}
-                            timEvaluasiId={timEvaluasi.id}
-                            options={users.map((user) => ({
-                                label: user.name!,
-                                value: user.id,
-                            }))}
-                        />
-                        <AnggotaForm
-                            initialData={timEvaluasi}
-                            initialData_User={users}
-                            timEvaluasiId={timEvaluasi.id}
-                            options={users.map((user) => ({
-                                label: user.name!,
-                                value: user.id,
-                            }))}
-                            options_unitKerja={unitKerjas.map((unitKerja) => ({
-                                label: unitKerja.name!,
-                                value: unitKerja.id,
-                            }))}
-                        />
-                        <KetuaForm
-                            initialData={timEvaluasi}
-                            timEvaluasiId={timEvaluasi.id}
-                            options={users.map((user) => ({
-                                label: user.name!,
-                                value: user.id,
-                            }))}
-                        />
-                    </div>
+                <div className=" mt-20 grid gap-6 grid-cols-4">
+                    <Card className="shadow-lg col-span-4 sm:col-span-1 xl:col-span-1 2xl:col-span-1 rounded-3xl h-fit">
+                        <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
+                            <div className="flex flex-row gap-x-4 justify-start items-center">
+                                <IconBadge icon={Activity} />
+                                <CardTitle>Rincian dasar</CardTitle>
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            <NameForm
+                                initialData={timEvaluasi}
+                                timEvaluasiId={timEvaluasi.id}
+                            />
+                        </CardContent>
+                    </Card>
+                    <Card className="shadow-lg col-span-4 sm:col-span-3 xl:col-span-3 2xl:col-span-3 rounded-3xl h-fit">
+                        <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
+                            <div className="flex flex-row gap-x-4 justify-start items-center">
+                                <IconBadge icon={Users} />
+                                <CardTitle>Rincian anggota tim evaluasi</CardTitle>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="grid grid-cols-2 gap-4">
+                            <DalnisForm
+                                initialData={timEvaluasi}
+                                timEvaluasiId={timEvaluasi.id}
+                                options={users.map((user) => ({
+                                    label: user.name!,
+                                    value: user.id,
+                                }))}
+                            />
+                            <KetuaForm
+                                initialData={timEvaluasi}
+                                timEvaluasiId={timEvaluasi.id}
+                                options={users.map((user) => ({
+                                    label: user.name!,
+                                    value: user.id,
+                                }))}
+                            />
+                            <AnggotaForm
+                                initialData={timEvaluasi}
+                                initialData_User={users}
+                                timEvaluasiId={timEvaluasi.id}
+                                options={users.map((user) => ({
+                                    label: user.name!,
+                                    value: user.id,
+                                }))}
+                                options_unitKerja={unitKerjas.map((unitKerja) => ({
+                                    label: unitKerja.name!,
+                                    value: unitKerja.id,
+                                }))}
+                            />
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
         </>

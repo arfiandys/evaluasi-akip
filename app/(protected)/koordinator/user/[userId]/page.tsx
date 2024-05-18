@@ -1,7 +1,7 @@
 import { IconBadge } from "@/components/icon-badge";
 import { currentId } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { ArrowLeft, LayoutDashboard, User } from "lucide-react";
+import { Activity, ArrowLeft, LayoutDashboard, User } from "lucide-react";
 import { redirect } from "next/navigation";
 import { NameForm } from "./_components/name-form";
 import { Actions } from "./_components/actions";
@@ -10,6 +10,18 @@ import { UserRole } from "@prisma/client";
 import { EmailForm } from "./_components/email-form";
 import { PasswordForm } from "./_components/password-form";
 import { RoleForm } from "./_components/role-form";
+
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 
 const UserIdPage = async ({
     params
@@ -77,38 +89,40 @@ const UserIdPage = async ({
                         </div>
                     </div>
                 </div>
-                <div className="mt-16">
-                    <div>
-                        <div className="flex items-center gap-x-2">
-                            <IconBadge icon={LayoutDashboard} />
-                            <h2 className="text-xl">
-                                Edit detail pengguna
-                            </h2>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
-
+                <div className=" mt-20 grid gap-6 grid-cols-4">
+                    <Card className="shadow-lg col-span-4 sm:col-span-1 xl:col-span-1 2xl:col-span-1 rounded-3xl h-fit">
+                        <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
+                            <div className="flex flex-row gap-x-4 justify-start items-center">
+                                <IconBadge icon={Activity} />
+                                <CardTitle>Rincian dasar</CardTitle>
+                            </div>
+                        </CardHeader>
+                        <CardContent>
                             <NameForm
                                 initialData={user}
                                 userId={user.id}
                             />
+                            <Separator orientation="horizontal" />
                             <RoleForm
                                 initialData={user}
                                 userId={user.id}
                             />
+                            <Separator orientation="horizontal" />
                             {!user.accounts.length && (
                                 <EmailForm
                                     initialData={user}
                                     userId={user.id}
                                 />
                             )}
+                            <Separator orientation="horizontal" />
                             {!user.accounts.length && (
                                 <PasswordForm
                                     initialData={user}
                                     userId={user.id}
                                 />
                             )}
-                        </div>
-                    </div>
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
         </>

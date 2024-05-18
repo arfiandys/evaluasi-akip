@@ -52,7 +52,7 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    // KOMPONEN LKE DETAIL EDIT
+    // KELOMPOK KRITERIA KKE DETAIL EDIT
 
     const kelompokKriteria = await db.kelompokKriteriaKKE.update({
       where: {

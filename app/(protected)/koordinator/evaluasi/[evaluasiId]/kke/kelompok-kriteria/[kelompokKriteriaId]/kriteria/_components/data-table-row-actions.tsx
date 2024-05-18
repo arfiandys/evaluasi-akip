@@ -41,7 +41,7 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <Link href={`/koordinator/evaluasi/${kriteriaKKE.variabelKKE?.id}/kke/kelompok-kriteria/${kriteriaKKE.kelompokKriteriaKKEId}/kriteria/${kriteriaKKE.id}`}>
+        <Link href={`/koordinator/evaluasi/${kriteriaKKE.variabelKKE?.evaluasiId}/kke/kelompok-kriteria/${kriteriaKKE.kelompokKriteriaKKEId}/kriteria/${kriteriaKKE.id}`}>
           <DropdownMenuItem>Edit</DropdownMenuItem>
         </Link>
         <DropdownMenuSeparator />

@@ -171,16 +171,16 @@ export const DalnisForm = ({
   const selectedOption = options.find((option) => option.value === dalnisId[0]);
 
   return (
-    <div className="mt-6 border bg-background rounded-md p-4">
+    <div className="border bg-background rounded-3xl p-4">
       <div className="font-medium flex items-center justify-between">
-        Pengendali teknis tim evaluasi
+        Pengendali teknis
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit pengendali teknis
+              Edit
             </>
           )}
         </Button>

@@ -3,13 +3,14 @@ import { cn } from "@/lib/utils";
 
 interface EvaluasiProgressProps {
   value: number;
-  variant?: "default" | "success",
+  variant?: "default" | "success" | "destructive",
   size?: "default" | "sm";
 };
 
 const colorByVariant = {
-  default: "text-sky-700",
-  success: "text-emerald-700",
+  default: "text-sky-500",
+  success: "text-emerald-500",
+  destructive: "text-red-500"
 }
 
 const sizeByVariant = {
@@ -30,7 +31,7 @@ export const EvaluasiProgress = ({
         variant={variant}
       />
       <p className={cn(
-        "font-medium mt-2 text-sky-700",
+        "font-medium mt-2 text-sky-500",
         colorByVariant[variant || "default"],
         sizeByVariant[size || "default"],
       )}>

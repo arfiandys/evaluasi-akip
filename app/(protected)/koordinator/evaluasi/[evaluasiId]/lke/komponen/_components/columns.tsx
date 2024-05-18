@@ -33,6 +33,22 @@ export const columns: ColumnDef<Komponen>[] = [
     ),
     enableSorting: false,
     enableHiding: false,
+  },
+  {
+    accessorKey: "kode",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Kode" />
+    ),
+    cell: ({ row }) => {
+
+      return (
+        <div className="flex space-x-2">
+          <span className="w-auto truncate font-medium">
+            {row.getValue("kode")}
+          </span>
+        </div>
+      )
+    },
   }, 
   {
     accessorKey: "name",
@@ -51,46 +67,6 @@ export const columns: ColumnDef<Komponen>[] = [
     },
   },
   {
-    accessorKey: "kode",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Kode" />
-    ),
-    cell: ({ row }) => {
-
-      return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("kode")}
-          </span>
-        </div>
-      )
-    },
-  },
-  {
-    accessorKey: "tahun",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Tahun" />
-    ),
-    cell: ({ row }) => {
-      const tahun = tahuns.find(
-        (tahun) => tahun.value === row.original.tahun
-      )
-
-      if (!tahun) {
-        return null
-      }
-
-      return (
-        <div className="max-w-[500px] truncate font-medium items-center">
-          <span>{tahun.label}</span>
-        </div>
-      )
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
-    },
-  },
-  {
     accessorKey: "bobot",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Bobot" />
@@ -99,7 +75,7 @@ export const columns: ColumnDef<Komponen>[] = [
 
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
+          <span className="w-auto truncate font-medium">
             {row.getValue("bobot")}
           </span>
         </div>
@@ -111,7 +87,7 @@ export const columns: ColumnDef<Komponen>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Sub Komponen" />
     ),
-    cell: ({ row }) => <div className="w-[120px]">{row.original.subKomponenLKE.length}</div>,
+    cell: ({ row }) => <div className="w-auto">{row.original.subKomponenLKE.length}</div>,
   },
   {
     id: "actions",

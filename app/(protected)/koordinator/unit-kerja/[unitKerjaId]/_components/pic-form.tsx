@@ -96,7 +96,7 @@ export const PICForm = ({
   }
 
   return (
-    <div className="mt-6 border bg-background rounded-md p-4">
+    <div className="border bg-background rounded-3xl p-4">
       <div className="font-medium flex items-center justify-between">
         PIC unit kerja
         <Button onClick={toggleEdit} variant="ghost">
@@ -105,7 +105,7 @@ export const PICForm = ({
           ) : (
             <>
               <PlusCircle className="h-4 w-4 mr-2" />
-              Add PIC
+              Baru
             </>
           )}
         </Button>

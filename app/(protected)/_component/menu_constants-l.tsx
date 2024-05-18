@@ -1,6 +1,6 @@
 import { SideNavItemGroup } from "@/types/type";
 import { UserRole, AccountRole } from "@prisma/client";
-import { Building2, FileCheck, HelpCircle, Home, Settings, Sheet, TableProperties, User, User2, UserCheck2, UserRoundCheck } from "lucide-react";
+import { Building2, ClipboardPenLine, FileCheck, HelpCircle, Home, Settings, Sheet, TableProperties, User, User2, UserCheck2, UserRoundCheck, Users } from "lucide-react";
 
 export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
 
@@ -18,7 +18,7 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
             {
                 title: 'Tim Evaluasi',
                 path: '/koordinator/tim-evaluasi',
-                icon: <UserRoundCheck size={20} />,
+                icon: <Users size={20} />,
             },
             {
                 title: 'Unit Kerja',
@@ -33,7 +33,7 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
             {
                 title: 'Evaluasi',
                 path: '/koordinator/evaluasi',
-                icon: <TableProperties size={20} />,
+                icon: <ClipboardPenLine size={20} />,
             },
         ]
     },
@@ -136,41 +136,14 @@ export const SIDENAV_ITEMS_KETUA: SideNavItemGroup[] = [
         title: "Manage",
         menuList: [
             {
-                title: 'LKE',
-                path: '/ketua/lke',
+                title: 'Evaluasi',
+                path: '/ketua/evaluasi',
                 icon: <Sheet size={20} />,
-                submenu: true,
-                subMenuItems: [
-                    { title: 'List', path: '/ketua/lke/list' },
-                ],
-            },
-            {
-                title: 'KKE',
-                path: '/ketua/kke',
-                icon: <TableProperties size={20} />,
-                submenu: true,
-                subMenuItems: [
-                    { title: 'List', path: '/ketua/kke/list' },
-                    { title: 'IKU', path: '/ketua/kke/iku' },
-                ],
-            },
-            {
-                title: 'Permindok',
-                path: '/ketua/permindok',
-                icon: <FileCheck size={20} />,
-                submenu: true,
-                subMenuItems: [
-                    { title: 'List', path: '/ketua/permindok/list' },
-                ],
             },
             {
                 title: 'Unit kerja',
-                path: '/ketua/unitKerja',
+                path: '/ketua/unitKerja/list',
                 icon: <Building2 size={20} />,
-                submenu: true,
-                subMenuItems: [
-                    { title: 'List', path: '/ketua/unitKerja/list' },
-                ],
             },
         ]
     },
@@ -204,41 +177,14 @@ export const SIDENAV_ITEMS_DALNIS: SideNavItemGroup[] = [
         title: "Manage",
         menuList: [
             {
-                title: 'LKE',
-                path: '/dalnis/lke',
+                title: 'Evaluasi',
+                path: '/dalnis/evaluasi',
                 icon: <Sheet size={20} />,
-                submenu: true,
-                subMenuItems: [
-                    { title: 'List', path: '/dalnis/lke/list' },
-                ],
-            },
-            {
-                title: 'KKE',
-                path: '/dalnis/kke',
-                icon: <TableProperties size={20} />,
-                submenu: true,
-                subMenuItems: [
-                    { title: 'List', path: '/dalnis/kke/list' },
-                    { title: 'IKU', path: '/dalnis/kke/iku' },
-                ],
-            },
-            {
-                title: 'Permindok',
-                path: '/dalnis/permindok',
-                icon: <FileCheck size={20} />,
-                submenu: true,
-                subMenuItems: [
-                    { title: 'List', path: '/dalnis/permindok/list' },
-                ],
             },
             {
                 title: 'Unit kerja',
-                path: '/dalnis/unitKerja',
+                path: '/dalnis/unitKerja/list',
                 icon: <Building2 size={20} />,
-                submenu: true,
-                subMenuItems: [
-                    { title: 'List', path: '/dalnis/unitKerja/list' },
-                ],
             },
         ]
     },
@@ -272,23 +218,14 @@ export const SIDENAV_ITEMS_PIC: SideNavItemGroup[] = [
         title: "Manage",
         menuList: [
             {
-                title: 'KKE',
-                path: '/pic/kke',
-                icon: <TableProperties size={20} />,
-                submenu: true,
-                subMenuItems: [
-                    { title: 'List', path: '/pic/kke/list' },
-                    { title: 'IKU', path: '/pic/kke/iku' },
-                ],
+                title: 'Evaluasi',
+                path: '/pic/evaluasi',
+                icon: <Sheet size={20} />,
             },
             {
-                title: 'Permindok',
-                path: '/pic/permindok',
-                icon: <FileCheck size={20} />,
-                submenu: true,
-                subMenuItems: [
-                    { title: 'List', path: '/pic/permindok' },
-                ],
+                title: 'Unit kerja',
+                path: '/pic/unitKerja/list',
+                icon: <Building2 size={20} />,
             },
         ]
     },
@@ -374,14 +311,14 @@ export const accounts = [
     {
         label: "Koordinator tim",
         role: "admin",
-        enumRole: AccountRole.ADMIN,
+        enumRole: UserRole.KOORDINATOR,
         icon: <UserCheck2 size={20} />,
         route: SIDENAV_ITEMS_ADMIN
     },
     {
         label: "User default",
         role: "user",
-        enumRole: AccountRole.USER,
+        enumRole: UserRole.NONE,
         icon: <UserCheck2 size={20} />,
         route: SIDENAV_ITEMS_USER
     },

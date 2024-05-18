@@ -13,43 +13,28 @@ import { UserRole } from "@prisma/client"
 
 export const columns: ColumnDef<VariabelIKU>[] = [
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="translate-y-[2px]"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="translate-y-[2px]"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "jenisIKU",
+    id: "IKU",
+    accessorFn: row => {
+      const nama = row.jenisIKU
+      return (
+        `${nama}`
+      )
+    },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Jenis IKU" />
+      <DataTableColumnHeader column={column} title="IKU" />
     ),
     cell: ({ row }) => {
 
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium text-wrap">
-            {row.getValue("jenisIKU")}
+          <span className="w-auto truncate font-medium">
+            {row.original.jenisIKU}
           </span>
         </div>
       )
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
     },
   },
   {
@@ -67,7 +52,7 @@ export const columns: ColumnDef<VariabelIKU>[] = [
 
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
+          <span className="w-auto truncate font-medium">
             {row.original.tujuanSasaranIndikatorIKU?.kode}
           </span>
         </div>
@@ -75,7 +60,13 @@ export const columns: ColumnDef<VariabelIKU>[] = [
     },
   },
   {
-    accessorKey: "tujuanSasaranIndikatorIKU",
+    id: "TSI",
+    accessorFn: row => {
+      const nama = row.tujuanSasaranIndikatorIKU?.nama
+      return (
+        `${nama}`
+      )
+    },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Tujuan/Sasaran/Indikator" />
     ),
@@ -84,7 +75,7 @@ export const columns: ColumnDef<VariabelIKU>[] = [
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium text-wrap">
-            {row.original.variabelKKE?.kriteriaKKE?.nama}
+            {row.original.tujuanSasaranIndikatorIKU?.nama}
           </span>
         </div>
       )

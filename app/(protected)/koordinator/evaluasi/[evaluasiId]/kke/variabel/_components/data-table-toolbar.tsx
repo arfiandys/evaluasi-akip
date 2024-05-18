@@ -23,10 +23,10 @@ export function DataTableToolbar<TData>({
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Filter nama..."
-          value={(table.getColumn("nama")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter dukumen/kriteria..."
+          value={(table.getColumn("variabel")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("nama")?.setFilterValue(event.target.value)
+            table.getColumn("variabel")?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
@@ -35,13 +35,6 @@ export function DataTableToolbar<TData>({
             column={table.getColumn("jenisIsian")}
             title="Jenis isian variabel"
             options={jenises}
-          />
-        )}
-        {table.getColumn("tahun") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("tahun")}
-            title="Tahun"
-            options={tahuns}
           />
         )}
         {table.getColumn("isIndikatorKinerja") && (

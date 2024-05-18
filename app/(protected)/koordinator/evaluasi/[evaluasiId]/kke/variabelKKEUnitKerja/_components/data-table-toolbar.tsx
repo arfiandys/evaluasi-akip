@@ -12,13 +12,17 @@ import { DataTableFacetedFilter } from "./data-table-faceted-filter"
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
+  uniqueData: {
+    value: string;
+    label: string;
+  }[][]
 }
 
 export function DataTableToolbar<TData>({
-  table,
+  table, uniqueData
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
-
+  const dataUnitKerja = uniqueData[0]
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
@@ -41,14 +45,7 @@ export function DataTableToolbar<TData>({
           <DataTableFacetedFilter
             column={table.getColumn("unitKerja")}
             title="Unit Kerja"
-            options={unitkerjas}
-          />
-        )}
-        {table.getColumn("tahun") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("tahun")}
-            title="Tahun"
-            options={tahuns}
+            options={dataUnitKerja}
           />
         )}
         {isFiltered && (

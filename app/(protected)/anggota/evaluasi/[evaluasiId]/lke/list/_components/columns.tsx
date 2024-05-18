@@ -29,7 +29,11 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
     cell: ({ row }) => {
       if (row.original.variabelLKE) {
         return (
-          <div className="max-w-[100px]">{row.original.variabelLKE.kode}</div>
+          <div className="flex space-x-2">
+            <span className="w-auto text-wrap truncate font-medium">
+              {row.original.variabelLKE.kode}
+            </span>
+          </div>
         )
       }
     },
@@ -43,13 +47,17 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
       )
     },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Kriteria / Sub Kriteria" />
+      <DataTableColumnHeader column={column} title="Kriteria" />
     ),
     cell: ({ row }) => {
 
       if (row.original.variabelLKE) {
         return (
-          <div>{row.original.variabelLKE.komponenLKE?.name || row.original.variabelLKE.subKomponenLKE?.name || row.original.variabelLKE.kriteriaLKE?.name || row.original.variabelLKE.subKriteriaLKE?.name}</div>
+          <div className="flex space-x-2">
+            <span className="max-w-[500px] text-wrap truncate font-medium">
+              {row.original.variabelLKE.komponenLKE?.name || row.original.variabelLKE.subKomponenLKE?.name || row.original.variabelLKE.kriteriaLKE?.name || row.original.variabelLKE.subKriteriaLKE?.name}
+            </span>
+          </div>
         )
       }
     },
@@ -69,7 +77,11 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
 
       if (row.original.variabelLKE) {
         return (
-          <div>{row.original.unitKerja.name}</div>
+          <div className="flex space-x-2">
+            <span className="w-auto text-wrap truncate font-medium">
+              {row.original.unitKerja.name}
+            </span>
+          </div>
         )
       }
     },
@@ -98,7 +110,11 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
 
       if (row.original.variabelLKE) {
         return (
-          <div>{row.getValue("nilaiAt")}</div>
+          <div className="flex space-x-2">
+            <span className="w-auto text-wrap truncate font-medium">
+              {row.getValue("nilaiAt")}
+            </span>
+          </div>
         )
       }
     },

@@ -129,9 +129,8 @@ export const columns: ColumnDef<permindokUnitKerja>[] = [
         return (
           <Link href={row.original.url} legacyBehavior>
             <a target="_blank">
-              <Button>
-                <File className="h-4 w-4 mr-2" />
-                <p className="truncate max-w-48">{row.original.nameDokumen}</p>
+              <Button variant="ghost">
+                <File className="h-4 w-4" />
               </Button>
             </a>
           </Link>

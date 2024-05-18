@@ -33,7 +33,6 @@ export function DataTableRowActions<TData>({
   const VariabelKKEUnitKerja = VariabelKKEUnitKerjaSchema.parse(row.original)
 
   return (
-    // <Link href={`/anggota/evaluasi/${VariabelKKEUnitKerja.variabelKKE.evaluasiId}/kke/list/${VariabelKKEUnitKerja.variabelKKEId}`}>
     <Link href={`/anggota/evaluasi/${VariabelKKEUnitKerja.variabelKKE.evaluasiId}/kke/list/${VariabelKKEUnitKerja.variabelKKEId}/${VariabelKKEUnitKerja.unitKerjaId}`}>
       <Button
         variant="ghost"

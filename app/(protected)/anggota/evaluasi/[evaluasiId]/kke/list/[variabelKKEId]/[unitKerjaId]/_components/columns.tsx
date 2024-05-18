@@ -28,7 +28,11 @@ export const columns: ColumnDef<VariabelIKUUnitKerja>[] = [
     cell: ({ row }) => {
       if (row.original.tujuanSasaranIndikatorIKUVariabelKKE) {
         return (
-          <div className="max-w-[100px]">{row.original.tujuanSasaranIndikatorIKUVariabelKKE.tujuanSasaranIndikatorIKU?.kode}</div>
+          <div className="flex space-x-2">
+            <span className="w-auto text-wrap truncate font-medium">
+              {row.original.tujuanSasaranIndikatorIKUVariabelKKE.tujuanSasaranIndikatorIKU?.kode}
+            </span>
+          </div>
         )
       }
     },
@@ -47,10 +51,31 @@ export const columns: ColumnDef<VariabelIKUUnitKerja>[] = [
     cell: ({ row }) => {
       if (row.original.tujuanSasaranIndikatorIKUVariabelKKE) {
         return (
-          <div className="max-w-[700px]">{row.original.tujuanSasaranIndikatorIKUVariabelKKE.tujuanSasaranIndikatorIKU?.nama}</div>
+          <div className="flex space-x-2">
+            <span className="max-w-[500px] text-wrap truncate font-medium">
+              {row.original.tujuanSasaranIndikatorIKUVariabelKKE.tujuanSasaranIndikatorIKU?.nama}
+            </span>
+          </div>
         )
       }
     },
+  },
+  {
+    accessorKey: "isianPIC",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Isian PIC" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex space-x-2">
+          <span className="w-auto text-wrap truncate font-medium">
+            {row.original.isianPIC}
+          </span>
+        </div>
+      )
+    },
+    enableSorting: false,
+    enableHiding: true,
   },
   {
     id: "isianAt",

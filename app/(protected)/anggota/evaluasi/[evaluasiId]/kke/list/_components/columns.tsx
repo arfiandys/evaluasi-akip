@@ -31,7 +31,11 @@ export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
     cell: ({ row }) => {
       if (row.original.variabelKKE) {
         return (
-          <div className="max-w-[100px]">{row.original.variabelKKE.kode}</div>
+          <div className="flex space-x-2">
+            <span className="w-auto text-wrap truncate font-medium">
+              {row.original.variabelKKE.kode}
+            </span>
+          </div>
         )
       }
     },
@@ -50,7 +54,11 @@ export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
     cell: ({ row }) => {
       if (row.original.variabelKKE) {
         return (
-          <div className="max-w-[700px]">{row.original.variabelKKE.kriteriaKKE?.nama}</div>
+          <div className="flex space-x-2">
+            <span className="max-w-[500px] text-wrap truncate font-medium">
+              {row.original.variabelKKE.kriteriaKKE?.nama}
+            </span>
+          </div>
         )
       }
     },
@@ -70,13 +78,34 @@ export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
 
       if (row.original.variabelKKE) {
         return (
-          <div className="w-[120px]">{row.original.unitKerja.name}</div>
+          <div className="flex space-x-2">
+            <span className="w-auto text-wrap truncate font-medium">
+              {row.original.unitKerja.name}
+            </span>
+          </div>
         )
       }
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id))
     },
+  },
+  {
+    id: "isianPIC",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Isian PIC" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex space-x-2">
+            <span className="w-auto text-wrap truncate font-medium">
+              {row.original.isianPIC}
+            </span>
+          </div>
+      )
+    },
+    enableSorting: false,
+    enableHiding: true,
   },
   {
     id: "isianAt",
@@ -113,12 +142,13 @@ export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
           </Link>
         )
       } else {
-        return(<></>)}
+        return (<></>)
+      }
     },
   },
 ]
 
-  // Kolom Indikator Kinerja
+// Kolom Indikator Kinerja
 
 
 export const columnsIndikatorKinerja: ColumnDef<VariabelKKEUnitKerja>[] = [
@@ -136,7 +166,11 @@ export const columnsIndikatorKinerja: ColumnDef<VariabelKKEUnitKerja>[] = [
     cell: ({ row }) => {
       if (row.original.variabelKKE) {
         return (
-          <div className="max-w-[100px]">{row.original.variabelKKE.kode}</div>
+          <div className="flex space-x-2">
+            <span className="w-auto text-wrap truncate font-medium">
+              {row.original.variabelKKE.kode}
+            </span>
+          </div>
         )
       }
     },
@@ -155,7 +189,11 @@ export const columnsIndikatorKinerja: ColumnDef<VariabelKKEUnitKerja>[] = [
     cell: ({ row }) => {
       if (row.original.variabelKKE) {
         return (
-          <div className="max-w-[700px]">{row.original.variabelKKE.kriteriaKKE?.nama}</div>
+          <div className="flex space-x-2">
+            <span className="max-w-[500px] text-wrap truncate font-medium">
+              {row.original.variabelKKE.kriteriaKKE?.nama}
+            </span>
+          </div>
         )
       }
     },
@@ -175,13 +213,34 @@ export const columnsIndikatorKinerja: ColumnDef<VariabelKKEUnitKerja>[] = [
 
       if (row.original.variabelKKE) {
         return (
-          <div className="w-[120px]">{row.original.unitKerja.name}</div>
+          <div className="flex space-x-2">
+            <span className="w-auto text-wrap truncate font-medium">
+              {row.original.unitKerja.name}
+            </span>
+          </div>
         )
       }
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id))
     },
+  },
+  {
+    accessorKey: "isianPIC",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Isian PIC" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex space-x-2">
+            <span className="w-auto text-wrap truncate font-medium">
+              {row.original.isianPIC}
+            </span>
+          </div>
+      )
+    },
+    enableSorting: false,
+    enableHiding: true,
   },
   {
     id: "isianAt",
@@ -218,7 +277,8 @@ export const columnsIndikatorKinerja: ColumnDef<VariabelKKEUnitKerja>[] = [
           </Link>
         )
       } else {
-        return(<></>)}
+        return (<></>)
+      }
     },
   },
   {

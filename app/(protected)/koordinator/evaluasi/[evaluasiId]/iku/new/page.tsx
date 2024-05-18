@@ -65,7 +65,7 @@ const IKUNewPage = async ({
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-y-2">
                                 <h2 className="text-xl font-medium">
-                                    Detail
+                                    Rincian dasar
                                 </h2>
                                 <span className="text-sm text-secondary-foreground">
                                     Nama, kode, tahun...

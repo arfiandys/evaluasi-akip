@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import { GeneratePage } from "./_components/generate-form";
 import { DataTable } from "./_components/data-table";
 import { columns } from "./_components/columns";
 import {
@@ -28,14 +27,41 @@ const GeneratePermindokPage = async ({ params }: { params: { evaluasiId: string 
                 evaluasiId: params.evaluasiId
             }
         },
-        orderBy: {
-            unitKerjaId: "asc"
-        },
+        orderBy: [
+            {
+                unitKerjaId: "asc"
+            },
+            {
+                permindok: {
+                    kode: "asc"
+                }
+            }
+        ],
         include: {
             permindok: true,
             unitKerja: true,
         }
     })
+
+    const unitKerja = await db.unitKerja.findMany({
+        orderBy: {
+            name: "asc",
+        },
+    });
+
+    interface Items {
+        value: string;
+        label: string;
+    }
+
+    // Unit Kerja
+    const dataUnitKerja = Array.from(new Set(permindokUnitKerja.map(item => item.unitKerja.name)))
+    const unitKejaUnique: Items[] = dataUnitKerja.map(item => ({
+        value: item,
+        label: item
+    }));
+
+    const data: (Items)[][] = [unitKejaUnique]
 
     return (
         <div className="flex h-screen flex-1 flex-col space-y-6 p-8">
@@ -67,7 +93,7 @@ const GeneratePermindokPage = async ({ params }: { params: { evaluasiId: string 
                     </Breadcrumb>
                 </div>
             </div>
-            <DataTable data={permindokUnitKerja} columns={columns} />
+            <DataTable data={permindokUnitKerja} columns={columns} uniqueData={data} />
         </div>
     );
 }

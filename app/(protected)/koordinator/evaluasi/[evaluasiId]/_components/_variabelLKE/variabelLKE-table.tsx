@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, PlusCircle, Settings } from "lucide-react";
+import { ChevronRight, PlusCircle, Settings, TableProperties } from "lucide-react";
 
 import {
     Breadcrumb,
@@ -25,6 +25,8 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { KomponenLKE, KriteriaLKE, LKEUnitKerja, SubKomponenLKE, SubKriteriaLKE, UnitKerja, VariabelLKE } from "@prisma/client";
+import { Separator } from "@/components/ui/separator";
+import { IconBadge } from "@/components/icon-badge";
 
 interface VariabelLKEProps {
     evaluasiId: string;
@@ -40,22 +42,23 @@ interface VariabelLKEProps {
 export const VariabelLKEPage = ({ evaluasiId, variabelLKE }: VariabelLKEProps) => {
 
     return (
-        <Card className="shadow-lg col-span-1">
-            <CardHeader className="flex flex-row justify-between">
+        <Card className="shadow-lg col-span-1 rounded-3xl">
+            <CardHeader className="flex flex-row justify-start items-center gap-x-4">
                 <div>
-                    <CardTitle>Variabel LKE</CardTitle>
-                    <CardDescription>Card Description</CardDescription>
+                    <IconBadge icon={TableProperties} />
+                </div>
+                <div >
+                    <CardDescription>Variabel LKE</CardDescription>
+                    <CardTitle>{variabelLKE.length}</CardTitle>
                 </div>
             </CardHeader>
-            <CardContent className="p-0">
-                <DataTable data={variabelLKE} columns={columns} />
-            </CardContent>
-            <CardFooter className="pt-6 justify-end">
-                <Button asChild>
+            <Separator orientation="horizontal" />
+            <CardFooter className="pt-4 justify-start">
+                <Button variant="ghost" asChild>
                     <Link
                         href={`/koordinator/evaluasi/${evaluasiId}/lke/variabel`}
                     >
-                        View All
+                        Lihat
                         <ChevronRight className="h-4 w-4 ml-2" />
                     </Link>
                 </Button>

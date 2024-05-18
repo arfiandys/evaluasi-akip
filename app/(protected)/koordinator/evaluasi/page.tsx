@@ -31,14 +31,16 @@ const EvaluasiPage = async () => {
         include: {
             variabelsLKE: {
                 orderBy: {
-                    id: "asc"
+                    kode: "asc"
                 }
             },
             variabelsKKE: {
                 orderBy: {
-                    id: "asc"
+                    kode: "asc"
                 }
-            }
+            },
+            permindoks: true,
+            IKUs: true,
         }
     });
 
@@ -77,24 +79,44 @@ const EvaluasiPage = async () => {
                 </div>
             </div>
             {/* <DataTable data={evaluasi} columns={columns} /> */}
-            <div className="flex flex-row">
-                {evaluasi.map((item) => (
-                    <EvaluasiCard
-                        key={item.id}
-                        id={item.id}
-                        title={item.title}
-                        imageUrl={"/logo.svg"}
-                        LKELength={item.variabelsLKE.length}
-                        KKELength={item.variabelsKKE.length}
-                        progress={50}
-                        tahun={item.tahun!}
-                        description={item.description!}
-                    />
-                ))}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 py-4 px-4 lg:px-10">
+                {evaluasi.map((item) => {
+                    const requiredFields = [
+                        item.IKUs.length,
+                        item.permindoks.length,
+                        item.variabelsLKE.length,
+                        item.variabelsKKE.length,
+                        item.title,
+                        item.description,
+                        item.tahun,
+                    ];
+                
+                    const totalFields = requiredFields.length;
+                    const completedFields = requiredFields.filter(Boolean).length;
+                    const progress = (completedFields / totalFields) * 100
+                    const completionText = `(${completedFields}/${totalFields})`
+                    const isComplete = requiredFields.every(Boolean);
+                    return (
+                        <EvaluasiCard
+                            key={item.id}
+                            id={item.id}
+                            title={item.title}
+                            imageUrl={"/logo.svg"}
+                            LKELength={item.variabelsLKE.length}
+                            KKELength={item.variabelsKKE.length}
+                            PermindokLength={item.permindoks.length}
+                            IKULength={item.IKUs.length}
+                            progress={progress}
+                            tahun={item.tahun!}
+                            description={item.description!}
+                            status={item.status}
+                        />
+                    )
+                })}
             </div>
             {evaluasi.length === 0 && (
                 <div className="text-center text-sm text-muted-foreground mt-10">
-                    No evaluasi found
+                    Tidak ada evaluasi yang ditemukan
                 </div>
             )}
         </div>

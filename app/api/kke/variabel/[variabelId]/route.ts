@@ -51,7 +51,7 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    if ((values.unitKerjaId!) && (values.variabelLKEId!) && (values.input! === "input") && (values.role! === "pic")) {
+    if ((values.unitKerjaId!) && (values.input! === "input") && (values.role! === "pic")) {
       const KKEUnitKerja = await db.variabelKKEUnitKerja.update({
         where: {
           VariabelKKEUnitKerjaId: {

@@ -61,7 +61,7 @@ export const KodeWilayahForm = ({
   }
 
   return (
-    <div className="mt-6 border bg-background rounded-md p-4">
+    <div className="bg-background rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Kode wilayah
         <Button onClick={toggleEdit} variant="ghost">
@@ -70,7 +70,7 @@ export const KodeWilayahForm = ({
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit kode wilayah
+              Edit
             </>
           )}
         </Button>

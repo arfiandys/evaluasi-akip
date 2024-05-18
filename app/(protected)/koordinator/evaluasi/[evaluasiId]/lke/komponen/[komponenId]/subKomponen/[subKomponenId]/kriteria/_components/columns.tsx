@@ -34,6 +34,22 @@ export const columns: ColumnDef<Kriteria>[] = [
     ),
     enableSorting: false,
     enableHiding: false,
+  },
+  {
+    accessorKey: "kode",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Kode" />
+    ),
+    cell: ({ row }) => {
+
+      return (
+        <div className="flex space-x-2">
+          <span className="w-auto truncate font-medium">
+            {row.getValue("kode")}
+          </span>
+        </div>
+      )
+    },
   }, 
   {
     accessorKey: "name",
@@ -52,22 +68,6 @@ export const columns: ColumnDef<Kriteria>[] = [
     },
   },
   {
-    accessorKey: "kode",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Kode" />
-    ),
-    cell: ({ row }) => {
-
-      return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("kode")}
-          </span>
-        </div>
-      )
-    },
-  },
-  {
     accessorKey: "bobot",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Bobot" />
@@ -76,7 +76,7 @@ export const columns: ColumnDef<Kriteria>[] = [
 
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
+          <span className="w-auto truncate font-medium">
             {row.getValue("bobot")}
           </span>
         </div>
@@ -88,7 +88,7 @@ export const columns: ColumnDef<Kriteria>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Kriteria LKE" />
     ),
-    cell: ({ row }) => <div className="w-[120px]">{row.original.subKriteriaLKE.length}</div>,
+    cell: ({ row }) => <div className="w-auto">{row.original.subKriteriaLKE.length}</div>,
   },
   {
     id: "actions",

@@ -87,7 +87,7 @@ const TSINewCreate = ({
                     className="mt-8 space-y-4"
                 >
                     <CardHeader>
-                        <CardTitle>Buat Tujuan/Sasaran/Indikato</CardTitle>
+                        <CardTitle>Buat Tujuan/Sasaran/Indikator</CardTitle>
                         <CardDescription>Terapkan sebuah Tujuan/Sasaran/Indikato baru dalam satu kali klik.</CardDescription>
                     </CardHeader>
                     <CardContent>

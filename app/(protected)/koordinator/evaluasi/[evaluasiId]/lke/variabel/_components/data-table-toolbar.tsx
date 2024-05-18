@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DataTableViewOptions } from "../_components/data-table-view-options"
 
-import { tahuns, jenises } from "../_data/data"
+import { tahuns, jenises, jeniseVar } from "../_data/data"
 import { DataTableFacetedFilter } from "./data-table-faceted-filter"
 
 interface DataTableToolbarProps<TData> {
@@ -23,18 +23,18 @@ export function DataTableToolbar<TData>({
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Filter nama..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter kriteria..."
+          value={(table.getColumn("kriteria")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("kriteria")?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn("tahun") && (
+        {table.getColumn("jenisVariabel") && (
           <DataTableFacetedFilter
-            column={table.getColumn("tahun")}
-            title="Tahun"
-            options={tahuns}
+            column={table.getColumn("jenisVariabel")}
+            title="Jenis Variabel"
+            options={jeniseVar}
           />
         )}
         {table.getColumn("jenisIsian") && (

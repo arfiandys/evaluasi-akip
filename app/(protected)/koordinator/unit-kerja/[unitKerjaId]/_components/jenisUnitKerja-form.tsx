@@ -63,7 +63,7 @@ export const JenisUnitKerjaForm = ({
   }
 
   return (
-    <div className="mt-6 border bg-background rounded-md p-4">
+    <div className="bg-background rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Jenis unit kerja
         <Button onClick={toggleEdit} variant="ghost">
@@ -72,7 +72,7 @@ export const JenisUnitKerjaForm = ({
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit jenis unit kerja
+              Edit
             </>
           )}
         </Button>

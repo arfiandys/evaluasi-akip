@@ -64,7 +64,7 @@ export const RoleForm = ({
   }
 
   return (
-    <div className="mt-6 border bg-background rounded-md p-4">
+    <div className="bg-background rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Role
         <Button onClick={toggleEdit} variant="ghost">
@@ -73,7 +73,7 @@ export const RoleForm = ({
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit role
+              Edit
             </>
           )}
         </Button>

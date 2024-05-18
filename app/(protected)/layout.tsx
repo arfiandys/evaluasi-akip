@@ -34,10 +34,8 @@ const ProtectedLayout = async ({
 
 
     return (
-        // <div className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-800">
         <div>
             <SideBar asUser={asUser}/>
-            <Header></Header>
             <PageWrapper>
                 {children}
             </PageWrapper>

@@ -28,6 +28,7 @@ enum UserRole {
   DALNIS
   KETUA
   ANGGOTA
+  NONE
 }
 
 model User {

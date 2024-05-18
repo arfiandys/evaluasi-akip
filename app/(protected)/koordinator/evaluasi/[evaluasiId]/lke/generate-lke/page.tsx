@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import { GeneratePage } from "./_components/generate-form";
 import { DataTable } from "./_components/data-table";
 import { columns } from "./_components/columns";
 import {
@@ -13,6 +12,8 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import Link from "next/link";
+import { DownloadButton } from "./_components/download-button";
+import { PDFCreate } from "./_components/pdf";
 
 const LKEPage = async ({
     params
@@ -74,21 +75,6 @@ const LKEPage = async ({
         label: string;
     }
 
-    // Tahun Variabel LKE
-    // Tahun
-    const tahunLKE = Array.from(new Set(variabelLKE.map(item => item.tahun)))
-    const tahunLKEUnique: Items[] = tahunLKE.map(item => ({
-        value: item,
-        label: item
-    }));
-
-    // Tahun LKE Unit Kerja
-    const dataTahun = Array.from(new Set(LKEUnitKerja.map(item => item.variabelLKE.tahun)))
-    const tahunUnique: Items[] = dataTahun.map(item => ({
-        value: item,
-        label: item
-    }));
-
     // Unit Kerja
     const dataUnitKerja = Array.from(new Set(LKEUnitKerja.map(item => item.unitKerja.name)))
     const unitKejaUnique: Items[] = dataUnitKerja.map(item => ({
@@ -96,7 +82,7 @@ const LKEPage = async ({
         label: item
     }));
 
-    const data: (Items)[][] = [tahunUnique, unitKejaUnique]
+    const data: (Items)[][] = [unitKejaUnique]
 
     return (
         <div className="flex h-screen flex-1 flex-col space-y-6 p-8">
@@ -126,6 +112,9 @@ const LKEPage = async ({
                             </BreadcrumbItem>
                         </BreadcrumbList>
                     </Breadcrumb>
+                </div>
+                <div>
+                    <DownloadButton data={LKEUnitKerja} />
                 </div>
             </div>
             <DataTable data={LKEUnitKerja} columns={columns} uniqueData={data} />

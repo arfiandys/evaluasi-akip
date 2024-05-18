@@ -65,8 +65,6 @@ const EvaluasiNewCreate = () => {
         } catch {
             toast.error("Terdapat kesalahan!");
         }
-
-
     }
 
     return (

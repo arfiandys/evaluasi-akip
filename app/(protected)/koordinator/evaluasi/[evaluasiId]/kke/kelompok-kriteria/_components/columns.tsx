@@ -33,6 +33,22 @@ export const columns: ColumnDef<KelompokKriteria>[] = [
     ),
     enableSorting: false,
     enableHiding: false,
+  },
+  {
+    accessorKey: "kode",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Kode" />
+    ),
+    cell: ({ row }) => {
+
+      return (
+        <div className="flex space-x-2">
+          <span className="w-auto truncate font-medium">
+            {row.getValue("kode")}
+          </span>
+        </div>
+      )
+    },
   }, 
   {
     accessorKey: "name",
@@ -51,51 +67,11 @@ export const columns: ColumnDef<KelompokKriteria>[] = [
     },
   },
   {
-    accessorKey: "kode",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Kode" />
-    ),
-    cell: ({ row }) => {
-
-      return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("kode")}
-          </span>
-        </div>
-      )
-    },
-  },
-  {
-    accessorKey: "tahun",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Tahun" />
-    ),
-    cell: ({ row }) => {
-      const tahun = tahuns.find(
-        (tahun) => tahun.value === row.original.tahun
-      )
-
-      if (!tahun) {
-        return null
-      }
-
-      return (
-        <div className="flex w-[100px] items-center">
-          <span>{tahun.label}</span>
-        </div>
-      )
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
-    },
-  },
-  {
     accessorKey: "kriteriaKKE",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Kriteria" />
     ),
-    cell: ({ row }) => <div className="w-[120px]">{row.original.kriteriaKKE.length}</div>,
+    cell: ({ row }) => <div className="w-auto">{row.original.kriteriaKKE.length}</div>,
   },
   {
     id: "actions",

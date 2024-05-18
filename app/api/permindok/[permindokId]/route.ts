@@ -85,6 +85,8 @@ export async function PATCH(
       return NextResponse.json(permindokUnitKerja);
     }
 
+    // UPDATE RINCIAN PERMINDOK
+
     const user = await db.permindok.update({
       where: {
         id: params.permindokId,

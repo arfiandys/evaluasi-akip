@@ -21,6 +21,7 @@ export const variabelIKUSchema = z.object({
   tujuanSasaranIndikatorIKU: z.object({
     id: z.string().min(1),
     kode: z.string().min(1),
+    nama: z.string().min(1),
     jenis: z.string().min(1),
     IKU: z.object({
       id: z.string().min(1),

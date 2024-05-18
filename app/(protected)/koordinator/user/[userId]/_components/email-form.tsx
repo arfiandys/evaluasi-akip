@@ -61,7 +61,7 @@ export const EmailForm = ({
   }
 
   return (
-    <div className="mt-6 border bg-background rounded-md p-4">
+    <div className="bg-background rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Email
         <Button onClick={toggleEdit} variant="ghost">
@@ -70,7 +70,7 @@ export const EmailForm = ({
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit email
+              Edit
             </>
           )}
         </Button>
