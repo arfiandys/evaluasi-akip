@@ -67,7 +67,14 @@ const EvaluasiPage = async () => {
             },
         }
     });
-
+    const LHE = await db.lHE.findMany({
+        orderBy: {
+            evaluasiId: "asc"
+        },
+        include: {
+            unitKerja: true
+        }
+    });
 
     return (
         <div className="flex h-screen flex-1 flex-col space-y-6 p-8">
@@ -94,8 +101,10 @@ const EvaluasiPage = async () => {
                 </div>
             </div>
             {/* <DataTable data={evaluasi} columns={columns} /> */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-4 px-4 lg:px-10">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 py-4 px-4 lg:px-10">
                 {evaluasi.map((item) => {
+                    const daftarLHE = LHE.filter((items) => (items.evaluasiId === item.id) && (unitKerja_arr.includes(items.unitKerjaId)))
+                    console.log(daftarLHE)
                     if (item.status !== "draft") {
                         return (
                             <EvaluasiCard
@@ -111,6 +120,8 @@ const EvaluasiPage = async () => {
                                 tahun={item.tahun!}
                                 description={item.description!}
                                 status={item.status}
+                                daftarLHE={daftarLHE}
+
                             />
                         )
                     }

@@ -27,6 +27,7 @@ import IKUViewPage from "./_components/_iku/iku-table";
 import LKEUnitKerjaPage from "./_components/_LKEUnitKerja/LKEUnitKerja-table";
 import KKEUnitKerjaPage from "./_components/_KKEUnitKerja/KKEUnitKerja-table";
 import PermindokUnitKerjaPage from "./_components/_permindokUnitKerja/permindokUnitKerja-table";
+import LHEUnitKerjaPage from "./_components/_LHEUnitKerja/LHEUnitKerja-table";
 
 const EvaluasiIdPage = async ({
     params
@@ -196,6 +197,18 @@ const EvaluasiIdPage = async ({
         }
     })
 
+    const LHE = await db.lHE.findMany({
+        where: {
+            evaluasiId: params.evaluasiId
+        },
+        orderBy: {
+            unitKerjaId: "asc"
+        },
+        include: {
+            unitKerja: true,
+        }
+    })
+
     const requiredFields = [
         evaluasi.IKUs.length,
         evaluasi.permindoks.length,
@@ -349,6 +362,7 @@ const EvaluasiIdPage = async ({
                         <LKEUnitKerjaPage evaluasiId={params.evaluasiId} LKEUnitKerja={LKEUnitKerja} />
                         <KKEUnitKerjaPage evaluasiId={params.evaluasiId} KKEUnitKerja={KKEUnitKerja} />
                         <PermindokUnitKerjaPage evaluasiId={params.evaluasiId} permindokUnitKerja={permindokUnitKerja} />
+                        <LHEUnitKerjaPage evaluasiId={params.evaluasiId} LHE={LHE} />
                     </div>
                 </div>
             </div>

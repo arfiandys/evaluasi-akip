@@ -1,8 +1,7 @@
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import { DataTable } from "./_components/data-table";
-import { columns } from "./_components/columns";
+import { PDF } from "./_component/lhe-pdf";
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -12,76 +11,35 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import Link from "next/link";
-import { DownloadButton } from "./_components/download-button";
+import { Button } from "@/components/ui/button";
+import { PlusCircle } from "lucide-react";
+import { DataTable } from "./_component/data-table";
+import { columns } from "./_component/columns";
 
-const LKEPage = async ({
+const LHEPage = async ({
     params
 }: {
     params: { evaluasiId: string }
 }) => {
+
     const session = await auth();
     const userId = session?.user.id;
     if (!userId) {
         return redirect("/")
     }
 
-    const LKEUnitKerja = await db.lKEUnitKerja.findMany({
-        where: {
-            variabelLKE: {
-                evaluasiId: params.evaluasiId
-            }
-        },
-        orderBy: [
-            {
-                unitKerjaId: "asc"
-            },
-            {
-                variabelLKE: {
-                    kode: "asc"
-                }
-            }
-        ],
-        include: {
-            variabelLKE: {
-                include: {
-                    komponenLKE: true,
-                    subKomponenLKE: true,
-                    kriteriaLKE: true,
-                    subKriteriaLKE: true,
-                }
-            },
-            unitKerja: true,
-        }
-    })
-
-    const variabelLKE = await db.variabelLKE.findMany({
+    const LHE = await db.lHE.findMany({
         where: {
             evaluasiId: params.evaluasiId
         },
         orderBy: {
-            kode: "asc",
+            nameDokumen: "asc",
         },
+        include: {
+            evaluasi: true,
+            unitKerja: true
+        }
     });
-
-    const unitKerja = await db.unitKerja.findMany({
-        orderBy: {
-            name: "asc",
-        },
-    });
-
-    interface Items {
-        value: string;
-        label: string;
-    }
-
-    // Unit Kerja
-    const dataUnitKerja = Array.from(new Set(LKEUnitKerja.map(item => item.unitKerja.name)))
-    const unitKejaUnique: Items[] = dataUnitKerja.map(item => ({
-        value: item,
-        label: item
-    }));
-
-    const data: (Items)[][] = [unitKejaUnique]
 
     return (
         <div className="flex h-full flex-1 flex-col space-y-6 p-8">
@@ -89,7 +47,7 @@ const LKEPage = async ({
                 <div className="flex flex-col gap-y-2 justify-between">
                     <div className="">
                         <h1 className="text-2xl font-medium">
-                            Daftar LKE
+                            Daftar LHE
                         </h1>
                     </div>
                     <Breadcrumb>
@@ -102,7 +60,7 @@ const LKEPage = async ({
                             <BreadcrumbSeparator />
                             <BreadcrumbItem>
                                 <BreadcrumbLink asChild>
-                                    <Link href={`/koordinator/evaluasi/${params.evaluasiId}/lke/generate-lke`}>LKE</Link>
+                                    <Link href={`/koordinator/evaluasi/${params.evaluasiId}/lhe`}>LHE</Link>
                                 </BreadcrumbLink>
                             </BreadcrumbItem>
                             <BreadcrumbSeparator />
@@ -112,13 +70,20 @@ const LKEPage = async ({
                         </BreadcrumbList>
                     </Breadcrumb>
                 </div>
-                <div>
-                    <DownloadButton data={LKEUnitKerja} />
+                <div className="flex justify-end my-4">
+                    <Button asChild>
+                        <Link
+                            href={`/koordinator/evaluasi/${params.evaluasiId}/lhe/new`}
+                        >
+                            <PlusCircle className="h-4 w-4 mr-2" />
+                            LHE baru
+                        </Link>
+                    </Button>
                 </div>
             </div>
-            <DataTable data={LKEUnitKerja} columns={columns} uniqueData={data} />
+            <DataTable data={LHE} columns={columns} />
         </div>
     );
 }
 
-export default LKEPage;
+export default LHEPage;

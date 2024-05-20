@@ -21,10 +21,15 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { LHE, UnitKerja } from "@prisma/client";
 
 
 interface EvaluasiCardProps {
@@ -39,6 +44,7 @@ interface EvaluasiCardProps {
   description: string;
   tahun: string;
   status: string;
+  daftarLHE: (LHE & { unitKerja: UnitKerja })[]
 };
 
 export const EvaluasiCard = ({
@@ -53,6 +59,7 @@ export const EvaluasiCard = ({
   description,
   tahun,
   status,
+  daftarLHE,
 }: EvaluasiCardProps) => {
   return (
     <Card className="shadow-lg rounded-3xl">
@@ -85,6 +92,25 @@ export const EvaluasiCard = ({
                     <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
                   </Link>
                 </DropdownMenuItem>
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>
+                    <span>Lihat LHE</span>
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuPortal>
+                    <DropdownMenuSubContent>
+                    <DropdownMenuLabel>Unit Kerja</DropdownMenuLabel>
+                      {daftarLHE.map((item) => (
+                        <DropdownMenuItem key={item.unitKerjaId}>
+                          <Link href={item.url||""} legacyBehavior>
+                            <a target="_blank">
+                              <span>{item.unitKerja.name}</span>
+                            </a>
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuSubContent>
+                  </DropdownMenuPortal>
+                </DropdownMenuSub>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (

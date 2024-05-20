@@ -74,6 +74,15 @@ export async function PATCH(
             },
         });
 
+        // DELETE LHE
+        const deletedLHEUnitKerja = await db.lHE.deleteMany({
+            where: {
+                evaluasi: {
+                    id: params.evaluasiId
+                }
+            },
+        });
+
         // UPDATE EVALUASI STATUS
         const unpublishedEvaluasi = await db.evaluasi.update({
             where: {

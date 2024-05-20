@@ -84,7 +84,7 @@ export const columns: ColumnDef<permindokUnitKerja>[] = [
         return (
           <Link href={row.original.url} legacyBehavior>
             <a target="_blank">
-              <Button>
+              <Button variant="ghost">
                 <File className="h-4 w-4" />
               </Button>
             </a>

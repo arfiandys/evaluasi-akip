@@ -2,15 +2,19 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 
-import {  } from "../_data/data"
-import { permindokUnitKerja } from "../_data/schema"
+import { Badge } from "@/components/ui/badge"
+import { Checkbox } from "@/components/ui/checkbox"
+
+import { jenises, kodeWilayahs, statuses } from "../_data/data"
+import { LHE } from "../_data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
+import { UserRole } from "@prisma/client"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { File } from "lucide-react"
 
-export const columns: ColumnDef<permindokUnitKerja>[] = [
+export const columns: ColumnDef<LHE>[] = [
   {
     id: "unitKerja",
     accessorFn: row => {
@@ -23,58 +27,32 @@ export const columns: ColumnDef<permindokUnitKerja>[] = [
       <DataTableColumnHeader column={column} title="Unit Kerja" />
     ),
     cell: ({ row }) => {
-
-      if (row.original.permindok) {
-        return (
-          <div className="w-auto">{row.original.unitKerja.name}</div>
-        )
-      }
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
-    },
-  },
-  {
-    id: "kode",
-    accessorFn: row => {
-      const kode = row.permindok.kode
       return (
-        `${kode}`
+        <div className="flex space-x-2">
+          <span className="max-w-[500px]">
+            {row.getValue("unitKerja")}
+          </span>
+        </div>
       )
     },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Kode" />
-    ),
-    cell: ({ row }) => {
-      if (row.original.permindok) {
-        return (
-          <div className="w-auto">{row.original.permindok.kode}</div>
-        )
-      }
-    },
   },
   {
-    id: "permindok",
-    accessorFn: row => {
-      const name = row.permindok.name
+    accessorKey: "nameDokumen",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Nama Dokumen" />
+    ),
+    cell: ({ row }) => {
       return (
-        `${name}`
+        <div className="flex space-x-2">
+          <span className="max-w-[500px]">
+            {row.getValue("nameDokumen")}
+          </span>
+        </div>
       )
     },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Permindok" />
-    ),
-    cell: ({ row }) => {
-
-      if (row.original.permindok) {
-        return (
-          <div className="max-w-[500px]">{row.original.permindok.name}</div>
-        )
-      }
-    },
   },
   {
-    accessorKey: "file",
+    accessorKey: "url",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="File" />
     ),

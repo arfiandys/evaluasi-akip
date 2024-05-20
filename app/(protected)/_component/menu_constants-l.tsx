@@ -99,11 +99,6 @@ export const SIDENAV_ITEMS_ANGGOTA: SideNavItemGroup[] = [
                 path: '/anggota/evaluasi',
                 icon: <Sheet size={20} />,
             },
-            {
-                title: 'Unit kerja',
-                path: '/anggota/unitKerja/list',
-                icon: <Building2 size={20} />,
-            },
         ]
     },
     {
@@ -139,11 +134,6 @@ export const SIDENAV_ITEMS_KETUA: SideNavItemGroup[] = [
                 title: 'Evaluasi',
                 path: '/ketua/evaluasi',
                 icon: <Sheet size={20} />,
-            },
-            {
-                title: 'Unit kerja',
-                path: '/ketua/unitKerja/list',
-                icon: <Building2 size={20} />,
             },
         ]
     },
@@ -181,11 +171,6 @@ export const SIDENAV_ITEMS_DALNIS: SideNavItemGroup[] = [
                 path: '/dalnis/evaluasi',
                 icon: <Sheet size={20} />,
             },
-            {
-                title: 'Unit kerja',
-                path: '/dalnis/unitKerja/list',
-                icon: <Building2 size={20} />,
-            },
         ]
     },
     {
@@ -221,11 +206,6 @@ export const SIDENAV_ITEMS_PIC: SideNavItemGroup[] = [
                 title: 'Evaluasi',
                 path: '/pic/evaluasi',
                 icon: <Sheet size={20} />,
-            },
-            {
-                title: 'Unit kerja',
-                path: '/pic/unitKerja/list',
-                icon: <Building2 size={20} />,
             },
         ]
     },

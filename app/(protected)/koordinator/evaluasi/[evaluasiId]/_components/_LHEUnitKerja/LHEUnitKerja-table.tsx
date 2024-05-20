@@ -13,20 +13,17 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { Permindok, PermindokUnitKerja, UnitKerja, } from "@prisma/client";
+import { Permindok, LHE, UnitKerja, } from "@prisma/client";
 import { Separator } from "@/components/ui/separator";
 
-interface PermindokUnitKerjaProps {
+interface LHEUnitKerjaProps {
     evaluasiId: string;
-    permindokUnitKerja: (PermindokUnitKerja & {
-        permindok: Permindok,
-        unitKerja: UnitKerja
-    })[];
+    LHE: (LHE & { unitKerja: UnitKerja })[];
 };
 
-export const PermindokUnitKerjaPage = ({ evaluasiId, permindokUnitKerja }: PermindokUnitKerjaProps) => {
-    function createCategorizedArray(data: (PermindokUnitKerja & { unitKerja: UnitKerja })[]): { [unitKerjaId: string]: (PermindokUnitKerja & { unitKerja: UnitKerja })[] } {
-        const categorizedArray: { [unitKerjaId: string]: (PermindokUnitKerja & { unitKerja: UnitKerja })[] } = {};
+export const LHEUnitKerjaPage = ({ evaluasiId, LHE }: LHEUnitKerjaProps) => {
+    function createCategorizedArray(data: (LHE & { unitKerja: UnitKerja })[]): { [unitKerjaId: string]: (LHE & { unitKerja: UnitKerja })[] } {
+        const categorizedArray: { [unitKerjaId: string]: (LHE & { unitKerja: UnitKerja })[] } = {};
 
         data.forEach(item => {
             const { unitKerjaId } = item;
@@ -39,9 +36,9 @@ export const PermindokUnitKerjaPage = ({ evaluasiId, permindokUnitKerja }: Permi
         return categorizedArray;
     }
 
-    const categorizedData: { [unitKerjaId: string]: (PermindokUnitKerja & { unitKerja: UnitKerja })[] } = createCategorizedArray(permindokUnitKerja);
+    const categorizedData: { [unitKerjaId: string]: (LHE & { unitKerja: UnitKerja })[] } = createCategorizedArray(LHE);
 
-    const arrayOfArrayObject: { unitKerjaId: string; items: (PermindokUnitKerja & { unitKerja: UnitKerja })[] }[] = Object.entries(categorizedData).map(([unitKerjaId, items]) => ({
+    const arrayOfArrayObject: { unitKerjaId: string; items: (LHE & { unitKerja: UnitKerja })[] }[] = Object.entries(categorizedData).map(([unitKerjaId, items]) => ({
         unitKerjaId,
         items
     }));
@@ -71,7 +68,7 @@ export const PermindokUnitKerjaPage = ({ evaluasiId, permindokUnitKerja }: Permi
         <Card className="shadow-lg col-span-1 rounded-3xl">
             <CardHeader className="flex flex-row justify-between">
                 <div>
-                    <CardTitle>Permindok Unit Kerja</CardTitle>
+                    <CardTitle>LHE Unit Kerja</CardTitle>
                     {/* <CardDescription>Card Description</CardDescription> */}
                 </div>
             </CardHeader>
@@ -101,7 +98,7 @@ export const PermindokUnitKerjaPage = ({ evaluasiId, permindokUnitKerja }: Permi
             <CardFooter className="pt-6 justify-start">
                 <Button variant="ghost" asChild>
                     <Link
-                        href={`/koordinator/evaluasi/${evaluasiId}/permindok/generate-permindok`}
+                        href={`/koordinator/evaluasi/${evaluasiId}/lhe`}
                     >
                         Lihat
                         <ChevronRight className="h-4 w-4 ml-2" />
@@ -112,4 +109,4 @@ export const PermindokUnitKerjaPage = ({ evaluasiId, permindokUnitKerja }: Permi
     );
 }
 
-export default PermindokUnitKerjaPage;
+export default LHEUnitKerjaPage;

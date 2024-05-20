@@ -95,6 +95,7 @@ model UnitKerja {
   permindoks                                    PermindokUnitKerja[]
   tujuanSasaranIndikatorIKUVariabelKKEUnitKerja TujuanSasaranIndikatorIKUVariabelKKEUnitKerja[]
   variabelKKEUnitKerja                          VariabelKKEUnitKerja[]
+  LHE                                           LHE[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -454,19 +455,36 @@ model LKEUnitKerja {
   @@id(name: "LKEUnitKerjaId", [variabelLKEId, unitKerjaId])
 }
 
+// LHE
+model LHE {
+  url         String?
+  nameDokumen String?
+
+  evaluasiId  String
+  evaluasi    Evaluasi  @relation(fields: [evaluasiId], references: [id], onDelete: Cascade)
+  unitKerja   UnitKerja @relation(fields: [unitKerjaId], references: [id], onDelete: Cascade)
+  unitKerjaId String // relation scalar field (used in the `@relation` attribute above)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id(name: "LHEId", [evaluasiId, unitKerjaId])
+}
+
 // EVALUASI AKIP
 model Evaluasi {
   id          String  @id @default(uuid())
   title       String  @db.Text
-  tahun       String  @db.Text @unique
+  tahun       String  @unique @db.Text
   description String? @db.Text
-  status String @default("draft")
+  status      String  @default("draft")
 
   variabelsLKE        VariabelLKE[]
   variabelsKKE        VariabelKKE[]
   IKUs                IKU[]
   permindoks          Permindok[]
   kelompokKriteriaKKE KelompokKriteriaKKE[]
+  LHE                 LHE[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

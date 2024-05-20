@@ -163,7 +163,7 @@ export async function PATCH(
                     id: "asc"
                 }
             })
-    
+
             const data = Array.from(permindok).map((variabel) => ({
                 permindok: {
                     connect: {
@@ -179,6 +179,26 @@ export async function PATCH(
                 data: {
                     permindoks: {
                         create: data
+                    }
+                }
+            })
+        })
+
+        // GENERATE LHE UNIT KERJA
+        unitKerjas.map(async (unit) => {
+            const assignLHE = await db.unitKerja.update({
+                where: {
+                    id: unit.id
+                },
+                data: {
+                    LHE: {
+                        create: {
+                            evaluasi: {
+                                connect: {
+                                    id: params.evaluasiId
+                                }
+                            }
+                        }
                     }
                 }
             })

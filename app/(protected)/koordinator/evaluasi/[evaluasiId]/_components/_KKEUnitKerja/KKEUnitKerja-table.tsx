@@ -113,7 +113,7 @@ export const KKEUnitKerjaPage = ({ evaluasiId, KKEUnitKerja }: KKEUnitKerjaProps
                     >
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="UnitKerja" />
-                        <YAxis interval={1} />
+                        <YAxis />
                         <Tooltip />
                         <Legend />
                         <Line type="monotone" dataKey="Anggota" stroke="#8884d8" activeDot={{ r: 8 }} />
