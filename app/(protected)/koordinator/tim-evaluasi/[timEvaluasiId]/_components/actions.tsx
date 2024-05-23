@@ -29,11 +29,11 @@ export const Actions = ({
 
       await axios.delete(`/api/tim-evaluasi/${timEvaluasiId}`);
 
-      toast.success("Tim evaluasi deleted");
+      toast.success("Tim evaluasi berhasil dihapus");
       router.push(`/koordinator/tim-evaluasi`);
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     } finally {
       setIsLoading(false);
     }

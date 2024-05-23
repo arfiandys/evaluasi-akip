@@ -28,17 +28,19 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import { IconBadge } from "@/components/icon-badge";
+import { Activity } from "lucide-react";
 
 
 const formSchema = z.object({
     title: z.string().min(1, {
-        message: "Name is required",
+        message: "Name dibutuhkan",
     }),
     description: z.string().min(1, {
-        message: "Kode is required",
+        message: "Kode dibutuhkan",
     }),
     tahun: z.string().min(1, {
-        message: "Tahun is required",
+        message: "Tahun dibutuhkan",
     })
 });
 
@@ -59,7 +61,7 @@ const EvaluasiNewCreate = () => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.post("/api/evaluasi", values);
-            toast.success("Evaluasi dibuat!")
+            toast.success("Evaluasi berhasil dibuat!")
             form.reset()
             router.refresh()
         } catch {
@@ -69,15 +71,16 @@ const EvaluasiNewCreate = () => {
 
     return (
 
-        <Card className=" col-span-2">
+        <Card className="shadow-lg col-span-4 md:col-start-2 md:col-span-2 rounded-3xl h-fit">
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="mt-8 space-y-4"
                 >
-                    <CardHeader>
-                        <CardTitle>Buat evaluasi</CardTitle>
-                        <CardDescription>Terapkan sebuah evaluasi baru dalam satu kali klik.</CardDescription>
+                    <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
+                        <div className="flex flex-row gap-x-4 justify-start items-center">
+                            <IconBadge icon={Activity} />
+                            <CardTitle>Rincian dasar</CardTitle>
+                        </div>
                     </CardHeader>
                     <CardContent>
                         <div className="flex flex-col space-y-4 items-start justify-between w-full">

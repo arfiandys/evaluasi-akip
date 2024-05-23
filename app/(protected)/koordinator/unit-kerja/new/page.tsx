@@ -32,7 +32,7 @@ const UnitKerjaNewPage = async () => {
                                 <BreadcrumbItem>
                                     <BreadcrumbLink asChild>
                                         <Link href={`/koordinator/unit-kerja`}>Unit kerja</Link>
-                                    </BreadcrumbLink>   
+                                    </BreadcrumbLink>
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator />
                                 <BreadcrumbItem>
@@ -42,19 +42,7 @@ const UnitKerjaNewPage = async () => {
                         </Breadcrumb>
                     </div>
                 </div>
-                <div className="grid grid-cols-3 gap-4 mt-16">
-                    <div className="w-full">
-                        <div className="flex items-center justify-between">
-                            <div className="flex flex-col gap-y-2">
-                                <h2 className="text-xl font-medium">
-                                    Detail
-                                </h2>
-                                <span className="text-sm text-secondary-foreground">
-                                    Nama, kode, jenis...
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                <div className="mt-16 grid gap-6 grid-cols-4">
                     <UnitKerjaNewCreate />
                 </div>
             </div>

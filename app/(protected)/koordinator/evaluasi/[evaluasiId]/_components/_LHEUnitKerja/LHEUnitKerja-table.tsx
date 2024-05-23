@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, PlusCircle, Settings } from "lucide-react";
+import { Building2, ChevronRight, PlusCircle, Settings } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/card"
 import { Permindok, LHE, UnitKerja, } from "@prisma/client";
 import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 
 interface LHEUnitKerjaProps {
     evaluasiId: string;
@@ -45,15 +46,15 @@ export const LHEUnitKerjaPage = ({ evaluasiId, LHE }: LHEUnitKerjaProps) => {
 
     const dataArray: {
         UnitKerja: string,
-        Dokumen: number,
+        Dokumen: boolean,
 
     }[] = arrayOfArrayObject.map((objek) => {
-        let pic = 0;
+        let url = false;
         let unit = "";
 
         objek.items.forEach(obj => {
             if (obj["url"] !== undefined && obj["url"] !== null && obj["url"] !== '') {
-                pic++;
+                url = true;
             }
             if (obj.unitKerja.name) {
                 unit = obj.unitKerja.name
@@ -61,7 +62,7 @@ export const LHEUnitKerjaPage = ({ evaluasiId, LHE }: LHEUnitKerjaProps) => {
         });
         return {
             UnitKerja: unit,
-            Dokumen: pic,
+            Dokumen: url,
         };
     });
     return (
@@ -69,30 +70,28 @@ export const LHEUnitKerjaPage = ({ evaluasiId, LHE }: LHEUnitKerjaProps) => {
             <CardHeader className="flex flex-row justify-between">
                 <div>
                     <CardTitle>LHE Unit Kerja</CardTitle>
-                    {/* <CardDescription>Card Description</CardDescription> */}
                 </div>
             </CardHeader>
-            <CardContent className="px-6">
-                <ResponsiveContainer width="100%" height={350}>
-                    <LineChart
-                        width={500}
-                        height={300}
-                        data={dataArray}
-                        margin={{
-                            top: 5,
-                            right: 30,
-                            left: 20,
-                            bottom: 5,
-                        }}
-                    >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="UnitKerja" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Line type="monotone" dataKey="Dokumen" stroke="#8884d8" activeDot={{ r: 8 }} />
-                    </LineChart>
-                </ResponsiveContainer>
+            <CardContent className="px-6 overflow-auto">
+                <div className="h-[350px] space-y-6">
+                    {dataArray.map((item) => (
+                        <div key={item.UnitKerja} className="space-y-8">
+                            <div className="flex items-center">
+                                <Building2 />
+                                <div className="ml-4 space-y-1">
+                                    <p className="text-sm font-medium leading-none">{item.UnitKerja}</p>
+                                </div>
+                                <div className="ml-auto font-medium">
+                                    {item.Dokumen ? (
+                                        <Badge variant="default">Terkirim</Badge>
+                                    ) : (
+                                        <Badge variant="secondary">Tidak terkirim</Badge>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </CardContent>
             <Separator orientation="horizontal" />
             <CardFooter className="pt-6 justify-start">

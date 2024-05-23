@@ -236,6 +236,16 @@ export const SIDENAV_ITEMS_PIMPINAN: SideNavItemGroup[] = [
         }]
     },
     {
+        title: "Manage",
+        menuList: [
+            {
+                title: 'Evaluasi',
+                path: '/pimpinan/evaluasi',
+                icon: <Sheet size={20} />,
+            },
+        ]
+    },
+    {
         title: "Others",
         menuList: [
             {

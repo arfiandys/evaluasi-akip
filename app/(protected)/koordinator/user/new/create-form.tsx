@@ -28,17 +28,19 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import { IconBadge } from "@/components/icon-badge";
+import { Activity } from "lucide-react";
 
 
 const formSchema = z.object({
     email: z.string().email({
-        message: "Email is required",
+        message: "Email dibutuhkan",
     }),
     password: z.string().min(6, {
-        message: "Minimum 6 character required",
+        message: "Diperlukan minimal 6 karakter",
     }),
     name: z.string().min(1, {
-        message: "Name is required",
+        message: "Nama dibutuhkan",
     }),
 });
 
@@ -58,90 +60,93 @@ const UserNewCreate = () => {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            await axios.post(`/api/user`, values);
-            toast.success("Pengguna ditambahkan");
+            const response = await axios.post(`/api/user`, values);
+            if (response.data.success) {
+                toast.success("Pengguna berhasil dibuat")
+                toast.success(response.data.success);
+            } else if (response.data.error) {
+                toast.error(response.data.error);
+            }
             form.reset()
             router.refresh()
         } catch {
             toast.error("Terdapat kesalahan!");
         }
-
-
     }
 
     return (
-
-        <Card className=" col-span-2">
+        <Card className="shadow-lg col-span-4 md:col-start-2 md:col-span-2 rounded-3xl h-fit">
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="mt-8 space-y-4"
                 >
-                    <CardHeader>
-                        <CardTitle>Buat pengguna</CardTitle>
-                        <CardDescription>Terapkan sebuah pengguna baru dalam satu kali klik.</CardDescription>
+                    <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
+                        <div className="flex flex-row gap-x-4 justify-start items-center">
+                            <IconBadge icon={Activity} />
+                            <CardTitle>Rincian dasar</CardTitle>
+                        </div>
                     </CardHeader>
                     <CardContent>
                         <div className="flex flex-col space-y-4 items-start justify-between w-full">
                             <FormField
-                                    control={form.control}
-                                    name="name"
-                                    render={({ field }) => (
-                                        <FormItem className="w-full">
-                                            <FormLabel>
-                                                Nama
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    disabled={isSubmitting}
-                                                    placeholder="e.g. 'Arfiandys...'"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="email"
-                                    render={({ field }) => (
-                                        <FormItem className="w-full">
-                                            <FormLabel>
-                                                Email
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    disabled={isSubmitting}
-                                                    placeholder="e.g. 'arfiandys@gmail.com'"
-                                                    type="email"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="password"
-                                    render={({ field }) => (
-                                        <FormItem className="w-full">
-                                            <FormLabel>
-                                                Password
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    disabled={isSubmitting}
-                                                    placeholder="******"
-                                                    type="password"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                                control={form.control}
+                                name="name"
+                                render={({ field }) => (
+                                    <FormItem className="w-full">
+                                        <FormLabel>
+                                            Nama
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                disabled={isSubmitting}
+                                                placeholder="e.g. 'Arfiandys...'"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({ field }) => (
+                                    <FormItem className="w-full">
+                                        <FormLabel>
+                                            Email
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                disabled={isSubmitting}
+                                                placeholder="e.g. 'arfiandys@gmail.com'"
+                                                type="email"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="password"
+                                render={({ field }) => (
+                                    <FormItem className="w-full">
+                                        <FormLabel>
+                                            Password
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                disabled={isSubmitting}
+                                                placeholder="******"
+                                                type="password"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                         </div>
                     </CardContent>
                     <CardFooter className="flex justify-end">

@@ -142,4 +142,20 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
     enableSorting: false,
     enableHiding: false,
   },
+  {
+    accessorKey: "nilaiPanel",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Nilai Panelisasi" />
+    ),
+    cell: ({ row }) => {
+
+      if (row.original.nilaiPanel) {
+        return (
+          <div className="w-[120px]">{row.original.nilaiPanel}</div>
+        )
+      }
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
 ]

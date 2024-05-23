@@ -55,6 +55,12 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    const koordinatorUser = await getUserById(userId);
+
+    if (!koordinatorUser) {
+      return new NextResponse("Can not find koordinator user", { status: 401 });
+    }
+
     const dbUser = await getUserById(params.userId);
 
     if (!dbUser) {
@@ -71,7 +77,7 @@ export async function PATCH(
       const existingUser = await getUserByEmail(values.email);
 
       if (existingUser && existingUser.id !== dbUser.id) {
-        return new NextResponse("Email already in use!", { status: 401 });
+        return NextResponse.json({ error: "Email talah digunakan!" });
       }
 
       const verificationToken = await generateVerificationToken(
@@ -82,17 +88,16 @@ export async function PATCH(
         verificationToken.email,
         verificationToken.token,
       );
-      return NextResponse.json(verificationToken);
     }
 
-    if (values.password && values.newPassword && dbUser.password) {
+    if (values.password && values.newPassword && koordinatorUser.password) {
       const passwordsMatch = await bcrypt.compare(
         values.password,
-        dbUser.password,
+        koordinatorUser.password
       );
 
       if (!passwordsMatch) {
-        return new NextResponse("Incorrect password!", { status: 401 });
+        return NextResponse.json({ error: "Password koordinator yang anda masukkan salah!" });
       }
 
       const hashedPassword = await bcrypt.hash(
@@ -114,7 +119,7 @@ export async function PATCH(
 
     return NextResponse.json(user);
   } catch (error) {
-    console.log("[UNIT_KERJA_ID]", error);
+    console.log("[PENGGUNA]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

@@ -19,6 +19,8 @@ interface Props {
 export const DownloadButton = ({ data }: Props) => {
     const { CSVDownloader } = useCSVDownloader();
     const dataArray: {
+        variabelLKEId: string;
+        unitKerjaId: string;
         unitKerja: string,
         kode: string,
         kriteria: string|undefined,
@@ -31,9 +33,15 @@ export const DownloadButton = ({ data }: Props) => {
         isianDalnis: string,
         nilaiDalnis: string,
         catatanDalnis: string,
+        isianPanel: string,
+        nilaiPanel: string,
+        catatanPanel: string,
+
 
     }[] = data.map((objek) => {
         return {
+            variabelLKEId: objek.variabelLKEId,
+            unitKerjaId: objek.unitKerjaId,
             unitKerja: objek.unitKerja.name,
             kode: objek.variabelLKE.kode,
             kriteria: (objek.variabelLKE.levelVariabel === "komponen") ? objek.variabelLKE.komponenLKE?.name :
@@ -50,6 +58,9 @@ export const DownloadButton = ({ data }: Props) => {
             isianDalnis: objek.isianDalnis||"",
             nilaiDalnis: objek.nilaiDalnis||"",
             catatanDalnis: objek.catatanDalnis||"",
+            isianPanel: objek.isianPanel||"",
+            nilaiPanel: objek.nilaiPanel||"",
+            catatanPanel: objek.catatanPanel||"",
         };
     });
     return (

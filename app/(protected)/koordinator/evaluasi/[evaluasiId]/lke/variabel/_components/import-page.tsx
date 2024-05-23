@@ -49,9 +49,16 @@ const ImportPage = ({ evaluasi }: ImportProps) => {
     const [loading, setLoading] = useState(false)
 
     const onUpload = (results: typeof INITIAL_IMPORT_RESULT) => {
-        console.log(results)
-        setImportResult(results);
-        setVariant(VARIANTS.IMPORT);
+        const bodynot:string[][] = results.data.slice(1);
+        const body = bodynot.filter((item) => {
+            return item.length === 13
+        })
+        if (!body.length) {
+            toast.error("Format isian tidak sesuai template, anda bisa download template terlabih dahulu")
+        } else {
+            setImportResult(results);
+            setVariant(VARIANTS.IMPORT);
+        }
     };
 
     const onCancelImport = () => {

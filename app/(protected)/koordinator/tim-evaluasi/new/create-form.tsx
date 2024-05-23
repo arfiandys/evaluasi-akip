@@ -28,11 +28,13 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import { IconBadge } from "@/components/icon-badge";
+import { Activity } from "lucide-react";
 
 
 const formSchema = z.object({
     name: z.string().min(1, {
-        message: "Name is required",
+        message: "Nama dibutuhkan",
     }),
 });
 
@@ -51,8 +53,12 @@ const UserNewCreate = () => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.post("/api/tim-evaluasi", values);
-            router.push(`/koordinator/tim-evaluasi/${response.data.id}`);
-            toast.success("Tim evaluasi created!")
+            if (response.data.error) {
+                toast.error(response.data.error)
+            } else {
+                router.push(`/koordinator/tim-evaluasi/${response.data.id}`);
+                toast.success("Tim evaluasi created!")
+            }
             form.reset()
             router.refresh()
         } catch {
@@ -63,16 +69,16 @@ const UserNewCreate = () => {
     }
 
     return (
-
-        <Card className=" col-span-2">
+        <Card className="shadow-lg col-span-4 md:col-start-2 md:col-span-2 rounded-3xl h-fit">
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="mt-8 space-y-4"
                 >
-                    <CardHeader>
-                        <CardTitle>Buat tim evaluasi</CardTitle>
-                        <CardDescription>Terapkan sebuah tim evaluasi baru dalam satu kali klik.</CardDescription>
+                    <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
+                        <div className="flex flex-row gap-x-4 justify-start items-center">
+                            <IconBadge icon={Activity} />
+                            <CardTitle>Rincian dasar</CardTitle>
+                        </div>
                     </CardHeader>
                     <CardContent>
                         <div className="flex flex-col space-y-4 items-start justify-between w-full">

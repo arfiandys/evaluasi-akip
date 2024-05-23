@@ -1,5 +1,5 @@
 import { RoleGate } from "@/components/auth/role-gate";
-import { AccountRole } from "@prisma/client";
+import { UserRole } from "@prisma/client";
 
 interface LayoutAnggotaProps {
     children: React.ReactNode
@@ -9,7 +9,7 @@ const LayoutAnggota = async ({
     children
 }: LayoutAnggotaProps) => {
     return (
-        <RoleGate allowedRole={AccountRole.USER}>
+        <RoleGate allowedRole={UserRole.ANGGOTA}>
             {children}
         </RoleGate>
     );

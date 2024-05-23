@@ -27,9 +27,6 @@ export const PDF = ({ dataObjek, unitKerja, unitKerjaId, LKEUnitKerja }: Props) 
     const selectedUnitKerja = unitKerja.find((option) => option.id === unitKerjaId);
     return (
         <>
-            {/* <PDFViewer className='w-full h-[500px]' >
-                <LHEPDF data={selectedData} dataObjek={dataObjek} unitKerja={selectedUnitKerja}/>
-            </PDFViewer> */}
 
             <BlobProvider document={<LHEPDF data={selectedData} dataObjek={dataObjek} unitKerja={selectedUnitKerja} />}>
                 {({ url, blob }) => (
@@ -51,27 +48,3 @@ export const PDF = ({ dataObjek, unitKerja, unitKerjaId, LKEUnitKerja }: Props) 
         </>
     );
 }
-
-
-// < Card className='rounded-3xl shadow-lg'>
-//     <CardHeader>
-//         <CardTitle>{unitKerja.name}</CardTitle>
-//         <CardDescription>{unitKerja.jenisUnitKerja}</CardDescription>
-//     </CardHeader>
-//     <CardContent className='flex flex-row gap-x-4'>
-//         <Button asChild size='sm'>
-//             <PDFDownloadLink document={<LHEPDF data={selectedData} />} fileName='invoice.pdf'>
-//                 Download
-//             </PDFDownloadLink>
-//         </Button>
-//         <Button asChild size='sm' variant="default">
-//             <BlobProvider document={<LHEPDF data={selectedData} />}>
-//                 {({ url, blob }) => (
-//                     <a href={url || ""} target="_blank">
-//                         Lihat
-//                     </a>
-//                 )}
-//             </BlobProvider>
-//         </Button>
-//     </CardContent>
-// </Card >

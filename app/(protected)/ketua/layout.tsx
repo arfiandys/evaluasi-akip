@@ -1,5 +1,5 @@
 import { RoleGate } from "@/components/auth/role-gate";
-import { AccountRole } from "@prisma/client";
+import { UserRole } from "@prisma/client";
 
 interface LayoutKetuaProps {
     children: React.ReactNode
@@ -9,7 +9,7 @@ const LayoutKetua = async ({
     children
 }: LayoutKetuaProps) => {
     return (
-        <RoleGate allowedRole={AccountRole.USER}>
+        <RoleGate allowedRole={UserRole.KETUA}>
             {children}
         </RoleGate>
     );

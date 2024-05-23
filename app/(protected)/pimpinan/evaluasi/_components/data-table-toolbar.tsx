@@ -5,9 +5,9 @@ import { Table } from "@tanstack/react-table"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { DataTableViewOptions } from "../_components/data-table-view-options"
+import { DataTableViewOptions } from "./data-table-view-options"
 
-import { jenises, statuses, tahuns } from "../_data/data"
+import { tahuns } from "../_data/data"
 import { DataTableFacetedFilter } from "./data-table-faceted-filter"
 
 interface DataTableToolbarProps<TData> {
@@ -23,27 +23,13 @@ export function DataTableToolbar<TData>({
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Filter unit kerja..."
-          value={(table.getColumn("unitKerja")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter nama..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("unitKerja")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn("jenisIsian") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("jenisIsian")}
-            title="Jenis isian"
-            options={jenises}
-          />
-        )}
-        {table.getColumn("status") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("status")}
-            title="Status"
-            options={statuses}
-          />
-        )}
         {table.getColumn("tahun") && (
           <DataTableFacetedFilter
             column={table.getColumn("tahun")}

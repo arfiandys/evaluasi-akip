@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/breadcrumb"
 import Link from "next/link";
 import { DownloadButton } from "./_components/download-button";
+import ImportPage from "./_components/import-page";
 
 const LKEPage = async ({
     params
@@ -24,6 +25,12 @@ const LKEPage = async ({
     if (!userId) {
         return redirect("/")
     }
+
+    const evaluasi = await db.evaluasi.findUnique({
+        where: {
+            id: params.evaluasiId
+        }
+    })
 
     const LKEUnitKerja = await db.lKEUnitKerja.findMany({
         where: {
@@ -112,8 +119,9 @@ const LKEPage = async ({
                         </BreadcrumbList>
                     </Breadcrumb>
                 </div>
-                <div>
+                <div className="flex flex-row justify-center items-center gap-4">
                     <DownloadButton data={LKEUnitKerja} />
+                    <ImportPage evaluasi={evaluasi}/>
                 </div>
             </div>
             <DataTable data={LKEUnitKerja} columns={columns} uniqueData={data} />

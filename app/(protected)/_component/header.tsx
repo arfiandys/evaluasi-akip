@@ -33,7 +33,7 @@ export default function Header({ existingRole, selectedRole, setSelectedRole }: 
                 <div className="hidden 2xl:flex sidebar-top relative 2xl:items-center 2xl:justify-center px-5">
                     <Logo />
                     <h3 className={cn("pl-2 font-bold text-xl min-w-max")}>
-                        AKIP Evaluation</h3>
+                        Evaluasi AKIP</h3>
                 </div>
 
                 <div className="flex items-center justify-between sm:order-2 order-1">

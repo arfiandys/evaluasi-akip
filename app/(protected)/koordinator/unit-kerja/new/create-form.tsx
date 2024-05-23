@@ -28,20 +28,22 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import { IconBadge } from "@/components/icon-badge";
+import { Activity } from "lucide-react";
 
 
 const formSchema = z.object({
     name: z.string().min(1, {
-        message: "Name is required",
+        message: "Nama dibutuhkan",
     }),
     kodeWilayah: z.string().min(1, {
-        message: "Kode wilayah is required",
+        message: "Kode wilayah dibutuhkan",
     }),
     kodeUnitKerja: z.string().min(1, {
-        message: "Kame unit kerja is required",
+        message: "Kode unit kerja dibutuhkan",
     }),
     jenisUnitKerja: z.string().min(1, {
-        message: "Jenis unit kerja is required",
+        message: "Jenis unit kerja dibutuhkan",
     }),
 });
 
@@ -63,8 +65,12 @@ const UnitKerjaNewCreate = () => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.post("/api/unit-kerja", values);
-            router.push(`/koordinator/unit-kerja/${response.data.id}`);
-            toast.success("Unit Kerja created!")
+            if (response.data.error) {
+                toast.error(response.data.error)
+            } else {
+                router.push(`/koordinator/unit-kerja/${response.data.id}`);
+                toast.success("Unit Kerja berhasil dibuat!")
+            }
             form.reset()
             router.refresh()
         } catch {
@@ -75,16 +81,16 @@ const UnitKerjaNewCreate = () => {
     }
 
     return (
-
-        <Card className=" col-span-2">
+        <Card className="shadow-lg col-span-4 md:col-start-2 md:col-span-2 rounded-3xl h-fit">
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="mt-8 space-y-4"
                 >
-                    <CardHeader>
-                        <CardTitle>Buat unit kerja</CardTitle>
-                        <CardDescription>Terapkan sebuah unit kerja baru dalam satu kali klik.</CardDescription>
+                    <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
+                        <div className="flex flex-row gap-x-4 justify-start items-center">
+                            <IconBadge icon={Activity} />
+                            <CardTitle>Rincian dasar</CardTitle>
+                        </div>
                     </CardHeader>
                     <CardContent>
                         <div className="flex flex-col space-y-4 items-start justify-between w-full">
@@ -183,7 +189,7 @@ const UnitKerjaNewCreate = () => {
                     <CardFooter className="flex justify-end">
                         <Button
                             type="submit"
-                            disabled={!isValid || isSubmitting}
+                            disabled={isSubmitting}
                         >
                             Buat Unit Kerja
                         </Button>

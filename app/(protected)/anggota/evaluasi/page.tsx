@@ -67,6 +67,27 @@ const EvaluasiPage = async () => {
             },
         }
     });
+    const LKEUnitKerja = await db.lKEUnitKerja.findMany({
+        orderBy: {
+            variabelLKE: {
+                kode: "asc"
+            }
+        },
+        include: {
+            variabelLKE: true,
+        }
+    });
+    const KKEUnitKerja = await db.variabelKKEUnitKerja.findMany({
+        orderBy: {
+            variabelKKE: {
+                kode: "asc"
+            }
+        },
+        include: {
+            variabelKKE: true,
+        }
+    })
+
 
 
     return (
@@ -96,6 +117,16 @@ const EvaluasiPage = async () => {
             {/* <DataTable data={evaluasi} columns={columns} /> */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-4 px-4 lg:px-10">
                 {evaluasi.map((item) => {
+                    const filteredLKE = LKEUnitKerja.filter((items)=> unitKerja_arr.includes(items.unitKerjaId) && items.variabelLKE.evaluasiId === item.id);
+                    const totalLKE = filteredLKE.length;
+                    const filteredKKE = KKEUnitKerja.filter((items)=> unitKerja_arr.includes(items.unitKerjaId) && items.variabelKKE.evaluasiId === item.id);
+                    const totalKKE = filteredKKE.length;
+                    let filledLKE = 0;
+                    filteredLKE.forEach((obj)=>{
+                        if ((obj["nilaiAt"] !== undefined && obj["nilaiAt"] !== null && obj["nilaiAt"] !== '')) {
+                            filledLKE++
+                        }
+                    })
                     if (item.status !== "draft") {
                         return (
                             <EvaluasiCard
@@ -103,11 +134,11 @@ const EvaluasiPage = async () => {
                                 id={item.id}
                                 title={item.title}
                                 imageUrl={"/logo.svg"}
-                                LKELength={item.variabelsLKE.length}
-                                KKELength={item.variabelsKKE.length}
+                                LKELength={totalLKE}
+                                KKELength={totalKKE}
                                 PermindokLength={item.permindoks.length}
                                 UnitKerjaLength={unitKerja_arr.length}
-                                progress={50}
+                                progress={Number(filledLKE/totalLKE)*100}
                                 tahun={item.tahun!}
                                 description={item.description!}
                                 status={item.status}

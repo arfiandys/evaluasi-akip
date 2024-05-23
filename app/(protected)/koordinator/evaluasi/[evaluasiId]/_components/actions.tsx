@@ -62,14 +62,17 @@ export const Actions = ({
 
       if ((statuse === "publish") && (status !== statuse)) {
         await axios.patch(`/api/evaluasi/${evaluasiId}/publish`);
-        toast.success("Evaluasi diterbitkan");
+        toast.success("Evaluasi dalam tahap pengerjaan");
         confetti.onOpen();
       } else if ((statuse === "draft") && (status !== statuse)) {
         await axios.patch(`/api/evaluasi/${evaluasiId}/unpublish`);
-        toast.success("Evaluasi dibatalkan");
+        toast.success("Evaluasi dalam rancangan");
       } else if ((statuse === "finish") && (status !== statuse)) {
         await axios.patch(`/api/evaluasi/${evaluasiId}/finish`);
-        toast.success("Evaluasi diselesaikan");
+        toast.success("Evaluasi sudah selesai");
+      } else if ((statuse === "check") && (status !== statuse)) {
+        await axios.patch(`/api/evaluasi/${evaluasiId}/check`);
+        toast.success("Evaluasi dalam tahap pengecekan");
       }
       router.refresh()
     } catch {
@@ -101,7 +104,7 @@ export const Actions = ({
       <Popover>
         <PopoverTrigger asChild>
           <Button variant="outline">
-            {status === "finish" ? "Selesai" : (status === "publish" ? "Diterbitkan" : "Rancangan")}
+            {status === "finish" ? "Selesai" : (status === "publish" ? "Tahap pengerjaan" : (status === "check" ? "Tahap pengecekan" : "Rancangan"))}
           </Button>
         </PopoverTrigger>
         <PopoverContent>
@@ -110,9 +113,10 @@ export const Actions = ({
               <SelectValue placeholder="Pilih aksi" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="publish">Terbitkan</SelectItem>
-              <SelectItem value="draft">Batalkan</SelectItem>
-              <SelectItem value="finish">Selesaikan</SelectItem>
+              <SelectItem value="publish">Tahap pengerjaan</SelectItem>
+              <SelectItem value="draft">Rancangan</SelectItem>
+              <SelectItem value="check">Tahap pengecekan</SelectItem>
+              <SelectItem value="finish">Selesai</SelectItem>
             </SelectContent>
           </Select>
           <div className="mt-4 w-full">

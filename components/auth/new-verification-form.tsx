@@ -17,7 +17,7 @@ export const NewVerificationForm = () => {
     const onSubmit = useCallback(() => {
         if (success || error) return;
         if (!token) {
-            setError("Missing Token!");
+            setError("Token tidak ditemukan!");
             return;
         }
 
@@ -27,7 +27,7 @@ export const NewVerificationForm = () => {
             setError(data.error);
         })
         .catch(() => {
-            setError("Something went wrong!");
+            setError("Terdapat kesalahan!");
         })
     }, [token, success, error]);
 
@@ -37,8 +37,8 @@ export const NewVerificationForm = () => {
 
     return (
         <CardWrapper
-        headerLabel="Confirming your verification"
-        backButtonLabel="Back to login"
+        headerLabel="Mengonfirmasi verifikasi Anda"
+        backButtonLabel="Kembali ke login"
         backButtonHref="/auth/login"
         >
             <div className="flex items-center w-full justify-center">

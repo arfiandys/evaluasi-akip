@@ -94,55 +94,6 @@ export const columns: ColumnDef<User>[] = [
       return value.includes(row.getValue(id))
     },
   },
-  // {
-  //   id: "status",
-  //   accessorFn: row => {
-  //     const status =
-  //       (
-  //         row.kodeUnitKerja &&
-  //         row.kodeWilayah &&
-  //         row.name &&
-  //         row.users.some((user) => user.assignedRole === UserRole.PIMPINAN) &&
-  //         row.users.some((user) => user.assignedRole === UserRole.PIC)
-  //       ) ? "complete" : "incomplete";
-  //     return (
-  //       `${status}`
-  //     )
-  //   },
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Status" />
-  //   ),
-  //   cell: ({ row }) => {
-  //     const status_value =
-  //       (
-  //         row.original.kodeUnitKerja &&
-  //         row.original.kodeWilayah &&
-  //         row.original.name &&
-  //         row.original.users.some((user) => user.assignedRole === UserRole.PIMPINAN) &&
-  //         row.original.users.some((user) => user.assignedRole === UserRole.PIC)
-  //       ) ? "complete" : "incomplete";
-
-  //     const status = statuses.find(
-  //       (status) => status.value === status_value
-  //     )
-
-  //     if (!status) {
-  //       return null
-  //     }
-
-  //     return (
-  //       <div className="flex items-center">
-  //         {status.icon && (
-  //           <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-  //         )}
-  //         <span>{status.label}</span>
-  //       </div>
-  //     )
-  //   },
-  //   filterFn: (row, id, value) => {
-  //     return value.includes(row.getValue(id))
-  //   },
-  // },
   {
     accessorKey: "unitKerjas",
     header: ({ column }) => (

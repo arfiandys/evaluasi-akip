@@ -55,11 +55,11 @@ export const RoleForm = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/user/${userId}`, values);
-      toast.success("User updated");
+      toast.success("Pengguna berhasil diperbarui");
       toggleEdit();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     }
   }
 
@@ -122,7 +122,7 @@ export const RoleForm = ({
                 disabled={!isValid || isSubmitting}
                 type="submit"
               >
-                Save
+                Simpan
               </Button>
             </div>
           </form>

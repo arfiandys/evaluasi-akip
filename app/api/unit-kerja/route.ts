@@ -13,6 +13,26 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
+        const existingNamaUnitKerja = await db.unitKerja.findUnique({
+            where: {
+                name: values.name,
+            }
+        })
+
+        if (existingNamaUnitKerja) {
+            return NextResponse.json({ error: "Nama talah digunakan!" });
+        }
+
+        const existingKodeUnitKerja = await db.unitKerja.findUnique({
+            where: {
+                kodeUnitKerja: values.kodeUnitKerja,
+            }
+        })
+
+        if (existingKodeUnitKerja) {
+            return NextResponse.json({ error: "Kode unit kerja talah digunakan!" });
+        }
+
         const unitKerja = await db.unitKerja.create({
             data: {
                 ...values

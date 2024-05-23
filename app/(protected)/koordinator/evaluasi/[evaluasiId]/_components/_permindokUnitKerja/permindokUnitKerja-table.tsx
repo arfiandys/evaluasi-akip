@@ -68,15 +68,15 @@ export const PermindokUnitKerjaPage = ({ evaluasiId, permindokUnitKerja }: Permi
         };
     });
     return (
-        <Card className="shadow-lg col-span-1 rounded-3xl">
+        <Card className="shadow-lg col-span-1 lg:col-span-2 rounded-3xl">
             <CardHeader className="flex flex-row justify-between">
                 <div>
                     <CardTitle>Permindok Unit Kerja</CardTitle>
                     {/* <CardDescription>Card Description</CardDescription> */}
                 </div>
             </CardHeader>
-            <CardContent className="px-6">
-                <ResponsiveContainer width="100%" height={350}>
+            <CardContent className="px-6 overflow-auto">
+                <ResponsiveContainer minWidth={400} height={350}>
                     <LineChart
                         width={500}
                         height={300}
@@ -90,7 +90,7 @@ export const PermindokUnitKerjaPage = ({ evaluasiId, permindokUnitKerja }: Permi
                     >
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="UnitKerja" />
-                        <YAxis />
+                        <YAxis interval={1}/>
                         <Tooltip />
                         <Legend />
                         <Line type="monotone" dataKey="Dokumen" stroke="#8884d8" activeDot={{ r: 8 }} />

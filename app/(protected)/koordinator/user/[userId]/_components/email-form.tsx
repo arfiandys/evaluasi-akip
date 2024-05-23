@@ -51,12 +51,16 @@ export const EmailForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/user/${userId}`, values);
-      toast.success("User updated");
+      const respose = await axios.patch(`/api/user/${userId}`, values);
+      if (respose.data.error) {
+        toast.error(respose.data.error);
+      } else {
+        toast.success("Pengguna berhasil diperbarui");
+      }
       toggleEdit();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     }
   }
 
@@ -108,7 +112,7 @@ export const EmailForm = ({
                 disabled={!isValid || isSubmitting}
                 type="submit"
               >
-                Save
+                Simpan
               </Button>
             </div>
           </form>

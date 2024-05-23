@@ -29,11 +29,11 @@ export const Actions = ({
 
       await axios.delete(`/api/user/${userId}`);
 
-      toast.success("User deleted");
+      toast.success("Pengguna berhasil dihapus");
       router.push(`/koordinator/user`);
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     } finally {
       setIsLoading(false);
     }

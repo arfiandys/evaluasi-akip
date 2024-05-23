@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Building, Loader2, Pencil, Trash, User2, X } from "lucide-react";
+import { Building, Loader2, Pencil, PlusCircle, Trash, User2, X } from "lucide-react";
 import { TimEvaluasi, User, UserOnTimEvaluasi, UserOnUnitKerja, UserRole } from "@prisma/client";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Combobox } from "@/components/ui/combobox";
@@ -81,7 +81,7 @@ export const UnitKerjaForm = ({
     }
     try {
       await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value);
-      toast.success("Tim Evaluasi updated");
+      toast.success("Unit kerja berhasil diperbarui");
       toggleAnggotaEdit();
       form.reset();
       router.refresh();
@@ -100,11 +100,11 @@ export const UnitKerjaForm = ({
         }
       };
       await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);
-      toast.success("UnitKerja deleted");
+      toast.success("UnitKerja berhasil dihapus");
       form.reset();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     } finally {
       setDeletingId(null);
     }
@@ -117,11 +117,11 @@ export const UnitKerjaForm = ({
         }
       };
       await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);
-      toast.success("Anggota deleted");
+      toast.success("Anggota berhasil dihapus");
       form.reset();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     } finally {
       setDeletingId(null);
     }
@@ -137,11 +137,11 @@ export const UnitKerjaForm = ({
         }
       };
       await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);
-      toast.success("Unit kreja deleted");
+      toast.success("Unit kreja berhasil dihapus");
       form.reset();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     } finally {
       setDeletingUnitKerjaId(null);
     }
@@ -204,7 +204,7 @@ export const UnitKerjaForm = ({
                   disabled={!isValid || isSubmitting}
                   type="submit"
                 >
-                  Add
+                  Tambah
                 </Button>
               </div>
             </form>
@@ -257,8 +257,8 @@ export const UnitKerjaForm = ({
                 onClick={toggleAnggotaEdit}
                 className="ml-auto hover:opacity-75 transition flex flex-row justify-center items-center"
               >
-                <Pencil className="h-4 w-4" />
-                <span className="text-sm">Add unit kerja</span>
+                <PlusCircle className="h-4 w-4 mr-2" />
+                <span className="text-sm">Tambah unit kerja</span>
               </button>
             )}
           </div>

@@ -16,7 +16,7 @@ export const login = async (
     const validatedFields = LoginSchema.safeParse(values);
 
     if (!validatedFields.success) {
-        return { error: "Invalid fields!" };
+        return { error: "Isian tidak valid!" };
     }
 
     const { email, password } = validatedFields.data;
@@ -24,7 +24,7 @@ export const login = async (
     const existingUser = await getUserByEmail(email);
 
     if (!existingUser || !existingUser.email || !existingUser.password) {
-        return { error: "Email does not exist!" }        
+        return { error: "Email tidak tersedia!" }        
     }
 
     if (!existingUser.emailVerified) {
@@ -37,7 +37,7 @@ export const login = async (
             verificationToken.token,
         )
 
-        return { success: "Confirmation email sent!" }
+        return { success: "Email konfirmasi terkirim!" }
     }
 
     try {
@@ -50,9 +50,9 @@ export const login = async (
         if (error instanceof AuthError) {
             switch (error.type) {
                 case "CredentialsSignin":
-                    return { error: "Invalid credentials!" }
+                    return { error: "Kredensial tidak valid!" }
                 default:
-                    return { error: "Something went wrong!" }
+                    return { error: "Terdapat kesalahan!" }
             }
         }
 

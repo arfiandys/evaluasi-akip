@@ -27,7 +27,7 @@ export const LoginForm = () => {
     const searchParams = useSearchParams();
     const callbackUrl = searchParams.get("callbackUrl");
     const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
-        ? "Email already in use with different provider!"
+        ? "Email sudah digunakan pada provider yang berbeda!"
         : "";
 
     const [error, setError] = useState<string | undefined>("");
@@ -56,9 +56,9 @@ export const LoginForm = () => {
 
     return (
         <CardWrapper 
-        headerLabel="Welcome guys"
-        backButtonLabel="Don't have an account"
-        backButtonHref="/auth/register"
+        headerLabel="Selamat datang"
+        backButtonLabel={null}
+        backButtonHref={null}
         showSocial
         >
             <Form {...form}>
@@ -109,7 +109,7 @@ export const LoginForm = () => {
                                 asChild
                                 className="px-0 font-normal">
                                     <Link href="/auth/reset">
-                                        Forgot password?
+                                        Lupa password?
                                     </Link>
                                 </Button>
                                 <FormMessage />

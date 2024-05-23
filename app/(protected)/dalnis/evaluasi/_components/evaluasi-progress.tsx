@@ -34,7 +34,7 @@ export const EvaluasiProgress = ({
         colorByVariant[variant || "default"],
         sizeByVariant[size || "default"],
       )}>
-        {Math.round(value)}% Complete
+        {Math.round(value)}% LKE terisi
       </p>
     </div>
   )

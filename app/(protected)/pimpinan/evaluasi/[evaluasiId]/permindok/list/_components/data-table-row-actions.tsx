@@ -38,7 +38,7 @@ import Link from "next/link"
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { File, Loader2, X } from "lucide-react";
+import { File, Loader2, Upload, X } from "lucide-react";
 import { FileUpload } from "@/components/file-upload";
 
 interface DataTableRowActionsProps<TData> {
@@ -97,15 +97,15 @@ export function DataTableRowActions<TData>({
           variant="ghost"
           className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
         >
-          <DotsHorizontalIcon className="h-4 w-4" />
+          <Upload className="h-4 w-4" />
           <span className="sr-only">Open menu</span>
         </Button>
       </DrawerTrigger>
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
-            <DrawerTitle>Are you absolutely sure?</DrawerTitle>
-            <DrawerDescription>This action cannot be undone.</DrawerDescription>
+            <DrawerTitle>Apakah anda benar-benar yakin?</DrawerTitle>
+            <DrawerDescription>Tindakan ini tidak bisa dibatalkan.</DrawerDescription>
           </DrawerHeader>
           <div className="my-5">
             <div>

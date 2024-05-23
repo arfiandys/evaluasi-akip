@@ -14,7 +14,7 @@ export const SettingsSchema = z.object({
     }
     return true;
 },{
-    message: "New password is required!",
+    message: "New password dibutuhkan!",
     path: ["newPassword"]
 })
 .refine((data) => {
@@ -23,40 +23,40 @@ export const SettingsSchema = z.object({
     }
     return true;
 },{
-    message: "Password is required!",
+    message: "Password dibutuhkan!",
     path: ["password"]
 })
 
 
 export const NewPasswordSchema = z.object({
     password: z.string().min(6, {
-        message: "Minumim of 6 characters required",
+        message: "Diperlukan minimal 6 karakter",
     })
 })
 
 export const ResetSchema = z.object({
     email: z.string().email({
-        message: "Email is required",
+        message: "Email dibutuhkan",
     }),
 });
 
 export const LoginSchema = z.object({
     email: z.string().email({
-        message: "Email is required",
+        message: "Email dibutuhkan",
     }),
     password: z.string().min(1, {
-        message: "Password is required",
+        message: "Password dibutuhkan",
     }),
 });
 
 export const RegisterSchema = z.object({
     email: z.string().email({
-        message: "Email is required",
+        message: "Email dibutuhkan",
     }),
     password: z.string().min(6, {
-        message: "Minimum 6 character required",
+        message: "Diperlukan minimal 6 karakter",
     }),
     name: z.string().min(1, {
-        message: "Name is required",
+        message: "Nama dibutuhkan",
     }),
 });

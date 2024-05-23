@@ -116,7 +116,7 @@ model UserOnUnitKerja {
 // TIM EVALUASI
 model TimEvaluasi {
   id   String @id @default(cuid())
-  name String @db.Text
+  name String @db.Text @unique
 
   users UserOnTimEvaluasi[]
 
@@ -443,6 +443,9 @@ model LKEUnitKerja {
   isianDalnis   String?
   nilaiDalnis   String?
   catatanDalnis String?
+  isianPanel   String?
+  nilaiPanel   String?
+  catatanPanel String?
 
   variabelLKE   VariabelLKE @relation(fields: [variabelLKEId], references: [id], onDelete: Cascade)
   variabelLKEId String // relation scalar field (used in the `@relation` attribute above)

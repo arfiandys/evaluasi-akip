@@ -28,7 +28,7 @@ interface PICFormProps {
   initialData: UnitKerja & { users: UserOnUnitKerja[] };
   unitKerjaId: string;
   options: { label: string; value: string; }[];
-  
+
 };
 
 const formSchema = z.object({
@@ -50,7 +50,7 @@ export const PICForm = ({
   const pic = initialData.users.filter(function (user) {
     return user.assignedRole === UserRole.PIC;
   }).map(function (user) { return user })
-  
+
   const picId = initialData.users.filter(function (user) {
     return user.assignedRole === UserRole.PIC;
   }).map(function (user) { return user.userId })
@@ -67,12 +67,12 @@ export const PICForm = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/unit-kerja/${unitKerjaId}`, values);
-      toast.success("Unit kerja updated");
+      toast.success("PIC berhasil diperbarui");
       toggleEdit();
       form.reset();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     }
   }
 
@@ -81,15 +81,16 @@ export const PICForm = ({
       setDeletingId(id);
       const values = {
         data: {
-        picUnitKerjaId: id,
-        action: "disconnect"
-      }};
+          picUnitKerjaId: id,
+          action: "disconnect"
+        }
+      };
       await axios.patch(`/api/unit-kerja/${unitKerjaId}`, values);
-      toast.success("PIC deleted");
+      toast.success("PIC berhasil dihapus");
       form.reset();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     } finally {
       setDeletingId(null);
     }
@@ -112,40 +113,40 @@ export const PICForm = ({
       </div>
       {!isEditing && (
         <>
-        {picId.length === 0 && (
-          <p className="text-sm mt-2 text-slate-500 italic">
-            No PIC yet
-          </p>
-        )}
-        {picId.length > 0 && (
-          <div className="space-y-2 mt-2">
-            {pic.map((pic) => (
-              <div
-                key={pic.userId}
-                className="flex items-center p-3 w-full bg-sky-100 border-sky-200 border text-sky-700 rounded-md"
-              >
-                <User2 className="h-4 w-4 mr-2 flex-shrink-0" />
-                <p className="text-xs line-clamp-1">
-                  {(options.find((option) => option.value === pic.userId))?.label}
-                </p>
-                {deletingId === pic.userId && (
-                  <div>
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  </div>
-                )}
-                {deletingId !== pic.userId && (
-                  <button
-                    onClick={() => onDelete(pic.userId)}
-                    className="ml-auto hover:opacity-75 transition"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-      </>
+          {picId.length === 0 && (
+            <p className="text-sm mt-2 text-slate-500 italic">
+              Belum ada PIC
+            </p>
+          )}
+          {picId.length > 0 && (
+            <div className="space-y-2 mt-2">
+              {pic.map((pic) => (
+                <div
+                  key={pic.userId}
+                  className="flex items-center p-3 w-full bg-sky-100 border-sky-200 border text-sky-700 rounded-md"
+                >
+                  <User2 className="h-4 w-4 mr-2 flex-shrink-0" />
+                  <p className="text-xs line-clamp-1">
+                    {(options.find((option) => option.value === pic.userId))?.label}
+                  </p>
+                  {deletingId === pic.userId && (
+                    <div>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    </div>
+                  )}
+                  {deletingId !== pic.userId && (
+                    <button
+                      onClick={() => onDelete(pic.userId)}
+                      className="ml-auto hover:opacity-75 transition"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </>
       )}
       {isEditing && (
         <Form {...form}>
@@ -173,7 +174,7 @@ export const PICForm = ({
                 disabled={!isValid || isSubmitting}
                 type="submit"
               >
-                Add
+                Tambah
               </Button>
             </div>
           </form>

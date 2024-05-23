@@ -158,7 +158,9 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
   {
     accessorKey: "catatanKt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Catatan Ketua" />
+      <div className="min-w-[200px]">
+        <DataTableColumnHeader column={column} title="Catatan Ketua" />
+      </div>
     ),
     cell: ({ row }) => <DataTableRowCatatan role="kt" row={row} />,
     enableSorting: false,

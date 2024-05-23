@@ -29,7 +29,6 @@ type Props = {
 export const ImportCard = ({
     data, onSubmit, onCancel
 }: Props) => {
-    const [selectedColumns, setSelectedColumns] = useState<SelectedColumnState>({});
     const headers = data[0];
     const bodynot = data.slice(1);
     const body = bodynot.filter((item) => {
@@ -54,7 +53,7 @@ export const ImportCard = ({
         onSubmit(formattedData)
     }
     return (
-        <Card className="border-0 shadow-none max-w-full">
+        <Card className="border-0 shadow-none w-full">
             <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
                 <CardTitle>Import Komponen</CardTitle>
                 <div className="flex flex-row gap-x-4">
@@ -70,8 +69,6 @@ export const ImportCard = ({
                 <ImportTable
                     headers={headers}
                     body={body}
-                    selectedColumns={selectedColumns}
-                    onTableHeadSelectChange={() => { }}
                 />
             </CardContent>
         </Card>

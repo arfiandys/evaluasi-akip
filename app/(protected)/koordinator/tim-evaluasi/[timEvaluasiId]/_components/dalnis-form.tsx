@@ -42,7 +42,7 @@ export const DalnisForm = ({
 
   const toggleEdit = () => setIsEditing((current) => !current);
 
-  
+
 
   const dalnisId = initialData.users.filter(function (user) {
     return user.assignedRole === UserRole.DALNIS;
@@ -109,11 +109,11 @@ export const DalnisForm = ({
     if (!unitKerjaIdArray.length) {
       try {
         await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value1);
-        toast.success("Dalnis Tim evaluasi updated");
+        toast.success("Dalnis berhasil diperbarui");
         toggleEdit();
         router.refresh();
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terdapat kesalahan");
       }
     }
     if (!!unitKerjaIdArray.length) {
@@ -122,26 +122,26 @@ export const DalnisForm = ({
         toggleEdit();
         router.refresh();
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terdapat kesalahan");
       }
       try {
         await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value1);
-        toast.success("Dalnis Tim evaluasi updated");
+        toast.success("Dalnis berhasil diperbarui");
         toggleEdit();
         router.refresh();
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terdapat kesalahan");
       }
       try {
         await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value);
-        toast.success("Unit Kerja Dalnis Tim evaluasi updated");
+        toast.success("Unit Kerja Dalnis berhasil diperbarui");
         toggleEdit();
         router.refresh();
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terdapat kesalahan");
       }
     }
-    
+
   }
 
   const onDelete = async (id: string) => {
@@ -157,11 +157,11 @@ export const DalnisForm = ({
           }
         };
         await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);
-        toast.success("Dalnis deleted");
+        toast.success("Dalnis berhasil dihapus");
         form.reset();
         router.refresh();
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terdapat kesalahan");
       } finally {
         setDeletingId(null);
       }
@@ -189,7 +189,7 @@ export const DalnisForm = ({
         <>
           {!selectedOption?.label && (
             <p className="text-sm mt-2 text-slate-500 italic">
-              No dalnis yet
+              Belum ada pengendali teknis
             </p>
           )}
           {selectedOption?.label && (
@@ -245,7 +245,7 @@ export const DalnisForm = ({
                 disabled={!isValid || isSubmitting}
                 type="submit"
               >
-                Save
+                Simpan
               </Button>
             </div>
           </form>

@@ -29,11 +29,11 @@ export const Actions = ({
 
       await axios.delete(`/api/unit-kerja/${unitKerjaId}`);
 
-      toast.success("Unit kerja deleted");
+      toast.success("Unit kerja berhasil dihapus");
       router.push(`/koordinator/unit-kerja`);
       router.refresh()
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     } finally {
       setIsLoading(false);
     }

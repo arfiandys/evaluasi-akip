@@ -66,7 +66,7 @@ export const EvaluasiCard = ({
           />
           <Button asChild variant="ghost" className="w-[50px] h-[50px] rounded-full">
             <Link href={`/koordinator/evaluasi/${id}`}>
-              <Eye />
+              Lihat
             </Link>
           </Button>
         </div>
@@ -82,12 +82,14 @@ export const EvaluasiCard = ({
           </p>
           <div className="mt-2 flex items-center gap-x-2 text-sm md:text-xs">
             {status === "publish" ? (
-              <Badge className=" bg-sky-500">diterbitkan</Badge>
+              <Badge className=" bg-sky-500">Tahap pengerjaan</Badge>
             ) : (status === "finish" ? (
               <Badge className=" bg-emerald-500">Selesai</Badge>
             ) : (status === "draft" ? (
               <Badge className=" bg-red-500">Rancangan</Badge>
-            ) : (<></>)))}
+            ) : (status === "check" ? (
+              <Badge className=" bg-yellow-500">Tahap pengecekan</Badge>
+            ) : (<></>))))}
           </div>
         </div>
       </CardHeader>

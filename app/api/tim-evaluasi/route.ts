@@ -13,6 +13,20 @@ export async function POST(
         if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
+        
+        if (!userId) {
+            return new NextResponse("Unauthorized", { status: 401 });
+        }
+
+        const existingTimEvaluasi = await db.timEvaluasi.findUnique({
+            where: {
+                name: name
+            }
+        })
+
+        if (existingTimEvaluasi) {
+            return NextResponse.json({ error: "Nama talah digunakan!" });
+        }
 
         const timEvaluasi = await db.timEvaluasi.create({
             data: {

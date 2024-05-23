@@ -71,12 +71,16 @@ export const PasswordForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/user/${userId}`, values);
-      toast.success("User updated");
+      const response = await axios.patch(`/api/user/${userId}`, values);
+      if (response.data.error) {
+        toast.error(response.data.error)
+      } else {
+        toast.success("Pengguna berhasil diperbarui");
+      }
       toggleEdit();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     }
   }
 
@@ -112,7 +116,7 @@ export const PasswordForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    Password
+                    Password koordinator
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -132,7 +136,7 @@ export const PasswordForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    New Password
+                    Password baru
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -151,7 +155,7 @@ export const PasswordForm = ({
                 disabled={!isValid || isSubmitting}
                 type="submit"
               >
-                Save
+                Simpan
               </Button>
             </div>
           </form>

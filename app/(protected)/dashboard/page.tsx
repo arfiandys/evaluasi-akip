@@ -10,25 +10,49 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
-import { CalendarDateRangePicker } from "./_components/date-range-picker"
-import { MainNav } from "./_components//main-nav"
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
 import { Overview } from "./_components//overview"
-import { RecentSales } from "./_components//recent-sales"
-import { Search } from "./_components//search"
-import TeamSwitcher from "./_components//team-switcher"
-import { UserNav } from "./_components//user-nav"
+import { db } from "@/lib/db"
+import { auth } from "@/auth"
+import { redirect } from "next/navigation"
+import { Badge } from "@/components/ui/badge"
 
 export const metadata: Metadata = {
   title: "Dashboard",
   description: "Example dashboard app built using the components.",
 }
 
-export default function DashboardPage() {
+const DashboardPage = async () => {
+  const session = await auth();
+  const userId = session?.user.id;
+  if (!userId) {
+    return redirect("/")
+  }
+  const evaluasi = await db.evaluasi.findMany({
+    orderBy: {
+      createdAt: "desc"
+    },
+    include: {
+      variabelsLKE: {
+        orderBy: {
+          kode: "asc"
+        }
+      },
+      variabelsKKE: {
+        orderBy: {
+          kode: "asc"
+        }
+      },
+      permindoks: true,
+      IKUs: true,
+    }
+  });
+
+  const evaluasiFilteredBerjalan = evaluasi.filter((item) => item.status !== "selesai");
+
   return (
     <>
       <div className="flex-col flex">
@@ -36,152 +60,79 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between space-y-2">
             <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
             <div className="flex items-center space-x-2">
-              {/* <CalendarDateRangePicker /> */}
-              {/* <Button>Download</Button> */}
             </div>
           </div>
-          <Tabs defaultValue="overview" className="space-y-4">
-            <TabsList>
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="analytics" disabled>
-                Analytics
-              </TabsTrigger>
-              <TabsTrigger value="reports" disabled>
-                Reports
-              </TabsTrigger>
-              <TabsTrigger value="notifications" disabled>
-                Notifications
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="overview" className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Total completed task
-                    </CardTitle>
-                    {/* <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      className="h-4 w-4 text-muted-foreground"
-                    >
-                      <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                    </svg> */}
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">23</div>
-                    <p className="text-xs text-muted-foreground">
-                      +20.1% from last month
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                    Total on progress task
-                    </CardTitle>
-                    {/* <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      className="h-4 w-4 text-muted-foreground"
-                    >
-                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                      <circle cx="9" cy="7" r="4" />
-                      <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-                    </svg> */}
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">350</div>
-                    <p className="text-xs text-muted-foreground">
-                      +180.1% from last month
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Still waiting</CardTitle>
-                    {/* <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      className="h-4 w-4 text-muted-foreground"
-                    >
-                      <rect width="20" height="14" x="2" y="5" rx="2" />
-                      <path d="M2 10h20" />
-                    </svg> */}
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">120</div>
-                    {/* <p className="text-xs text-muted-foreground">
-                      +19% from last month
-                    </p> */}
-                  </CardContent>
-                </Card>
-                {/* <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Active Now
-                    </CardTitle>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      className="h-4 w-4 text-muted-foreground"
-                    >
-                      <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                    </svg>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">+573</div>
-                    <p className="text-xs text-muted-foreground">
-                      +201 since last hour
-                    </p>
-                  </CardContent>
-                </Card> */}
-              </div>
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-                <Card className="col-span-4">
-                  <CardHeader>
-                    <CardTitle>Overview</CardTitle>
-                  </CardHeader>
-                  <CardContent className="pl-2">
-                    <Overview />
-                  </CardContent>
-                </Card>
-                <Card className="col-span-3">
-                  <CardHeader>
-                    <CardTitle>Recent Update</CardTitle>
-                    <CardDescription>
-                      You made 265 update this month.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <RecentSales />
-                  </CardContent>
-                </Card>
-              </div>
-            </TabsContent>
-          </Tabs>
+          <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-4">
+            <div className="grid gap-4 md:grid-cols-2 lg:col-span-3">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Total evaluasi selesai
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{evaluasi.length - evaluasiFilteredBerjalan.length}</div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Evaluasi yang sedang berjalan
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{evaluasiFilteredBerjalan.length}</div>
+                </CardContent>
+              </Card>
+              <Card className="col-span-2">
+                <CardHeader>
+                  <CardTitle>Rata-rata nilai</CardTitle>
+                </CardHeader>
+                <CardContent className="pl-2">
+                  <Overview />
+                </CardContent>
+              </Card>
+            </div>
+            <Card>
+              <CardHeader>
+                <CardTitle>Evaluasi terbaru</CardTitle>
+                <CardDescription>
+                  Kamu punya {evaluasi.length} evaluasi.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-8">
+                  {evaluasi.map((item) => (
+                    <div key={item.id} className="flex items-center">
+                      <div className="ml-4 space-y-1">
+                        <p className="text-sm font-medium leading-none">{item.title}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {item.tahun}
+                        </p>
+                      </div>
+                      <div className="ml-auto font-medium">
+                        {item.status === "publish" ? (
+                          <Badge className=" bg-sky-500">Tahap pengerjaan</Badge>
+                        ) : (item.status === "finish" ? (
+                          <Badge className=" bg-emerald-500">Selesai</Badge>
+                        ) : (item.status === "draft" ? (
+                          <Badge className=" bg-red-500">Rancangan</Badge>
+                        ) : (item.status === "check" ? (
+                          <Badge className=" bg-yellow-500">Tahap pengecekan</Badge>
+                        ) : (<></>))))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+          </div>
         </div>
       </div>
     </>
   )
 }
+
+export default DashboardPage;

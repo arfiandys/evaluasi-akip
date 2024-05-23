@@ -246,13 +246,6 @@ const Create = ({ evaluasi, unitKerja, LKEUnitKerja }: PermindokNewCreateProps) 
                                     )}
                                 />
                             </div>
-                            {/* <Button
-                                className="mt-6"
-                                type="submit"
-                                disabled={!isValid || isSubmitting}
-                            >
-                                Buat LHE
-                            </Button> */}
                         </CardContent>
                         <CardFooter className="flex justify-end items-center gap-4">
                             <Button
@@ -267,14 +260,6 @@ const Create = ({ evaluasi, unitKerja, LKEUnitKerja }: PermindokNewCreateProps) 
                     </form>
                 </Form>
             </Card>
-            {/* <Card className=" col-span-3 rounded-3xl shadow-lg">
-                <CardHeader>
-                    <CardTitle>Preview</CardTitle>
-                </CardHeader>
-                <CardContent className="flex flex-col gap-4">
-                    <PDF dataObjek={dataObjek} unitKerjaId={unitId} LKEUnitKerja={LKEUnitKerja} unitKerja={unitKerja} />
-                </CardContent>
-            </Card> */}
         </div>
     );
 }

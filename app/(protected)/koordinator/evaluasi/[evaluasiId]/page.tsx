@@ -323,12 +323,14 @@ const EvaluasiIdPage = async ({
                                             Status
                                         </p>
                                         {evaluasi.status === "publish" ? (
-                                            <Badge className=" bg-sky-500">Diterbitkan</Badge>
+                                            <Badge className=" bg-sky-500">Tahap pengerjaan</Badge>
                                         ) : (evaluasi.status === "finish" ? (
                                             <Badge className=" bg-emerald-500">Selesai</Badge>
                                         ) : (evaluasi.status === "draft" ? (
                                             <Badge className=" bg-red-500">Rancangan</Badge>
-                                        ) : (<></>)))}
+                                        ) : (evaluasi.status === "check" ? (
+                                            <Badge className=" bg-yellow-500">Tahap pengecekan</Badge>
+                                        ) : (<></>))))}
                                     </div>
                                 </div>
                                 <Separator orientation="horizontal" />
@@ -361,6 +363,8 @@ const EvaluasiIdPage = async ({
                     <div className="mt-6 grid grid-cols-1 lg:grid-cols-1 gap-6">
                         <LKEUnitKerjaPage evaluasiId={params.evaluasiId} LKEUnitKerja={LKEUnitKerja} />
                         <KKEUnitKerjaPage evaluasiId={params.evaluasiId} KKEUnitKerja={KKEUnitKerja} />
+                    </div>
+                    <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
                         <PermindokUnitKerjaPage evaluasiId={params.evaluasiId} permindokUnitKerja={permindokUnitKerja} />
                         <LHEUnitKerjaPage evaluasiId={params.evaluasiId} LHE={LHE} />
                     </div>

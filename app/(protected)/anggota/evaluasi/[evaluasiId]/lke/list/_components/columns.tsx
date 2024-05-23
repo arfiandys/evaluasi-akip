@@ -1,16 +1,8 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-
-import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
-
-import { jenises, tahuns } from "../_data/data"
 import { LKEUnitKerja } from "../_data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
-import { DataTableRowActions } from "./data-table-row-actions"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { DataTableRowInput } from "./data-table-row-input"
 import { DataTableRowCatatan } from "./data-table-row-catatan"
 
@@ -122,7 +114,9 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
   {
     accessorKey: "catatanAt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Catatan Anggota" />
+      <div className="min-w-[200px]">
+        <DataTableColumnHeader column={column} title="Catatan Anggota" />
+      </div>
     ),
     cell: ({ row }) => <DataTableRowCatatan role="at" row={row} />,
     enableSorting: false,

@@ -13,13 +13,13 @@ export const newPassword = async (
     token?: string | null,
 ) => {
     if (!token) {
-        return { error: "Missing token!" }
+        return { error: "Token tidak ditemukan!" }
     }
 
     const validatedFields = NewPasswordSchema.safeParse(values);
 
     if (!validatedFields.success) {
-        return { error: "Invalid fields!" }
+        return { error: "Isian tidak valid!" }
     }
 
     const { password } = validatedFields.data;
@@ -27,19 +27,19 @@ export const newPassword = async (
     const existingToken = await getPasswordResetTokenByToken(token);
 
     if (!existingToken) {
-        return { error: "Invalid token!" }
+        return { error: "Token tidak valid!" }
     }
 
     const hasExpired = new Date(existingToken.expires) < new Date();
 
     if (hasExpired) {
-        return { error: "Token has expired!" }
+        return { error: "Token telah kadaluarsa!" }
     }
 
     const existingUser = await getUserByEmail(existingToken.email);
 
     if (!existingUser) {
-        return { error: "Email does not exist!" }
+        return { error: "Email tidak tersedia!" }
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -53,5 +53,5 @@ export const newPassword = async (
         where: { id: existingToken.id }
     });
 
-    return { success: "Password updated!" }
+    return { success: "Password berhasil diperbarui!" }
 };

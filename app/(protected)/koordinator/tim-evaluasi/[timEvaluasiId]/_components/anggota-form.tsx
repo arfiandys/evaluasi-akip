@@ -71,12 +71,12 @@ export const AnggotaForm = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);
-      toast.success("Tim Evaluasi updated");
+      toast.success("Anggota berhasil diperbarui");
       toggleEdit();
       form.reset();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     }
   }
 
@@ -99,7 +99,7 @@ export const AnggotaForm = ({
         <>
           {anggota.length === 0 && (
             <p className="text-sm mt-2 text-slate-500 italic">
-              No anggota yet
+              Belum ada anggota
             </p>
           )}
           {anggota.length > 0 && (
@@ -148,7 +148,7 @@ export const AnggotaForm = ({
                 disabled={!isValid || isSubmitting}
                 type="submit"
               >
-                Add
+                Tambah
               </Button>
             </div>
           </form>

@@ -28,7 +28,7 @@ interface NameFormProps {
 
 const formSchema = z.object({
   kodeWilayah: z.string().min(1, {
-    message: "Kode wilayah is required",
+    message: "Kode wilayah dibutuhkan",
   }),
 });
 
@@ -51,12 +51,17 @@ export const KodeWilayahForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/unit-kerja/${unitKerjaId}`, values);
-      toast.success("Unit kerja updated");
+      const response = await axios.patch(`/api/unit-kerja/${unitKerjaId}`, values);
+      if (response.data.error) {
+        toast.error(response.data.error)
+      } else {
+        router.push(`/koordinator/unit-kerja/${response.data.id}`);
+        toast.success("Unit Kerja berhasil diperbarui!")
+      }
       toggleEdit();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     }
   }
 
@@ -107,7 +112,7 @@ export const KodeWilayahForm = ({
                 disabled={!isValid || isSubmitting}
                 type="submit"
               >
-                Save
+                Simpan
               </Button>
             </div>
           </form>

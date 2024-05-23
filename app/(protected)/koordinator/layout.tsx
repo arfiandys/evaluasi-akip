@@ -1,6 +1,6 @@
 import { RoleGate } from "@/components/auth/role-gate";
 import { currentUser } from "@/lib/auth";
-import { AccountRole } from "@prisma/client";
+import { UserRole } from "@prisma/client";
 
 interface LayoutKoordinatorProps {
     children: React.ReactNode
@@ -11,7 +11,7 @@ const LayoutKoordinator = async ({
 }: LayoutKoordinatorProps) => {
     const user = await currentUser();
     return (
-        <RoleGate allowedRole={AccountRole.ADMIN}>
+        <RoleGate allowedRole={UserRole.KOORDINATOR}>
             {children}
         </RoleGate>
     );

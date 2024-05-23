@@ -75,6 +75,16 @@ const EvaluasiPage = async () => {
             unitKerja: true
         }
     });
+    const KKEUnitKerja = await db.variabelKKEUnitKerja.findMany({
+        orderBy: {
+            variabelKKE: {
+                kode: "asc"
+            }
+        },
+        include: {
+            variabelKKE: true,
+        }
+    })
 
     return (
         <div className="flex h-screen flex-1 flex-col space-y-6 p-8">
@@ -106,17 +116,24 @@ const EvaluasiPage = async () => {
                     const daftarLHE = LHE.filter((items) => (items.evaluasiId === item.id) && (unitKerja_arr.includes(items.unitKerjaId)))
                     console.log(daftarLHE)
                     if (item.status !== "draft") {
+                        const filteredKKE = KKEUnitKerja.filter((items) => unitKerja_arr.includes(items.unitKerjaId) && items.variabelKKE.evaluasiId === item.id);
+                        const totalKKE = filteredKKE.length;
+                        let filledKKE = 0;
+                        filteredKKE.forEach((obj) => {
+                            if ((obj["isianPIC"] !== undefined && obj["isianPIC"] !== null && obj["isianPIC"] !== '')) {
+                                filledKKE++
+                            }
+                        })
                         return (
                             <EvaluasiCard
                                 key={item.id}
                                 id={item.id}
                                 title={item.title}
                                 imageUrl={"/logo.svg"}
-                                LKELength={item.variabelsLKE.length}
-                                KKELength={item.variabelsKKE.length}
+                                KKELength={totalKKE}
                                 PermindokLength={item.permindoks.length}
                                 UnitKerjaLength={unitKerja_arr.length}
-                                progress={50}
+                                progress={Number(filledKKE/totalKKE)*100}
                                 tahun={item.tahun!}
                                 description={item.description!}
                                 status={item.status}

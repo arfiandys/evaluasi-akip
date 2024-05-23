@@ -25,7 +25,7 @@ const LHEPDF = ({ data, dataObjek, unitKerja }: Props) => {
     let nilaiLHE: number = 0;
 
     dataKomponen.forEach(objek => {
-        nilaiLHE += Number(objek.nilaiDalnis);
+        nilaiLHE += Number(objek.nilaiPanel);
     });
 
     const styles = StyleSheet.create({
@@ -242,7 +242,7 @@ const LHEPDF = ({ data, dataObjek, unitKerja }: Props) => {
             </View>
             <View>
                 <Text style={styles.subtitle}>
-                    E. Hasil Desk Evaluation
+                    Hasil Desk Evaluation
                 </Text>
                 <Text style={styles.isiSurat}>
                     Hasil Desk Evaluation implementasi SAKIP {unitKerja?.name} atas 5 (lima) komponen yang menjadi
@@ -286,7 +286,7 @@ const LHEPDF = ({ data, dataObjek, unitKerja }: Props) => {
                         <Text>{item.variabelLKE.komponenLKE?.bobot}</Text>
                     </View>
                     <View style={styles.tbody}>
-                        <Text>{(Number(item.nilaiDalnis)).toFixed(2)}</Text>
+                        <Text>{(Number(item.nilaiPanel)).toFixed(2)}</Text>
                     </View>
                 </View>
             </Fragment>
@@ -309,11 +309,49 @@ const LHEPDF = ({ data, dataObjek, unitKerja }: Props) => {
             </View>
             <View style={styles.tbody}>
                 <Text>
-                    {data.reduce((sum, item) => sum + Number(item.nilaiDalnis), 0)}
+                    {data.reduce((sum, item) => sum + Number(item.nilaiPanel), 0)}
                 </Text>
             </View>
         </View>
     );
+
+
+    const TableHeadKet = () => (
+        <View style={{ width: '100%', flexDirection: 'row', marginTop: 10 }}>
+            <View style={styles.theader}>
+                <Text >No</Text>
+            </View>
+            <View style={styles.theader}>
+                <Text>PERTANYAAN</Text>
+            </View>
+            <View style={[styles.theader, styles.theader2]}>
+                <Text>CATATAN</Text>
+            </View>
+        </View>
+    );
+
+    // TODO: MENAMBAHKAN CATATAN TIAP SUBKOMPONEN
+    interface TableBodyKet {
+        data: (LKEUnitKerja & { variabelLKE: VariabelLKE & { komponenLKE: KomponenLKE | null } })[]
+    }
+    const TableBodyKet1 = ({ data }: TableBody) => (
+        data.map((item) => (
+            <Fragment key={item.variabelLKEId + item.unitKerjaId}>
+                <View style={{ width: '100%', flexDirection: 'row' }}>
+                    <View style={styles.tbody}>
+                        <Text >{item.variabelLKE.kode}</Text>
+                    </View>
+                    <View style={styles.tbody}>
+                        <Text>{item.variabelLKE.komponenLKE?.name} </Text>
+                    </View>
+                    <View style={[styles.tbody, styles.tbody2]}>
+                        <Text>{item.variabelLKE.komponenLKE?.bobot}</Text>
+                    </View>
+                </View>
+            </Fragment>
+        ))
+    );
+
 
     return (
         <Document>

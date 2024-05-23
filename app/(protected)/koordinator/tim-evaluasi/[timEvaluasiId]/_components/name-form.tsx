@@ -28,7 +28,7 @@ interface NameFormProps {
 
 const formSchema = z.object({
   name: z.string().min(1, {
-    message: "Name is required",
+    message: "Nama dibutuhkan",
   }),
 });
 
@@ -51,12 +51,16 @@ export const NameForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);
-      toast.success("Tim evaluasi updated");
+      const response = await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);
+      if (response.data.error) {
+        toast.error(response.data.error)
+      } else {
+        toast.success("Tim evaluasi berhasil diperbarui");
+      }
       toggleEdit();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     }
   }
 
@@ -107,7 +111,7 @@ export const NameForm = ({
                 disabled={!isValid || isSubmitting}
                 type="submit"
               >
-                Save
+                Simpan
               </Button>
             </div>
           </form>

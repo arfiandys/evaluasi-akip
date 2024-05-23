@@ -95,8 +95,8 @@ export const LKEUnitKerjaPage = ({ evaluasiId, LKEUnitKerja }: LKEUnitKerjaProps
                     {/* <CardDescription>Card Description</CardDescription> */}
                 </div>
             </CardHeader>
-            <CardContent className="px-6">
-                <ResponsiveContainer width="100%" height={350}>
+            <CardContent className="px-6 overflow-auto">
+                <ResponsiveContainer minWidth={400} height={350}>
                     <LineChart
                         width={500}
                         height={300}

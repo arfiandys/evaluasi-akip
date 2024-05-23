@@ -60,11 +60,11 @@ export const PimpinanForm = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/unit-kerja/${unitKerjaId}`, values);
-      toast.success("Unit kerja updated");
+      toast.success("Pimpinan berhasil diperbarui");
       toggleEdit();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     }
   }
 
@@ -77,11 +77,11 @@ export const PimpinanForm = ({
         action: "disconnect"
       }};
       await axios.patch(`/api/unit-kerja/${unitKerjaId}`, values);
-      toast.success("Pimpinan deleted");
+      toast.success("Pimpinan berhasil dihapus");
       form.reset();
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     } finally {
       setDeletingId(null);
     }
@@ -108,7 +108,7 @@ export const PimpinanForm = ({
         <>
         {!selectedOption?.label && (
           <p className="text-sm mt-2 text-slate-500 italic">
-            No Pimpinan yet
+            Belum ada pimpinan
           </p>
         )}
         {selectedOption?.label && (
@@ -164,7 +164,7 @@ export const PimpinanForm = ({
                 disabled={!isValid || isSubmitting}
                 type="submit"
               >
-                Save
+                Simpan
               </Button>
             </div>
           </form>

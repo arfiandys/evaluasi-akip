@@ -6,12 +6,10 @@ import { Logo } from './logo';
 import { Account, accounts } from './menu_constants-l';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { User, UserOnTimEvaluasi, UserOnUnitKerja, UserRole, AccountRole } from '@prisma/client';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SideNavItemGroup } from '@/types/type';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import SidebarItemsPage from './sidebar-items';
 import { TopBarMenuItem } from './topbar-menu-item';
-import { Button } from '@/components/ui/button';
 import Header from './header';
 import { useSession } from 'next-auth/react';
 
@@ -29,7 +27,6 @@ export const SideBar = ({
     const [mounted, setMounted] = useState(false);
     const { toggleCollapse } = useSideBarToggle();
     const router = useRouter();
-    const pathname = usePathname();
     const { data: session, status, update } = useSession();
 
     const asideStyle = cn("sidebar overflow-y-auto overflow-x-auto fixed bg-background h-full shadow-sm shadow-slate-500/40 transition duration-300 ease-in-out z-[12]",
@@ -144,7 +141,7 @@ export const SideBar = ({
                     {mounted && <Logo />}
                     <h3 className={cn("pl-2 font-bold text-xl min-w-max",
                         { hidden: toggleCollapse })}>
-                        AKIP Evaluation</h3>
+                        Evaluasi AKIP</h3>
                 </div>
                 <SidebarItemsPage selectedRoute={selectedRoute} />
             </aside>

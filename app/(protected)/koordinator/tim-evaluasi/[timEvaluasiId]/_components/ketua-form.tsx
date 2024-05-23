@@ -42,7 +42,7 @@ export const KetuaForm = ({
 
   const toggleEdit = () => setIsEditing((current) => !current);
 
-  
+
 
   const ketuaId = initialData.users.filter(function (user) {
     return user.assignedRole === UserRole.KETUA;
@@ -111,11 +111,11 @@ export const KetuaForm = ({
     if (!unitKerjaIdArray.length) {
       try {
         await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value1);
-        toast.success("Ketua Tim evaluasi updated");
+        toast.success("Ketua berhasil diperbarui");
         toggleEdit();
         router.refresh();
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terdapat kesalahan");
       }
     }
     if (!!unitKerjaIdArray.length) {
@@ -124,26 +124,26 @@ export const KetuaForm = ({
         toggleEdit();
         router.refresh();
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terdapat kesalahan");
       }
       try {
         await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value1);
-        toast.success("Ketua Tim evaluasi updated");
+        toast.success("Ketua berhasil diperbarui");
         toggleEdit();
         router.refresh();
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terdapat kesalahan");
       }
       try {
         await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value);
-        toast.success("Unit Kerja Ketua Tim evaluasi updated");
+        toast.success("Unit Kerja Ketua berhasil diperbarui");
         toggleEdit();
         router.refresh();
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terdapat kesalahan");
       }
     }
-    
+
   }
 
   const onDelete = async (id: string) => {
@@ -159,11 +159,11 @@ export const KetuaForm = ({
           }
         };
         await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);
-        toast.success("Ketua deleted");
+        toast.success("Ketua berhasil dihapus");
         form.reset();
         router.refresh();
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terdapat kesalahan");
       } finally {
         setDeletingId(null);
       }
@@ -191,7 +191,7 @@ export const KetuaForm = ({
         <>
           {!selectedOption?.label && (
             <p className="text-sm mt-2 text-slate-500 italic">
-              No ketua yet
+              Belum ada ketua
             </p>
           )}
           {selectedOption?.label && (
@@ -247,7 +247,7 @@ export const KetuaForm = ({
                 disabled={!isValid || isSubmitting}
                 type="submit"
               >
-                Save
+                Simpan
               </Button>
             </div>
           </form>

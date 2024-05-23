@@ -36,7 +36,6 @@ interface EvaluasiCardProps {
   id: string;
   title: string;
   imageUrl: string;
-  LKELength: number;
   KKELength: number;
   PermindokLength: number;
   UnitKerjaLength: number;
@@ -51,7 +50,6 @@ export const EvaluasiCard = ({
   id,
   title,
   imageUrl,
-  LKELength,
   KKELength,
   PermindokLength,
   UnitKerjaLength,
@@ -72,50 +70,54 @@ export const EvaluasiCard = ({
             alt={title}
             src={imageUrl}
           />
-          {status === "publish" ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="w-[50px] h-[50px] rounded-full">
-                  <MoreVertical />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="w-[50px] h-[50px] rounded-full">
+                <MoreVertical />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {status === "publish" ? (
                 <DropdownMenuItem asChild>
                   <Link href={`/pic/evaluasi/${id}/permindok/list`}>
                     <span>Lihat Permindok</span>
                     <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
                   </Link>
                 </DropdownMenuItem>
+              ) : (
+                <></>
+              )}
+              {status === "publish" ? (
                 <DropdownMenuItem asChild>
                   <Link href={`/pic/evaluasi/${id}/kke/list`}>
                     <span>Lihat KKE</span>
                     <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuSub>
-                  <DropdownMenuSubTrigger>
-                    <span>Lihat LHE</span>
-                  </DropdownMenuSubTrigger>
-                  <DropdownMenuPortal>
-                    <DropdownMenuSubContent>
+              ) : (
+                <></>
+              )}
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <span>Lihat LHE</span>
+                </DropdownMenuSubTrigger>
+                <DropdownMenuPortal>
+                  <DropdownMenuSubContent>
                     <DropdownMenuLabel>Unit Kerja</DropdownMenuLabel>
-                      {daftarLHE.map((item) => (
-                        <DropdownMenuItem key={item.unitKerjaId}>
-                          <Link href={item.url||""} legacyBehavior>
-                            <a target="_blank">
-                              <span>{item.unitKerja.name}</span>
-                            </a>
-                          </Link>
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuSubContent>
-                  </DropdownMenuPortal>
-                </DropdownMenuSub>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <></>
-          )}
+                    {daftarLHE.map((item) => (
+                      <DropdownMenuItem key={item.unitKerjaId}>
+                        <Link href={item.url || ""} legacyBehavior>
+                          <a target="_blank">
+                            <span>{item.unitKerja.name}</span>
+                          </a>
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuSubContent>
+                </DropdownMenuPortal>
+              </DropdownMenuSub>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
         </div>
         <div className="flex flex-col pt-2">
@@ -130,10 +132,14 @@ export const EvaluasiCard = ({
           </p>
           <div className="mt-2 flex items-center gap-x-2 text-sm md:text-xs">
             {status === "publish" ? (
-              <Badge className=" bg-sky-700">Tahap pengerjaan</Badge>
+              <Badge className=" bg-sky-500">Tahap pengerjaan</Badge>
             ) : (status === "finish" ? (
-              <Badge className=" bg-emerald-700">Selesai</Badge>
-            ) : (<></>))}
+              <Badge className=" bg-emerald-500">Selesai</Badge>
+            ) : (status === "draft" ? (
+              <Badge className=" bg-red-500">Rancangan</Badge>
+            ) : (status === "check" ? (
+              <Badge className=" bg-yellow-500">Tahap pengecekan</Badge>
+            ) : (<></>))))}
           </div>
         </div>
       </CardHeader>
