@@ -4,7 +4,7 @@ import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Loader2, Pencil, PlusCircle, User2, X } from "lucide-react";
+import { Loader2, Pencil, PlusCircle, Trash, User2, X } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -102,7 +102,7 @@ export const PICForm = ({
         PIC unit kerja
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
-            <>Cancel</>
+            <>Batal</>
           ) : (
             <>
               <PlusCircle className="h-4 w-4 mr-2" />
@@ -139,7 +139,7 @@ export const PICForm = ({
                       onClick={() => onDelete(pic.userId)}
                       className="ml-auto hover:opacity-75 transition"
                     >
-                      <X className="h-4 w-4" />
+                      <Trash className="h-4 w-4" />
                     </button>
                   )}
                 </div>

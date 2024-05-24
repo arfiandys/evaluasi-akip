@@ -4,7 +4,7 @@ import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Loader2, Pencil, User2, X } from "lucide-react";
+import { Loader2, Pencil, Trash, User2, X } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -39,6 +39,7 @@ export const KetuaForm = ({
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const existingAnggota = initialData.users.some((item) => item.assignedRole === UserRole.ANGGOTA)
 
   const toggleEdit = () => setIsEditing((current) => !current);
 
@@ -110,8 +111,12 @@ export const KetuaForm = ({
 
     if (!unitKerjaIdArray.length) {
       try {
-        await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value1);
-        toast.success("Ketua berhasil diperbarui");
+        const response = await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value1);
+        if (response.data.error) {
+          toast.error(response.data.error)
+        } else {
+          toast.success("Ketua berhasil diperbarui");
+        }
         toggleEdit();
         router.refresh();
       } catch {
@@ -147,8 +152,8 @@ export const KetuaForm = ({
   }
 
   const onDelete = async (id: string) => {
-    if (!isEmpty) {
-      toast.error("Tidak bisa menghapus ketua karena anggota punya unit kerja");
+    if (existingAnggota) {
+      toast.error("Tidak bisa menghapus ketua, hapus terlebih dahulu anggota");
     } else {
       try {
         setDeletingId(id);
@@ -178,7 +183,7 @@ export const KetuaForm = ({
         Ketua tim evaluasi
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
-            <>Cancel</>
+            <>Batal</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
@@ -213,7 +218,7 @@ export const KetuaForm = ({
                     onClick={() => onDelete(ketuaId[0])}
                     className="ml-auto hover:opacity-75 transition"
                   >
-                    <X className="h-4 w-4" />
+                    <Trash className="h-4 w-4" />
                   </button>
                 )}
               </div>

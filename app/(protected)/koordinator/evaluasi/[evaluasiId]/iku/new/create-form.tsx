@@ -30,17 +30,19 @@ import {
 } from "@/components/ui/card"
 import { Combobox } from "@/components/ui/combobox";
 import { Evaluasi, Permindok } from "@prisma/client";
+import { IconBadge } from "@/components/icon-badge";
+import { Activity } from "lucide-react";
 
 
 const formSchema = z.object({
     name: z.string().min(1, {
-        message: "Name is required",
+        message: "Nama dibutuhkan",
     }),
     tahun: z.string().min(1, {
-        message: "Tahun is required",
+        message: "Tahun dibutuhkan",
     }),
     evaluasiId: z.string().min(1, {
-        message: "EvaluasiId is required",
+        message: "Evaluasi id dibutuhkan",
     }),
 });
 
@@ -67,7 +69,7 @@ const IKUNewCreate = ({
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.post("/api/iku", values);
-            toast.success("IKU created!")
+            toast.success("IKU berhasil dibuat!")
             form.reset()
             router.refresh()
             router.push(`/koordinator/evaluasi/${evaluasi.id}/iku/${response.data.id}`);
@@ -80,38 +82,19 @@ const IKUNewCreate = ({
     }
 
     return (
-
-        <Card className=" col-span-2">
+        <Card className="shadow-lg col-span-4 md:col-start-2 md:col-span-2 rounded-3xl h-fit">
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="mt-8 space-y-4"
                 >
-                    <CardHeader>
-                        <CardTitle>Buat IKU</CardTitle>
-                        <CardDescription>Terapkan sebuah IKU baru dalam satu kali klik.</CardDescription>
+                    <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
+                        <div className="flex flex-row gap-x-4 justify-start items-center">
+                            <IconBadge icon={Activity} />
+                            <CardTitle>Rincian dasar</CardTitle>
+                        </div>
                     </CardHeader>
                     <CardContent>
                         <div className="flex flex-col space-y-4 items-start justify-between w-full">
-                            {/* <FormField
-                                control={form.control}
-                                name="name"
-                                render={({ field }) => (
-                                    <FormItem className="w-full">
-                                        <FormLabel>
-                                            Nama
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Textarea
-                                                disabled={isSubmitting}
-                                                placeholder="e.g. 'Unit kerja kabupaten/kota...'"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            /> */}
                             <FormField
                                 control={form.control}
                                 name="name"

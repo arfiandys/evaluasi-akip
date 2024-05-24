@@ -62,7 +62,7 @@ export const UserButton = ({ setSelectedRole, selectedRole, existingRole }: Prop
                     <DropdownMenuItem asChild className=" cursor-pointer">
                         <Link href="/settings">
                             <Settings className="mr-2 h-4 w-4" />
-                            <span>Settings</span>
+                            <span>Profil</span>
                             <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
                         </Link>
                     </DropdownMenuItem>

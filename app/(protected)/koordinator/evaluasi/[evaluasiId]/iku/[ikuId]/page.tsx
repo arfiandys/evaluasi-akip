@@ -79,10 +79,11 @@ const IKUIdPage = async ({
                                     Rincian Indikator Kinerja Utama
                                 </h1>
                                 <span className="text-sm text-secondary-foreground">
-                                    Complete all fields {completionText}
+                                    Lengkapi semua isian {completionText}
                                 </span>
                             </div>
                             <Actions
+                                evaluasiId={params.evaluasiId}
                                 disabled={!isComplete}
                                 IKUId={params.ikuId}
                             />

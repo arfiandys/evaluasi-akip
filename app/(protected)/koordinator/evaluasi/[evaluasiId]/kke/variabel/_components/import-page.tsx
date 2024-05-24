@@ -85,7 +85,7 @@ const ImportPage = ({ evaluasi }: ImportProps) => {
         console.log(dataFiltered)
         try {
             await axios.post("/api/kke/variabel/import", value);
-            toast.success("Variabel KKE dibuat!")
+            toast.success("Variabel KKE berhasil dibuat!")
             router.refresh()
         } catch {
             toast.error("Terdapat kesalahan!");

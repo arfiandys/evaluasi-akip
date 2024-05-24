@@ -62,9 +62,9 @@ const SettingPage = () => {
     const onSubmit = async (values: z.infer<typeof SettingsSchema>) => {
         try {
             await axios.patch(`/api/settings`, values);
-            toast.success("User updated");
+            toast.success("Pengguna berhasil diperbarui");
           } catch {
-            toast.error("Something went wrong");
+            toast.error("Terdapat kesalahan");
           }
     }
 
@@ -73,7 +73,7 @@ const SettingPage = () => {
             <Card className="w-full max-w-[600px]">
                 <CardHeader>
                     <p className="text-2xl font-semibold text-center">
-                        Settings
+                        Profil
                     </p>
                 </CardHeader>
                 <CardContent>
@@ -89,7 +89,7 @@ const SettingPage = () => {
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>
-                                                Name
+                                                Nama
                                             </FormLabel>
                                             <FormControl>
                                                 <Input
@@ -150,7 +150,7 @@ const SettingPage = () => {
                                             render={({ field }) => (
                                                 <FormItem>
                                                     <FormLabel>
-                                                        New Password
+                                                        Password baru
                                                     </FormLabel>
                                                     <FormControl>
                                                         <Input
@@ -170,7 +170,7 @@ const SettingPage = () => {
                             <FormError message={error} />
                             <FormSuccess message={success} />
                             <Button disabled={isSubmitting || !isValid } type="submit">
-                                Save
+                                Simpan
                             </Button>
                         </form>
                     </Form>

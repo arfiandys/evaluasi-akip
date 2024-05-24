@@ -95,6 +95,7 @@ const KomponenIdPage = async ({
                                 </span>
                             </div>
                             <Actions
+                                evaluasiId={params.evaluasiId}
                                 disabled={!isComplete}
                                 komponenId={params.komponenId}
                             />

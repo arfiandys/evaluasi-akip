@@ -13,11 +13,13 @@ import { toast } from "sonner";
 interface ActionsProps {
   disabled: boolean;
   komponenId: string;
+  evaluasiId: string;
 };
 
 export const Actions = ({
   disabled,
   komponenId,
+  evaluasiId
 }: ActionsProps) => {
   const router = useRouter();
   const confetti = useConfettiStore();
@@ -30,12 +32,12 @@ export const Actions = ({
 
       await axios.delete(`/api/lke/komponen/${komponenId}`);
 
-      toast.success("Komponen deleted");
+      toast.success("Komponen berhasil dihapus");
       router.refresh();
-      router.push(`/koordinator/lke/komponen`);
+      router.push(`/koordinator/evaluasi/${evaluasiId}/lke/komponen`);
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     } finally {
       setIsLoading(false);
     }

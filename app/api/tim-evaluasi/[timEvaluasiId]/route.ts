@@ -657,14 +657,16 @@ export async function PATCH(
 
     // TIM EVALUASI DETAIL EDIT
 
-    const existingTimEvaluasi = await db.timEvaluasi.findUnique({
-      where: {
-        name: values.name
-      }
-    })
+    if (values.name) {
+      const existingTimEvaluasi = await db.timEvaluasi.findUnique({
+        where: {
+          name: values.name
+        }
+      })
 
-    if (existingTimEvaluasi) {
-      return NextResponse.json({ error: "Nama talah digunakan!" });
+      if (existingTimEvaluasi) {
+        return NextResponse.json({ error: "Nama talah digunakan!" });
+      }
     }
 
     const timEvaluasi = await db.timEvaluasi.update({

@@ -74,6 +74,7 @@ const KriteriaKKEIdPage = async ({
                                 </span>
                             </div>
                             <Actions
+                                evaluasiId={params.evaluasiId}
                                 disabled={!isComplete}
                                 kriteriaId={params.kriteriaId}
                                 kelompokKriteriaKKEId={kriteriaKKE?.kelompokKriteriaKKEId!}
@@ -82,7 +83,7 @@ const KriteriaKKEIdPage = async ({
                     </div>
                 </div>
                 <div className=" mt-20 grid gap-6 grid-cols-4">
-                    <Card className="shadow-lg col-span-4 sm:col-span-1 xl:col-span-1 2xl:col-span-1 rounded-3xl">
+                    <Card className="shadow-lg col-span-4 md:col-start-2 md:col-span-2 rounded-3xl h-fit">
                         <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
                             <div className="flex flex-row gap-x-4 justify-start items-center">
                                 <IconBadge icon={Activity} />

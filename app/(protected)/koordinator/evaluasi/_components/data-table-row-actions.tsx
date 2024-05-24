@@ -19,6 +19,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { evaluasiSchema } from "../_data/schema"
 import Link from "next/link"
+import axios from "axios"
+import React from "react"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+import { ConfirmModal } from "@/components/modals/confirm-modal"
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
@@ -28,6 +33,25 @@ export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
   const evaluasi = evaluasiSchema.parse(row.original)
+  const router = useRouter();
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const onDelete = async () => {
+    try {
+      setIsLoading(true);
+
+      await axios.delete(`/api/evaluasi/${evaluasi.id}`);
+
+      toast.success("Evaluasi berhasil dihapus");
+      router.refresh();
+      router.push(`/koordinator/evaluasi`);
+      router.refresh();
+    } catch {
+      toast.error("Terdapat kesalahan");
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <DropdownMenu>
@@ -41,13 +65,20 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <Link href={`/koordinator/evaluasi/${evaluasi.id}`}>
-          <DropdownMenuItem>Edit</DropdownMenuItem>
+      <Link href={`/koordinator/evaluasi/${evaluasi.id}`}>
+          <DropdownMenuItem asChild>
+            <Button className="w-full justify-start" size="sm" variant="ghost">
+              Edit
+            </Button>
+          </DropdownMenuItem>
         </Link>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Delete
-          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+        <DropdownMenuItem asChild>
+          <ConfirmModal onConfirm={onDelete}>
+            <Button disabled={isLoading} className="w-full justify-start px-2 py-[6px]" size="sm" variant="ghost">
+              Hapus
+            </Button>
+          </ConfirmModal>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -29,6 +29,8 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { Evaluasi } from "@prisma/client";
+import { IconBadge } from "@/components/icon-badge";
+import { Activity } from "lucide-react";
 
 
 const formSchema = z.object({
@@ -64,7 +66,7 @@ const EvaluasiEdit = ({ evaluasi }: Props) => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.patch(`/api/evaluasi/${evaluasi.id}`, values);
-            toast.success("Evaluasi diedit!")
+            toast.success("Evaluasi berhasil diperbarui!")
             form.reset()
             router.refresh()
         } catch {
@@ -75,16 +77,16 @@ const EvaluasiEdit = ({ evaluasi }: Props) => {
     }
 
     return (
-
-        <Card className=" col-span-2">
+        <Card className="shadow-lg col-span-4 md:col-start-2 md:col-span-2 rounded-3xl h-fit">
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="mt-8 space-y-4"
                 >
-                    <CardHeader>
-                        <CardTitle>Edit evaluasi</CardTitle>
-                        <CardDescription>Edit sebuah evaluasi baru dalam satu kali klik.</CardDescription>
+                    <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
+                        <div className="flex flex-row gap-x-4 justify-start items-center">
+                            <IconBadge icon={Activity} />
+                            <CardTitle>Rincian dasar</CardTitle>
+                        </div>
                     </CardHeader>
                     <CardContent>
                         <div className="flex flex-col space-y-4 items-start justify-between w-full">

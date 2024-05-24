@@ -15,9 +15,11 @@ interface ActionsProps {
   kriteriaId: string;
   subKomponenId: string;
   komponenId: string;
+  evaluasiId: string;
 };
 
 export const Actions = ({
+  evaluasiId,
   disabled,
   kriteriaId,
   subKomponenId,
@@ -34,12 +36,12 @@ export const Actions = ({
 
       await axios.delete(`/api/lke/komponen/${komponenId}/subKomponen/${subKomponenId}/kriteria/${kriteriaId}`);
 
-      toast.success("Kriteria deleted");
+      toast.success("Kriteria berhasil dihapus");
       router.refresh();
-      router.push(`/koordinator/lke/komponen/${komponenId}/subKomponen/${subKomponenId}`);
+      router.push(`/koordinator/evaluasi/${evaluasiId}/lke/komponen/${komponenId}/subKomponen/${subKomponenId}`);
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     } finally {
       setIsLoading(false);
     }

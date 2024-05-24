@@ -124,6 +124,8 @@ const UnitKerjaNewCreate = () => {
                                         <FormControl>
                                             <Input
                                                 disabled={isSubmitting}
+                                                type="number"
+                                                min={0}
                                                 placeholder="e.g. '0000'"
                                                 {...field}
                                             />
@@ -143,6 +145,8 @@ const UnitKerjaNewCreate = () => {
                                         <FormControl>
                                             <Input
                                                 disabled={isSubmitting}
+                                                type="number"
+                                                min={0}
                                                 placeholder="e.g. '00'"
                                                 {...field}
                                             />

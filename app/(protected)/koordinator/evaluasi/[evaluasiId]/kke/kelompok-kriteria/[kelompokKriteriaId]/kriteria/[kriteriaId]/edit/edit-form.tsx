@@ -33,28 +33,30 @@ import { Evaluasi, IKU, KriteriaKKE, TujuanSasaranIndikatorIKU, TujuanSasaranInd
 import { Combobox } from "@/components/ui/combobox";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
+import { IconBadge } from "@/components/icon-badge";
+import { Activity } from "lucide-react";
 
 
 const formSchema = z.object({
     nama: z.string().min(1, {
-        message: "Name is required",
+        message: "Nama dibutuhkan",
     }),
     kode: z.string().min(1, {
-        message: "Kode is required",
+        message: "Kode dibutuhkan",
     }),
     evaluasiId: z.string().min(1, {
-        message: "EvaluasiId is required",
+        message: "Evaluasi id dibutuhkan",
     }),
     jenisIsian: z.string().min(1, {
-        message: "Jenis isian is required",
+        message: "Jenis isian dibutuhkan",
     }),
     jenisIsianIKU: z.string().min(1, {
-        message: "Jenis isian IKU is required",
+        message: "Jenis isian IKU dibutuhkan",
     }),
     isIndikatorKinerja: z.string().min(1),
     petunjukEvaluasi: z.string(),
     variabelLKEId: z.string().min(1, {
-        message: "Variabel LKE is required",
+        message: "Variabel LKE dibutuhkan",
     }),
     items: z.array(z.string())
     // .refine((value) => value.some((item) => item), {
@@ -113,11 +115,11 @@ const KriteriaEdit = ({
         // </pre>)
         try {
             const response = await axios.patch(`/api/kke/kelompok-kriteria/${kelompokKriteriaId}/kriteria/${kriteria.id}`, value);
-            toast.success("Kriteria KKE updated!")
+            toast.success("Kriteria KKE berhasil diperbarui!")
             router.refresh()
             reset()
         } catch {
-            toast.error("Something went wrong!");
+            toast.error("Terdapat kesalahan!");
         }
     }
 
@@ -160,16 +162,16 @@ const KriteriaEdit = ({
     }, [jenisKK, resetField, setValue, variabelLKE_options_IK, kriteria.variabelKKE])
 
     return (
-
-        <Card className=" col-span-2">
+        <Card className="shadow-lg col-span-4 md:col-start-2 md:col-span-2 rounded-3xl h-fit">
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="mt-8 space-y-4"
                 >
-                    <CardHeader>
-                        <CardTitle>Edit kriteria</CardTitle>
-                        <CardDescription>Edit sebuah kriteria baru dalam satu kali klik.</CardDescription>
+                    <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
+                        <div className="flex flex-row gap-x-4 justify-start items-center">
+                            <IconBadge icon={Activity} />
+                            <CardTitle>Rincian dasar</CardTitle>
+                        </div>
                     </CardHeader>
                     <CardContent>
                         <div className="flex flex-col space-y-4 items-start justify-between w-full">
@@ -232,7 +234,7 @@ const KriteriaEdit = ({
                                                 </FormControl>
                                                 <SelectContent>
                                                     <SelectItem value="select">
-                                                        Select Yes / No
+                                                        Select Ya / Tidak
                                                     </SelectItem>
                                                     {/* <SelectItem value="dropdown">
                                                         Dropdown A/B/C

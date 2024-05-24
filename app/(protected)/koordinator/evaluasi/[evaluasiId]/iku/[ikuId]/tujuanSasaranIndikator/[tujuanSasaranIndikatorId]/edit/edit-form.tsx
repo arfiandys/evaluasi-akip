@@ -30,17 +30,19 @@ import {
 } from "@/components/ui/card"
 import { Combobox } from "@/components/ui/combobox";
 import { Evaluasi, Permindok, TujuanSasaranIndikatorIKU } from "@prisma/client";
+import { IconBadge } from "@/components/icon-badge";
+import { Activity } from "lucide-react";
 
 
 const formSchema = z.object({
     nama: z.string().min(1, {
-        message: "Name is required",
+        message: "Nama dibutuhkan",
     }),
     kode: z.string().min(1, {
-        message: "Kode is required",
+        message: "Kode dibutuhkan",
     }),
     jenis: z.string().min(1, {
-        message: "Jenis is required",
+        message: "Jenis dibutuhkan",
     }),
 });
 
@@ -69,7 +71,7 @@ const TSIEdit = ({
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.patch(`/api/iku/${ikuId}/tujuanSasaranIndikator/${tujuanSasaranIndikator.id}`, values);
-            toast.success("Tujuan/Sasaran/Indikator IKU updated!")
+            toast.success("Tujuan/Sasaran/Indikator berhasil diperbarui!")
             form.reset()
             router.refresh()
         } catch {
@@ -80,91 +82,91 @@ const TSIEdit = ({
     }
 
     return (
-
-        <Card className=" col-span-2">
+        <Card className="shadow-lg col-span-4 md:col-start-2 md:col-span-2 rounded-3xl h-fit">
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="mt-8 space-y-4"
                 >
-                    <CardHeader>
-                        <CardTitle>Edit Tujuan/Sasaran/Indikator</CardTitle>
-                        <CardDescription>Edit sebuah Tujuan/Sasaran/Indikato baru dalam satu kali klik.</CardDescription>
+                    <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
+                        <div className="flex flex-row gap-x-4 justify-start items-center">
+                            <IconBadge icon={Activity} />
+                            <CardTitle>Rincian dasar</CardTitle>
+                        </div>
                     </CardHeader>
                     <CardContent>
                         <div className="flex flex-col space-y-4 items-start justify-between w-full">
-                        <FormField
-                                    control={form.control}
-                                    name="kode"
-                                    render={({ field }) => (
-                                        <FormItem className="w-full">
-                                            <FormLabel>
-                                                Kode
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    disabled={isSubmitting}
-                                                    placeholder="e.g. '1'"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="nama"
-                                    render={({ field }) => (
-                                        <FormItem className="w-full">
-                                            <FormLabel>
-                                                Nama
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    disabled={isSubmitting}
-                                                    placeholder="e.g. 'Tujuan IKU unit kerja...'"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="jenis"
-                                    render={({ field }) => (
-                                        <FormItem className="w-full">
-                                            <FormLabel>
-                                                Jenis
-                                            </FormLabel>
-                                            <Select
+                            <FormField
+                                control={form.control}
+                                name="kode"
+                                render={({ field }) => (
+                                    <FormItem className="w-full">
+                                        <FormLabel>
+                                            Kode
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
                                                 disabled={isSubmitting}
-                                                onValueChange={field.onChange}
-                                                defaultValue={tujuanSasaranIndikator.jenis}
-                                            >
-                                                <FormControl>
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="Pilih isian" />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent>
-                                                    <SelectItem value="tujuan">
-                                                        Tujuan
-                                                    </SelectItem>
-                                                    <SelectItem value="sasaran">
-                                                        Sasaran
-                                                    </SelectItem>
-                                                    <SelectItem value="indikator">
-                                                        Indikator
-                                                    </SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                                                placeholder="e.g. '1'"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="nama"
+                                render={({ field }) => (
+                                    <FormItem className="w-full">
+                                        <FormLabel>
+                                            Nama
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                disabled={isSubmitting}
+                                                placeholder="e.g. 'Tujuan IKU unit kerja...'"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="jenis"
+                                render={({ field }) => (
+                                    <FormItem className="w-full">
+                                        <FormLabel>
+                                            Jenis
+                                        </FormLabel>
+                                        <Select
+                                            disabled={isSubmitting}
+                                            onValueChange={field.onChange}
+                                            defaultValue={tujuanSasaranIndikator.jenis}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Pilih isian" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectItem value="tujuan">
+                                                    Tujuan
+                                                </SelectItem>
+                                                <SelectItem value="sasaran">
+                                                    Sasaran
+                                                </SelectItem>
+                                                <SelectItem value="indikator">
+                                                    Indikator
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                         </div>
                     </CardContent>
                     <CardFooter className="flex justify-end">

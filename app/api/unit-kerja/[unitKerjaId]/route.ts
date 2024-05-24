@@ -181,24 +181,28 @@ export async function PATCH(
 
     // UPDATE RINCIAN DASAR
 
-    const existingNamaUnitKerja = await db.unitKerja.findUnique({
-      where: {
-        name: values.name,
-      }
-    })
+    if (values.name) {
+      const existingNamaUnitKerja = await db.unitKerja.findUnique({
+        where: {
+          name: values.name,
+        }
+      })
 
-    if (existingNamaUnitKerja) {
-      return NextResponse.json({ error: "Nama talah digunakan!" });
+      if (existingNamaUnitKerja) {
+        return NextResponse.json({ error: "Nama talah digunakan!" });
+      }
     }
 
-    const existingKodeUnitKerja = await db.unitKerja.findUnique({
-      where: {
-        kodeUnitKerja: values.kodeUnitKerja,
-      }
-    })
+    if (values.kodeUnitKerja) {
+      const existingKodeUnitKerja = await db.unitKerja.findUnique({
+        where: {
+          kodeUnitKerja: values.kodeUnitKerja,
+        }
+      })
 
-    if (existingKodeUnitKerja) {
-      return NextResponse.json({ error: "Kode unit kerja talah digunakan!" });
+      if (existingKodeUnitKerja) {
+        return NextResponse.json({ error: "Kode unit kerja talah digunakan!" });
+      }
     }
 
     const unitKerja = await db.unitKerja.update({

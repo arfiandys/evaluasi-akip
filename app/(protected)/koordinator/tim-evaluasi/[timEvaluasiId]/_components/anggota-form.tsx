@@ -86,7 +86,7 @@ export const AnggotaForm = ({
         Anggota
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
-            <>Cancel</>
+            <>Batal</>
           ) : (
             <>
               <PlusCircle className="h-4 w-4 mr-2" />

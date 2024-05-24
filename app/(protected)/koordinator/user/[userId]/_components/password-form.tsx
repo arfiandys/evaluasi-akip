@@ -36,7 +36,7 @@ const formSchema = z.object({
   }
   return true;
 },{
-  message: "New password is required!",
+  message: "Pasword baru dibutuhkan!",
   path: ["newPassword"]
 })
 .refine((data) => {
@@ -45,7 +45,7 @@ const formSchema = z.object({
   }
   return true;
 },{
-  message: "Password is required!",
+  message: "Password koordinator dibutuhkan!",
   path: ["password"]
 })
 
@@ -90,7 +90,7 @@ export const PasswordForm = ({
         Password
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
-            <>Cancel</>
+            <>Batal</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />

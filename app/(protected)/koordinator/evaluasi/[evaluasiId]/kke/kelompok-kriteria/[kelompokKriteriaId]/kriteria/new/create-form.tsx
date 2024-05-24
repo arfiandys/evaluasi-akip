@@ -33,28 +33,30 @@ import { Evaluasi, IKU, TujuanSasaranIndikatorIKU, VariabelLKE } from "@prisma/c
 import { Combobox } from "@/components/ui/combobox";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
+import { IconBadge } from "@/components/icon-badge";
+import { Activity } from "lucide-react";
 
 
 const formSchema = z.object({
     nama: z.string().min(1, {
-        message: "Name is required",
+        message: "Nama dibutuhkan",
     }),
     kode: z.string().min(1, {
-        message: "Kode is required",
+        message: "Kode dibutuhkan",
     }),
     evaluasiId: z.string().min(1, {
-        message: "EvaluasiId is required",
+        message: "EvaluasiId dibutuhkan",
     }),
     jenisIsian: z.string().min(1, {
-        message: "Jenis isian is required",
+        message: "Jenis isian dibutuhkan",
     }),
     jenisIsianIKU: z.string().min(1, {
-        message: "Jenis isian IKU is required",
+        message: "Jenis isian IKU dibutuhkan",
     }),
     isIndikatorKinerja: z.string().min(1),
     petunjukEvaluasi: z.string(),
     variabelLKEId: z.string().min(1, {
-        message: "Variabel LKE is required",
+        message: "Variabel LKE dibutuhkan",
     }),
     items: z.array(z.string())
     // .refine((value) => value.some((item) => item), {
@@ -103,16 +105,16 @@ const KriteriaNewCreate = ({
             jenisIsianIKU: (values.jenisIsianIKU === "-_-") ? null : values.jenisIsianIKU,
             isIndikatorKinerja: (values.isIndikatorKinerja === "true")
         }
-        toast.success(<pre className="mt-2 w-full rounded-md bg-slate-950 p-4 overflow-auto">
-            <code className="text-white">{JSON.stringify(value, null, 2)}</code>
-        </pre>)
+        // toast.success(<pre className="mt-2 w-full rounded-md bg-slate-950 p-4 overflow-auto">
+        //     <code className="text-white">{JSON.stringify(value, null, 2)}</code>
+        // </pre>)
         try {
             const response = await axios.post(`/api/kke/kelompok-kriteria/${kelompokKriteriaId}/kriteria`, value);
-            toast.success("Kriteria KKE created!")
+            toast.success("Kriteria KKE berhasil dibuat!")
             reset()
             router.refresh()
         } catch {
-            toast.error("Something went wrong!");
+            toast.error("Terdapat kesalahan!");
         }
     }
 
@@ -148,16 +150,16 @@ const KriteriaNewCreate = ({
     }, [jenisKK, resetField, setValue])
 
     return (
-
-        <Card className=" col-span-2">
+        <Card className="shadow-lg col-span-4 md:col-start-2 md:col-span-2 rounded-3xl h-fit">
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="mt-8 space-y-4"
                 >
-                    <CardHeader>
-                        <CardTitle>Buat kriteria</CardTitle>
-                        <CardDescription>Terapkan sebuah kriteria baru dalam satu kali klik.</CardDescription>
+                    <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
+                        <div className="flex flex-row gap-x-4 justify-start items-center">
+                            <IconBadge icon={Activity} />
+                            <CardTitle>Rincian dasar</CardTitle>
+                        </div>
                     </CardHeader>
                     <CardContent>
                         <div className="flex flex-col space-y-4 items-start justify-between w-full">
@@ -220,7 +222,7 @@ const KriteriaNewCreate = ({
                                                 </FormControl>
                                                 <SelectContent>
                                                     <SelectItem value="select">
-                                                        Select Yes / No
+                                                        Select Ya / Tidak
                                                     </SelectItem>
                                                     {/* <SelectItem value="dropdown">
                                                         Dropdown A/B/C

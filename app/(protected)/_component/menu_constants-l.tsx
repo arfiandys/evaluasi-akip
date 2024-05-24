@@ -41,12 +41,12 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
         title: "Others",
         menuList: [
             {
-                title: 'Settings',
+                title: 'Profil',
                 path: '/settings',
                 icon: <Settings size={20} />,
             },
             {
-                title: 'Help',
+                title: 'Bantuan',
                 path: '/help',
                 icon: <HelpCircle size={20} />,
             }
@@ -68,12 +68,12 @@ export const SIDENAV_ITEMS_USER: SideNavItemGroup[] = [
         title: "Others",
         menuList: [
             {
-                title: 'Settings',
+                title: 'Profil',
                 path: '/settings',
                 icon: <Settings size={20} />,
             },
             {
-                title: 'Help',
+                title: 'Bantuan',
                 path: '/help',
                 icon: <HelpCircle size={20} />,
             }
@@ -105,12 +105,12 @@ export const SIDENAV_ITEMS_ANGGOTA: SideNavItemGroup[] = [
         title: "Others",
         menuList: [
             {
-                title: 'Settings',
+                title: 'Profil',
                 path: '/settings',
                 icon: <Settings size={20} />,
             },
             {
-                title: 'Help',
+                title: 'Bantuan',
                 path: '/help',
                 icon: <HelpCircle size={20} />,
             }
@@ -141,12 +141,12 @@ export const SIDENAV_ITEMS_KETUA: SideNavItemGroup[] = [
         title: "Others",
         menuList: [
             {
-                title: 'Settings',
+                title: 'Profil',
                 path: '/settings',
                 icon: <Settings size={20} />,
             },
             {
-                title: 'Help',
+                title: 'Bantuan',
                 path: '/help',
                 icon: <HelpCircle size={20} />,
             }
@@ -177,12 +177,12 @@ export const SIDENAV_ITEMS_DALNIS: SideNavItemGroup[] = [
         title: "Others",
         menuList: [
             {
-                title: 'Settings',
+                title: 'Profil',
                 path: '/settings',
                 icon: <Settings size={20} />,
             },
             {
-                title: 'Help',
+                title: 'Bantuan',
                 path: '/help',
                 icon: <HelpCircle size={20} />,
             }
@@ -213,12 +213,12 @@ export const SIDENAV_ITEMS_PIC: SideNavItemGroup[] = [
         title: "Others",
         menuList: [
             {
-                title: 'Settings',
+                title: 'Profil',
                 path: '/settings',
                 icon: <Settings size={20} />,
             },
             {
-                title: 'Help',
+                title: 'Bantuan',
                 path: '/help',
                 icon: <HelpCircle size={20} />,
             }
@@ -249,12 +249,12 @@ export const SIDENAV_ITEMS_PIMPINAN: SideNavItemGroup[] = [
         title: "Others",
         menuList: [
             {
-                title: 'Settings',
+                title: 'Profil',
                 path: '/settings',
                 icon: <Settings size={20} />,
             },
             {
-                title: 'Help',
+                title: 'Bantuan',
                 path: '/help',
                 icon: <HelpCircle size={20} />,
             }

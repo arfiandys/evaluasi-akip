@@ -14,7 +14,7 @@ export const SettingsSchema = z.object({
     }
     return true;
 },{
-    message: "New password dibutuhkan!",
+    message: "Password baru dibutuhkan!",
     path: ["newPassword"]
 })
 .refine((data) => {

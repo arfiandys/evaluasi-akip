@@ -22,6 +22,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { StepForm } from "./_components/step-form";
 
 const TimEvaluasiIdPage = async ({
     params
@@ -128,7 +129,7 @@ const TimEvaluasiIdPage = async ({
                     </div>
                 </div>
                 <div className=" mt-20 grid gap-6 grid-cols-4">
-                    <Card className="shadow-lg col-span-4 sm:col-span-1 xl:col-span-1 2xl:col-span-1 rounded-3xl h-fit">
+                    <Card className="shadow-lg col-span-4 lg:col-span-1 rounded-3xl h-fit">
                         <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
                             <div className="flex flex-row gap-x-4 justify-start items-center">
                                 <IconBadge icon={Activity} />
@@ -142,31 +143,16 @@ const TimEvaluasiIdPage = async ({
                             />
                         </CardContent>
                     </Card>
-                    <Card className="shadow-lg col-span-4 sm:col-span-3 xl:col-span-3 2xl:col-span-3 rounded-3xl h-fit">
+                    <Card className="h-fit shadow-lg col-span-4 lg:col-span-3 rounded-3xl">
                         <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
                             <div className="flex flex-row gap-x-4 justify-start items-center">
                                 <IconBadge icon={Users} />
                                 <CardTitle>Rincian anggota tim evaluasi</CardTitle>
                             </div>
                         </CardHeader>
-                        <CardContent className="grid grid-cols-2 gap-4">
-                            <DalnisForm
-                                initialData={timEvaluasi}
-                                timEvaluasiId={timEvaluasi.id}
-                                options={users.map((user) => ({
-                                    label: user.name!,
-                                    value: user.id,
-                                }))}
-                            />
-                            <KetuaForm
-                                initialData={timEvaluasi}
-                                timEvaluasiId={timEvaluasi.id}
-                                options={users.map((user) => ({
-                                    label: user.name!,
-                                    value: user.id,
-                                }))}
-                            />
-                            <AnggotaForm
+                        {/* <CardContent className="grid grid-cols-2 gap-4"> */}
+                        <CardContent className="grid grid-cols-1 gap-4">
+                            <StepForm
                                 initialData={timEvaluasi}
                                 initialData_User={users}
                                 timEvaluasiId={timEvaluasi.id}

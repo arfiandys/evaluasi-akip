@@ -24,6 +24,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { StepForm } from "./_components/step-form";
 
 const UnitKerjaIdPage = async ({
     params
@@ -69,6 +70,7 @@ const UnitKerjaIdPage = async ({
         unitKerja.name,
         unitKerja.kodeWilayah,
         unitKerja.kodeUnitKerja,
+        unitKerja.jenisUnitKerja,
         unitKerja.users.some(users => users.assignedRole === UserRole.PIMPINAN),
         unitKerja.users.some(users => users.assignedRole === UserRole.PIC)
     ];
@@ -106,8 +108,8 @@ const UnitKerjaIdPage = async ({
                         </div>
                     </div>
                 </div>
-                <div className=" mt-20 grid gap-6 grid-cols-4">
-                    <Card className="shadow-lg col-span-4 sm:col-span-1 xl:col-span-1 2xl:col-span-1 rounded-3xl h-fit">
+                <div className=" mt-16 grid gap-6 grid-cols-4">
+                    <Card className="shadow-lg col-span-4 lg:col-span-1 rounded-3xl h-fit">
                         <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
                             <div className="flex flex-row gap-x-4 justify-start items-center">
                                 <IconBadge icon={Activity} />
@@ -136,23 +138,16 @@ const UnitKerjaIdPage = async ({
                             />
                         </CardContent>
                     </Card>
-                    <Card className="h-fit shadow-lg col-span-4 sm:col-span-3 xl:col-span-3 2xl:col-span-3 rounded-3xl">
+                    <Card className="h-fit shadow-lg col-span-4 lg:col-span-3 rounded-3xl">
                         <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
                             <div className="flex flex-row gap-x-4 justify-start items-center">
                                 <IconBadge icon={Users} />
-                                <CardTitle>Rincian anggota tim evaluasi</CardTitle>
+                                <CardTitle>Rincian anggota unit kerja</CardTitle>
                             </div>
                         </CardHeader>
-                        <CardContent className="grid grid-cols-2 gap-4">
-                            <PimpinanForm
-                                initialData={unitKerja}
-                                unitKerjaId={unitKerja.id}
-                                options={users.map((user) => ({
-                                    label: user.name!,
-                                    value: user.id,
-                                }))}
-                            />
-                            <PICForm
+                        {/* <CardContent className="grid grid-cols-2 gap-4"> */}
+                        <CardContent className="grid grid-cols-1 gap-4">
+                            <StepForm
                                 initialData={unitKerja}
                                 unitKerjaId={unitKerja.id}
                                 options={users.map((user) => ({

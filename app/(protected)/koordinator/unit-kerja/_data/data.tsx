@@ -27,12 +27,12 @@ export const jenises = [
 
 export const statuses = [
   {
-    label: "Incomplete",
+    label: "Tidak lengkap",
     value: "incomplete",
     icon: CrossCircledIcon,
   },
   {
-    label: "Complete",
+    label: "Lengkap",
     value: "complete",
     icon: CheckCircledIcon,
   },

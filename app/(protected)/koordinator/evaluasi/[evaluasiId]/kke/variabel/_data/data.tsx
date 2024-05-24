@@ -21,7 +21,7 @@ export const jenises = [
   },
   {
     value: "select",
-    label: "Select Yes/No",
+    label: "Select Ya/Tidak",
   },
 ]
 
@@ -36,7 +36,7 @@ export const jenisesIKU = [
   },
   {
     value: "select",
-    label: "Select Yes/No",
+    label: "Select Ya/Tidak",
   },
 ]
 

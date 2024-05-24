@@ -58,10 +58,10 @@ export const ImportCard = ({
                 <CardTitle>Import Variabel KKE</CardTitle>
                 <div className="flex flex-row gap-x-4">
                     <Button onClick={handleContinue}>
-                        Continue
+                        Lanjutkan
                     </Button>
                     <Button onClick={onCancel}>
-                        Cancel
+                        Batal
                     </Button>
                 </div>
             </CardHeader>

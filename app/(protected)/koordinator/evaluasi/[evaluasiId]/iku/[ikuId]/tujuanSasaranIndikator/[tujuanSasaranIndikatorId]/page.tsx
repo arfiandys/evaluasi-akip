@@ -73,6 +73,7 @@ const TujuanSasatanIndikatorIdPage = async ({
                                 </span>
                             </div>
                             <Actions
+                                evaluasiId={params.evaluasiId}
                                 disabled={!isComplete}
                                 IKUId={params.ikuId}
                                 tujuanId={params.tujuanSasaranIndikatorId}
@@ -80,8 +81,8 @@ const TujuanSasatanIndikatorIdPage = async ({
                         </div>
                     </div>
                 </div>
-                <div className=" mt-20 grid gap-6 grid-cols-4">
-                    <Card className="shadow-lg col-span-4 sm:col-span-1 xl:col-span-1 2xl:col-span-1 rounded-3xl">
+                <div className=" mt-16 grid gap-6 grid-cols-4">
+                <Card className="shadow-lg col-span-4 md:col-start-2 md:col-span-2 rounded-3xl h-fit">
                         <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
                             <div className="flex flex-row gap-x-4 justify-start items-center">
                                 <IconBadge icon={Activity} />
@@ -94,7 +95,6 @@ const TujuanSasatanIndikatorIdPage = async ({
                                     <Edit />
                                 </Link>
                             </Button>
-
                         </CardHeader>
                         <CardContent>
                             <div

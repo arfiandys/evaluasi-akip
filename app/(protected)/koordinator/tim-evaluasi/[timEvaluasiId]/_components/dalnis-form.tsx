@@ -4,7 +4,7 @@ import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Loader2, Pencil, User2, X } from "lucide-react";
+import { Loader2, Pencil, Trash, User2, X } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -39,6 +39,7 @@ export const DalnisForm = ({
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const existingKetua = initialData.users.some((item) => item.assignedRole === UserRole.KETUA)
 
   const toggleEdit = () => setIsEditing((current) => !current);
 
@@ -145,8 +146,8 @@ export const DalnisForm = ({
   }
 
   const onDelete = async (id: string) => {
-    if (!isEmpty) {
-      toast.error("Tidak bisa menghapus dalnis karena anggota punya unit kerja");
+    if (existingKetua) {
+      toast.error("Tidak bisa menghapus dalnis, hapus terlebih dahulu ketua");
     } else {
       try {
         setDeletingId(id);
@@ -176,7 +177,7 @@ export const DalnisForm = ({
         Pengendali teknis
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
-            <>Cancel</>
+            <>Batal</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
@@ -211,7 +212,7 @@ export const DalnisForm = ({
                     onClick={() => onDelete(dalnisId[0])}
                     className="ml-auto hover:opacity-75 transition"
                   >
-                    <X className="h-4 w-4" />
+                    <Trash className="h-4 w-4" />
                   </button>
                 )}
               </div>

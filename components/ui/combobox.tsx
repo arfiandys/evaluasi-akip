@@ -49,7 +49,7 @@ export const Combobox = ({
         <Command>
           <CommandInput placeholder="Search..." />
           <CommandEmpty>Tidak ditemukan.</CommandEmpty>
-          <CommandGroup>
+          <CommandGroup className="max-h-[300px] overflow-auto">
             {options.map((option) => (
               <CommandItem
                 key={option.value}

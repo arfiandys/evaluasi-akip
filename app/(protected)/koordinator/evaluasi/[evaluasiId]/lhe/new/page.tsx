@@ -95,7 +95,7 @@ const PermindokNewPage = async ({
                         </Breadcrumb>
                     </div>
                 </div>
-                <div className="mt-16">                    
+                <div className="mt-16 grid gap-6 grid-cols-4">
                     <Create evaluasi={evaluasi!} unitKerja={unitKerja} LKEUnitKerja={LKEUnitKerja} />
                 </div>
             </div>

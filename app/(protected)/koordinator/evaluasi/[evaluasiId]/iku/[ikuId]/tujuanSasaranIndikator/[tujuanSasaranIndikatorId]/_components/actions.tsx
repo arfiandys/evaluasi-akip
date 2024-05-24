@@ -14,12 +14,14 @@ interface ActionsProps {
   disabled: boolean;
   IKUId: string;
   tujuanId: string;
+  evaluasiId: string;
 };
 
 export const Actions = ({
   disabled,
   IKUId,
-  tujuanId
+  tujuanId,
+  evaluasiId
 }: ActionsProps) => {
   const router = useRouter();
   const confetti = useConfettiStore();
@@ -32,12 +34,12 @@ export const Actions = ({
 
       await axios.delete(`/api/iku/${IKUId}/tujuanSasaranIndikator/${tujuanId}`);
 
-      toast.success("Tujuan/Sasaran/Indikator deleted");
+      toast.success("Tujuan/Sasaran/Indikator berhasil dihapus");
       router.refresh();
-      router.push(`/koordinator/iku/${IKUId}`);
+      router.push(`/koordinator/evaluasi/${evaluasiId}/iku/${IKUId}`);
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     } finally {
       setIsLoading(false);
     }

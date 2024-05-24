@@ -4,7 +4,7 @@ import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Loader2, Pencil, User2, X } from "lucide-react";
+import { Loader2, Pencil, Trash, User2, X } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -38,6 +38,7 @@ export const PimpinanForm = ({
 }: PimpinanFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const existingPIC = initialData.users.some((item) => item.assignedRole === UserRole.PIC)
 
   const toggleEdit = () => setIsEditing((current) => !current);
 
@@ -69,21 +70,26 @@ export const PimpinanForm = ({
   }
 
   const onDelete = async (id: string) => {
-    try {
-      setDeletingId(id);
-      const values = {
-        data: {
-        pimpinanUnitKerjaId: id,
-        action: "disconnect"
-      }};
-      await axios.patch(`/api/unit-kerja/${unitKerjaId}`, values);
-      toast.success("Pimpinan berhasil dihapus");
-      form.reset();
-      router.refresh();
-    } catch {
-      toast.error("Terdapat kesalahan");
-    } finally {
-      setDeletingId(null);
+    if (existingPIC) {
+      toast.error("Tidak bisa menghapus pimpinan, hapus terlebih dahulu PIC")
+    } else {
+      try {
+        setDeletingId(id);
+        const values = {
+          data: {
+            pimpinanUnitKerjaId: id,
+            action: "disconnect"
+          }
+        };
+        await axios.patch(`/api/unit-kerja/${unitKerjaId}`, values);
+        toast.success("Pimpinan berhasil dihapus");
+        form.reset();
+        router.refresh();
+      } catch {
+        toast.error("Terdapat kesalahan");
+      } finally {
+        setDeletingId(null);
+      }
     }
   }
 
@@ -95,7 +101,7 @@ export const PimpinanForm = ({
         Pimpinan unit kerja
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
-            <>Cancel</>
+            <>Batal</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
@@ -106,13 +112,13 @@ export const PimpinanForm = ({
       </div>
       {!isEditing && (
         <>
-        {!selectedOption?.label && (
-          <p className="text-sm mt-2 text-slate-500 italic">
-            Belum ada pimpinan
-          </p>
-        )}
-        {selectedOption?.label && (
-          <div className="space-y-2 mt-2">
+          {!selectedOption?.label && (
+            <p className="text-sm mt-2 text-slate-500 italic">
+              Belum ada pimpinan
+            </p>
+          )}
+          {selectedOption?.label && (
+            <div className="space-y-2 mt-2">
               <div
                 className="flex items-center p-3 w-full bg-sky-100 border-sky-200 border text-sky-700 rounded-md"
               >
@@ -130,13 +136,13 @@ export const PimpinanForm = ({
                     onClick={() => onDelete(pimpinanId[0])}
                     className="ml-auto hover:opacity-75 transition"
                   >
-                    <X className="h-4 w-4" />
+                    <Trash className="h-4 w-4" />
                   </button>
                 )}
               </div>
-          </div>
-        )}
-      </>
+            </div>
+          )}
+        </>
       )}
       {isEditing && (
         <Form {...form}>

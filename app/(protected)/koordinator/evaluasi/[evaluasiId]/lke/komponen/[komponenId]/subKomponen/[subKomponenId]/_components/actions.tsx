@@ -11,12 +11,14 @@ import { useConfettiStore } from "@/hooks/use-confetti-store";
 import { toast } from "sonner";
 
 interface ActionsProps {
+  evaluasiId: string;
   disabled: boolean;
   subKomponenId: string;
   komponenId: string;
 };
 
 export const Actions = ({
+  evaluasiId,
   disabled,
   subKomponenId,
   komponenId
@@ -32,12 +34,12 @@ export const Actions = ({
 
       await axios.delete(`/api/lke/komponen/${komponenId}/subKomponen/${subKomponenId}`);
 
-      toast.success("Sub komponen deleted");
+      toast.success("Sub komponen berhasil dihapus");
       router.refresh();
-      router.push(`/koordinator/lke/komponen/${komponenId}`);
+      router.push(`/koordinator/evaluasi/${evaluasiId}/lke/komponen/${komponenId}`);
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     } finally {
       setIsLoading(false);
     }

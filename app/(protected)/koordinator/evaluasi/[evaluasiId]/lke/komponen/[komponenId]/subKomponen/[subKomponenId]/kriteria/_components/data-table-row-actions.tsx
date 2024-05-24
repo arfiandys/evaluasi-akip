@@ -20,6 +20,11 @@ import {
 import { kriteriaSchema } from "../_data/schema"
 import Link from "next/link"
 import { useParams } from "next/navigation"
+import axios from "axios"
+import React from "react"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+import { ConfirmModal } from "@/components/modals/confirm-modal"
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
@@ -28,9 +33,27 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const kriteria = kriteriaSchema.parse(row.original)
+  const kriteria = kriteriaSchema.parse(row.original);
+  const params = useParams<{ komponenId: string }>();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = React.useState(false);
 
-  const params = useParams<{ komponenId: string }>()
+  const onDelete = async () => {
+    try {
+      setIsLoading(true);
+
+      await axios.delete(`/api/lke/komponen/${params.komponenId}/subKomponen/${kriteria.subKomponenLKEId}/kriteria/${kriteria.id}`);
+
+      toast.success("Kriteria berhasil dihapus");
+      router.refresh();
+      router.push(`/koordinator/evaluasi/${kriteria.variabelLKE?.evaluasiId}/lke/komponen/${params.komponenId}/subKomponen/${kriteria.subKomponenLKEId}`);
+      router.refresh();
+    } catch {
+      toast.error("Terdapat kesalahan");
+    } finally {
+      setIsLoading(false);
+    }
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -44,12 +67,19 @@ export function DataTableRowActions<TData>({
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
         <Link href={`/koordinator/evaluasi/${kriteria.variabelLKE?.evaluasiId}/lke/komponen/${params.komponenId}/subKomponen/${kriteria.subKomponenLKEId}/kriteria/${kriteria.id}`}>
-          <DropdownMenuItem>Edit</DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Button className="w-full justify-start cursor-pointer" size="sm" variant="ghost">
+              Edit
+            </Button>
+          </DropdownMenuItem>
         </Link>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Delete
-          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+        <DropdownMenuItem asChild>
+          <ConfirmModal onConfirm={onDelete}>
+            <Button disabled={isLoading} className="w-full justify-start px-2 py-[6px]" size="sm" variant="ghost">
+              Hapus
+            </Button>
+          </ConfirmModal>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

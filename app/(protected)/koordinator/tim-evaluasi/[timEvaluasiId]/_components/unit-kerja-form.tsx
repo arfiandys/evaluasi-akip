@@ -6,11 +6,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Building, Loader2, Pencil, PlusCircle, Trash, User2, X } from "lucide-react";
+import { Building, Loader2, MoreVertical, Pencil, PlusCircle, Trash, User2, X } from "lucide-react";
 import { TimEvaluasi, User, UserOnTimEvaluasi, UserOnUnitKerja, UserRole } from "@prisma/client";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Combobox } from "@/components/ui/combobox";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
 interface UnitKerjaProps {
   anggota: UserOnTimEvaluasi & { user: User & { unitKerjas: UserOnUnitKerja[] } };
@@ -86,7 +87,7 @@ export const UnitKerjaForm = ({
       form.reset();
       router.refresh();
     } catch {
-      toast.error("Something went wrong, atau coba reload dulu baru tambah unit kerja lagi");
+      toast.error("Terdapat kesalahan, atau coba reload dulu lalu tambah unit kerja lagi");
     }
   }
 
@@ -137,7 +138,7 @@ export const UnitKerjaForm = ({
         }
       };
       await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, values);
-      toast.success("Unit kreja berhasil dihapus");
+      toast.success("Unit kerja berhasil dihapus");
       form.reset();
       router.refresh();
     } catch {
@@ -164,17 +165,10 @@ export const UnitKerjaForm = ({
                 <Loader2 className="h-4 w-4 animate-spin" />
               </div>
             )}
-            {deletingId !== anggota.userId && (
-              <button
-                onClick={() => onDelete(anggota.userId)}
-                className="ml-auto hover:opacity-75 transition"
-              >
-                <Trash className="h-4 w-4" />
-              </button>
-            )}
+            
             <button
               onClick={toggleAnggotaEdit}
-              className="ml-1 hover:opacity-75 transition"
+              className="ml-auto hover:opacity-75 transition"
             >
               <X className="h-4 w-4" />
             </button>
@@ -254,8 +248,17 @@ export const UnitKerjaForm = ({
             )}
             {deletingId !== anggota.userId && (
               <button
+                onClick={() => onDelete(anggota.userId)}
+                className="ml-auto hover:opacity-75 transition"
+              >
+                <Trash className="h-4 w-4" />
+              </button>
+            )}
+            <MoreVertical />
+            {deletingId !== anggota.userId && (
+              <button
                 onClick={toggleAnggotaEdit}
-                className="ml-auto hover:opacity-75 transition flex flex-row justify-center items-center"
+                className="hover:opacity-75 transition flex flex-row justify-center items-center"
               >
                 <PlusCircle className="h-4 w-4 mr-2" />
                 <span className="text-sm">Tambah unit kerja</span>

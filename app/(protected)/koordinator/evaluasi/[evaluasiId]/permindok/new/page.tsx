@@ -58,19 +58,7 @@ const PermindokNewPage = async ({
                         </Breadcrumb>
                     </div>
                 </div>
-                <div className="grid grid-cols-3 gap-4 mt-16">
-                    <div className="w-full">
-                        <div className="flex items-center justify-between">
-                            <div className="flex flex-col gap-y-2">
-                                <h2 className="text-xl font-medium">
-                                    Rincian dasar
-                                </h2>
-                                <span className="text-sm text-secondary-foreground">
-                                    Nama, kode, tahun...
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                <div className="mt-16 grid gap-6 grid-cols-4">
                     <PermindokNewCreate evaluasi={evaluasi!} />
                 </div>
             </div>

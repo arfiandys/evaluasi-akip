@@ -57,28 +57,33 @@ export const Actions = ({
 
   const onClick = async () => {
     console.log(statuse)
-    try {
-      setIsLoading(true);
+    if (disabled) {
+      toast.error("Lengkapi terlebih dahulu semua isian!");
+    } else {
 
-      if ((statuse === "publish") && (status !== statuse)) {
-        await axios.patch(`/api/evaluasi/${evaluasiId}/publish`);
-        toast.success("Evaluasi dalam tahap pengerjaan");
-        confetti.onOpen();
-      } else if ((statuse === "draft") && (status !== statuse)) {
-        await axios.patch(`/api/evaluasi/${evaluasiId}/unpublish`);
-        toast.success("Evaluasi dalam rancangan");
-      } else if ((statuse === "finish") && (status !== statuse)) {
-        await axios.patch(`/api/evaluasi/${evaluasiId}/finish`);
-        toast.success("Evaluasi sudah selesai");
-      } else if ((statuse === "check") && (status !== statuse)) {
-        await axios.patch(`/api/evaluasi/${evaluasiId}/check`);
-        toast.success("Evaluasi dalam tahap pengecekan");
+      try {
+        setIsLoading(true);
+
+        if ((statuse === "publish") && (status !== statuse)) {
+          await axios.patch(`/api/evaluasi/${evaluasiId}/publish`);
+          toast.success("Evaluasi dalam tahap pengerjaan");
+          confetti.onOpen();
+        } else if ((statuse === "draft") && (status !== statuse)) {
+          await axios.patch(`/api/evaluasi/${evaluasiId}/unpublish`);
+          toast.success("Evaluasi dalam rancangan");
+        } else if ((statuse === "finish") && (status !== statuse)) {
+          await axios.patch(`/api/evaluasi/${evaluasiId}/finish`);
+          toast.success("Evaluasi sudah selesai");
+        } else if ((statuse === "check") && (status !== statuse)) {
+          await axios.patch(`/api/evaluasi/${evaluasiId}/check`);
+          toast.success("Evaluasi dalam tahap pengecekan");
+        }
+        router.refresh()
+      } catch {
+        toast.error("Terdapat kesalahan!");
+      } finally {
+        setIsLoading(false);
       }
-      router.refresh()
-    } catch {
-      toast.error("Terdapat kesalahan!");
-    } finally {
-      setIsLoading(false);
     }
   }
 
@@ -88,12 +93,12 @@ export const Actions = ({
 
       await axios.delete(`/api/evaluasi/${evaluasiId}`);
 
-      toast.success("Evaluasi deleted");
+      toast.success("Evaluasi berhasil dihapus");
       router.refresh();
       router.push(`/koordinator/evaluasi`);
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     } finally {
       setIsLoading(false);
     }

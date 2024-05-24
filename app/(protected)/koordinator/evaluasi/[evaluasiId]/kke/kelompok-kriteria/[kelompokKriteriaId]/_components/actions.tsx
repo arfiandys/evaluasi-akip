@@ -13,11 +13,13 @@ import { toast } from "sonner";
 interface ActionsProps {
   disabled: boolean;
   kelompokKriteriaId: string;
+  evaluasiId: string;
 };
 
 export const Actions = ({
   disabled,
   kelompokKriteriaId,
+  evaluasiId
 }: ActionsProps) => {
   const router = useRouter();
   const confetti = useConfettiStore();
@@ -30,12 +32,12 @@ export const Actions = ({
 
       await axios.delete(`/api/kke/kelompok-kriteria/${kelompokKriteriaId}`);
 
-      toast.success("Kelompok Kriteria KKE deleted");
+      toast.success("Kelompok Kriteria KKE berhasil dihapus");
       router.refresh();
-      router.push(`/koordinator/kke/kelompok-kriteria`);
+      router.push(`/koordinator/evaluasi/${evaluasiId}/kke/kelompok-kriteria`);
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     } finally {
       setIsLoading(false);
     }

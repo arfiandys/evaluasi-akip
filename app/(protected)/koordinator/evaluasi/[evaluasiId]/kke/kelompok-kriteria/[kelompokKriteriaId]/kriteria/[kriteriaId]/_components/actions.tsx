@@ -14,9 +14,11 @@ interface ActionsProps {
   disabled: boolean;
   kriteriaId: string;
   kelompokKriteriaKKEId: string;
+  evaluasiId: string;
 };
 
 export const Actions = ({
+  evaluasiId,
   disabled,
   kriteriaId,
   kelompokKriteriaKKEId
@@ -31,12 +33,12 @@ export const Actions = ({
       setIsLoading(true);
 
       await axios.delete(`/api/kke/kelompok-kriteria/${kelompokKriteriaKKEId}/kriteria/${kriteriaId}`);
-      toast.success("Kriteria KKE deleted");
+      toast.success("Kriteria KKE berhasil dihapus");
       router.refresh();
-      router.push(`/koordinator/kke/kelompok-kriteria/${kelompokKriteriaKKEId}`);
+      router.push(`/koordinator/evaluasi/${evaluasiId}/kke/kelompok-kriteria/${kelompokKriteriaKKEId}`);
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     } finally {
       setIsLoading(false);
     }

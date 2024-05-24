@@ -71,7 +71,7 @@ export const KodeUnitKerjaForm = ({
         Kode unit kerja
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
-            <>Cancel</>
+            <>Batal</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
@@ -99,6 +99,8 @@ export const KodeUnitKerjaForm = ({
                   <FormControl>
                     <Input
                       disabled={isSubmitting}
+                      type="number"
+                      min={0}
                       placeholder="e.g. '3524'"
                       {...field}
                     />

@@ -91,6 +91,7 @@ const KelompokKriteriaIdPage = async ({
                                 </span>
                             </div>
                             <Actions
+                                evaluasiId={params.evaluasiId}
                                 disabled={!isComplete}
                                 kelompokKriteriaId={params.kelompokKriteriaId}
                             />

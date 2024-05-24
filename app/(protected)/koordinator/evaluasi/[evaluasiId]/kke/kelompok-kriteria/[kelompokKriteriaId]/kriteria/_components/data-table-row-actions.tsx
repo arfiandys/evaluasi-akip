@@ -19,6 +19,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { kriteriaKKESchema } from "../_data/schema"
 import Link from "next/link"
+import axios from "axios"
+import React from "react"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+import { ConfirmModal } from "@/components/modals/confirm-modal"
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
@@ -27,7 +32,24 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const kriteriaKKE = kriteriaKKESchema.parse(row.original)
+  const kriteriaKKE = kriteriaKKESchema.parse(row.original);
+  const router = useRouter();
+  const [isLoading, setIsLoading] = React.useState(false);
+  const onDelete = async () => {
+    try {
+      setIsLoading(true);
+
+      await axios.delete(`/api/kke/kelompok-kriteria/${kriteriaKKE.kelompokKriteriaKKEId}/kriteria/${kriteriaKKE.id}`);
+      toast.success("Kriteria KKE berhasil dihapus");
+      router.refresh();
+      router.push(`/koordinator/evaluasi/${kriteriaKKE.variabelKKE?.evaluasiId}/kke/kelompok-kriteria/${kriteriaKKE.kelompokKriteriaKKEId}`);
+      router.refresh();
+    } catch {
+      toast.error("Terdapat kesalahan");
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <DropdownMenu>
@@ -42,12 +64,19 @@ export function DataTableRowActions<TData>({
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
         <Link href={`/koordinator/evaluasi/${kriteriaKKE.variabelKKE?.evaluasiId}/kke/kelompok-kriteria/${kriteriaKKE.kelompokKriteriaKKEId}/kriteria/${kriteriaKKE.id}`}>
-          <DropdownMenuItem>Edit</DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Button className="w-full justify-start cursor-pointer" size="sm" variant="ghost">
+              Edit
+            </Button>
+          </DropdownMenuItem>
         </Link>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Delete
-          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+        <DropdownMenuItem asChild>
+          <ConfirmModal onConfirm={onDelete}>
+            <Button disabled={isLoading} className="w-full justify-start px-2 py-[6px]" size="sm" variant="ghost">
+              Hapus
+            </Button>
+          </ConfirmModal>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -29,32 +29,34 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { Evaluasi } from "@prisma/client";
+import { IconBadge } from "@/components/icon-badge";
+import { Activity } from "lucide-react";
 
 
 const formSchema = z.object({
     name: z.string().min(1, {
-        message: "Name is required",
+        message: "Nama dibutuhkan",
     }),
     kode: z.string().min(1, {
-        message: "Kode is required",
+        message: "Kode dibutuhkan",
     }),
     bobot: z.coerce.number({
-        required_error: "Bobot is required",
-        invalid_type_error: "Bobot must be a number",
+        required_error: "Bobot dibutuhkan",
+        invalid_type_error: "Bobot harus angka",
     }),
     evaluasiId: z.string().min(1, {
-        message: "EvaluasiId is required",
+        message: "Evaluasi id dibutuhkan",
     }),
 });
 
 interface CreateProps {
     komponenId: string;
     evaluasi: Evaluasi;
-  };
+};
 
 const SubKomponenNewCreate = ({
     komponenId, evaluasi
-  }: CreateProps) => {
+}: CreateProps) => {
 
     const router = useRouter();
     const form = useForm<z.infer<typeof formSchema>>({
@@ -72,27 +74,27 @@ const SubKomponenNewCreate = ({
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.post(`/api/lke/komponen/${komponenId}/subKomponen`, values);
-            toast.success("Sub komponen LKE created!")
+            toast.success("Sub komponen LKE berhasil dibuat!")
             form.reset()
             router.refresh()
         } catch {
-            toast.error("Something went wrong!");
+            toast.error("Terdapat kesalahan!");
         }
 
 
     }
 
     return (
-
-        <Card className=" col-span-2">
+        <Card className="shadow-lg col-span-4 md:col-start-2 md:col-span-2 rounded-3xl h-fit">
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="mt-8 space-y-4"
                 >
-                    <CardHeader>
-                        <CardTitle>Buat sub komponen</CardTitle>
-                        <CardDescription>Terapkan sebuah sub komponen baru dalam satu kali klik.</CardDescription>
+                    <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
+                        <div className="flex flex-row gap-x-4 justify-start items-center">
+                            <IconBadge icon={Activity} />
+                            <CardTitle>Rincian dasar</CardTitle>
+                        </div>
                     </CardHeader>
                     <CardContent>
                         <div className="flex flex-col space-y-4 items-start justify-between w-full">
