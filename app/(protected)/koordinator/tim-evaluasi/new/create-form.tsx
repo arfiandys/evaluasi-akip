@@ -57,7 +57,7 @@ const UserNewCreate = () => {
                 toast.error(response.data.error)
             } else {
                 router.push(`/koordinator/tim-evaluasi/${response.data.id}`);
-                toast.success("Tim evaluasi created!")
+                toast.success("Tim evaluasi berhasil dibuat!")
             }
             form.reset()
             router.refresh()

@@ -36,97 +36,13 @@ export const DropdownForm = ({
     role === "at" ? initialData.isianAt||"": (role === "kt" ? initialData.isianKt||"":(role === "dalnis" ? initialData.isianDalnis||"":(role === "pic" ? initialData.isianPIC||"":"")))
   )
 
-  const onvaluechange = (value:string) => {
-    setLoading(true)
-    const onSubmit = async () => {
-      if (role === "at") {
-        const values = {
-          values: {
-            isian: value
-          },
-          input: "input",
-          jenis: "dropdown",
-          role: "at",
-          unitKerjaId: initialData.unitKerjaId,
-          variabelLKEId: initialData.variabelKKE.variabelLKEId,
-        }
-        try {
-          await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, values);
-        toast.success("KKE unit kerja updated");
-        } catch {
-          toast.error("Something went wrong");
-        } finally {
-          setLoading(false)
-        }
-      }
-      if (role === "kt") {
-        const values = {
-          values: {
-            isian: value
-          },
-          input: "input",
-          jenis: "dropdown",
-          role: "kt",
-          unitKerjaId: initialData.unitKerjaId,
-          variabelLKEId: initialData.variabelKKE.variabelLKEId,
-        }
-        try {
-          await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, values);
-        toast.success("KKE unit kerja updated");
-        } catch {
-          toast.error("Something went wrong");
-        } finally {
-          setLoading(false)
-        }
-      }
-      if (role === "dalnis") {
-        const values = {
-          values: {
-            isian: value
-          },
-          input: "input",
-          jenis: "dropdown",
-          role: "dalnis",
-          unitKerjaId: initialData.unitKerjaId,
-          variabelLKEId: initialData.variabelKKE.variabelLKEId,
-        }
-        try {
-          await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, values);
-        toast.success("KKE unit kerja updated");
-        } catch {
-          toast.error("Something went wrong");
-        } finally {
-          setLoading(false)
-        }
-      }
-      if (role === "pic") {
-        const values = {
-          values: {
-            isian: value
-          },
-          input: "input",
-          jenis: "dropdown",
-          role: "pic",
-          unitKerjaId: initialData.unitKerjaId,
-        }
-        try {
-          await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, values);
-          toast.success("KKE unit kerja updated");
-        } catch {
-          toast.error("Something went wrong");
-        } finally {
-          setLoading(false)
-        }
-      }      
-    }
-    onSubmit()
-  }
+  
 
   return (
 
-    <Select onValueChange={onvaluechange} defaultValue={selected} disabled>
+    <Select defaultValue={selected} disabled>
       <SelectTrigger>
-        <SelectValue placeholder="Select grade" />
+        <SelectValue placeholder="Pilih nilai" />
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="a">A</SelectItem>

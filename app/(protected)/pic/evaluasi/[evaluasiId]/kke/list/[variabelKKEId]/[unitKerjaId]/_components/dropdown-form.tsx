@@ -32,10 +32,10 @@ export const DropdownForm = ({
 
   const router = useRouter();
   const [selected, setSelected] = React.useState<string>(
-    role === "at" ? initialData.isianAt||"": (role === "kt" ? initialData.isianKt||"":(role === "dalnis" ? initialData.isianDalnis||"":(role === "pic" ? initialData.isianPIC||"":"")))
+    role === "at" ? initialData.isianAt || "" : (role === "kt" ? initialData.isianKt || "" : (role === "dalnis" ? initialData.isianDalnis || "" : (role === "pic" ? initialData.isianPIC || "" : "")))
   )
 
-  const onvaluechange = (value:string) => {
+  const onvaluechange = (value: string) => {
     const onSubmit = async () => {
       if (role === "at") {
         const values = {
@@ -47,9 +47,9 @@ export const DropdownForm = ({
         }
         try {
           await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values);
-        toast.success("IKU unit kerja updated");
+          toast.success("Isian IKU berhasil diperbarui");
         } catch {
-          toast.error("Something went wrong");
+          toast.error("Terdapat kesalahan");
         }
       }
       if (role === "kt") {
@@ -62,9 +62,9 @@ export const DropdownForm = ({
         }
         try {
           await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values);
-        toast.success("IKU unit kerja updated");
+          toast.success("Isian IKU berhasil diperbarui");
         } catch {
-          toast.error("Something went wrong");
+          toast.error("Terdapat kesalahan");
         }
       }
       if (role === "dalnis") {
@@ -77,9 +77,9 @@ export const DropdownForm = ({
         }
         try {
           await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values);
-        toast.success("IKU unit kerja updated");
+          toast.success("Isian IKU berhasil diperbarui");
         } catch {
-          toast.error("Something went wrong");
+          toast.error("Terdapat kesalahan");
         }
       }
       if (role === "pic") {
@@ -92,20 +92,21 @@ export const DropdownForm = ({
         }
         try {
           await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values);
-        toast.success("IKU unit kerja updated");
+          toast.success("Isian IKU berhasil diperbarui");
         } catch {
-          toast.error("Something went wrong");
+          toast.error("Terdapat kesalahan");
         }
-      }      
+      }
     }
     onSubmit()
   }
 
   return (
 
-    <Select onValueChange={onvaluechange} defaultValue={selected}>
+    <Select onValueChange={onvaluechange} defaultValue={selected}
+      disabled={initialData.tujuanSasaranIndikatorIKUVariabelKKE.variabelKKE?.evaluasi?.status !== "publish"}>
       <SelectTrigger>
-        <SelectValue placeholder="Select grade" />
+        <SelectValue placeholder="Pilih nilai" />
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="a">A</SelectItem>

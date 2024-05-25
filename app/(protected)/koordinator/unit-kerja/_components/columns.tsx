@@ -5,11 +5,12 @@ import { ColumnDef } from "@tanstack/react-table"
 import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
 
-import { jenises, kodeWilayahs, statuses } from "../_data/data"
+import { jenises, statuses } from "../_data/data"
 import { unitKerja } from "../_data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
 import { UserRole } from "@prisma/client"
+import { GlobeIcon } from "lucide-react"
 
 export const columns: ColumnDef<unitKerja>[] = [
   {
@@ -64,7 +65,7 @@ export const columns: ColumnDef<unitKerja>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px]">
+          <span className="w-auto">
             {row.getValue("kodeUnitKerja")}
           </span>
         </div>
@@ -77,20 +78,11 @@ export const columns: ColumnDef<unitKerja>[] = [
       <DataTableColumnHeader column={column} title="Kode Wilayah" />
     ),
     cell: ({ row }) => {
-      const kodeWilayah = kodeWilayahs.find(
-        (kodeWilayah) => kodeWilayah.value === row.original.kodeWilayah
-      )
-
-      if (!kodeWilayah) {
-        return null
-      }
 
       return (
-        <div className="flex w-[100px] items-center">
-          {kodeWilayah.icon && (
-            <kodeWilayah.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-          )}
-          <span>{kodeWilayah.label}</span>
+        <div className="flex w-auto items-center">
+          <GlobeIcon className="mr-2 h-4 w-4 text-muted-foreground" />
+          <span>{row.original.kodeWilayah}</span>
         </div>
       )
     },
@@ -113,7 +105,7 @@ export const columns: ColumnDef<unitKerja>[] = [
       }
 
       return (
-        <div className="flex w-[100px] items-center">
+        <div className="flex w-auto items-center">
           <span>{jenis.label}</span>
         </div>
       )
@@ -141,17 +133,9 @@ export const columns: ColumnDef<unitKerja>[] = [
       <DataTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
-      const status_value =
-        (
-          row.original.kodeUnitKerja &&
-          row.original.kodeWilayah &&
-          row.original.name &&
-          row.original.users.some((user) => user.assignedRole === UserRole.PIMPINAN) &&
-          row.original.users.some((user) => user.assignedRole === UserRole.PIC)
-        ) ? "complete" : "incomplete";
 
       const status = statuses.find(
-        (status) => status.value === status_value
+        (status) => status.value === row.getValue("status")
       )
 
       if (!status) {
@@ -159,7 +143,7 @@ export const columns: ColumnDef<unitKerja>[] = [
       }
 
       return (
-        <div className="flex items-center">
+        <div className="flex w-auto items-center">
           {status.icon && (
             <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
           )}
@@ -172,11 +156,17 @@ export const columns: ColumnDef<unitKerja>[] = [
     },
   },
   {
-    accessorKey: "users",
+    id: "anggota",
+    accessorFn: row => {
+      const anggota = row.users.filter((item) => (item.assignedRole === UserRole.PIMPINAN) || (item.assignedRole === UserRole.PIC));
+      return (
+        `${anggota.length}`
+      )
+    },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Anggota" />
     ),
-    cell: ({ row }) => <div className="w-[120px]">{row.original.users.length}</div>,
+    cell: ({ row }) => <div className="w-auto">{row.getValue("anggota")}</div>,
   },
   {
     id: "actions",

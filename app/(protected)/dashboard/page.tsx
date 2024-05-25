@@ -19,6 +19,7 @@ import { db } from "@/lib/db"
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
+import { Evaluasi, LKEUnitKerja, VariabelLKE } from "@prisma/client"
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -39,7 +40,7 @@ const DashboardPage = async () => {
       variabelsLKE: {
         orderBy: {
           kode: "asc"
-        }
+        },
       },
       variabelsKKE: {
         orderBy: {
@@ -51,7 +52,55 @@ const DashboardPage = async () => {
     }
   });
 
-  const evaluasiFilteredBerjalan = evaluasi.filter((item) => item.status !== "selesai");
+  const LKEUnitKerja = await db.lKEUnitKerja.findMany({
+    orderBy: {
+      variabelLKEId: "asc"
+    },
+    include: {
+      variabelLKE: {
+        include: {
+          evaluasi: true
+        }
+      }
+    }
+  })
+
+  const evaluasiFilteredBerjalan = evaluasi.filter((item) => item.status !== "publish");
+  const evaluasiFilteredSelesai = evaluasi.filter((item) => item.status === "finish");
+  const evaluasiFilteredCek = evaluasi.filter((item) => item.status === "check");
+  const filterLKESelesai = LKEUnitKerja.filter((item => {
+    return item.variabelLKE.evaluasi.status === "finish"
+  }))
+
+  const evaluasiLKE = filterLKESelesai.map((item) => item.variabelLKE.evaluasiId)
+  function kelompokkanArrayObjekByItemKembar(objek: (LKEUnitKerja & { variabelLKE: VariabelLKE & { evaluasi: Evaluasi } })[]): { [key: string]: (LKEUnitKerja & { variabelLKE: VariabelLKE & { evaluasi: Evaluasi } })[] } {
+    const kelompok: { [key: string]: (LKEUnitKerja & { variabelLKE: VariabelLKE & { evaluasi: Evaluasi } })[] } = {};
+
+    objek.forEach(item => {
+      const key = item.variabelLKE.evaluasi.tahun;
+      if (!kelompok[key]) {
+        kelompok[key] = [];
+      }
+      kelompok[key].push(item);
+    });
+
+    return kelompok;
+  }
+  const hasilKelompok = kelompokkanArrayObjekByItemKembar(filterLKESelesai);
+  const arrayOfArrayObject = Object.entries(hasilKelompok).map(([key, items]) => ({
+    key,
+    items
+  }));
+
+
+  const rataLKE = arrayOfArrayObject.map((item) => {
+    let nilai = 0
+    item.items.forEach((item) => {
+      nilai = nilai + Number(item.nilaiPanel)
+    })
+    const rata = (nilai/item.items.length)*100
+    return {name: item.key, total: rata}
+  })
 
   return (
     <>
@@ -63,18 +112,18 @@ const DashboardPage = async () => {
             </div>
           </div>
           <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-4">
-            <div className="grid gap-4 md:grid-cols-2 lg:col-span-3">
-              <Card>
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-3 lg:col-span-3">
+              <Card className="rounded-3xl shadow-lg md:col-span-1">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
                     Total evaluasi selesai
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{evaluasi.length - evaluasiFilteredBerjalan.length}</div>
+                  <div className="text-2xl font-bold">{evaluasiFilteredSelesai.length}</div>
                 </CardContent>
               </Card>
-              <Card>
+              <Card className="rounded-3xl shadow-lg md:col-span-1">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
                     Evaluasi yang sedang berjalan
@@ -84,16 +133,26 @@ const DashboardPage = async () => {
                   <div className="text-2xl font-bold">{evaluasiFilteredBerjalan.length}</div>
                 </CardContent>
               </Card>
-              <Card className="col-span-2">
+              <Card className="rounded-3xl shadow-lg md:col-span-1">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Evaluasi yang sedang dicek
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{evaluasiFilteredCek.length}</div>
+                </CardContent>
+              </Card>
+              <Card className="md:col-span-3 rounded-3xl shadow-lg">
                 <CardHeader>
                   <CardTitle>Rata-rata nilai</CardTitle>
                 </CardHeader>
                 <CardContent className="pl-2">
-                  <Overview />
+                  <Overview data={rataLKE}/>
                 </CardContent>
               </Card>
             </div>
-            <Card>
+            <Card className="rounded-3xl shadow-lg">
               <CardHeader>
                 <CardTitle>Evaluasi terbaru</CardTitle>
                 <CardDescription>

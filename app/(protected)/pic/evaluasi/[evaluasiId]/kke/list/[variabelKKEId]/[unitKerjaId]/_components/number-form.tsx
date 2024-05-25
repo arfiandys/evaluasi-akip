@@ -31,7 +31,7 @@ const formSchema = z.object({
 });
 
 export const NumberForm = ({
-  initialData,role
+  initialData, role
 }: NumberFormProps) => {
 
   const router = useRouter();
@@ -39,7 +39,7 @@ export const NumberForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      isian: role === "at" ? initialData.isianAt||"": (role === "kt" ? initialData.isianKt||"":(role === "dalnis" ? initialData.isianDalnis||"":(role === "pic" ? initialData.isianPIC||"":"")))
+      isian: role === "at" ? initialData.isianAt || "" : (role === "kt" ? initialData.isianKt || "" : (role === "dalnis" ? initialData.isianDalnis || "" : (role === "pic" ? initialData.isianPIC || "" : "")))
     },
   });
 
@@ -56,9 +56,9 @@ export const NumberForm = ({
       }
       try {
         await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, value);
-      toast.success("IKU unit kerja updated");
+        toast.success("Isian IKU berhasil diperbarui");
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terdapat kesalahan");
       }
     }
     if (role === "kt") {
@@ -71,9 +71,9 @@ export const NumberForm = ({
       }
       try {
         await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, value);
-      toast.success("IKU unit kerja updated");
+        toast.success("Isian IKU berhasil diperbarui");
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terdapat kesalahan");
       }
     }
     if (role === "dalnis") {
@@ -86,9 +86,9 @@ export const NumberForm = ({
       }
       try {
         await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, value);
-      toast.success("IKU unit kerja updated");
+        toast.success("Isian IKU berhasil diperbarui");
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terdapat kesalahan");
       }
     }
     if (role === "pic") {
@@ -101,11 +101,11 @@ export const NumberForm = ({
       }
       try {
         await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, value);
-      toast.success("IKU unit kerja updated");
+        toast.success("Isian IKU berhasil diperbarui");
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terdapat kesalahan");
       }
-    } 
+    }
   }
 
   return (
@@ -120,7 +120,7 @@ export const NumberForm = ({
             <FormItem className="max-w-[250px]">
               <FormControl>
                 <Input
-
+                  disabled={initialData.tujuanSasaranIndikatorIKUVariabelKKE.variabelKKE?.evaluasi?.status !== "publish"}
                   type="number"
                   placeholder="Isikan nilai"
                   {...field}

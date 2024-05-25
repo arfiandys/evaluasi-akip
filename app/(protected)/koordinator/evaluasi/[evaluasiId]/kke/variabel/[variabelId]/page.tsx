@@ -108,9 +108,9 @@ const VariabelKKEIKUPage = async ({
                         </div>
                     </div>
                 </div>
-                <div className=" mt-16">
-                    <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-6">
-                        <Card className="rounded-3xl">
+                <div className="mt-16">
+                    <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+                        <Card className={`shadow-lg rounded-3xl ${variabelKKE?.isIndikatorKinerja !== true ? ("xl:col-span-2 xl:col-start-2") : ("")}`}>
                             <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
                                 <div className="flex flex-row gap-x-4 justify-start items-center">
                                     <IconBadge icon={Activity} />
@@ -171,7 +171,6 @@ const VariabelKKEIKUPage = async ({
                                     </div>
                                 </div>
                                 {(variabelKKE?.isIndikatorKinerja === true) ? (
-
                                     <div
                                         className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"
                                     >
@@ -190,7 +189,7 @@ const VariabelKKEIKUPage = async ({
                             </CardContent>
                         </Card>
                         {(variabelKKE?.isIndikatorKinerja === true) ? (
-                            < Card className="shadow-lg col-span-3 rounded-3xl">
+                            < Card className="shadow-lg xl:col-span-3 rounded-3xl">
                                 <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
                                     <div className="flex flex-row gap-x-4 justify-start items-center">
                                         <IconBadge icon={Activity} />

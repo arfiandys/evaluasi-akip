@@ -47,9 +47,10 @@ export const DropdownForm = ({
         }
         try {
           await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values);
-        toast.success("IKU unit kerja updated");
+          toast.success("Isian IKU berhasil diperbarui");
+          router.refresh()
         } catch {
-          toast.error("Something went wrong");
+          toast.error("Terdapat kesalahan");
         }
       }
       if (role === "kt") {
@@ -62,9 +63,10 @@ export const DropdownForm = ({
         }
         try {
           await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values);
-        toast.success("IKU unit kerja updated");
+          toast.success("Isian IKU berhasil diperbarui");
+          router.refresh()
         } catch {
-          toast.error("Something went wrong");
+          toast.error("Terdapat kesalahan");
         }
       }
       if (role === "dalnis") {
@@ -77,9 +79,10 @@ export const DropdownForm = ({
         }
         try {
           await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values);
-        toast.success("IKU unit kerja updated");
+          toast.success("Isian IKU berhasil diperbarui");
+          router.refresh()
         } catch {
-          toast.error("Something went wrong");
+          toast.error("Terdapat kesalahan");
         }
       }
       if (role === "pic") {
@@ -92,9 +95,10 @@ export const DropdownForm = ({
         }
         try {
           await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values);
-        toast.success("IKU unit kerja updated");
+          toast.success("Isian IKU berhasil diperbarui");
+          router.refresh()
         } catch {
-          toast.error("Something went wrong");
+          toast.error("Terdapat kesalahan");
         }
       }      
     }
@@ -103,9 +107,9 @@ export const DropdownForm = ({
 
   return (
 
-    <Select onValueChange={onvaluechange} defaultValue={selected}>
+    <Select onValueChange={onvaluechange} defaultValue={selected} disabled={initialData.tujuanSasaranIndikatorIKUVariabelKKE.variabelKKE?.evaluasi?.status!=="publish"&&initialData.tujuanSasaranIndikatorIKUVariabelKKE.variabelKKE?.evaluasi?.status!=="check"}>
       <SelectTrigger>
-        <SelectValue placeholder="Select grade" />
+        <SelectValue placeholder="Pilih nilai" />
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="a">A</SelectItem>

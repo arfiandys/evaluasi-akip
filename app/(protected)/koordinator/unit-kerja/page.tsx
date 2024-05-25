@@ -34,6 +34,20 @@ const UnitKerjaPage = async () => {
         }
     });
 
+    interface Items {
+        value: string;
+        label: string;
+    }
+
+    // Unit Kerja
+    const dataKodeWilayah = Array.from(new Set(unitKerja.map(item => item.kodeWilayah)))
+    const kodeWilayahUnique: Items[] = dataKodeWilayah.map(item => ({
+        value: item,
+        label: item
+    }));
+
+    const data: (Items)[][] = [kodeWilayahUnique]
+
     return (
         <div className="flex h-screen flex-1 flex-col space-y-6 p-8">
         <div className="flex flex-row gap-x-2 justify-between">
@@ -68,7 +82,7 @@ const UnitKerjaPage = async () => {
                 </Button>
             </div>
         </div>
-        <DataTable data={unitKerja} columns={columns} />
+        <DataTable data={unitKerja} columns={columns} uniqueData={data} />
     </div>
     );
 }

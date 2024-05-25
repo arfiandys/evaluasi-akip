@@ -13,6 +13,10 @@ export const permindokUnitKerjaSchema = z.object({
     kode: z.string().min(1),
     tahun: z.string().min(1),
     name: z.string().min(1),
+    evaluasi: z.object({
+      id: z.string().min(1),
+      status: z.string().min(1),
+    }).nullable(),
   }),
   unitKerja: z.object({
     id: z.string().min(1),

@@ -81,13 +81,17 @@ export const UnitKerjaForm = ({
       action: "addUnitKerja"
     }
     try {
-      await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value);
-      toast.success("Unit kerja berhasil diperbarui");
+      const response = await axios.patch(`/api/tim-evaluasi/${timEvaluasiId}`, value);
+      if (response.data.error) {
+        toast.error(response.data.error)
+      } else {
+        toast.success("Unit kerja berhasil diperbarui");
+      }
       toggleAnggotaEdit();
       form.reset();
       router.refresh();
     } catch {
-      toast.error("Terdapat kesalahan, atau coba reload dulu lalu tambah unit kerja lagi");
+      toast.error("Terdapat kesalahan");
     }
   }
 
@@ -176,7 +180,7 @@ export const UnitKerjaForm = ({
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4 mt-4 text-primary"
+              className="space-y-4 mt-4"
             >
               <FormField
                 control={form.control}
@@ -208,7 +212,7 @@ export const UnitKerjaForm = ({
           </p>
           <div className="flex flex-wrap gap-y-2 gap-x-2 items-start px-5">
             {unitKerja?.map((unit) => (
-              <div key={unit.unitKerjaId} className="flex items-center w-fit p-2 bg-sky-100 border-sky-200 border text-sky-700 rounded-2xl">
+              <div key={unit.unitKerjaId} className="flex items-center w-fit p-2 bg-secondary text-secondary-foreground rounded-2xl">
                 <Building className="h-4 w-4 mr-2 flex-shrink-0" />
                 <p className="text-xs line-clamp-1">
                   {(options_unitKerja.find((option) => option.value === unit.unitKerjaId))?.label}
@@ -233,7 +237,7 @@ export const UnitKerjaForm = ({
         </div>
       ) : (
         <div
-          className="flex flex-col p-3 w-full bg-sky-100 border-sky-200 border text-sky-700 rounded-md"
+          className="flex flex-col p-3 w-full bg-secondary text-secondary-foreground rounded-md"
         >
           <div className="flex items-center w-full">
             <User2 className="h-4 w-4 mr-2 flex-shrink-0" />

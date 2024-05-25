@@ -35,77 +35,12 @@ export const DropdownForm = ({
     role === "at" ? initialData.isianAt||"": (role === "kt" ? initialData.isianKt||"":(role === "dalnis" ? initialData.isianDalnis||"":(role === "pic" ? initialData.isianPIC||"":"")))
   )
 
-  const onvaluechange = (value:string) => {
-    const onSubmit = async () => {
-      if (role === "at") {
-        const values = {
-          values: {
-            isianAt: value
-          },
-          input: "input",
-          unitKerjaId: initialData.unitKerjaId
-        }
-        try {
-          await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values);
-        toast.success("IKU unit kerja updated");
-        } catch {
-          toast.error("Something went wrong");
-        }
-      }
-      if (role === "kt") {
-        const values = {
-          values: {
-            isianKt: value
-          },
-          input: "input",
-          unitKerjaId: initialData.unitKerjaId
-        }
-        try {
-          await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values);
-        toast.success("IKU unit kerja updated");
-        } catch {
-          toast.error("Something went wrong");
-        }
-      }
-      if (role === "dalnis") {
-        const values = {
-          values: {
-            isianDalnis: value
-          },
-          input: "input",
-          unitKerjaId: initialData.unitKerjaId
-        }
-        try {
-          await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values);
-        toast.success("IKU unit kerja updated");
-        } catch {
-          toast.error("Something went wrong");
-        }
-      }
-      if (role === "pic") {
-        const values = {
-          values: {
-            isianPIC: value
-          },
-          input: "input",
-          unitKerjaId: initialData.unitKerjaId
-        }
-        try {
-          await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, values);
-        toast.success("IKU unit kerja updated");
-        } catch {
-          toast.error("Something went wrong");
-        }
-      }      
-    }
-    onSubmit()
-  }
 
   return (
 
-    <Select onValueChange={onvaluechange} defaultValue={selected} disabled>
+    <Select defaultValue={selected} disabled>
       <SelectTrigger>
-        <SelectValue placeholder="Select grade" />
+        <SelectValue placeholder="Pilih nilai" />
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="a">A</SelectItem>

@@ -31,6 +31,10 @@ export const LKEUnitKerjaSchema = z.object({
     subKomponenLKEId: z.string().nullable(),
     kriteriaLKEId: z.string().nullable(),
     subKriteriaLKEId: z.string().nullable(),
+    evaluasi: z.object({
+      id: z.string().min(1),
+      status: z.string().min(1),
+    }).nullable(),
     komponenLKE: z.object({
       id: z.string().min(1),
       kode: z.string().min(1),

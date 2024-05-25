@@ -28,6 +28,10 @@ export const VariabelKKEUnitKerjaSchema = z.object({
         permindokId: z.string().nullable()
       })
     }).nullable(),
+    evaluasi: z.object({
+      id: z.string().min(1),
+      status: z.string().min(1),
+    }).nullable(),
   }),
   unitKerja: z.object({
     id: z.string().min(1),

@@ -61,9 +61,10 @@ export const NumberForm = ({
       }
       try {
         await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, value);
-        toast.success("LKE unit kerja updated");
+        toast.success("Isian KKE berhasil diperbarui");
+        router.refresh()
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terdapat kesalahan");
       } finally {
         setLoading(false)
       }
@@ -81,9 +82,10 @@ export const NumberForm = ({
       }
       try {
         await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, value);
-        toast.success("LKE unit kerja updated");
+        toast.success("Isian KKE berhasil diperbarui");
+        router.refresh()
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terdapat kesalahan");
       } finally {
         setLoading(false)
       }
@@ -101,9 +103,10 @@ export const NumberForm = ({
       }
       try {
         await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, value);
-        toast.success("LKE unit kerja updated");
+        toast.success("Isian KKE berhasil diperbarui");
+        router.refresh()
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terdapat kesalahan");
       } finally {
         setLoading(false)
       }
@@ -121,9 +124,10 @@ export const NumberForm = ({
       }
       try {
         await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, value);
-        toast.success("LKE unit kerja updated");
+        toast.success("Isian KKE berhasil diperbarui");
+        router.refresh()
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terdapat kesalahan");
       } finally {
         setLoading(false)
       }
@@ -151,6 +155,7 @@ export const NumberForm = ({
                 ) : (
                   <Input
                     type="number"
+                    disabled={initialData.variabelKKE.evaluasi?.status!=="publish"&&initialData.variabelKKE.evaluasi?.status!=="check"}
                     min={0}
                     max={100}
                     placeholder="Isikan nilai"

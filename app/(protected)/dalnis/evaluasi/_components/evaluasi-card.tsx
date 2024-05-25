@@ -65,7 +65,6 @@ export const EvaluasiCard = ({
             alt={title}
             src={imageUrl}
           />
-          {((status === "publish") || (status === "check")) ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="w-[50px] h-[50px] rounded-full">
@@ -93,10 +92,6 @@ export const EvaluasiCard = ({
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          ) : (
-            <></>
-          )}
-
         </div>
         <div className="flex flex-col pt-2">
           <div className="mt-2 text-lg md:text-base font-medium group-hover:text-sky-700 transition line-clamp-2">

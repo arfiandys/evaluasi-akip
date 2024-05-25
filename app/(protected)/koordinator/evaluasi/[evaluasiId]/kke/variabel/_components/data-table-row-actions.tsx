@@ -21,6 +21,7 @@ import {
 import { jenises } from "../_data/data"
 import { variabelKKESchema } from "../_data/schema"
 import Link from "next/link"
+import { Eye } from "lucide-react"
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
@@ -32,21 +33,11 @@ export function DataTableRowActions<TData>({
   const variabelKKE = variabelKKESchema.parse(row.original)
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
-        >
-          <DotsHorizontalIcon className="h-4 w-4" />
-          <span className="sr-only">Open menu</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[160px]">
-        <Link href={`/koordinator/evaluasi/${variabelKKE.evaluasiId}/kke/variabel/${variabelKKE.id}`}>
-          <DropdownMenuItem>View</DropdownMenuItem>
-        </Link>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Link href={`/koordinator/evaluasi/${variabelKKE.evaluasiId}/kke/variabel/${variabelKKE.id}`}>
+      <Button variant="ghost" className="gap-x-2 p-2">
+      <Eye className="h-4 w-4" />
+        <span>Lihat</span>
+      </Button>
+    </Link>
   )
 }

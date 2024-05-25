@@ -55,6 +55,52 @@ export async function PATCH(
     // UNIT KERJA ON TIM EVALUASI ADD
 
     if (values?.userId! && values?.unitKerjaId! && values.dalnisId! && values.ketuaId! && (values.action! === "addUnitKerja")) {
+      const unitKerjaAnggota = await db.userOnUnitKerja.findFirst({
+        where: {
+          AND: [
+            {
+              unitKerjaId: values.unitKerjaId
+            },
+            {
+              userId: values.userId
+            }
+          ]
+        }
+      })
+      if (unitKerjaAnggota) {
+        return NextResponse.json({ error: "Anggota sudah ditugaskan di unit kerja ini" });
+      }
+      const unitKerjaKetua = await db.userOnUnitKerja.findFirst({
+        where: {
+          AND: [
+            {
+              unitKerjaId: values.unitKerjaId
+            },
+            {
+              userId: values.ketuaId
+            }
+          ]
+        }
+      })
+      if (unitKerjaKetua) {
+        return NextResponse.json({ error: "Ketua sudah ditugaskan di unit kerja ini" });
+      }
+      const unitKerjaDalnis = await db.userOnUnitKerja.findFirst({
+        where: {
+          AND: [
+            {
+              unitKerjaId: values.unitKerjaId
+            },
+            {
+              userId: values.dalnisId
+            }
+          ]
+        }
+      })
+      if (unitKerjaDalnis) {
+        return NextResponse.json({ error: "Dalnis sudah ditugaskan di unit kerja ini" });
+      }
+
       const timEvaluasi = await db.timEvaluasi.update({
         where: {
           id: timEvaluasiId

@@ -67,7 +67,11 @@ const IKUAnggotaPage = async ({
             tujuanSasaranIndikatorIKUVariabelKKE: {
                 include: {
                     tujuanSasaranIndikatorIKU: true,
-                    variabelKKE: true
+                    variabelKKE: {
+                        include: {
+                            evaluasi: true
+                        }
+                    }
                 }
             },
             unitKerja: true,

@@ -126,13 +126,13 @@ export const Actions = ({
           </Select>
           <div className="mt-4 w-full">
             <ConfirmModal onConfirm={onClick}>
-              <Button className="w-full" disabled={isLoading}>Submit</Button>
+              <Button className="w-full" disabled={isLoading}>Simpan</Button>
             </ConfirmModal>
           </div>
         </PopoverContent>
       </Popover>
       <ConfirmModal onConfirm={onDelete}>
-        <Button size="sm" disabled={isLoading}>
+        <Button size="sm" disabled={isLoading} variant="destructive">
           <Trash className="h-4 w-4" />
         </Button>
       </ConfirmModal>

@@ -72,6 +72,7 @@ const LKEAnggotaPage = async ({
                     },
                     subKriteriaLKE: true,
                     variabelKKE: true,
+                    evaluasi: true
                 }
             },
             unitKerja: true,

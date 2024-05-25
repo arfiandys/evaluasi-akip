@@ -46,93 +46,10 @@ export const NumberForm = ({
 
   const { isSubmitting, isValid } = form.formState;
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setLoading(true)
-    if (role === "at") {
-      const value = {
-        values: {
-          isian: values
-        },
-        input: "input",
-        jenis: "number",
-        role: "at",
-        unitKerjaId: initialData.unitKerjaId,
-        variabelLKEId: initialData.variabelKKE.variabelLKEId,
-      }
-      try {
-        await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, value);
-        toast.success("LKE unit kerja updated");
-      } catch {
-        toast.error("Something went wrong");
-      } finally {
-        setLoading(false)
-      }
-    }
-    if (role === "kt") {
-      const value = {
-        values: {
-          isian: values
-        },
-        input: "input",
-        jenis: "number",
-        role: "kt",
-        unitKerjaId: initialData.unitKerjaId,
-        variabelLKEId: initialData.variabelKKE.variabelLKEId,
-      }
-      try {
-        await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, value);
-        toast.success("LKE unit kerja updated");
-      } catch {
-        toast.error("Something went wrong");
-      } finally {
-        setLoading(false)
-      }
-    }
-    if (role === "dalnis") {
-      const value = {
-        values: {
-          isian: values
-        },
-        input: "input",
-        jenis: "number",
-        role: "dalnis",
-        unitKerjaId: initialData.unitKerjaId,
-        variabelLKEId: initialData.variabelKKE.variabelLKEId,
-      }
-      try {
-        await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, value);
-        toast.success("LKE unit kerja updated");
-      } catch {
-        toast.error("Something went wrong");
-      } finally {
-        setLoading(false)
-      }
-    }
-    if (role === "pic") {
-      const value = {
-        values: {
-          isian: values
-        },
-        input: "input",
-        jenis: "number",
-        role: "pic",
-        unitKerjaId: initialData.unitKerjaId,
-      }
-      try {
-        await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, value);
-        toast.success("LKE unit kerja updated");
-      } catch {
-        toast.error("Something went wrong");
-      } finally {
-        setLoading(false)
-      }
-    }
-  }
-
+  
   return (
     <Form {...form}>
-      <form
-        onChange={form.handleSubmit(onSubmit)}
+      <form        
       >
         <FormField
           control={form.control}
@@ -140,14 +57,6 @@ export const NumberForm = ({
           render={({ field }) => (
             <FormItem className="max-w-[250px]">
               <FormControl>
-                {initialData.variabelKKE.isIndikatorKinerja === true ? (
-                  <Input
-                    type="number"
-                    disabled
-                    placeholder="Isikan nilai"
-                    {...field}
-                  />
-                ) : (
                   <Input
                     type="number"
                     disabled
@@ -156,8 +65,6 @@ export const NumberForm = ({
                     placeholder="Isikan nilai"
                     {...field}
                   />
-                )}
-
               </FormControl>
               <FormMessage />
             </FormItem>

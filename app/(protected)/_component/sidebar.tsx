@@ -31,8 +31,8 @@ export const SideBar = ({
 
     const asideStyle = cn("sidebar overflow-y-auto overflow-x-auto fixed bg-background h-full shadow-sm shadow-slate-500/40 transition duration-300 ease-in-out z-[12]",
         {
-            ["w-[20rem] 2xl:hidden"]: !toggleCollapse,
-            ["sm:w-[5.4rem] sm:left-0 left-[-100%] 2xl:hidden"]: toggleCollapse,
+            ["w-[20rem] xl:hidden"]: !toggleCollapse,
+            ["sm:w-[5.4rem] sm:left-0 left-[-100%] xl:hidden"]: toggleCollapse,
         });
 
     const user = useCurrentUser();
@@ -132,7 +132,7 @@ export const SideBar = ({
     return (
         <>
             <Header setSelectedRole={setRole} selectedRole={selectedRole} existingRole={existingRole} />
-            <div className='border-t border-dashed bg-background/30 backdrop-blur-sm shadow-sm shadow-slate-500/40 hidden 2xl:flex justify-center fixed w-screen z-[11] mt-16 h-16 items-center'>
+            <div className='border-t border-dashed bg-background/30 backdrop-blur-sm shadow-sm shadow-slate-500/40 hidden xl:flex justify-center fixed w-screen z-[11] mt-16 h-16 items-center'>
                 <TopBarMenuItem selectedRoute={selectedRoute} />
             </div>
             {/* ============================= */}

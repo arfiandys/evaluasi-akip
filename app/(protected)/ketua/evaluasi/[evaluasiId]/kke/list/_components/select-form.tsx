@@ -51,9 +51,10 @@ export const SelectForm = ({
         }
         try {
           await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, values);
-          toast.success("KKE unit kerja updated");
+          toast.success("Isian KKE berhasil diperbarui");
+          router.refresh()
         } catch {
-          toast.error("Something went wrong");
+          toast.error("Terdapat kesalahan");
         } finally {
           setLoading(false)
         }
@@ -71,9 +72,10 @@ export const SelectForm = ({
         }
         try {
           await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, values);
-          toast.success("KKE unit kerja updated");
+          toast.success("Isian KKE berhasil diperbarui");
+          router.refresh()
         } catch {
-          toast.error("Something went wrong");
+          toast.error("Terdapat kesalahan");
         } finally {
           setLoading(false)
         }
@@ -91,9 +93,10 @@ export const SelectForm = ({
         }
         try {
           await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, values);
-          toast.success("KKE unit kerja updated");
+          toast.success("Isian KKE berhasil diperbarui");
+          router.refresh()
         } catch {
-          toast.error("Something went wrong");
+          toast.error("Terdapat kesalahan");
         } finally {
           setLoading(false)
         }
@@ -110,9 +113,10 @@ export const SelectForm = ({
         }
         try {
           await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, values);
-          toast.success("KKE unit kerja updated");
+          toast.success("Isian KKE berhasil diperbarui");
+          router.refresh()
         } catch {
-          toast.error("Something went wrong");
+          toast.error("Terdapat kesalahan");
         } finally {
           setLoading(false)
         }
@@ -133,9 +137,9 @@ export const SelectForm = ({
       ) : (
         <></>
       )}
-      <Select onValueChange={onvaluechange} defaultValue={selected}>
+      <Select onValueChange={onvaluechange} defaultValue={selected} disabled={initialData.variabelKKE.evaluasi?.status!=="publish"&&initialData.variabelKKE.evaluasi?.status!=="check"}>
         <SelectTrigger>
-          <SelectValue placeholder="Select yes/no" />
+          <SelectValue placeholder="Pilih Ya/Tidak" />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="ya">Ya</SelectItem>

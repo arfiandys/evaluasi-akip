@@ -48,10 +48,10 @@ export const DropdownForm = ({
         }
         try {
           await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, values);
-          toast.success("LKE unit kerja updated");
+          toast.success("Isian LKE berhasil diperbarui");
           router.refresh()
         } catch {
-          toast.error("Something went wrong");
+          toast.error("Terdapat kesalahan");
         } finally {
           setLoading(false)
         }
@@ -68,10 +68,10 @@ export const DropdownForm = ({
         }
         try {
           await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, values);
-          toast.success("LKE unit kerja updated");
+          toast.success("Isian LKE berhasil diperbarui");
           router.refresh()
         } catch {
-          toast.error("Something went wrong");
+          toast.error("Terdapat kesalahan");
         } finally {
           setLoading(false)
         }
@@ -88,10 +88,10 @@ export const DropdownForm = ({
         }
         try {
           await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, values);
-          toast.success("LKE unit kerja updated");
+          toast.success("Isian LKE berhasil diperbarui");
           router.refresh()
         } catch {
-          toast.error("Something went wrong");
+          toast.error("Terdapat kesalahan");
         } finally {
           setLoading(false)
         }
@@ -115,11 +115,12 @@ export const DropdownForm = ({
       <Select onValueChange={onvaluechange} defaultValue={selected}>
         {initialData.variabelLKE.variabelKKE ? (
           <SelectTrigger disabled>
-            <SelectValue placeholder="Select grade" />
+            <SelectValue placeholder="Pilih nilai" />
           </SelectTrigger>
         ) : (
-          <SelectTrigger>
-            <SelectValue placeholder="Select grade" />
+          <SelectTrigger
+            disabled={initialData.variabelLKE.evaluasi?.status !== "publish" && initialData.variabelLKE.evaluasi?.status !== "check"}>
+            <SelectValue placeholder="Pilih nilai" />
           </SelectTrigger>
         )}
         <SelectContent>

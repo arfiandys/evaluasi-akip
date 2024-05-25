@@ -23,10 +23,10 @@ export const SideBarMenuItem = ({ item }: SideBarMenuItemProps) => {
         setSubMenuOpen(!subMenuOpen);
     };
 
-    const inactiveLink = cn("cursor-pointer flex items-center min-h-[40px] h-full py-2 px-4 hover:text-muted-foreground  hover:bg-muted rounded-md transition duration-200"
+    const inactiveLink = cn("cursor-pointer flex items-center min-h-[40px] h-full py-2 px-4 text-muted-foreground  hover:bg-muted rounded-md transition duration-200"
     );
 
-    const activeLink = cn("active text-primary-foreground bg-primary hover:bg-primary/90");
+    const activeLink = cn("active text-primary-foreground bg-primary/80 hover:bg-primary");
 
     const navMenuDropdownItem = "px-14 py-2 hover:bg-muted text-muted-foreground transition duration-200 rounded-md"
 
@@ -67,7 +67,7 @@ export const SideBarMenuItem = ({ item }: SideBarMenuItemProps) => {
                     }
                 </div>
             ) :
-                (<Link href={item.path} className={`${inactiveLink} ${item.path === pathname ? activeLink : ''}`}>
+                (<Link href={item.path} className={`${inactiveLink} ${pathname.includes(item.path) ? activeLink : ''}`}>
                     {item.icon}
                     {!toggleCollapse && (<span className="ml-3 leading-6 font-semibold">{item.title}</span>)}
                 </Link>)}

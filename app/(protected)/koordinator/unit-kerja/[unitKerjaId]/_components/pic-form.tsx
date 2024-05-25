@@ -123,7 +123,7 @@ export const PICForm = ({
               {pic.map((pic) => (
                 <div
                   key={pic.userId}
-                  className="flex items-center p-3 w-full bg-sky-100 border-sky-200 border text-sky-700 rounded-md"
+                  className="flex items-center p-3 w-full bg-secondary text-secondary-foreground rounded-md"
                 >
                   <User2 className="h-4 w-4 mr-2 flex-shrink-0" />
                   <p className="text-xs line-clamp-1">

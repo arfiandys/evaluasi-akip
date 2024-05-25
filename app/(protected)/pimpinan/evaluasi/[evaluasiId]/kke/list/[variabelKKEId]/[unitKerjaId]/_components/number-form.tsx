@@ -45,73 +45,10 @@ export const NumberForm = ({
 
   const { isSubmitting, isValid } = form.formState;
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    if (role === "at") {
-      const value = {
-        values: {
-          isianAt: values
-        },
-        input: "input",
-        unitKerjaId: initialData.unitKerjaId
-      }
-      try {
-        await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, value);
-      toast.success("IKU unit kerja updated");
-      } catch {
-        toast.error("Something went wrong");
-      }
-    }
-    if (role === "kt") {
-      const value = {
-        values: {
-          isianKt: values
-        },
-        input: "input",
-        unitKerjaId: initialData.unitKerjaId
-      }
-      try {
-        await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, value);
-      toast.success("IKU unit kerja updated");
-      } catch {
-        toast.error("Something went wrong");
-      }
-    }
-    if (role === "dalnis") {
-      const value = {
-        values: {
-          isianDalnis: values
-        },
-        input: "input",
-        unitKerjaId: initialData.unitKerjaId
-      }
-      try {
-        await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, value);
-      toast.success("IKU unit kerja updated");
-      } catch {
-        toast.error("Something went wrong");
-      }
-    }
-    if (role === "pic") {
-      const value = {
-        values: {
-          isianPIC: values
-        },
-        input: "input",
-        unitKerjaId: initialData.unitKerjaId
-      }
-      try {
-        await axios.patch(`/api/kke/variabel-iku/${initialData.tujuanSasaranIndikatorIKUVariabelKKEId}`, value);
-      toast.success("IKU unit kerja updated");
-      } catch {
-        toast.error("Something went wrong");
-      }
-    } 
-  }
 
   return (
     <Form {...form}>
       <form
-        onChange={form.handleSubmit(onSubmit)}
       >
         <FormField
           control={form.control}

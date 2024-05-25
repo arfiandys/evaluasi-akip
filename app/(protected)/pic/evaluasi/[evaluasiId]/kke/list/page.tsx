@@ -80,6 +80,7 @@ const KKEAnggotaPage = async ({
                             kelompokKriteriaKKE: true
                         }
                     },
+                    evaluasi: true
                 }
             },
             unitKerja: {
@@ -123,6 +124,7 @@ const KKEAnggotaPage = async ({
                             kelompokKriteriaKKE: true
                         }
                     },
+                    evaluasi: true
                 }
             },
             unitKerja: {

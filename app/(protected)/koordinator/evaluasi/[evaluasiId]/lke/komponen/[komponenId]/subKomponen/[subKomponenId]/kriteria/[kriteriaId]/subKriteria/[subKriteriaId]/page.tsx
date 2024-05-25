@@ -85,7 +85,7 @@ const KriteriaIdPage = async ({
                         </div>
                     </div>
                 </div>
-                <div className=" mt-16 grid gap-6 grid-cols-4">
+                <div className="mt-16 grid gap-6 grid-cols-4">
                     <Card className="shadow-lg col-span-4 md:col-start-2 md:col-span-2 rounded-3xl h-fit">
                         <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
                             <div className="flex flex-row gap-x-4 justify-start items-center">

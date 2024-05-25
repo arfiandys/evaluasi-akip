@@ -38,9 +38,9 @@ export const TopBarMenuItem = ({ selectedRoute }: TopBarMenuItemProps) => {
         setSubMenuOpen(!subMenuOpen);
     };
 
-    const inactiveLink = cn("bg-background text-primary hover:text-muted-foreground  hover:bg-muted");
+    const inactiveLink = cn("bg-background text-muted-foreground  hover:bg-muted");
 
-    const activeLink = cn("text-primary-foreground bg-primary hover:bg-primary/90");
+    const activeLink = cn("text-primary-foreground bg-primary hover:bg-primary/80");
 
     const navMenuDropdownItem = "px-14 py-2 hover:bg-muted text-muted-foreground transition duration-200 rounded-md"
 

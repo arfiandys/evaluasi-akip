@@ -66,10 +66,10 @@ export function DataTableRowActions<TData>({
     }
     try {
       await axios.patch(`/api/permindok/${permindokUnitKerja.permindokId}`, value);
-      toast.success("Permindok updated");
+      toast.success("Dokumen berhasil diupload");
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     }
   }
 
@@ -81,10 +81,10 @@ export function DataTableRowActions<TData>({
     try {
       setDeletingId(id);
       await axios.patch(`/api/permindok/${permindokUnitKerja.permindokId}`, value);
-      toast.success("Document deleted");
+      toast.success("Dokumen berhasil dihapus");
       router.refresh();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Terdapat kesalahan");
     } finally {
       setDeletingId(null);
     }
@@ -92,7 +92,7 @@ export function DataTableRowActions<TData>({
 
   return (
     <Drawer>
-      <DrawerTrigger asChild>
+      <DrawerTrigger asChild disabled={permindokUnitKerja.permindok.evaluasi?.status!=="publish"}>
         <Button
           variant="ghost"
           className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
@@ -118,13 +118,13 @@ export function DataTableRowActions<TData>({
                 }}
               />
               <div className="text-xs text-muted-foregroun mt-4">
-                Add anything!
+                Tambah dokumen!
               </div>
             </div>
             <>
               {!permindokUnitKerja.url && (
                 <p className="text-sm mt-2 text-slate-500 italic">
-                  No dokumen yet
+                  Dokumen belum ada
                 </p>
               )}
               {permindokUnitKerja.url && (

@@ -5,7 +5,7 @@ import { Building2, ClipboardPenLine, FileCheck, HelpCircle, Home, Settings, She
 export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
 
     {
-        title: "Dashboards",
+        title: "Dashboard",
         menuList: [{
             title: 'Dashboard',
             path: '/dashboard',
@@ -13,7 +13,7 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
         }]
     },
     {
-        title: "Manage",
+        title: "Kelola",
         menuList: [
             {
                 title: 'Tim Evaluasi',
@@ -38,7 +38,7 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
         ]
     },
     {
-        title: "Others",
+        title: "Lainnya",
         menuList: [
             {
                 title: 'Profil',
@@ -57,7 +57,7 @@ export const SIDENAV_ITEMS_ADMIN: SideNavItemGroup[] = [
 export const SIDENAV_ITEMS_USER: SideNavItemGroup[] = [
 
     {
-        title: "Dashboards",
+        title: "Dashboard",
         menuList: [{
             title: 'Dashboard',
             path: '/dashboard',
@@ -65,7 +65,7 @@ export const SIDENAV_ITEMS_USER: SideNavItemGroup[] = [
         }]
     },
     {
-        title: "Others",
+        title: "Lainnya",
         menuList: [
             {
                 title: 'Profil',
@@ -84,7 +84,7 @@ export const SIDENAV_ITEMS_USER: SideNavItemGroup[] = [
 
 export const SIDENAV_ITEMS_ANGGOTA: SideNavItemGroup[] = [
     {
-        title: "Dashboards",
+        title: "Dashboard",
         menuList: [{
             title: 'Dashboard',
             path: '/dashboard',
@@ -92,7 +92,7 @@ export const SIDENAV_ITEMS_ANGGOTA: SideNavItemGroup[] = [
         }]
     },
     {
-        title: "Manage",
+        title: "Kelola",
         menuList: [
             {
                 title: 'Evaluasi',
@@ -102,7 +102,7 @@ export const SIDENAV_ITEMS_ANGGOTA: SideNavItemGroup[] = [
         ]
     },
     {
-        title: "Others",
+        title: "Lainnya",
         menuList: [
             {
                 title: 'Profil',
@@ -120,7 +120,7 @@ export const SIDENAV_ITEMS_ANGGOTA: SideNavItemGroup[] = [
 
 export const SIDENAV_ITEMS_KETUA: SideNavItemGroup[] = [
     {
-        title: "Dashboards",
+        title: "Dashboard",
         menuList: [{
             title: 'Dashboard',
             path: '/dashboard',
@@ -128,7 +128,7 @@ export const SIDENAV_ITEMS_KETUA: SideNavItemGroup[] = [
         }]
     },
     {
-        title: "Manage",
+        title: "Kelola",
         menuList: [
             {
                 title: 'Evaluasi',
@@ -138,7 +138,7 @@ export const SIDENAV_ITEMS_KETUA: SideNavItemGroup[] = [
         ]
     },
     {
-        title: "Others",
+        title: "Lainnya",
         menuList: [
             {
                 title: 'Profil',
@@ -156,7 +156,7 @@ export const SIDENAV_ITEMS_KETUA: SideNavItemGroup[] = [
 
 export const SIDENAV_ITEMS_DALNIS: SideNavItemGroup[] = [
     {
-        title: "Dashboards",
+        title: "Dashboard",
         menuList: [{
             title: 'Dashboard',
             path: '/dashboard',
@@ -164,7 +164,7 @@ export const SIDENAV_ITEMS_DALNIS: SideNavItemGroup[] = [
         }]
     },
     {
-        title: "Manage",
+        title: "Kelola",
         menuList: [
             {
                 title: 'Evaluasi',
@@ -174,7 +174,7 @@ export const SIDENAV_ITEMS_DALNIS: SideNavItemGroup[] = [
         ]
     },
     {
-        title: "Others",
+        title: "Lainnya",
         menuList: [
             {
                 title: 'Profil',
@@ -192,7 +192,7 @@ export const SIDENAV_ITEMS_DALNIS: SideNavItemGroup[] = [
 
 export const SIDENAV_ITEMS_PIC: SideNavItemGroup[] = [
     {
-        title: "Dashboards",
+        title: "Dashboard",
         menuList: [{
             title: 'Dashboard',
             path: '/dashboard',
@@ -200,7 +200,7 @@ export const SIDENAV_ITEMS_PIC: SideNavItemGroup[] = [
         }]
     },
     {
-        title: "Manage",
+        title: "Kelola",
         menuList: [
             {
                 title: 'Evaluasi',
@@ -210,7 +210,7 @@ export const SIDENAV_ITEMS_PIC: SideNavItemGroup[] = [
         ]
     },
     {
-        title: "Others",
+        title: "Lainnya",
         menuList: [
             {
                 title: 'Profil',
@@ -228,7 +228,7 @@ export const SIDENAV_ITEMS_PIC: SideNavItemGroup[] = [
 
 export const SIDENAV_ITEMS_PIMPINAN: SideNavItemGroup[] = [
     {
-        title: "Dashboards",
+        title: "Dashboard",
         menuList: [{
             title: 'Dashboard',
             path: '/dashboard',
@@ -236,7 +236,7 @@ export const SIDENAV_ITEMS_PIMPINAN: SideNavItemGroup[] = [
         }]
     },
     {
-        title: "Manage",
+        title: "Kelola",
         menuList: [
             {
                 title: 'Evaluasi',
@@ -246,7 +246,7 @@ export const SIDENAV_ITEMS_PIMPINAN: SideNavItemGroup[] = [
         ]
     },
     {
-        title: "Others",
+        title: "Lainnya",
         menuList: [
             {
                 title: 'Profil',

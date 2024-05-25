@@ -118,13 +118,13 @@ export function DataTableRowActions<TData>({
                 }}
               />
               <div className="text-xs text-muted-foregroun mt-4">
-                Add anything!
+                Tambah dokumen!
               </div>
             </div>
             <>
               {!LHE.url && (
                 <p className="text-sm mt-2 text-slate-500 italic">
-                  No dokumen yet
+                  Belum ada dokumen
                 </p>
               )}
               {LHE.url && (

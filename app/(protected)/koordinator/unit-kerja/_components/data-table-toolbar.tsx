@@ -7,17 +7,22 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DataTableViewOptions } from "../_components/data-table-view-options"
 
-import { jenises, kodeWilayahs, statuses } from "../_data/data"
+import { jenises, statuses } from "../_data/data"
 import { DataTableFacetedFilter } from "./data-table-faceted-filter"
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
+  uniqueData:{
+    label: string;
+    value: string;
+  }[][]
 }
 
 export function DataTableToolbar<TData>({
-  table,
+  table, uniqueData
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
+  const dataKodeWilayah = uniqueData[0]
 
   return (
     <div className="flex items-center justify-between">
@@ -34,7 +39,7 @@ export function DataTableToolbar<TData>({
           <DataTableFacetedFilter
             column={table.getColumn("kodeWilayah")}
             title="Kode Wilayah"
-            options={kodeWilayahs}
+            options={dataKodeWilayah}
           />
         )}
         {table.getColumn("jenisUnitKerja") && (

@@ -48,7 +48,7 @@ export const Actions = ({
   return (
     <div className="flex items-center gap-x-2">
       <ConfirmModal onConfirm={onDelete}>
-        <Button size="sm" disabled={isLoading}>
+        <Button size="sm" disabled={isLoading} variant="destructive">
           <Trash className="h-4 w-4" />
         </Button>
       </ConfirmModal>

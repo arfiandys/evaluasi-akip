@@ -18,6 +18,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import ImportPage from "./_components/import-page";
 
 const IKUIdPage = async ({
     params
@@ -48,6 +49,16 @@ const IKUIdPage = async ({
     });
 
     if (!IKU) {
+        return redirect("/");
+    }
+
+    const evaluasi = await db.evaluasi.findUnique({
+        where: {
+            id: params.evaluasiId,
+        },
+    });
+
+    if (!evaluasi) {
         return redirect("/");
     }
 
@@ -90,8 +101,8 @@ const IKUIdPage = async ({
                         </div>
                     </div>
                 </div>
-                <div className=" mt-20 grid gap-6 grid-cols-4">
-                    <Card className="shadow-lg col-span-4 sm:col-span-1 xl:col-span-1 2xl:col-span-1 rounded-3xl">
+                <div className="mt-16 grid gap-6 grid-cols-4">
+                    <Card className="shadow-lg col-span-4 xl:col-span-1 rounded-3xl">
                         <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
                             <div className="flex flex-row gap-x-4 justify-start items-center">
                                 <IconBadge icon={Activity} />
@@ -121,21 +132,23 @@ const IKUIdPage = async ({
                             </div>
                         </CardContent>
                     </Card>
-                    <Card className="shadow-lg col-span-4 sm:col-span-3 xl:col-span-3 2xl:col-span-3 rounded-3xl">
+                    <Card className="shadow-lg col-span-4 xl:col-span-3 rounded-3xl">
                         <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
                             <div className="flex flex-row gap-x-4 justify-start items-center">
                                 <IconBadge icon={ListTree} />
                                 <CardTitle>Tujuan/Sasaran/Indikator</CardTitle>
                             </div>
-                            <Button asChild>
-                                <Link
-                                    href={`/koordinator/evaluasi/${params.evaluasiId}/iku/${params.ikuId}/tujuanSasaranIndikator/new`}
-                                >
-                                    <PlusCircle className="h-4 w-4 mr-2" />
-                                    Tujuan/Sasaran/Indikator baru
-                                </Link>
-                            </Button>
-
+                            <div className="flex flex-row flex-wrap justify-end gap-4">
+                                <Button asChild>
+                                    <Link
+                                        href={`/koordinator/evaluasi/${params.evaluasiId}/iku/${params.ikuId}/tujuanSasaranIndikator/new`}
+                                    >
+                                        <PlusCircle className="h-4 w-4 mr-2" />
+                                        Tujuan/Sasaran/Indikator baru
+                                    </Link>
+                                </Button>
+                                <ImportPage evaluasi={evaluasi} ikuId={params.ikuId} />
+                            </div>
                         </CardHeader>
                         <CardContent>
                             <DataTable data={IKU.tujuanSasaranIndikatorIKU} columns={columns} />

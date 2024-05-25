@@ -32,6 +32,9 @@ const IKUPage = async ({
         orderBy: {
             name: "asc",
         },
+        include: {
+            tujuanSasaranIndikatorIKU: true
+        }
     });
 
     return (

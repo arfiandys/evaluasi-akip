@@ -54,6 +54,28 @@ export const columns: ColumnDef<IKU>[] = [
         </div>
       )
     },
+  }, 
+  {
+    id: "iKU",
+    accessorFn: row => {
+      const name = row.name
+      return (
+        `${name}`
+      )
+    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Tujuan/Sasaran/Indikator" />
+    ),
+    cell: ({ row }) => {
+
+      return (
+        <div className="flex space-x-2">
+          <span className="max-w-[500px] text-wrap truncate font-medium">
+            {row.original.tujuanSasaranIndikatorIKU.length}
+          </span>
+        </div>
+      )
+    },
   },
   {
     id: "actions",

@@ -39,7 +39,7 @@ export const columns: ColumnDef<timEvaluasi>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Name" />
+      <DataTableColumnHeader column={column} title="Nama" />
     ),
     cell: ({ row }) => {
       return (
@@ -88,7 +88,7 @@ export const columns: ColumnDef<timEvaluasi>[] = [
       }
 
       return (
-        <div className="flex items-center">
+        <div className="flex w-auto items-center">
           {status.icon && (
             <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
           )}
@@ -105,7 +105,7 @@ export const columns: ColumnDef<timEvaluasi>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Anggota" />
     ),
-    cell: ({ row }) => <div className="w-[120px]">{row.original.users.length}</div>,
+    cell: ({ row }) => <div className="w-auto">{row.original.users.length}</div>,
   },
   {
     id: "unitKerja",
@@ -121,7 +121,7 @@ export const columns: ColumnDef<timEvaluasi>[] = [
         
       })
       return (
-        <div className="w-[120px]">{unitKerja}</div>
+        <div className="w-auto">{unitKerja}</div>
       )
     }
   },

@@ -118,4 +118,28 @@ export const columns: ColumnDef<VariabelLKE>[] = [
       return value.includes(row.getValue(id))
     },
   },
+  {
+    id: "bobot",
+    accessorFn: row => {
+      const bobot = (row.levelVariabel === "komponen" ? (row.komponenLKE?.bobot) : (row.levelVariabel === "subKomponen" ? (row.subKomponenLKE?.bobot) : (row.levelVariabel === "kriteria" ? (row.kriteriaLKE?.bobot) : (row.levelVariabel === "subKriteria" ? (row.subKriteriaLKE?.bobot) : ("")))))
+      return (
+        `${bobot}`
+      )
+    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Bobot" />
+    ),
+    cell: ({ row }) => {
+
+      return (
+        <div className="flex space-x-2">
+          <span className="w-auto truncate font-medium">
+            {row.getValue("bobot")}
+          </span>
+        </div>
+      )
+    },
+    enableSorting: true,
+    enableHiding: false,
+  },
 ]

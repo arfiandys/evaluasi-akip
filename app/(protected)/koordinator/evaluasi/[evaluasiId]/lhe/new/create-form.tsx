@@ -254,7 +254,7 @@ const Create = ({ evaluasi, unitKerja, LKEUnitKerja }: PermindokNewCreateProps) 
                             type="submit"
                             disabled={!isValid || isSubmitting}
                         >
-                            Buat LHE
+                            Generate LHE
                         </Button>
                         <PDF dataObjek={dataObjek} unitKerjaId={unitId} LKEUnitKerja={LKEUnitKerja} unitKerja={unitKerja} />
                     </CardFooter>

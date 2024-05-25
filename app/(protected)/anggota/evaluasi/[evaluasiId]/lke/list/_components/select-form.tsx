@@ -58,11 +58,10 @@ export const SelectForm = ({
         }
         try {
           await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, values);
-          toast.success("LKE unit kerja updated");
+          toast.success("Isian LKE berhasil diperbarui");
           router.refresh()
-
         } catch {
-          toast.error("Something went wrong");
+          toast.error("Terdapat kesalahan");
         } finally {
           setLoading(false)
         }
@@ -80,10 +79,10 @@ export const SelectForm = ({
         }
         try {
           await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, values);
-          toast.success("LKE unit kerja updated");
+          toast.success("Isian LKE berhasil diperbarui");
           router.refresh()
         } catch {
-          toast.error("Something went wrong");
+          toast.error("Terdapat kesalahan");
         } finally {
           setLoading(false)
         }
@@ -101,10 +100,10 @@ export const SelectForm = ({
         }
         try {
           await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, values);
-          toast.success("LKE unit kerja updated");
+          toast.success("Isian LKE berhasil diperbarui");
           router.refresh()
         } catch {
-          toast.error("Something went wrong");
+          toast.error("Terdapat kesalahan");
         } finally {
           setLoading(false)
         }
@@ -128,11 +127,12 @@ export const SelectForm = ({
       <Select onValueChange={onvaluechange} defaultValue={selected}>
         {initialData.variabelLKE.variabelKKE ? (
           <SelectTrigger disabled>
-            <SelectValue placeholder="Select yes/no" />
+            <SelectValue placeholder="Pilih Ya/Tidak" />
           </SelectTrigger>
         ) : (
-          <SelectTrigger>
-            <SelectValue placeholder="Select yes/no" />
+          <SelectTrigger
+            disabled={initialData.variabelLKE.evaluasi?.status !== "publish" && initialData.variabelLKE.evaluasi?.status !== "check"}>
+            <SelectValue placeholder="Pilih Ya/Tidak" />
           </SelectTrigger>
         )}
         <SelectContent>

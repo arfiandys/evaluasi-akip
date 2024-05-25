@@ -77,26 +77,18 @@ export const EvaluasiCard = ({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              {status === "publish" ? (
-                <DropdownMenuItem asChild>
-                  <Link href={`/pic/evaluasi/${id}/permindok/list`}>
-                    <span>Lihat Permindok</span>
-                    <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
-                  </Link>
-                </DropdownMenuItem>
-              ) : (
-                <></>
-              )}
-              {status === "publish" ? (
-                <DropdownMenuItem asChild>
-                  <Link href={`/pic/evaluasi/${id}/kke/list`}>
-                    <span>Lihat KKE</span>
-                    <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                  </Link>
-                </DropdownMenuItem>
-              ) : (
-                <></>
-              )}
+              <DropdownMenuItem asChild>
+                <Link href={`/pic/evaluasi/${id}/permindok/list`}>
+                  <span>Lihat Permindok</span>
+                  <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href={`/pic/evaluasi/${id}/kke/list`}>
+                  <span>Lihat KKE</span>
+                  <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>
                   <span>Lihat LHE</span>
@@ -105,7 +97,7 @@ export const EvaluasiCard = ({
                   <DropdownMenuSubContent>
                     <DropdownMenuLabel>Unit Kerja</DropdownMenuLabel>
                     {daftarLHE.map((item) => (
-                      <DropdownMenuItem key={item.unitKerjaId}>
+                      <DropdownMenuItem key={item.unitKerjaId} disabled={!item.url}>
                         <Link href={item.url || ""} legacyBehavior>
                           <a target="_blank">
                             <span>{item.unitKerja.name}</span>

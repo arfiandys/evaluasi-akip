@@ -255,7 +255,7 @@ const EvaluasiIdPage = async ({
                     </div>
                 </div>
                 <div className="mt-16 flex flex-col">
-                    <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
                         <Card className="shadow-lg col-span-1 sm:col-span-2 xl:col-span-1 2xl:col-span-2 rounded-3xl">
                             <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
                                 <div className="flex flex-row gap-x-4 justify-start items-center">
@@ -275,7 +275,7 @@ const EvaluasiIdPage = async ({
                                 <div
                                     className="my-3 grid grid-cols-[25px_1fr] items-start last:mb-0 last:pb-0"
                                 >
-                                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-secondary" />
                                     <div className="space-y-1">
                                         <p className="text-sm font-medium leading-none">
                                             Nama
@@ -289,7 +289,7 @@ const EvaluasiIdPage = async ({
                                 <div
                                     className="my-3 grid grid-cols-[25px_1fr] items-start last:mb-0 last:pb-0"
                                 >
-                                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-secondary" />
                                     <div className="space-y-1">
                                         <p className="text-sm font-medium leading-none">
                                             Deskripsi
@@ -303,7 +303,7 @@ const EvaluasiIdPage = async ({
                                 <div
                                     className="my-3 grid grid-cols-[25px_1fr] items-start last:mb-0 last:pb-0"
                                 >
-                                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-secondary" />
                                     <div className="space-y-1">
                                         <p className="text-sm font-medium leading-none">
                                             Tahun
@@ -317,7 +317,7 @@ const EvaluasiIdPage = async ({
                                 <div
                                     className="my-3 grid grid-cols-[25px_1fr] items-start last:mb-0 last:pb-0"
                                 >
-                                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-secondary" />
                                     <div className="space-y-1">
                                         <p className="text-sm font-medium leading-none">
                                             Status
@@ -337,7 +337,7 @@ const EvaluasiIdPage = async ({
                                 <div
                                     className="my-3 grid grid-cols-[25px_1fr] items-start last:mb-0 last:pb-0"
                                 >
-                                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-secondary" />
                                     <div className="space-y-1">
                                         <p className="text-sm font-medium leading-none">
                                             Kelengkapan bahan evaluasi

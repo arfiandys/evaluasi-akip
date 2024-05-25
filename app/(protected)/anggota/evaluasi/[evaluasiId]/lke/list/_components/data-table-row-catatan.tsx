@@ -34,7 +34,7 @@ export function DataTableRowCatatan<TData>({
   let form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     values: {
-      isian: role === "at" ? initialData.catatanAt||"": (role === "kt" ? initialData.catatanKt||"":(role === "dalnis" ? initialData.catatanDalnis||"":""))
+      isian: role === "at" ? initialData.catatanAt || "" : (role === "kt" ? initialData.catatanKt || "" : (role === "dalnis" ? initialData.catatanDalnis || "" : ""))
     },
   });
 
@@ -52,10 +52,8 @@ export function DataTableRowCatatan<TData>({
       }
       try {
         await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, value);
-        toast.success("LKE unit kerja updated");
         router.refresh()
       } catch {
-        toast.error("Something went wrong");
       }
     }
     if (role === "kt") {
@@ -68,10 +66,8 @@ export function DataTableRowCatatan<TData>({
       }
       try {
         await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, value);
-        toast.success("LKE unit kerja updated");
         router.refresh()
       } catch {
-        toast.error("Something went wrong");
       }
     }
     if (role === "dalnis") {
@@ -84,10 +80,8 @@ export function DataTableRowCatatan<TData>({
       }
       try {
         await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, value);
-        toast.success("LKE unit kerja updated");
         router.refresh()
       } catch {
-        toast.error("Something went wrong");
       }
     }
   }
@@ -104,6 +98,7 @@ export function DataTableRowCatatan<TData>({
             <FormItem className="max-w-[250px]">
               <FormControl>
                 <Textarea
+                  disabled={initialData.variabelLKE.evaluasi?.status !== "publish"&&initialData.variabelLKE.evaluasi?.status !== "check"}
                   placeholder="Isikan catatan manual"
                   {...field}
                 />
@@ -112,7 +107,6 @@ export function DataTableRowCatatan<TData>({
             </FormItem>
           )}
         />
-
       </form>
     </Form>
   )

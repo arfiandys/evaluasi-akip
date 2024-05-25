@@ -75,7 +75,7 @@ export function DataTableRowActions<TData>({
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <ConfirmModal onConfirm={onDelete}>
-            <Button disabled={isLoading} className="w-full justify-start px-2 py-[6px]" size="sm" variant="ghost">
+            <Button disabled={isLoading} className="w-full justify-start px-2 py-[6px]" size="sm" variant="destructive">
               Hapus
             </Button>
           </ConfirmModal>

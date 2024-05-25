@@ -61,9 +61,9 @@ export const NumberForm = ({
       }
       try {
         await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, value);
-        toast.success("LKE unit kerja updated");
+        toast.success("Isian KKE berhasil diperbarui");
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terjadi kesalahan");
       } finally {
         setLoading(false)
       }
@@ -81,9 +81,9 @@ export const NumberForm = ({
       }
       try {
         await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, value);
-        toast.success("LKE unit kerja updated");
+        toast.success("Isian KKE berhasil diperbarui");
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terjadi kesalahan");
       } finally {
         setLoading(false)
       }
@@ -101,9 +101,9 @@ export const NumberForm = ({
       }
       try {
         await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, value);
-        toast.success("LKE unit kerja updated");
+        toast.success("Isian KKE berhasil diperbarui");
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terjadi kesalahan");
       } finally {
         setLoading(false)
       }
@@ -120,9 +120,9 @@ export const NumberForm = ({
       }
       try {
         await axios.patch(`/api/kke/variabel/${initialData.variabelKKEId}`, value);
-        toast.success("LKE unit kerja updated");
+        toast.success("Isian KKE berhasil diperbarui");
       } catch {
-        toast.error("Something went wrong");
+        toast.error("Terjadi kesalahan");
       } finally {
         setLoading(false)
       }
@@ -140,7 +140,7 @@ export const NumberForm = ({
           render={({ field }) => (
             <FormItem className="max-w-[250px]">
               <FormControl>
-                {initialData.variabelKKE.isIndikatorKinerja === true ? (
+                {initialData.variabelKKE.isIndikatorKinerja === true || initialData.variabelKKE.evaluasi?.status!=="publish" ? (
                   <Input
                     type="number"
                     disabled

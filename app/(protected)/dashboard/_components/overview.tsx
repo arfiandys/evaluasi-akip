@@ -2,38 +2,15 @@
 
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
 
-const data = [
-  {
-    name: "2018",
-    total: Math.floor(Math.random() * 100),
-  },
-  {
-    name: "2019",
-    total: Math.floor(Math.random() * 100),
-  },
-  {
-    name: "2020",
-    total: Math.floor(Math.random() * 100),
-  },
-  {
-    name: "2021",
-    total: Math.floor(Math.random() * 100),
-  },
-  {
-    name: "2022",
-    total: Math.floor(Math.random() * 100),
-  },
-  {
-    name: "2023",
-    total: Math.floor(Math.random() * 100),
-  },
-  {
-    name: "2024",
-    total: Math.floor(Math.random() * 100),
-  },
-]
 
-export function Overview() {
+interface props {
+  data: {
+    name: string,
+    total: number
+  }[]
+}
+
+export function Overview({data}:props) {
   return (
     <ResponsiveContainer width="100%" height={350}>
       <BarChart data={data}>

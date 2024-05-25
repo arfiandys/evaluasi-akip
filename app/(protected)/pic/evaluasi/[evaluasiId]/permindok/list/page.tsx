@@ -67,7 +67,11 @@ const GeneratePermindokPage = async ({ params }: { params: { evaluasiId: string 
             }
         ],
         include: {
-            permindok: true,
+            permindok: {
+                include: {
+                    evaluasi: true
+                }
+            },
             unitKerja: true,
         }
     })
