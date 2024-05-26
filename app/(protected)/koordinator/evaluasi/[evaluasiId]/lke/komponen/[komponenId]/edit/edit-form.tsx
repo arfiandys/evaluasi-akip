@@ -158,7 +158,7 @@ const KomponenEdit = ({ evaluasi, komponenLKE }: KomponenEditProps) => {
                     <CardFooter className="flex justify-end">
                         <Button
                             type="submit"
-                            disabled={!isValid || isSubmitting}
+                            disabled={isSubmitting}
                         >
                             Edit Komponen
                         </Button>

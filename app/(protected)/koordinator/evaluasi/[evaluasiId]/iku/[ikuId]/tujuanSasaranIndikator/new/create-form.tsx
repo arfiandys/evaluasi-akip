@@ -170,7 +170,7 @@ const TSINewCreate = ({
                     <CardFooter className="flex justify-end">
                         <Button
                             type="submit"
-                            disabled={!isValid || isSubmitting}
+                            disabled={isSubmitting}
                         >
                             Buat Tujuan/Sasaran/Indikator
                         </Button>

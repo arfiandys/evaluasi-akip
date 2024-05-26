@@ -172,7 +172,7 @@ const TSIEdit = ({
                     <CardFooter className="flex justify-end">
                         <Button
                             type="submit"
-                            disabled={!isValid || isSubmitting}
+                            disabled={isSubmitting}
                         >
                             Edit Tujuan/Sasaran/Indikator
                         </Button>

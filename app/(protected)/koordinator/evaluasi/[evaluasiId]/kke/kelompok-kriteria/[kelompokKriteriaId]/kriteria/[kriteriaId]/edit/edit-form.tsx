@@ -360,7 +360,7 @@ const KriteriaEdit = ({
                     <CardFooter className="flex justify-end">
                         <Button
                             type="submit"
-                            disabled={!isValid || isSubmitting}
+                            disabled={isSubmitting}
                         >
                             Edit Kriteria
                         </Button>

@@ -133,7 +133,7 @@ const IKUEdit = ({
                     <CardFooter className="flex justify-end">
                         <Button
                             type="submit"
-                            disabled={!isValid || isSubmitting}
+                            disabled={isSubmitting}
                         >
                             Edit IKU
                         </Button>

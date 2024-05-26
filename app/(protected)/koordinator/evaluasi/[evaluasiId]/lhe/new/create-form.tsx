@@ -272,7 +272,7 @@ const Create = ({ evaluasi, unitKerja, LKEUnitKerja, dataCatatan }: PermindokNew
                         <Button
                             size="sm"
                             type="submit"
-                            disabled={!isValid || isSubmitting}
+                            disabled={isSubmitting}
                         >
                             Generate LHE
                         </Button>

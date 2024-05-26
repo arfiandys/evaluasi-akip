@@ -334,7 +334,7 @@ const SubKriteriaNewCreate = ({
                     <CardFooter className="flex justify-end">
                         <Button
                             type="submit"
-                            disabled={!isValid || isSubmitting}
+                            disabled={isSubmitting}
                         >
                             Buat Sub Kriteria
                         </Button>
