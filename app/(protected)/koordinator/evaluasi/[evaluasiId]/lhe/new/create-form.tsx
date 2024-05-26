@@ -28,7 +28,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { Evaluasi, KomponenLKE, LKEUnitKerja, UnitKerja, VariabelLKE } from "@prisma/client";
+import { Evaluasi, KomponenLKE, KriteriaLKE, LKEUnitKerja, SubKomponenLKE, SubKriteriaLKE, UnitKerja, VariabelLKE } from "@prisma/client";
 import { useState } from "react";
 import { PDF } from "../_component/lhe-pdf";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -66,10 +66,30 @@ const formSchema = z.object({
 interface PermindokNewCreateProps {
     evaluasi: Evaluasi
     unitKerja: UnitKerja[];
-    LKEUnitKerja: (LKEUnitKerja & { variabelLKE: VariabelLKE & { komponenLKE: KomponenLKE | null } })[];
+    LKEUnitKerja: (LKEUnitKerja & { variabelLKE: VariabelLKE & { komponenLKE: KomponenLKE | null, subKomponenLKE: SubKomponenLKE | null, kriteriaLKE: KriteriaLKE | null, subKriteriaLKE: SubKriteriaLKE | null } })[];
+    dataCatatan: (LKEUnitKerja &
+    {
+        variabelLKE: VariabelLKE &
+        {
+            komponenLKE: KomponenLKE | null,
+            subKomponenLKE: SubKomponenLKE | null,
+            kriteriaLKE: KriteriaLKE & {
+                subKomponenLKE: SubKomponenLKE & {
+                    komponenLKE: KomponenLKE | null
+                } | null
+            } | null,
+            subKriteriaLKE: SubKriteriaLKE & {
+                kriteriaLKE: KriteriaLKE & {
+                    subKomponenLKE: SubKomponenLKE & {
+                        komponenLKE: KomponenLKE | null
+                    } | null
+                } | null
+            } | null
+        }
+    })[];
 }
 
-const Create = ({ evaluasi, unitKerja, LKEUnitKerja }: PermindokNewCreateProps) => {
+const Create = ({ evaluasi, unitKerja, LKEUnitKerja, dataCatatan }: PermindokNewCreateProps) => {
 
     type values = {
         nomor: string,
@@ -248,7 +268,7 @@ const Create = ({ evaluasi, unitKerja, LKEUnitKerja }: PermindokNewCreateProps) 
                             />
                         </div>
                     </CardContent>
-                    <CardFooter className="flex justify-end items-center gap-4">
+                    <CardFooter className="flex justify-end flex-wrap items-center gap-4">
                         <Button
                             size="sm"
                             type="submit"
@@ -256,7 +276,7 @@ const Create = ({ evaluasi, unitKerja, LKEUnitKerja }: PermindokNewCreateProps) 
                         >
                             Generate LHE
                         </Button>
-                        <PDF dataObjek={dataObjek} unitKerjaId={unitId} LKEUnitKerja={LKEUnitKerja} unitKerja={unitKerja} />
+                        <PDF dataObjek={dataObjek} unitKerjaId={unitId} LKEUnitKerja={LKEUnitKerja} unitKerja={unitKerja} dataCatatan={dataCatatan} />
                     </CardFooter>
                 </form>
             </Form>

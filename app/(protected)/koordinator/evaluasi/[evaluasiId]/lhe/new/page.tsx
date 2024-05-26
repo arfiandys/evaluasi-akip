@@ -58,6 +58,88 @@ const PermindokNewPage = async ({
         }
     })
 
+    const LKEUnitKerjaCatatan = await db.lKEUnitKerja.findMany({
+        where: {
+            AND: [
+                {
+                    variabelLKE: {
+                        evaluasiId: params.evaluasiId
+                    }
+                },
+                {
+                    catatanPanel: {
+                        not: null
+                    }
+                },
+                {
+                    catatanPanel: {
+                        not: ""
+                    }
+                },
+                {
+                    catatanPanel: {
+                        not: undefined
+                    }
+                },
+                {
+                    OR: [
+                        {
+                            variabelLKE: {
+                                levelVariabel: "kriteria"
+                            }
+                        },
+                        {
+                            variabelLKE: {
+                                levelVariabel: "subKriteria"
+                            }
+                        }
+                    ]
+                },
+            ]
+        },
+        orderBy: [
+            {
+                unitKerjaId: "asc"
+            },
+            {
+                variabelLKE: {
+                    kode: "asc"
+                }
+            }
+        ],
+        include: {
+            variabelLKE: {
+                include: {
+                    komponenLKE: true,
+                    subKomponenLKE: true,
+                    kriteriaLKE: {
+                        include: {
+                            subKomponenLKE: {
+                                include: {
+                                    komponenLKE: true
+                                }
+                            }
+                        }
+                    },
+                    subKriteriaLKE: {
+                        include: {
+                            kriteriaLKE: {
+                                include: {
+                                    subKomponenLKE: {
+                                        include: {
+                                            komponenLKE: true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                }
+            },
+            unitKerja: true,
+        }
+    })
+
     const unitKerja = await db.unitKerja.findMany({
         orderBy: {
             name: "asc",
@@ -96,7 +178,7 @@ const PermindokNewPage = async ({
                     </div>
                 </div>
                 <div className="mt-16 grid gap-6 grid-cols-4">
-                    <Create evaluasi={evaluasi!} unitKerja={unitKerja} LKEUnitKerja={LKEUnitKerja} />
+                    <Create evaluasi={evaluasi!} unitKerja={unitKerja} LKEUnitKerja={LKEUnitKerja} dataCatatan={LKEUnitKerjaCatatan} />
                 </div>
             </div>
         </>

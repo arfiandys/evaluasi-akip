@@ -56,7 +56,7 @@ const IKUEditPage = async ({
                     <div className="flex flex-col gap-y-2 justify-between">
                         <div className="">
                             <h1 className="text-2xl font-medium">
-                                Edit IKU
+                                Edit Indikator Kinerja Utama
                             </h1>
                         </div>
                         <Breadcrumb>

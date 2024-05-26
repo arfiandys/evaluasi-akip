@@ -65,7 +65,7 @@ const DashboardPage = async () => {
     }
   })
 
-  const evaluasiFilteredBerjalan = evaluasi.filter((item) => item.status !== "publish");
+  const evaluasiFilteredBerjalan = evaluasi.filter((item) => item.status === "publish");
   const evaluasiFilteredSelesai = evaluasi.filter((item) => item.status === "finish");
   const evaluasiFilteredCek = evaluasi.filter((item) => item.status === "check");
   const filterLKESelesai = LKEUnitKerja.filter((item => {

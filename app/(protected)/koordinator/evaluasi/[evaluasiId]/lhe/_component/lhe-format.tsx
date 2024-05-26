@@ -1,9 +1,30 @@
 import React, { Fragment } from 'react'
 import { Page, Text, View, Document, StyleSheet, Image, Font } from '@react-pdf/renderer';
-import { KomponenLKE, LKEUnitKerja, UnitKerja, VariabelLKE } from '@prisma/client';
+import { KomponenLKE, KriteriaLKE, LKEUnitKerja, SubKomponenLKE, SubKriteriaLKE, UnitKerja, VariabelLKE } from '@prisma/client';
+import { Item } from '@radix-ui/react-dropdown-menu';
 
 interface Props {
-    data: (LKEUnitKerja & { variabelLKE: VariabelLKE & { komponenLKE: KomponenLKE | null } })[]
+    data: (LKEUnitKerja & { variabelLKE: VariabelLKE & { komponenLKE: KomponenLKE | null, subKomponenLKE: SubKomponenLKE | null, kriteriaLKE: KriteriaLKE | null, subKriteriaLKE: SubKriteriaLKE | null } })[];
+    dataCatatan: (LKEUnitKerja &
+    {
+        variabelLKE: VariabelLKE &
+        {
+            komponenLKE: KomponenLKE | null,
+            subKomponenLKE: SubKomponenLKE | null,
+            kriteriaLKE: KriteriaLKE & {
+                subKomponenLKE: SubKomponenLKE & {
+                    komponenLKE: KomponenLKE | null
+                } | null
+            } | null,
+            subKriteriaLKE: SubKriteriaLKE & {
+                kriteriaLKE: KriteriaLKE & {
+                    subKomponenLKE: SubKomponenLKE & {
+                        komponenLKE: KomponenLKE | null
+                    } | null
+                } | null
+            } | null
+        }
+    })[];
     dataObjek: {
         nomor: string,
         tahun: string,
@@ -12,11 +33,210 @@ interface Props {
         evaluasiId: string,
         unitKerjaId: string,
         tanggal: string
-    }|undefined;
-    unitKerja: UnitKerja|undefined;
+    } | undefined;
+    unitKerja: UnitKerja | undefined;
 }
 
-const LHEPDF = ({ data, dataObjek, unitKerja }: Props) => {
+const LHEPDF = ({ data, dataObjek, unitKerja, dataCatatan }: Props) => {
+
+    ////////////////////////////////////////////////////////////////    
+    ////////////// GENERATE CATATAN KOMPONEN ///////////////////////
+    ////////////////////////////////////////////////////////////////
+
+    function kelompokByKomponenKembar(objek: (LKEUnitKerja &
+    {
+        variabelLKE: VariabelLKE &
+        {
+            komponenLKE: KomponenLKE | null,
+            subKomponenLKE: SubKomponenLKE | null,
+            kriteriaLKE: KriteriaLKE & {
+                subKomponenLKE: SubKomponenLKE & {
+                    komponenLKE: KomponenLKE | null
+                } | null
+            } | null,
+            subKriteriaLKE: SubKriteriaLKE & {
+                kriteriaLKE: KriteriaLKE & {
+                    subKomponenLKE: SubKomponenLKE & {
+                        komponenLKE: KomponenLKE | null
+                    } | null
+                } | null
+            } | null
+        }
+    })[])
+        : {
+            [komponenKey: string]
+            : (LKEUnitKerja &
+            {
+                variabelLKE: VariabelLKE &
+                {
+                    komponenLKE: KomponenLKE | null,
+                    subKomponenLKE: SubKomponenLKE | null,
+                    kriteriaLKE: KriteriaLKE & {
+                        subKomponenLKE: SubKomponenLKE & {
+                            komponenLKE: KomponenLKE | null
+                        } | null
+                    } | null,
+                    subKriteriaLKE: SubKriteriaLKE & {
+                        kriteriaLKE: KriteriaLKE & {
+                            subKomponenLKE: SubKomponenLKE & {
+                                komponenLKE: KomponenLKE | null
+                            } | null
+                        } | null
+                    } | null
+                }
+            })[]
+        } {
+        const kelompok: {
+            [komponenKey: string]:
+            (LKEUnitKerja &
+            {
+                variabelLKE: VariabelLKE &
+                {
+                    komponenLKE: KomponenLKE | null,
+                    subKomponenLKE: SubKomponenLKE | null,
+                    kriteriaLKE: KriteriaLKE & {
+                        subKomponenLKE: SubKomponenLKE & {
+                            komponenLKE: KomponenLKE | null
+                        } | null
+                    } | null,
+                    subKriteriaLKE: SubKriteriaLKE & {
+                        kriteriaLKE: KriteriaLKE & {
+                            subKomponenLKE: SubKomponenLKE & {
+                                komponenLKE: KomponenLKE | null
+                            } | null
+                        } | null
+                    } | null
+                }
+            })[]
+        } = {};
+
+        objek.forEach(item => {
+            const komponenKey = item.variabelLKE.subKriteriaLKE?.kriteriaLKE?.subKomponenLKE?.komponenLKE?.name || item.variabelLKE.kriteriaLKE?.subKomponenLKE?.komponenLKE?.name || "";
+            if (!kelompok[komponenKey]) {
+                kelompok[komponenKey] = [];
+            }
+            kelompok[komponenKey].push(item);
+        });
+
+        return kelompok;
+    }
+    const kelompokKomponen = kelompokByKomponenKembar(dataCatatan);
+    const arrayKelompokKomponen = Object.entries(kelompokKomponen).map(([komponenKey, items]) => ({
+        komponenKey,
+        items
+    }));
+
+
+    const dataCatatanKomponenLKE = arrayKelompokKomponen.map((item) => {
+        function kelompokBySubKomponenKembar(objek: (LKEUnitKerja &
+        {
+            variabelLKE: VariabelLKE &
+            {
+                komponenLKE: KomponenLKE | null,
+                subKomponenLKE: SubKomponenLKE | null,
+                kriteriaLKE: KriteriaLKE & {
+                    subKomponenLKE: SubKomponenLKE & {
+                        komponenLKE: KomponenLKE | null
+                    } | null
+                } | null,
+                subKriteriaLKE: SubKriteriaLKE & {
+                    kriteriaLKE: KriteriaLKE & {
+                        subKomponenLKE: SubKomponenLKE & {
+                            komponenLKE: KomponenLKE | null
+                        } | null
+                    } | null
+                } | null
+            }
+        })[])
+            : {
+                [subKomponenKey: string]
+                : (LKEUnitKerja &
+                {
+                    variabelLKE: VariabelLKE &
+                    {
+                        komponenLKE: KomponenLKE | null,
+                        subKomponenLKE: SubKomponenLKE | null,
+                        kriteriaLKE: KriteriaLKE & {
+                            subKomponenLKE: SubKomponenLKE & {
+                                komponenLKE: KomponenLKE | null
+                            } | null
+                        } | null,
+                        subKriteriaLKE: SubKriteriaLKE & {
+                            kriteriaLKE: KriteriaLKE & {
+                                subKomponenLKE: SubKomponenLKE & {
+                                    komponenLKE: KomponenLKE | null
+                                } | null
+                            } | null
+                        } | null
+                    }
+                })[]
+            } {
+            const kelompok: {
+                [subKomponenKey: string]:
+                (LKEUnitKerja &
+                {
+                    variabelLKE: VariabelLKE &
+                    {
+                        komponenLKE: KomponenLKE | null,
+                        subKomponenLKE: SubKomponenLKE | null,
+                        kriteriaLKE: KriteriaLKE & {
+                            subKomponenLKE: SubKomponenLKE & {
+                                komponenLKE: KomponenLKE | null
+                            } | null
+                        } | null,
+                        subKriteriaLKE: SubKriteriaLKE & {
+                            kriteriaLKE: KriteriaLKE & {
+                                subKomponenLKE: SubKomponenLKE & {
+                                    komponenLKE: KomponenLKE | null
+                                } | null
+                            } | null
+                        } | null
+                    }
+                })[]
+            } = {};
+
+            objek.forEach(item => {
+                const subKomponenKey = item.variabelLKE.subKriteriaLKE?.kriteriaLKE?.subKomponenLKE?.name || item.variabelLKE.kriteriaLKE?.subKomponenLKE?.name || "";
+                if (!kelompok[subKomponenKey]) {
+                    kelompok[subKomponenKey] = [];
+                }
+                kelompok[subKomponenKey].push(item);
+            });
+
+            return kelompok;
+        }
+        const kelompokSubKomponen = kelompokBySubKomponenKembar(item.items);
+        const arrayKelompokSubKomponen = Object.entries(kelompokSubKomponen).map(([subKomponenKey, items]) => ({
+            subKomponenKey,
+            items
+        }));
+
+        return { ...item, value: arrayKelompokSubKomponen }
+    })
+
+    const catatanSubKomponenLKE = dataCatatanKomponenLKE.map((item) => {
+        const komponen = item.value.map((value) => {
+            let catatan: string = ""
+            value.items.forEach((catat, index) => {
+                catatan += "- "+ catat.catatanPanel;
+                if (index < item.items.length - 1) {
+                    catatan += "\n";
+                }
+            })
+            return { label: value.subKomponenKey, value: catatan }
+        })
+        return { label: item.komponenKey, value: komponen }
+    })
+
+    console.log(catatanSubKomponenLKE)
+
+
+
+
+    ////////////////////////////////////////////////////////////////    
+    ////////////// GENERATE NILAI KOMPONEN /////////////////////////
+    ////////////////////////////////////////////////////////////////
+
 
     const dataKomponen = data.filter((item) =>
         item.variabelLKE.levelVariabel === "komponen"
@@ -27,6 +247,9 @@ const LHEPDF = ({ data, dataObjek, unitKerja }: Props) => {
     dataKomponen.forEach(objek => {
         nilaiLHE += Number(objek.nilaiPanel);
     });
+
+
+    /////////////////////// STYLE ///////////////////////////////
 
     const styles = StyleSheet.create({
         page: { fontSize: 11, paddingTop: 65, paddingLeft: 40, paddingRight: 40, paddingBottom: 65, lineHeight: 1.5, flexDirection: 'column' },
@@ -106,6 +329,9 @@ const LHEPDF = ({ data, dataObjek, unitKerja }: Props) => {
 
     });
 
+
+    ///////////////////// SECTION ///////////////////////////////
+
     const JudulSurat = () => (
         <View style={styles.titleContainer}>
             <View style={styles.spaceBetween}>
@@ -122,7 +348,7 @@ const LHEPDF = ({ data, dataObjek, unitKerja }: Props) => {
                     <View style={styles.invoiceCop}>
                         <View style={styles.invoiceCopContainer}>
                             <Text style={styles.label}>Nomor</Text>
-                            <Text style={styles.value}>: {dataObjek?.nomor||""}</Text>
+                            <Text style={styles.value}>: {dataObjek?.nomor || ""}</Text>
                         </View >
                         <View style={styles.invoiceCopContainer}>
                             <Text style={styles.label}>Sifat </Text>
@@ -135,12 +361,12 @@ const LHEPDF = ({ data, dataObjek, unitKerja }: Props) => {
                         <View style={styles.invoiceCopContainer}>
                             <Text style={styles.label}>Hal </Text>
                             <Text style={styles.value}>
-                                : Laporan Hasil Evaluasi atas Implementasi SAKIP Tahun {dataObjek?.tahun||""}
+                                : Laporan Hasil Evaluasi atas Implementasi SAKIP Tahun {dataObjek?.tahun || ""}
                             </Text>
                         </View >
                     </View>
                     <View>
-                        <Text style={styles.addressTitle}>Jakarta, {dataObjek?.tanggal||""}</Text>
+                        <Text style={styles.addressTitle}>Jakarta, {dataObjek?.tanggal || ""}</Text>
                     </View>
                 </View>
             </View>
@@ -155,7 +381,7 @@ const LHEPDF = ({ data, dataObjek, unitKerja }: Props) => {
             <View style={styles.titleContainer}>
                 <View style={styles.spaceBetween}>
                     <View style={{ maxWidth: 200 }}>
-                        <Text style={styles.addressTitle}>Yth. {dataObjek?.kepada||""} </Text>
+                        <Text style={styles.addressTitle}>Yth. {dataObjek?.kepada || ""} </Text>
                         <Text style={styles.address}>
                             di Tempat
                         </Text>
@@ -164,7 +390,7 @@ const LHEPDF = ({ data, dataObjek, unitKerja }: Props) => {
             </View>
             <View style={{ marginTop: 10 }}>
                 <Text style={styles.isiSurat}>
-                    Penilaian Evaluasi atas Implementasi SAKIP Tahun {dataObjek?.tahun||""} yang dilakukan Inspektorat
+                    Penilaian Evaluasi atas Implementasi SAKIP Tahun {dataObjek?.tahun || ""} yang dilakukan Inspektorat
                     utama BPS mengacu pada Peraturan Menteri Pendayagunaan Aparatur Negara dan
                     Reformasi Birokrasi Nomor 12 Tahun 2015. Ruang lingkup evaluasi mencakup 5 (lima)
                     komponen yaitu Perencanaan Kinerja, Pengukuran Kinerja, Pelaporan Kinerja,
@@ -172,9 +398,9 @@ const LHEPDF = ({ data, dataObjek, unitKerja }: Props) => {
                     kelima komponen tersebut adalah &quot;{nilai}&quot;.
                 </Text>
                 <Text style={styles.isiSurat}>
-                    Kami mengucapkan terima kasih kepada {dataObjek?.kepada||""} beserta jajarannya atas
+                    Kami mengucapkan terima kasih kepada {dataObjek?.kepada || ""} beserta jajarannya atas
                     kerjasama dan kesungguhan dalam memenuhi seluruh dokumen pendukung kegiatan
-                    Evaluasi Implementasi SAKIP. Semoga {unitKerja?.name||""} dapat lebih meningkatkan
+                    Evaluasi Implementasi SAKIP. Semoga {unitKerja?.name || ""} dapat lebih meningkatkan
                     implementasi SAKIP di unit kerjanya.
                 </Text>
                 <Text style={styles.isiSurat}>
@@ -190,7 +416,7 @@ const LHEPDF = ({ data, dataObjek, unitKerja }: Props) => {
             <View style={{ marginVertical: 30, marginHorizontal: 30, flexDirection: 'row', justifyContent: 'flex-end' }}>
                 <View style={{ flexDirection: 'column' }}>
                     <Text style={{ marginBottom: 80 }}>Inspektur Wilayah III</Text>
-                    <Text>{dataObjek?.dariNama||""}</Text>
+                    <Text>{dataObjek?.dariNama || ""}</Text>
                 </View>
             </View>
             <Text>
@@ -210,17 +436,17 @@ const LHEPDF = ({ data, dataObjek, unitKerja }: Props) => {
                         Lampiran LHE Desk Evaluation SAKIP
                     </Text>
                     <Text>
-                        Surat Nomor: {dataObjek?.nomor||""}
+                        Surat Nomor: {dataObjek?.nomor || ""}
                     </Text>
                     <Text>
-                        Tanggal {dataObjek?.tanggal||""}
+                        Tanggal {dataObjek?.tanggal || ""}
                     </Text>
                 </View>
             </View>
             <Text style={styles.title} break>
                 LAPORAN HASIL EVALUASI
                 IMPLEMENTASI SAKIP (DESK EVALUATION)
-                {unitKerja?.name||""} TAHUN {dataObjek?.tahun||""}
+                {unitKerja?.name || ""} TAHUN {dataObjek?.tahun || ""}
             </Text>
             <View style={{ marginVertical: 30 }}>
                 <Text style={styles.isiSurat}>
@@ -229,13 +455,13 @@ const LHEPDF = ({ data, dataObjek, unitKerja }: Props) => {
                     Kinerja Instansi Pemerintah serta berpedoman pada Peraturan Menteri Pendayagunaan Aparatur
                     Negara dan Reformasi Birokrasi Nomor 12 Tahun 2015 tentang Pedoman Evaluasi atas Implementasi
                     Sistem Akuntabilitas Kinerja Instansi Pemerintah, kami telah melakukan desk evaluation atas
-                    Implementasi SAKIP Tahun {dataObjek?.tahun||""}.
+                    Implementasi SAKIP Tahun {dataObjek?.tahun || ""}.
                 </Text>
                 <Text style={styles.isiSurat}>
                     Tujuan evaluasi ini untuk memperoleh informasi tentang implementasi SAKIP unit kerja melalui
                     penelaahan atas dokumen-dokumen kinerja, menilai tingkat implementasi SAKIP, dan memberikan
                     saran perbaikan untuk peningkatan implementasi SAKIP. Tahapan yang dilakukan dalam evaluasi
-                    atas implementasi SAKIP Tahun {dataObjek?.tahun||""} meliputi kegiatan permintaan dokumen kepada unit kerja,
+                    atas implementasi SAKIP Tahun {dataObjek?.tahun || ""} meliputi kegiatan permintaan dokumen kepada unit kerja,
                     evaluasi oleh evaluator, tindak lanjut, dan evaluasi (kembali) hasil tindak lanjut yang menjadi
                     bahan kegiatan panelisasi yang dilakukan oleh Tim.
                 </Text>
@@ -332,22 +558,43 @@ const LHEPDF = ({ data, dataObjek, unitKerja }: Props) => {
 
     // TODO: MENAMBAHKAN CATATAN TIAP SUBKOMPONEN
     interface TableBodyKet {
-        data: (LKEUnitKerja & { variabelLKE: VariabelLKE & { komponenLKE: KomponenLKE | null } })[]
+        data: {
+            label: string;
+            value: {
+                label: string;
+                value: string;
+            }[]
+        }[]
     }
-    const TableBodyKet1 = ({ data }: TableBody) => (
-        data.map((item) => (
-            <Fragment key={item.variabelLKEId + item.unitKerjaId}>
+    const TableBodyKet1 = ({ data }: TableBodyKet) => (
+        data.map((item, index) => (
+            <Fragment key={index}>
                 <View style={{ width: '100%', flexDirection: 'row' }}>
                     <View style={styles.tbody}>
-                        <Text >{item.variabelLKE.kode}</Text>
+                        <Text >{index + 1}</Text>
                     </View>
                     <View style={styles.tbody}>
-                        <Text>{item.variabelLKE.komponenLKE?.name} </Text>
+                        <Text>{item.label} </Text>
                     </View>
                     <View style={[styles.tbody, styles.tbody2]}>
-                        <Text>{item.variabelLKE.komponenLKE?.bobot}</Text>
+                        <Text></Text>
                     </View>
                 </View>
+                {item.value.map((items, idx) => (
+                    <Fragment key={index}>
+                        <View style={{ width: '100%', flexDirection: 'row' }}>
+                            <View style={styles.tbody}>
+                                <Text >{index.toString() + "" + (idx + 1).toString()}</Text>
+                            </View>
+                            <View style={styles.tbody}>
+                                <Text>{items.label} </Text>
+                            </View>
+                            <View style={[styles.tbody, styles.tbody2]}>
+                                <Text>{items.value}</Text>
+                            </View>
+                        </View>
+                    </Fragment>
+                ))}
             </Fragment>
         ))
     );
@@ -364,6 +611,13 @@ const LHEPDF = ({ data, dataObjek, unitKerja }: Props) => {
                 <TableHead />
                 <TableBody data={dataKomponen} />
                 <TableTotal data={dataKomponen} />
+                <View break>
+                    <Text style={styles.isiSurat}>
+                        Berikut kami sampaikan catatan-catatan untuk dapat meningkatkan pelaksanaan implementasi SAKIP yaitu:
+                    </Text>
+                </View>
+                <TableHeadKet />
+                <TableBodyKet1 data={catatanSubKomponenLKE} />
                 <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (
                     `${pageNumber} / ${totalPages}`
                 )} fixed />

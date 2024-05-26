@@ -66,7 +66,15 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-      <Link href={`/koordinator/evaluasi/${permindok.evaluasi?.id}/permindok/${permindok.id}`}>
+        <Link href={`/koordinator/evaluasi/${permindok.evaluasi?.id}/permindok/${permindok.id}`}>
+          <DropdownMenuItem asChild>
+            <Button className="w-full justify-start" size="sm" variant="ghost">
+              Lihat
+            </Button>
+          </DropdownMenuItem>
+        </Link>
+        <DropdownMenuSeparator />
+        <Link href={`/koordinator/evaluasi/${permindok.evaluasi?.id}/permindok/${permindok.id}/edit`}>
           <DropdownMenuItem asChild>
             <Button className="w-full justify-start" size="sm" variant="ghost">
               Edit

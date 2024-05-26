@@ -68,6 +68,14 @@ export function DataTableRowActions<TData>({
         <Link href={`/koordinator/evaluasi/${kelompokKriteria.evaluasiId}/kke/kelompok-kriteria/${kelompokKriteria.id}`}>
           <DropdownMenuItem asChild>
             <Button className="w-full justify-start cursor-pointer" size="sm" variant="ghost">
+              Lihat
+            </Button>
+          </DropdownMenuItem>
+        </Link>
+        <DropdownMenuSeparator />
+        <Link href={`/koordinator/evaluasi/${kelompokKriteria.evaluasiId}/kke/kelompok-kriteria/${kelompokKriteria.id}/edit`}>
+          <DropdownMenuItem asChild>
+            <Button className="w-full justify-start cursor-pointer" size="sm" variant="ghost">
               Edit
             </Button>
           </DropdownMenuItem>

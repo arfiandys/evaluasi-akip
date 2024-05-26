@@ -71,7 +71,7 @@ const KKEPage = async ({
     const data: (Items)[][] = [unitKejaUnique]
 
     return (
-        <div className="flex h-screen flex-1 flex-col space-y-6 p-8">
+        <div className="flex h-full flex-1 flex-col space-y-6 p-8">
             <div className="flex flex-row gap-x-2 justify-between">
                 <div className="flex flex-col gap-y-2 justify-between">
                     <div className="">

@@ -69,7 +69,7 @@ export function DataTableRowActions<TData>({
         <Link href={`/koordinator/user/${user.id}`}>
           <DropdownMenuItem asChild>
             <Button className="w-full justify-start" size="sm" variant="ghost">
-              Edit
+              Lihat
             </Button>
           </DropdownMenuItem>
         </Link>

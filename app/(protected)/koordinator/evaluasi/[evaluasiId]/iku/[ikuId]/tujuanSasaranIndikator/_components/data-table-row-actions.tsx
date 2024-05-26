@@ -71,6 +71,14 @@ export function DataTableRowActions<TData>({
         <Link href={`/koordinator/evaluasi/${tujuanSasaranIndikatorIKU.IKU?.evaluasiId}/iku/${params.ikuId}/tujuanSasaranIndikator/${tujuanSasaranIndikatorIKU.id}`}>
           <DropdownMenuItem asChild>
             <Button className="w-full justify-start" size="sm" variant="ghost">
+              Lihat
+            </Button>
+          </DropdownMenuItem>
+        </Link>
+        <DropdownMenuSeparator />
+        <Link href={`/koordinator/evaluasi/${tujuanSasaranIndikatorIKU.IKU?.evaluasiId}/iku/${params.ikuId}/tujuanSasaranIndikator/${tujuanSasaranIndikatorIKU.id}/edit`}>
+          <DropdownMenuItem asChild>
+            <Button className="w-full justify-start" size="sm" variant="ghost">
               Edit
             </Button>
           </DropdownMenuItem>

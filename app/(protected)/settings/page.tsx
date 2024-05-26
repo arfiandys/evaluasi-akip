@@ -169,7 +169,7 @@ const SettingPage = () => {
                             </div>
                             <FormError message={error} />
                             <FormSuccess message={success} />
-                            <Button disabled={isSubmitting || !isValid } type="submit">
+                            <Button disabled={isSubmitting } type="submit">
                                 Simpan
                             </Button>
                         </form>

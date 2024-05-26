@@ -34,10 +34,10 @@ import { Activity } from "lucide-react";
 
 const formSchema = z.object({
     title: z.string().min(1, {
-        message: "Name dibutuhkan",
+        message: "Nama dibutuhkan",
     }),
     description: z.string().min(1, {
-        message: "Kode dibutuhkan",
+        message: "Deskripsi dibutuhkan",
     }),
     tahun: z.string().min(1, {
         message: "Tahun dibutuhkan",
@@ -109,7 +109,7 @@ const EvaluasiNewCreate = () => {
                                 render={({ field }) => (
                                     <FormItem className="w-full">
                                         <FormLabel>
-                                            Description
+                                            Deskripsi
                                         </FormLabel>
                                         <FormControl>
                                             <Textarea

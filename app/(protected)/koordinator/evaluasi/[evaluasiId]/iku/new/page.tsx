@@ -36,7 +36,7 @@ const IKUNewPage = async ({
                     <div className="flex flex-col gap-y-2 justify-between">
                         <div className="">
                             <h1 className="text-2xl font-medium">
-                                Membuat IKU baru
+                                Membuat Indikator Kinerja Utama baru
                             </h1>
                         </div>
                         <Breadcrumb>

@@ -54,6 +54,7 @@ export function DataTableRowCatatan<TData>({
         await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, value);
         router.refresh()
       } catch {
+        toast.error("Terdapat kesalahan");
       }
     }
     if (role === "kt") {
@@ -68,6 +69,7 @@ export function DataTableRowCatatan<TData>({
         await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, value);
         router.refresh()
       } catch {
+        toast.error("Terdapat kesalahan");
       }
     }
     if (role === "dalnis") {
@@ -82,6 +84,7 @@ export function DataTableRowCatatan<TData>({
         await axios.patch(`/api/lke/variabel/${initialData.variabelLKEId}`, value);
         router.refresh()
       } catch {
+        toast.error("Terdapat kesalahan");
       }
     }
   }

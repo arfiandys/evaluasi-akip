@@ -63,7 +63,7 @@ export const UserButton = ({ setSelectedRole, selectedRole, existingRole }: Prop
                         <Link href="/settings">
                             <Settings className="mr-2 h-4 w-4" />
                             <span>Profil</span>
-                            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+                            <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
@@ -107,7 +107,7 @@ export const UserButton = ({ setSelectedRole, selectedRole, existingRole }: Prop
                 <LogoutButton>
                     <DropdownMenuItem className=" cursor-pointer">
                         <LogOut className="h-4 w-4 mr-2" />
-                        Logout
+                        Keluar
                     </DropdownMenuItem>
                 </LogoutButton>
             </DropdownMenuContent>

@@ -49,10 +49,10 @@ export const ImportCard = ({
                 <CardTitle>Import Hasil Panelisasi</CardTitle>
                 <div className="flex flex-row gap-x-4">
                     <Button onClick={handleContinue}>
-                        Continue
+                        Lanjutkan
                     </Button>
                     <Button onClick={onCancel}>
-                        Cancel
+                        Batal
                     </Button>
                 </div>
             </CardHeader>

@@ -66,6 +66,14 @@ export function DataTableRowActions<TData>({
         <Link href={`/koordinator/evaluasi/${kriteriaKKE.variabelKKE?.evaluasiId}/kke/kelompok-kriteria/${kriteriaKKE.kelompokKriteriaKKEId}/kriteria/${kriteriaKKE.id}`}>
           <DropdownMenuItem asChild>
             <Button className="w-full justify-start cursor-pointer" size="sm" variant="ghost">
+              Lihat
+            </Button>
+          </DropdownMenuItem>
+        </Link>
+        <DropdownMenuSeparator />
+        <Link href={`/koordinator/evaluasi/${kriteriaKKE.variabelKKE?.evaluasiId}/kke/kelompok-kriteria/${kriteriaKKE.kelompokKriteriaKKEId}/kriteria/${kriteriaKKE.id}/edit`}>
+          <DropdownMenuItem asChild>
+            <Button className="w-full justify-start cursor-pointer" size="sm" variant="ghost">
               Edit
             </Button>
           </DropdownMenuItem>
