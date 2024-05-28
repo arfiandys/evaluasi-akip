@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { UnitKerja, UserOnUnitKerja, UserRole } from "@prisma/client";
 import { Combobox } from "@/components/ui/combobox";
+import { ConfirmModal } from "@/components/modals/confirm-modal";
 
 interface PimpinanFormProps {
   initialData: UnitKerja & { users: UserOnUnitKerja[] };
@@ -132,12 +133,13 @@ export const PimpinanForm = ({
                   </div>
                 )}
                 {deletingId !== pimpinanId[0] && (
-                  <button
-                    onClick={() => onDelete(pimpinanId[0])}
-                    className="ml-auto hover:opacity-75 transition"
-                  >
-                    <Trash className="h-4 w-4" />
-                  </button>
+                  <ConfirmModal onConfirm={() => onDelete(pimpinanId[0])}>
+                    <button
+                      className="ml-auto hover:opacity-75 transition"
+                    >
+                      <Trash className="h-4 w-4" />
+                    </button>
+                  </ConfirmModal>
                 )}
               </div>
             </div>

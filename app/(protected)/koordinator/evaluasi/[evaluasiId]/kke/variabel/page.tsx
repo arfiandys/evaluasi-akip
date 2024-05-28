@@ -75,7 +75,7 @@ const VariabelKKEPage = async ({
                         </BreadcrumbList>
                     </Breadcrumb>
                 </div>
-                <div className="flex justify-end my-4 gap-x-4">
+                <div className="flex justify-end my-4 gap-x-4 space-y-2 flex-wrap">
                     <Button asChild>
                         <Link
                             href={`/koordinator/evaluasi/${params.evaluasiId}/kke/kelompok-kriteria`}

@@ -78,6 +78,7 @@ const KomponenNewCreate = ({ evaluasi }: KomponenNewProps) => {
             toast.success("Komponen LKE berhasil dibuat!")
             form.reset()
             router.refresh()
+            router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen`);
         } catch {
             toast.error("Terdapat kesalahan!");
         }

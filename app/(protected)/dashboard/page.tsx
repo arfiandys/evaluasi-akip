@@ -51,6 +51,16 @@ const DashboardPage = async () => {
       IKUs: true,
     }
   });
+  const unitKerja = await db.unitKerja.findMany({
+    orderBy: {
+      createdAt: "desc"
+    },
+  });
+  const timEvaluasi = await db.timEvaluasi.findMany({
+    orderBy: {
+      createdAt: "desc"
+    },
+  });
 
   const LKEUnitKerja = await db.lKEUnitKerja.findMany({
     orderBy: {
@@ -65,9 +75,7 @@ const DashboardPage = async () => {
     }
   })
 
-  const evaluasiFilteredBerjalan = evaluasi.filter((item) => item.status === "publish");
   const evaluasiFilteredSelesai = evaluasi.filter((item) => item.status === "finish");
-  const evaluasiFilteredCek = evaluasi.filter((item) => item.status === "check");
   const filterLKESelesai = LKEUnitKerja.filter((item => {
     return item.variabelLKE.evaluasi.status === "finish"
   }))
@@ -95,13 +103,18 @@ const DashboardPage = async () => {
 
   const rataLKE = arrayOfArrayObject.map((item) => {
     let nilai = 0
-    item.items.forEach((item) => {
-      nilai = nilai + Number(item.nilaiPanel)
+    const komponen = item.items.filter((obj) => obj.variabelLKE.levelVariabel === "komponen")
+    const unitKerjaEvaluasi = komponen.filter((obj, index, self) =>
+      index === self.findIndex((t) => (
+        t.unitKerjaId === obj.unitKerjaId
+      ))
+    );
+    komponen.forEach((idx) => {
+      nilai = nilai + Number(idx.nilaiPanel)
     })
-    const rata = (nilai/item.items.length)*100
-    return {name: item.key, total: rata}
+    const rata = (nilai / unitKerjaEvaluasi.length)
+    return { name: item.key, total: rata }
   })
-
   return (
     <>
       <div className="flex-col flex">
@@ -116,7 +129,7 @@ const DashboardPage = async () => {
               <Card className="rounded-3xl shadow-lg md:col-span-1">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Total evaluasi selesai
+                    Total Evaluasi Selesai
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -126,35 +139,35 @@ const DashboardPage = async () => {
               <Card className="rounded-3xl shadow-lg md:col-span-1">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Evaluasi yang sedang berjalan
+                    Total Tim Evaluasi
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{evaluasiFilteredBerjalan.length}</div>
+                  <div className="text-2xl font-bold">{timEvaluasi.length}</div>
                 </CardContent>
               </Card>
               <Card className="rounded-3xl shadow-lg md:col-span-1">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Evaluasi yang sedang dicek
+                    Total Unit Kerja
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{evaluasiFilteredCek.length}</div>
+                  <div className="text-2xl font-bold">{unitKerja.length}</div>
                 </CardContent>
               </Card>
               <Card className="md:col-span-3 rounded-3xl shadow-lg">
                 <CardHeader>
-                  <CardTitle>Rata-rata nilai</CardTitle>
+                  <CardTitle>Rata-Rata Nilai</CardTitle>
                 </CardHeader>
                 <CardContent className="pl-2">
-                  <Overview data={rataLKE}/>
+                  <Overview data={rataLKE} />
                 </CardContent>
               </Card>
             </div>
             <Card className="rounded-3xl shadow-lg">
               <CardHeader>
-                <CardTitle>Evaluasi terbaru</CardTitle>
+                <CardTitle>Evaluasi Terbaru</CardTitle>
                 <CardDescription>
                   Kamu punya {evaluasi.length} evaluasi.
                 </CardDescription>

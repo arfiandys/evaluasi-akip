@@ -74,6 +74,7 @@ const TSIEdit = ({
             toast.success("Tujuan/Sasaran/Indikator berhasil diperbarui!")
             form.reset()
             router.refresh()
+            router.push(`/koordinator/evaluasi/${evaluasiId}/iku/${ikuId}/tujuanSasaranIndikator/${tujuanSasaranIndikator.id}`);
         } catch {
             toast.error("Terdapat kesalahan!");
         }

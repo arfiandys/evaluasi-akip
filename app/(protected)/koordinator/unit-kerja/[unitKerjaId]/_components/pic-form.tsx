@@ -23,6 +23,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { UnitKerja, User, UserOnUnitKerja, UserRole } from "@prisma/client";
 import { Combobox } from "@/components/ui/combobox";
 import { db } from "@/lib/db";
+import { ConfirmModal } from "@/components/modals/confirm-modal";
 
 interface PICFormProps {
   initialData: UnitKerja & { users: UserOnUnitKerja[] };
@@ -135,12 +136,13 @@ export const PICForm = ({
                     </div>
                   )}
                   {deletingId !== pic.userId && (
-                    <button
-                      onClick={() => onDelete(pic.userId)}
-                      className="ml-auto hover:opacity-75 transition"
-                    >
-                      <Trash className="h-4 w-4" />
-                    </button>
+                    <ConfirmModal onConfirm={() => onDelete(pic.userId)}>
+                      <button
+                        className="ml-auto hover:opacity-75 transition"
+                      >
+                        <Trash className="h-4 w-4" />
+                      </button>
+                    </ConfirmModal>
                   )}
                 </div>
               ))}

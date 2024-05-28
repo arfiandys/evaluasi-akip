@@ -100,6 +100,7 @@ const SubKriteriaEdit = ({
             toast.success("Sub Kriteria LKE berhasil diperbarui!")
             form.reset()
             router.refresh()
+            router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen/${komponenId}/subKomponen/${subKomponenId}/kriteria/${kriteriaId}/subKriteria/${subKriteria.id}`);
         } catch {
             toast.error("Terdapat kesalahan!");
         }

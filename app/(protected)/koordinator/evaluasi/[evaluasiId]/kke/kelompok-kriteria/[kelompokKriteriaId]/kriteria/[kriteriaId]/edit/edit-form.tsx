@@ -118,6 +118,7 @@ const KriteriaEdit = ({
             toast.success("Kriteria KKE berhasil diperbarui!")
             router.refresh()
             reset()
+            router.push(`/koordinator/evaluasi/${evaluasi.id}/kke/kelompok-kriteria/${kelompokKriteriaId}/kriteria/${kriteria.id}`);
         } catch {
             toast.error("Terdapat kesalahan!");
         }

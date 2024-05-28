@@ -119,7 +119,7 @@ const LKEPage = async ({
                         </BreadcrumbList>
                     </Breadcrumb>
                 </div>
-                <div className="flex flex-row justify-center items-center gap-4">
+                <div className="flex flex-row justify-center items-center gap-4 space-y-2 flex-wrap">
                     <DownloadButton data={LKEUnitKerja} />
                     <ImportPage evaluasi={evaluasi}/>
                 </div>

@@ -74,6 +74,7 @@ const SubKomponenEdit = ({
             toast.success("Sub komponen LKE berhasil diperbarui!")
             form.reset()
             router.refresh()
+            router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen/${komponenId}/subKomponen/${subKomponen.id}`);
         } catch {
             toast.error("Terdapat kesalahan!");
         }

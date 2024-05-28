@@ -1,5 +1,3 @@
-import { DataTable } from "../_variabelKKE/_components/data-table";
-import { columns } from "../_variabelKKE/_components/columns";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";

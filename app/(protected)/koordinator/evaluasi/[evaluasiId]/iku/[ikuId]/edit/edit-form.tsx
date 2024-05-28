@@ -73,6 +73,7 @@ const IKUEdit = ({
             toast.success("IKU berhasil diperbarui!")
             form.reset()
             router.refresh()
+            router.push(`/koordinator/evaluasi/${evaluasi.id}/iku/${iku.id}`);
         } catch {
             toast.error("Terdapat kesalahan!");
         }

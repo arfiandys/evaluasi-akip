@@ -73,6 +73,7 @@ const TSINewCreate = ({
             toast.success("Tujuan/Sasaran/Indikator berhasil dibuat!")
             form.reset()
             router.refresh()
+            router.push(`/koordinator/evaluasi/${evaluasiId}/iku/${ikuId}`);
         } catch {
             toast.error("Terdapat kesalahan!");
         }

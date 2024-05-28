@@ -37,6 +37,7 @@ import {
 import { AccountRole } from "@prisma/client";
 import axios from "axios";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const SettingPage = () => {
 
@@ -44,6 +45,7 @@ const SettingPage = () => {
 
     const [error, setError] = useState<string | undefined>();
     const [success, setSuccess] = useState<string | undefined>();
+    const router = useRouter();
 
     const { update } = useSession();
 
@@ -63,6 +65,8 @@ const SettingPage = () => {
         try {
             await axios.patch(`/api/settings`, values);
             toast.success("Pengguna berhasil diperbarui");
+            form.reset()
+            router.refresh();
           } catch {
             toast.error("Terdapat kesalahan");
           }
@@ -70,7 +74,7 @@ const SettingPage = () => {
 
     return (
         <div className="flex justify-center items-center h-screen">
-            <Card className="w-full max-w-[600px]">
+            <Card className="w-full max-w-[600px] mx-4 shadow-lg rounded-3xl">
                 <CardHeader>
                     <p className="text-2xl font-semibold text-center">
                         Profil

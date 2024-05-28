@@ -74,6 +74,7 @@ const PermindokEditCreate = ({ evaluasi, permindok }: PermindokEditCreateProps) 
             toast.success("Permindok berhasil diperbarui!")
             form.reset()
             router.refresh()
+            router.push(`/koordinator/evaluasi/${evaluasi.id}/permindok/${permindok.id}`);
         } catch {
             toast.error("Terdapat kesalahan!");
         }

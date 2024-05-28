@@ -73,6 +73,7 @@ const PermindokNewCreate = ({ evaluasi }: PermindokNewCreateProps) => {
             toast.success("Permindok berhasil dibuat!")
             form.reset()
             router.refresh()
+            router.push(`/koordinator/evaluasi/${evaluasi.id}/permindok`);
         } catch {
             toast.error("Terdapat kesalahan!");
         }

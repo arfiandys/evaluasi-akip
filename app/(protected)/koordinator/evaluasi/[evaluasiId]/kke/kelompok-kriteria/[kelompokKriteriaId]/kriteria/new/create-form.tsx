@@ -113,6 +113,7 @@ const KriteriaNewCreate = ({
             toast.success("Kriteria KKE berhasil dibuat!")
             reset()
             router.refresh()
+            router.push(`/koordinator/evaluasi/${evaluasi.id}/kke/kelompok-kriteria/${kelompokKriteriaId}`);
         } catch {
             toast.error("Terdapat kesalahan!");
         }

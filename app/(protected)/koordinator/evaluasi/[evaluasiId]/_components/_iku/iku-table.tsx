@@ -1,5 +1,3 @@
-import { DataTable } from "../_iku/_components/data-table";
-import { columns } from "../_iku/_components/columns";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";

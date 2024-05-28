@@ -52,11 +52,9 @@ export const Actions = ({
 
   const onSubmit = (value: string) => {
     setStatuse(value)
-    console.log(value)
   }
 
   const onClick = async () => {
-    console.log(statuse)
     if (disabled) {
       toast.error("Lengkapi terlebih dahulu semua isian!");
     } else {

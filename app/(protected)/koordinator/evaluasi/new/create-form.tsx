@@ -64,6 +64,7 @@ const EvaluasiNewCreate = () => {
             toast.success("Evaluasi berhasil dibuat!")
             form.reset()
             router.refresh()
+            router.push(`/koordinator/evaluasi`);
         } catch {
             toast.error("Terdapat kesalahan!");
         }

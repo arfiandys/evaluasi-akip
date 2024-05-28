@@ -69,6 +69,7 @@ const EvaluasiEdit = ({ evaluasi }: Props) => {
             toast.success("Evaluasi berhasil diperbarui!")
             form.reset()
             router.refresh()
+            router.push(`/koordinator/evaluasi/${evaluasi.id}`);
         } catch {
             toast.error("Terdapat kesalahan!");
         }

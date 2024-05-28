@@ -71,6 +71,7 @@ const KomponenEdit = ({ evaluasi, komponenLKE }: KomponenEditProps) => {
             toast.success("Komponen LKE berhasil diperbarui!")
             form.reset()
             router.refresh()
+            router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen/${komponenLKE.id}`);
         } catch {
             toast.error("Terdapat kesalahan!");
         }

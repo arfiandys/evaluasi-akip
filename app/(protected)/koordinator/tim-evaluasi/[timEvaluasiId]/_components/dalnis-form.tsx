@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { TimEvaluasi, User, UserOnTimEvaluasi, UserOnUnitKerja, UserRole } from "@prisma/client";
 import { Combobox } from "@/components/ui/combobox";
+import { ConfirmModal } from "@/components/modals/confirm-modal";
 
 interface DalnisFormProps {
   initialData: TimEvaluasi & { users: (UserOnTimEvaluasi & { user: User & { unitKerjas: UserOnUnitKerja[] } })[] };
@@ -208,12 +209,13 @@ export const DalnisForm = ({
                   </div>
                 )}
                 {deletingId !== dalnisId[0] && (
-                  <button
-                    onClick={() => onDelete(dalnisId[0])}
-                    className="ml-auto hover:opacity-75 transition"
-                  >
-                    <Trash className="h-4 w-4" />
-                  </button>
+                  <ConfirmModal onConfirm={()=> onDelete(dalnisId[0])}>
+                    <button
+                      className="ml-auto hover:opacity-75 transition"
+                    >
+                      <Trash className="h-4 w-4" />
+                    </button>
+                  </ConfirmModal>
                 )}
               </div>
             </div>

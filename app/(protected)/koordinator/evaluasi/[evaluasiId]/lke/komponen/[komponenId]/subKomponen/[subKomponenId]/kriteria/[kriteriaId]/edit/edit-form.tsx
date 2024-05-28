@@ -101,6 +101,7 @@ const KriteriaEdit = ({
             form.resetField("name")
             form.reset()
             router.refresh()
+            router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen/${komponenId}/subKomponen/${subKomponenId}/kriteria/${kriteria.id}`);
         } catch {
             toast.error("Terdapat kesalahan!");
         }

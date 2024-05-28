@@ -1,5 +1,3 @@
-import { DataTable } from "../_permindok/_components/data-table";
-import { columns } from "../_permindok/_components/columns";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";

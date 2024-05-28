@@ -163,7 +163,7 @@ const KomponenIdPage = async ({
                         </CardContent>
                     </Card>
                     <Card className="shadow-lg col-span-4 xl:col-span-3 rounded-3xl">
-                        <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
+                        <CardHeader className="flex flex-row gap-x-4 justify-between items-center space-y-2 flex-wrap">
                             <div className="flex flex-row gap-x-4 justify-start items-center">
                                 <IconBadge icon={ListTree} />
                                 <CardTitle>Sub komponen</CardTitle>

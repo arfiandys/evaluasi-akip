@@ -1,7 +1,7 @@
 import { IconBadge } from "@/components/icon-badge";
 import { currentId } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { ArrowLeft, ClipboardList, ClipboardPenLine, Edit, LayoutDashboard, ListChecks, ListTree, PlusCircle } from "lucide-react";
+import { ArrowLeft, ClipboardList, Edit } from "lucide-react";
 import { redirect } from "next/navigation";
 import { Actions } from "./_components/actions";
 import Link from "next/link";

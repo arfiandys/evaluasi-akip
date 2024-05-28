@@ -25,7 +25,7 @@ export function DataTableToolbar<TData>({
   const dataUnitKerja = uniqueData[0]
   return (
     <div className="flex items-center justify-between">
-      <div className="flex flex-1 items-center space-x-2">
+      <div className="flex flex-1 items-center space-x-2 space-y-2 flex-wrap">
         <Input
           placeholder="Filter unit kerja..."
           value={(table.getColumn("unitKerja")?.getFilterValue() as string) ?? ""}

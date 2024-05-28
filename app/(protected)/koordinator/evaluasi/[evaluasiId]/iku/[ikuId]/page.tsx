@@ -133,10 +133,10 @@ const IKUIdPage = async ({
                         </CardContent>
                     </Card>
                     <Card className="shadow-lg col-span-4 xl:col-span-3 rounded-3xl">
-                        <CardHeader className="flex flex-row gap-x-4 justify-between items-center">
+                        <CardHeader className="flex flex-row gap-x-4 justify-between items-center flex-wrap">
                             <div className="flex flex-row gap-x-4 justify-start items-center">
                                 <IconBadge icon={ListTree} />
-                                <CardTitle>Tujuan/Sasaran/Indikator</CardTitle>
+                                <CardTitle>Tujuan / Sasaran / Indikator</CardTitle>
                             </div>
                             <div className="flex flex-row flex-wrap justify-end gap-4">
                                 <Button asChild>

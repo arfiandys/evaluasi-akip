@@ -63,6 +63,7 @@ const UserNewCreate = () => {
             const response = await axios.post(`/api/user`, values);
             if (response.data.success) {
                 toast.success("Pengguna berhasil dibuat")
+                router.push(`/koordinator/user`);
                 toast.success(response.data.success);
             } else if (response.data.error) {
                 toast.error(response.data.error);

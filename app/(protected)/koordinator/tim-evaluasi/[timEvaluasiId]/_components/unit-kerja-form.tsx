@@ -12,6 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Combobox } from "@/components/ui/combobox";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { ConfirmModal } from "@/components/modals/confirm-modal";
 
 interface UnitKerjaProps {
   anggota: UserOnTimEvaluasi & { user: User & { unitKerjas: UserOnUnitKerja[] } };
@@ -169,7 +170,7 @@ export const UnitKerjaForm = ({
                 <Loader2 className="h-4 w-4 animate-spin" />
               </div>
             )}
-            
+
             <button
               onClick={toggleAnggotaEdit}
               className="ml-auto hover:opacity-75 transition"
@@ -224,12 +225,13 @@ export const UnitKerjaForm = ({
                   </div>
                 )}
                 {deletingUnitKerjaId !== unit.unitKerjaId && (
-                  <button
-                    onClick={() => onDeleteUnitKerja(anggota.userId, unit.unitKerjaId)}
-                    className="ml-2 hover:opacity-75 transition"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
+                  <ConfirmModal onConfirm={() => onDeleteUnitKerja(anggota.userId, unit.unitKerjaId)}>
+                    <button
+                      className="ml-2 hover:opacity-75 transition"
+                    >
+                      <Trash className="h-4 w-4" />
+                    </button>
+                  </ConfirmModal>
                 )}
               </div>
             ))}
@@ -251,12 +253,13 @@ export const UnitKerjaForm = ({
               </div>
             )}
             {deletingId !== anggota.userId && (
-              <button
-                onClick={() => onDelete(anggota.userId)}
-                className="ml-auto hover:opacity-75 transition"
-              >
-                <Trash className="h-4 w-4" />
-              </button>
+              <ConfirmModal onConfirm={() => onDelete(anggota.userId)}>
+                <button
+                  className="ml-auto hover:opacity-75 transition"
+                >
+                  <Trash className="h-4 w-4" />
+                </button>
+              </ConfirmModal>
             )}
             <MoreVertical />
             {deletingId !== anggota.userId && (
