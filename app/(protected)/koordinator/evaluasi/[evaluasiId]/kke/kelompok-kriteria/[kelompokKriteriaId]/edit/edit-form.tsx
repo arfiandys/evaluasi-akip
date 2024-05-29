@@ -82,7 +82,7 @@ const KelompokKriteriaEdit = ({
             toast.success("Kelompok kriteria KKE berhasil diperbarui!")
             form.reset()
             router.refresh()
-            router.push(`/koordinator/evaluasi/${evaluasi.id}/kke/kelompok-kriteria/${kelompokKriteria.id}}`);
+            router.push(`/koordinator/evaluasi/${evaluasi.id}/kke/kelompok-kriteria/${kelompokKriteria.id}`);
         } catch {
             toast.error("Terdapat kesalahan!");
         }
