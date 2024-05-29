@@ -312,7 +312,7 @@ model KelompokKriteriaKKE {
 model KriteriaKKE {
   id                    String              @id @default(cuid())
   kode                  String
-  nama                  String              @unique
+  nama                  String             
   kelompokKriteriaKKEId String
   kelompokKriteriaKKE   KelompokKriteriaKKE @relation(fields: [kelompokKriteriaKKEId], references: [id], onDelete: Cascade)
   variabelKKE           VariabelKKE?

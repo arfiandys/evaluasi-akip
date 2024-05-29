@@ -98,7 +98,7 @@ const KriteriaNewCreate = ({
             toast.success("Kriteria LKE berhasil dibuat!")
             form.reset()
             router.refresh()
-            router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen/${komponenId}/subKomponen/${subKomponenId}/kriteria`);
+            router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen/${komponenId}/subKomponen/${subKomponenId}`);
         } catch {
             toast.error("Terdapat kesalahan!");
         }

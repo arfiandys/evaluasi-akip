@@ -69,12 +69,14 @@ export const Actions = ({
         } else if ((statuse === "draft") && (status !== statuse)) {
           await axios.patch(`/api/evaluasi/${evaluasiId}/unpublish`);
           toast.success("Evaluasi dalam rancangan");
-        } else if ((statuse === "finish") && (status !== statuse)) {
+        } else if ((statuse === "finish") && (status !== statuse) && (status !== "draft")) {
           await axios.patch(`/api/evaluasi/${evaluasiId}/finish`);
           toast.success("Evaluasi sudah selesai");
-        } else if ((statuse === "check") && (status !== statuse)) {
+        } else if ((statuse === "check") && (status !== statuse) && (status !== "draft")) {
           await axios.patch(`/api/evaluasi/${evaluasiId}/check`);
           toast.success("Evaluasi dalam tahap pengecekan");
+        } else {
+          toast.error("Atur status ke tahap pengerjaan terlebih dahulu");
         }
         router.refresh()
       } catch {

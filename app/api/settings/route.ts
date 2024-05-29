@@ -34,13 +34,13 @@ export async function PATCH(
       values.email = undefined;
       values.password = undefined;
       values.newPassword = undefined;
-  }
+    }
 
     if (values.email && values.email !== user.email) {
       const existingUser = await getUserByEmail(values.email);
 
       if (existingUser && existingUser.id !== user.id) {
-        return new NextResponse("Email already in use!", { status: 401 });
+        return NextResponse.json({ error: "Email telah digunakan!" });
       }
 
       const verificationToken = await generateVerificationToken(
@@ -51,7 +51,6 @@ export async function PATCH(
         verificationToken.email,
         verificationToken.token,
       );
-      return NextResponse.json(verificationToken);
     }
 
     if (values.password && values.newPassword && dbUser.password) {
@@ -74,9 +73,9 @@ export async function PATCH(
 
     const users = await db.user.update({
       where: { id: dbUser.id },
-        data: {
-            ...values,
-        }
+      data: {
+        ...values,
+      }
     });
 
     return NextResponse.json(users);

@@ -77,7 +77,7 @@ const SubKomponenNewCreate = ({
             toast.success("Sub komponen LKE berhasil dibuat!")
             form.reset()
             router.refresh()
-            router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen/${komponenId}/subKomponen`);
+            router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen/${komponenId}`);
         } catch {
             toast.error("Terdapat kesalahan!");
         }

@@ -141,6 +141,9 @@ const EvaluasiNewCreate = () => {
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
+                                                <SelectItem value="2022">
+                                                    2022
+                                                </SelectItem>
                                                 <SelectItem value="2023">
                                                     2023
                                                 </SelectItem>

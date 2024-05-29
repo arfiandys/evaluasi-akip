@@ -35,13 +35,13 @@ import { Activity } from "lucide-react";
 
 const formSchema = z.object({
     title: z.string().min(1, {
-        message: "Name is required",
+        message: "Name dibutuhkan",
     }),
     description: z.string().min(1, {
-        message: "Kode is required",
+        message: "Kode dibutuhkan",
     }),
     tahun: z.string().min(1, {
-        message: "Tahun is required",
+        message: "Tahun dibutuhkan",
     })
 });
 
@@ -55,7 +55,7 @@ const EvaluasiEdit = ({ evaluasi }: Props) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            description: evaluasi.description||"",
+            description: evaluasi.description || "",
             tahun: evaluasi.tahun,
             title: evaluasi.title,
         },
@@ -148,6 +148,9 @@ const EvaluasiEdit = ({ evaluasi }: Props) => {
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
+                                                <SelectItem value="2022">
+                                                    2022
+                                                </SelectItem>
                                                 <SelectItem value="2023">
                                                     2023
                                                 </SelectItem>

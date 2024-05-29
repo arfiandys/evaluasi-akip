@@ -63,13 +63,18 @@ const SettingPage = () => {
 
     const onSubmit = async (values: z.infer<typeof SettingsSchema>) => {
         try {
-            await axios.patch(`/api/settings`, values);
-            toast.success("Pengguna berhasil diperbarui");
-            form.reset()
+            const response = await axios.patch(`/api/settings`, values);
+            if (response.data.error) {
+                toast.error(response.data.error);
+            } else {
+                toast.success("Pengguna berhasil diperbarui");
+            }
+            form.reset();
             router.refresh();
-          } catch {
+            router.push(`/settings`);
+        } catch {
             toast.error("Terdapat kesalahan");
-          }
+        }
     }
 
     return (
@@ -173,7 +178,7 @@ const SettingPage = () => {
                             </div>
                             <FormError message={error} />
                             <FormSuccess message={success} />
-                            <Button disabled={isSubmitting } type="submit">
+                            <Button disabled={isSubmitting} type="submit">
                                 Simpan
                             </Button>
                         </form>
