@@ -583,7 +583,7 @@ const LHEPDF = ({ data, dataObjek, unitKerja, dataCatatan }: Props) => {
                     <Fragment key={index}>
                         <View style={{ width: '100%', flexDirection: 'row' }}>
                             <View style={styles.tbody}>
-                                <Text >{(index+1).toString() + "" + (idx + 1).toString()}</Text>
+                                <Text >{(index+1).toString() + "." + (idx + 1).toString()}</Text>
                             </View>
                             <View style={styles.tbody}>
                                 <Text>{items.label} </Text>
