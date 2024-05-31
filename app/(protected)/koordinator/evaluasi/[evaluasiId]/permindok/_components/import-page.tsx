@@ -51,7 +51,7 @@ const ImportPage = ({ evaluasi }: ImportProps) => {
     const onUpload = (results: typeof INITIAL_IMPORT_RESULT) => {
         const bodynot:string[][] = results.data.slice(1);
         const body = bodynot.filter((item) => {
-            return item.length === 14
+            return item.length === 2
         })
         if (!body.length) {
             toast.error("Format isian tidak sesuai template, anda bisa download template terlabih dahulu")
@@ -68,12 +68,9 @@ const ImportPage = ({ evaluasi }: ImportProps) => {
 
     const onSubmit = async (values: any[]) => {
         setLoading(true)
-        const dataSorted = values.sort((a, b) => {
-            const levelOrder: any = { "komponen": 0, "subKomponen": 1, "kriteria": 2, "subKriteria": 3 };
-            return levelOrder[a.level] - levelOrder[b.level];
-        });
-        const dataFiltered = dataSorted.filter((item) => {
-            if ((item.level === "komponen") || (item.level === "subKomponen") || (item.level === "kriteria") || (item.level === "subKriteria")) {
+
+        const dataFiltered = values.filter((item) => {
+            if ((item.name !== "") && (item.kode !== "")) {
                 return item
             }
         })
@@ -82,10 +79,9 @@ const ImportPage = ({ evaluasi }: ImportProps) => {
             tahun: evaluasi?.tahun,
             evaluasiId: evaluasi?.id
         }
-        console.log(dataFiltered)
         try {
-            await axios.post("/api/lke/variabel/import", value);
-            toast.success("Variabel LKE berhasil dibuat!")
+            await axios.post(`/api/permindok/import`, value);
+            toast.success("Permindok berhasil dibuat!")
             router.refresh()
         } catch {
             toast.error("Terdapat kesalahan!");
@@ -110,7 +106,7 @@ const ImportPage = ({ evaluasi }: ImportProps) => {
             )}
             <Dialog>
                 <DialogTrigger asChild>
-                    <Button>Import variabel LKE</Button>
+                    <Button>Import permindok</Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-screen-xl mx-auto flex justify-center">
                     {(variant === VARIANTS.IMPORT) ? (
@@ -122,7 +118,7 @@ const ImportPage = ({ evaluasi }: ImportProps) => {
                     ) : (
                         <Card className="border-0 shadow-none w-full">
                             <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
-                                <CardTitle>Import variabel LKE</CardTitle>
+                                <CardTitle>Import permindok</CardTitle>
                                 <div className="flex flex-row gap-x-4">
                                     <UploadButton onUpload={onUpload} />
                                     <DownloadButton />

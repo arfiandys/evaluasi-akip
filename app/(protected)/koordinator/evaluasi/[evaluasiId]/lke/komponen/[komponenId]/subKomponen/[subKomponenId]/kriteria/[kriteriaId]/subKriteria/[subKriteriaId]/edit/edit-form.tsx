@@ -67,11 +67,11 @@ interface EditProps {
     subKomponenId: string;
     kriteriaId: string;
     subKriteria: SubKriteriaLKE;
-  };
+};
 
 const SubKriteriaEdit = ({
     evaluasi, komponenId, subKomponenId, kriteriaId, subKriteria
-  }: EditProps) => {
+}: EditProps) => {
 
     const [selectedJI, setSelectedJI] = useState<string>("")
     const router = useRouter();
@@ -97,10 +97,14 @@ const SubKriteriaEdit = ({
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.patch(`/api/lke/komponen/${komponenId}/subKomponen/${subKomponenId}/kriteria/${kriteriaId}/subKriteria/${subKriteria.id}`, values);
-            toast.success("Sub Kriteria LKE berhasil diperbarui!")
-            form.reset()
-            router.refresh()
-            router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen/${komponenId}/subKomponen/${subKomponenId}/kriteria/${kriteriaId}/subKriteria/${subKriteria.id}`);
+            if (response.data.error) {
+                toast.error(response.data.error)
+            } else {
+                toast.success("Sub Kriteria LKE berhasil diperbarui!")
+                router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen/${komponenId}/subKomponen/${subKomponenId}/kriteria/${kriteriaId}/subKriteria/${subKriteria.id}`);
+                form.reset()
+                router.refresh()
+            }
         } catch {
             toast.error("Terdapat kesalahan!");
         }

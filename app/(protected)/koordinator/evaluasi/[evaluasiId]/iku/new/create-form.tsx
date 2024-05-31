@@ -69,11 +69,14 @@ const IKUNewCreate = ({
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.post("/api/iku", values);
-            toast.success("IKU berhasil dibuat!")
-            form.reset()
-            router.refresh()
-            router.push(`/koordinator/evaluasi/${evaluasi.id}/iku/${response.data.id}`);
-            router.refresh()
+            if (response.data.error) {
+                toast.error(response.data.error);
+            } else {
+                toast.success("IKU berhasil dibuat!");
+                router.push(`/koordinator/evaluasi/${evaluasi.id}/iku/${response.data.id}`);
+                form.reset();
+                router.refresh();
+            }
         } catch {
             toast.error("Terdapat kesalahan!");
         }

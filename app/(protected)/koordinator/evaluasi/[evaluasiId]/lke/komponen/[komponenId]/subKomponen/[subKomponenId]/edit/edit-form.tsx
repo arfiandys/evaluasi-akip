@@ -71,10 +71,14 @@ const SubKomponenEdit = ({
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.patch(`/api/lke/komponen/${komponenId}/subKomponen/${subKomponen.id}`, values);
-            toast.success("Sub komponen LKE berhasil diperbarui!")
-            form.reset()
-            router.refresh()
-            router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen/${komponenId}/subKomponen/${subKomponen.id}`);
+            if (response.data.error) {
+                toast.error(response.data.error)
+            } else {
+                toast.success("Sub komponen LKE berhasil diperbarui!")
+                router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen/${komponenId}/subKomponen/${subKomponen.id}`);
+                form.reset()
+                router.refresh()
+            }
         } catch {
             toast.error("Terdapat kesalahan!");
         }

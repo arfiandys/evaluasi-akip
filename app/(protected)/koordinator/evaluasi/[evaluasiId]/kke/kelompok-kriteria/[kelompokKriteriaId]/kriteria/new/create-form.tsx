@@ -105,15 +105,16 @@ const KriteriaNewCreate = ({
             jenisIsianIKU: (values.jenisIsianIKU === "-_-") ? null : values.jenisIsianIKU,
             isIndikatorKinerja: (values.isIndikatorKinerja === "true")
         }
-        // toast.success(<pre className="mt-2 w-full rounded-md bg-slate-950 p-4 overflow-auto">
-        //     <code className="text-white">{JSON.stringify(value, null, 2)}</code>
-        // </pre>)
         try {
             const response = await axios.post(`/api/kke/kelompok-kriteria/${kelompokKriteriaId}/kriteria`, value);
-            toast.success("Kriteria KKE berhasil dibuat!")
-            reset()
-            router.refresh()
-            router.push(`/koordinator/evaluasi/${evaluasi.id}/kke/kelompok-kriteria/${kelompokKriteriaId}`);
+            if (response.data.error) {
+                toast.error(response.data.error)
+            } else {
+                toast.success("Kriteria KKE berhasil dibuat!")
+                router.push(`/koordinator/evaluasi/${evaluasi.id}/kke/kelompok-kriteria/${kelompokKriteriaId}`);
+                reset()
+                router.refresh()
+            }
         } catch {
             toast.error("Terdapat kesalahan!");
         }

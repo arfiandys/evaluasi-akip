@@ -70,10 +70,14 @@ const TSINewCreate = ({
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.post(`/api/iku/${ikuId}/tujuanSasaranIndikator`, values);
-            toast.success("Tujuan/Sasaran/Indikator berhasil dibuat!")
-            form.reset()
-            router.refresh()
-            router.push(`/koordinator/evaluasi/${evaluasiId}/iku/${ikuId}`);
+            if (response.data.error) {
+                toast.error(response.data.error)
+            } else {
+                toast.success("Tujuan/Sasaran/Indikator berhasil dibuat!")
+                router.push(`/koordinator/evaluasi/${evaluasiId}/iku/${ikuId}`);
+                form.reset()
+                router.refresh()
+            }
         } catch {
             toast.error("Terdapat kesalahan!");
         }

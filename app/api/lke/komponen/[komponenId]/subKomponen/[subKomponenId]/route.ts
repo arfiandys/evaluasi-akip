@@ -40,7 +40,7 @@ export async function DELETE(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { subKomponenId: string } }
+  { params }: { params: { komponenId: string, subKomponenId: string } }
 ) {
   try {
     const session = await auth();
@@ -54,6 +54,40 @@ export async function PATCH(
 
 
     // SUB KOMPONEN DETAIL EDIT
+
+    const existingKodeSubKomponen = await db.subKomponenLKE.findFirst({
+      where: {
+        AND: [
+          {
+            kode: values.kode,
+          },
+          {
+            komponenLKEId: params.komponenId
+          }
+        ]
+      }
+    })
+
+    if (existingKodeSubKomponen && existingKodeSubKomponen.id!==params.subKomponenId) {
+      return NextResponse.json({ error: "Kode talah digunakan!" });
+    }
+
+    const existingNameSubKomponen = await db.subKomponenLKE.findFirst({
+      where: {
+        AND: [
+          {
+            name: values.name,
+          },
+          {
+            komponenLKEId: params.komponenId
+          }
+        ]
+      }
+    })
+
+    if (existingNameSubKomponen && existingNameSubKomponen.id!==params.subKomponenId) {
+      return NextResponse.json({ error: "Nama talah digunakan!" });
+    }
 
     const subKomponenLKE = await db.subKomponenLKE.update({
       where: {

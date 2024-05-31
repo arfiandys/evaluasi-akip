@@ -142,4 +142,28 @@ export const columns: ColumnDef<VariabelLKE>[] = [
     enableSorting: true,
     enableHiding: false,
   },
+  {
+    id: "isPembobot",
+    accessorFn: row => {
+      const isPembobot = (row.isPembobot ? "Ya":"Tidak")
+      return (
+        `${isPembobot}`
+      )
+    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Pembobot" />
+    ),
+    cell: ({ row }) => {
+
+      return (
+        <div className="flex space-x-2">
+          <span className="w-auto truncate font-medium">
+            {row.getValue("isPembobot")}
+          </span>
+        </div>
+      )
+    },
+    enableSorting: true,
+    enableHiding: true,
+  },
 ]

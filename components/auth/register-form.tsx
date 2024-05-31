@@ -49,8 +49,8 @@ export const RegisterForm = () => {
 
     return (
         <CardWrapper 
-        headerLabel="Create an account"
-        backButtonLabel="Already have an account"
+        headerLabel="Buat akun"
+        backButtonLabel="Sudah mempunyai akun"
         backButtonHref="/auth/login"
         showSocial
         >
@@ -66,7 +66,7 @@ export const RegisterForm = () => {
                         render={({field}) => (
                             <FormItem>
                                 <FormLabel>
-                                    Name
+                                    Nama
                                 </FormLabel>
                                 <FormControl>
                                     <Input 
@@ -127,7 +127,7 @@ export const RegisterForm = () => {
                     type="submit"
                     className="w-full"
                     >
-                        Register
+                        Daftar
                     </Button>
                 </form>
             </Form>

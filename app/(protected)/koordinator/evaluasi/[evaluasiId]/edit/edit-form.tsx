@@ -67,9 +67,9 @@ const EvaluasiEdit = ({ evaluasi }: Props) => {
         try {
             const response = await axios.patch(`/api/evaluasi/${evaluasi.id}`, values);
             toast.success("Evaluasi berhasil diperbarui!")
+            router.push(`/koordinator/evaluasi/${evaluasi.id}`);
             form.reset()
             router.refresh()
-            router.push(`/koordinator/evaluasi/${evaluasi.id}`);
         } catch {
             toast.error("Terdapat kesalahan!");
         }

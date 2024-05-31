@@ -54,6 +54,40 @@ export async function PATCH(
 
     // KELOMPOK KRITERIA KKE DETAIL EDIT
 
+    const existingKodeKelompok = await db.kelompokKriteriaKKE.findFirst({
+      where: {
+        AND: [
+          {
+            kode: values.kode,
+          },
+          {
+            evaluasiId: values.evaluasiId
+          }
+        ]
+      }
+    })
+
+    if (existingKodeKelompok && existingKodeKelompok.id!==params.kelompokKriteriaId) {
+      return NextResponse.json({ error: "Kode talah digunakan!" });
+    }
+
+    const existingNameKelompok = await db.kelompokKriteriaKKE.findFirst({
+      where: {
+        AND: [
+          {
+            name: values.name,
+          },
+          {
+            evaluasiId: values.evaluasiId
+          }
+        ]
+      }
+    })
+
+    if (existingNameKelompok && existingNameKelompok.id!==params.kelompokKriteriaId) {
+      return NextResponse.json({ error: "Nama talah digunakan!" });
+    }
+
     const kelompokKriteria = await db.kelompokKriteriaKKE.update({
       where: {
         id: kelompokKriteriaId,

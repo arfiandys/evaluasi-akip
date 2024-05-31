@@ -24,6 +24,40 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
+        const existingKodeKriteria = await db.kriteriaKKE.findFirst({
+            where: {
+                AND: [
+                    {
+                        kode: values.kode,
+                    },
+                    {
+                        kelompokKriteriaKKEId: params.kelompokKriteriaId
+                    }
+                ]
+            }
+        })
+
+        if (existingKodeKriteria) {
+            return NextResponse.json({ error: "Kode talah digunakan!" });
+        }
+
+        const existingNameKriteria = await db.kriteriaKKE.findFirst({
+            where: {
+                AND: [
+                    {
+                        nama: values.nama,
+                    },
+                    {
+                        kelompokKriteriaKKEId: params.kelompokKriteriaId
+                    }
+                ]
+            }
+        })
+
+        if (existingNameKriteria) {
+            return NextResponse.json({ error: "Nama talah digunakan!" });
+        }
+
         const kriteriaKKE = await db.kriteriaKKE.create({
             data: {
                 kelompokKriteriaKKEId: params.kelompokKriteriaId,

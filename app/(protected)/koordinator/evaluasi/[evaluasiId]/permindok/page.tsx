@@ -15,6 +15,7 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { PlusCircle } from "lucide-react";
+import ImportPage from "./_components/import-page";
 
 const PermindokPage = async ({
     params
@@ -37,6 +38,11 @@ const PermindokPage = async ({
             evaluasi: true
         }
     });
+    const evaluasi = await db.evaluasi.findUnique({
+        where: {
+            id: params.evaluasiId
+        }
+    })
 
     return (
         <div className="flex h-screen flex-1 flex-col space-y-6 p-8">
@@ -67,7 +73,7 @@ const PermindokPage = async ({
                         </BreadcrumbList>
                     </Breadcrumb>
                 </div>
-                <div className="flex justify-end my-4">
+                <div className="flex justify-end my-4 gap-x-4 gap-y-2 flex-wrap">
                     <Button asChild>
                         <Link
                             href={`/koordinator/evaluasi/${params.evaluasiId}/permindok/new`}
@@ -76,6 +82,7 @@ const PermindokPage = async ({
                             Permindok baru
                         </Link>
                     </Button>
+                    <ImportPage evaluasi={evaluasi} />
                 </div>
             </div>
             <DataTable data={permindok} columns={columns} />

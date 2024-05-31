@@ -64,6 +64,23 @@ export async function PATCH(
 
     // IKU DETAIL EDIT
 
+    const existingNameIKU = await db.iKU.findFirst({
+      where: {
+        AND: [
+          {
+            name: values.name
+          },
+          {
+            evaluasiId: values.evaluasiId
+          }
+        ]
+      }
+    })
+
+    if (existingNameIKU && existingNameIKU.id!==params.ikuId) {
+      return NextResponse.json({ error: "Nama talah digunakan!" });
+    }
+
     const IKU = await db.iKU.update({
       where: {
         id: ikuId,

@@ -58,21 +58,20 @@ export const Actions = ({
     if (disabled) {
       toast.error("Lengkapi terlebih dahulu semua isian!");
     } else {
-
       try {
         setIsLoading(true);
 
-        if ((statuse === "publish") && (status !== statuse)) {
+        if ((statuse === "publish")) {
           await axios.patch(`/api/evaluasi/${evaluasiId}/publish`);
           toast.success("Evaluasi dalam tahap pengerjaan");
           confetti.onOpen();
-        } else if ((statuse === "draft") && (status !== statuse)) {
+        } else if ((statuse === "draft")) {
           await axios.patch(`/api/evaluasi/${evaluasiId}/unpublish`);
           toast.success("Evaluasi dalam rancangan");
-        } else if ((statuse === "finish") && (status !== statuse) && (status !== "draft")) {
+        } else if ((statuse === "finish") && (status !== "draft")) {
           await axios.patch(`/api/evaluasi/${evaluasiId}/finish`);
           toast.success("Evaluasi sudah selesai");
-        } else if ((statuse === "check") && (status !== statuse) && (status !== "draft")) {
+        } else if ((statuse === "check") && (status !== "draft")) {
           await axios.patch(`/api/evaluasi/${evaluasiId}/check`);
           toast.success("Evaluasi dalam tahap pengecekan");
         } else {

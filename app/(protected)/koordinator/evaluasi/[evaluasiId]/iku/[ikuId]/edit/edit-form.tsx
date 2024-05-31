@@ -70,10 +70,14 @@ const IKUEdit = ({
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.patch(`/api/iku/${iku.id}`, values);
-            toast.success("IKU berhasil diperbarui!")
-            form.reset()
-            router.refresh()
-            router.push(`/koordinator/evaluasi/${evaluasi.id}/iku/${iku.id}`);
+            if (response.data.error) {
+                toast.error(response.data.error);
+            } else {
+                toast.success("IKU berhasil diperbarui!")
+                router.push(`/koordinator/evaluasi/${evaluasi.id}/iku/${iku.id}`);
+                form.reset()
+                router.refresh()
+            }
         } catch {
             toast.error("Terdapat kesalahan!");
         }

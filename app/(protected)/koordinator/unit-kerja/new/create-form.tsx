@@ -70,9 +70,9 @@ const UnitKerjaNewCreate = () => {
             } else {
                 router.push(`/koordinator/unit-kerja/${response.data.id}`);
                 toast.success("Unit Kerja berhasil dibuat!")
+                form.reset()
+                router.refresh()
             }
-            form.reset()
-            router.refresh()
         } catch {
             toast.error("Terdapat kesalahan!");
         }
@@ -166,6 +166,8 @@ const UnitKerjaNewCreate = () => {
                                         <Select
                                             disabled={isSubmitting}
                                             onValueChange={field.onChange}
+                                            value={field.value}
+                                            defaultValue={field.value}
                                         >
                                             <FormControl>
                                                 <SelectTrigger>

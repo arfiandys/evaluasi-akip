@@ -238,10 +238,122 @@ export async function PATCH(
           }
         })
 
+        const variabelLKEPembobot = await db.variabelLKE.findMany({
+          where: {
+            AND: [
+              {
+                kriteriaLKE: {
+                  subKomponenLKEId: LKEUnitKerjaKriteria.variabelLKE.kriteriaLKE?.subKomponenLKEId!
+                }
+              },
+              {
+                isPembobot: true
+              }
+            ]
+          },
+          orderBy: {
+            kode: "asc"
+          },
+          include: {
+            kriteriaLKE: true,
+            subKomponenLKE: true,
+          }
+        })
+
+        const LKEKriteriaPembobot = await db.lKEUnitKerja.findMany({
+          where: {
+            AND: [
+              {
+                variabelLKE: {
+                  AND: [
+                    {
+                      kriteriaLKE: {
+                        subKomponenLKEId: LKEUnitKerjaKriteria.variabelLKE.kriteriaLKE?.subKomponenLKEId!
+                      }
+                    },
+                    {
+                      isPembobot: true
+                    }
+                  ]
+                }
+              },
+              {
+                unitKerjaId: values.unitKerjaId
+              }
+            ],
+          },
+          include: {
+            variabelLKE: true,
+          }
+        })
+
+
+
+        const select = variabelLKEPembobot.filter((item) => item.jenisIsian === "select")
+        const dropdown = variabelLKEPembobot.filter((item) => item.jenisIsian === "dropdown")
+        const selectLKE = LKEKriteriaPembobot.filter((item) => item.variabelLKE.jenisIsian === "select")
+        const dropdownLKE = LKEKriteriaPembobot.filter((item) => item.variabelLKE.jenisIsian === "dropdown")
+
         let jumlah: number = 0;
+        let nilai: number = 0;
+
         LKEKriteria.forEach((data) => {
           jumlah += Number(data.nilaiAt)
         })
+
+        //////////////////////////////////////////////////////////////////////
+        //////////////////////// LOGIKA UNTUK PEMBOBOTAN /////////////////////
+        //////////////////////////////////////////////////////////////////////
+
+        if (select.length === 1 && dropdown.length === 2) {
+          if (jumlah === 100 && dropdownLKE[0].isianAt === "a" && dropdownLKE[1].isianAt === "b") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100
+          } else if (jumlah === 100 && selectLKE[0].isianAt === "ya" && (dropdownLKE[0].isianAt === "" || dropdownLKE[1].isianAt === "")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          } else if (jumlah === 100 && selectLKE[0].isianAt === "ya" && (dropdownLKE[0].isianAt = "c" || dropdownLKE[1].isianAt === "c")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          } else if (jumlah === 100 && (dropdownLKE[0].isianAt === "b" || dropdownLKE[1].isianAt === "b")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          } else if (jumlah === 100 && (dropdownLKE[0].isianAt === "a" || dropdownLKE[1].isianAt === "a")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          }
+        } else if (select.length === 2 && dropdown.length === 0) {
+          if (jumlah === 100 && selectLKE[1].isianAt === "ya") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100
+          } else if (jumlah === 100 && selectLKE[1].isianAt === "tidak") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          } else if (jumlah === 100 && selectLKE[0].isianAt === "ya") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          }
+        } else if (select.length === 1 && dropdown.length === 1) {
+          if (jumlah === 100 && dropdownLKE[0].isianAt === "a") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100
+          } else if (jumlah === 100 && dropdownLKE[0].isianAt === "b") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          } else if (jumlah === 100 && selectLKE[0].isianAt === "ya" && dropdownLKE[0].isianAt === "") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          } else if (jumlah === 100 && selectLKE[0].isianAt === "ya" && dropdownLKE[0].isianAt === "c") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          }
+        }
+        /////////// TAMBAHKAN LOGIKA DISINI /////////////
+        else {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * jumlah
+        }
+
+        if (jumlah < 100 && jumlah > 75) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.7
+        } else if (jumlah <= 75 && jumlah >= 50) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.6
+        } else if (jumlah < 50 && jumlah >= 25) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.5
+        } else if (jumlah < 25 && jumlah > 0) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.3
+        } else if (jumlah === 0) {
+          nilai = 0
+        }
+
+        /////////////////////////////////////////////////////////////////////////
         const LKEUnitKerjaSubKomponen = await db.lKEUnitKerja.update({
           where: {
             LKEUnitKerjaId: {
@@ -251,7 +363,7 @@ export async function PATCH(
           },
           data: {
             isianAt: jumlah.toString(),
-            nilaiAt: (variabelLKESubKomponen?.subKomponenLKE?.bobot! * jumlah).toString()
+            nilaiAt: nilai.toString()
           },
           include: {
             variabelLKE: {
@@ -344,12 +456,123 @@ export async function PATCH(
           }
         })
 
-        let jumlah: number = 0;
+        const variabelLKEPembobot = await db.variabelLKE.findMany({
+          where: {
+            AND: [
+              {
+                kriteriaLKE: {
+                  subKomponenLKEId: LKEUnitKerja.variabelLKE.kriteriaLKE?.subKomponenLKEId!
+                }
+              },
+              {
+                isPembobot: true
+              }
+            ]
+          },
+          orderBy: {
+            kode: "asc"
+          },
+          include: {
+            kriteriaLKE: true,
+            subKomponenLKE: true,
+          }
+        })
 
+        const LKEKriteriaPembobot = await db.lKEUnitKerja.findMany({
+          where: {
+            AND: [
+              {
+                variabelLKE: {
+                  AND: [
+                    {
+                      kriteriaLKE: {
+                        subKomponenLKEId: LKEUnitKerja.variabelLKE.kriteriaLKE?.subKomponenLKEId!
+                      }
+                    },
+                    {
+                      isPembobot: true
+                    }
+                  ]
+                }
+              },
+              {
+                unitKerjaId: values.unitKerjaId
+              }
+            ],
+          },
+          include: {
+            variabelLKE: true,
+          }
+        })
+
+
+
+        const select = variabelLKEPembobot.filter((item) => item.jenisIsian === "select")
+        const dropdown = variabelLKEPembobot.filter((item) => item.jenisIsian === "dropdown")
+        const selectLKE = LKEKriteriaPembobot.filter((item) => item.variabelLKE.jenisIsian === "select")
+        const dropdownLKE = LKEKriteriaPembobot.filter((item) => item.variabelLKE.jenisIsian === "dropdown")
+
+        let jumlah: number = 0;
+        let nilai: number = 0;
 
         LKEKriteria.forEach((data) => {
           jumlah += Number(data.nilaiAt)
         })
+
+        //////////////////////////////////////////////////////////////////////
+        //////////////////////// LOGIKA UNTUK PEMBOBOTAN /////////////////////
+        //////////////////////////////////////////////////////////////////////
+
+        if (select.length === 1 && dropdown.length === 2) {
+          if (jumlah === 100 && dropdownLKE[0].isianAt === "a" && dropdownLKE[1].isianAt === "b") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100
+          } else if (jumlah === 100 && selectLKE[0].isianAt === "ya" && (dropdownLKE[0].isianAt === "" || dropdownLKE[1].isianAt === "")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          } else if (jumlah === 100 && selectLKE[0].isianAt === "ya" && (dropdownLKE[0].isianAt = "c" || dropdownLKE[1].isianAt === "c")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          } else if (jumlah === 100 && (dropdownLKE[0].isianAt === "b" || dropdownLKE[1].isianAt === "b")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          } else if (jumlah === 100 && (dropdownLKE[0].isianAt === "a" || dropdownLKE[1].isianAt === "a")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          }
+        } else if (select.length === 2 && dropdown.length === 0) {
+          if (jumlah === 100 && selectLKE[1].isianAt === "ya") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100
+          } else if (jumlah === 100 && selectLKE[1].isianAt === "tidak") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          } else if (jumlah === 100 && selectLKE[0].isianAt === "ya") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          }
+        } else if (select.length === 1 && dropdown.length === 1) {
+          if (jumlah === 100 && dropdownLKE[0].isianAt === "a") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100
+          } else if (jumlah === 100 && dropdownLKE[0].isianAt === "b") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          } else if (jumlah === 100 && selectLKE[0].isianAt === "ya" && dropdownLKE[0].isianAt === "") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          } else if (jumlah === 100 && selectLKE[0].isianAt === "ya" && dropdownLKE[0].isianAt === "c") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          }
+        }
+        /////////// TAMBAHKAN LOGIKA DISINI /////////////
+        else {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * jumlah
+        }
+
+        if (jumlah < 100 && jumlah > 75) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.7
+        } else if (jumlah <= 75 && jumlah >= 50) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.6
+        } else if (jumlah < 50 && jumlah >= 25) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.5
+        } else if (jumlah < 25 && jumlah > 0) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.3
+        } else if (jumlah === 0) {
+          nilai = 0
+        }
+
+        /////////////////////////////////////////////////////////////////////////
+
         const LKEUnitKerjaSubKomponen = await db.lKEUnitKerja.update({
           where: {
             LKEUnitKerjaId: {
@@ -359,7 +582,7 @@ export async function PATCH(
           },
           data: {
             isianAt: jumlah.toString(),
-            nilaiAt: (variabelLKESubKomponen?.subKomponenLKE?.bobot! * jumlah).toString()
+            nilaiAt: nilai.toString()
           },
           include: {
             variabelLKE: {
@@ -595,10 +818,123 @@ export async function PATCH(
           }
         })
 
+        const variabelLKEPembobot = await db.variabelLKE.findMany({
+          where: {
+            AND: [
+              {
+                kriteriaLKE: {
+                  subKomponenLKEId: LKEUnitKerjaKriteria.variabelLKE.kriteriaLKE?.subKomponenLKEId!
+                }
+              },
+              {
+                isPembobot: true
+              }
+            ]
+          },
+          orderBy: {
+            kode: "asc"
+          },
+          include: {
+            kriteriaLKE: true,
+            subKomponenLKE: true,
+          }
+        })
+
+        const LKEKriteriaPembobot = await db.lKEUnitKerja.findMany({
+          where: {
+            AND: [
+              {
+                variabelLKE: {
+                  AND: [
+                    {
+                      kriteriaLKE: {
+                        subKomponenLKEId: LKEUnitKerjaKriteria.variabelLKE.kriteriaLKE?.subKomponenLKEId!
+                      }
+                    },
+                    {
+                      isPembobot: true
+                    }
+                  ]
+                }
+              },
+              {
+                unitKerjaId: values.unitKerjaId
+              }
+            ],
+          },
+          include: {
+            variabelLKE: true,
+          }
+        })
+
+
+
+        const select = variabelLKEPembobot.filter((item) => item.jenisIsian === "select")
+        const dropdown = variabelLKEPembobot.filter((item) => item.jenisIsian === "dropdown")
+        const selectLKE = LKEKriteriaPembobot.filter((item) => item.variabelLKE.jenisIsian === "select")
+        const dropdownLKE = LKEKriteriaPembobot.filter((item) => item.variabelLKE.jenisIsian === "dropdown")
+
         let jumlah: number = 0;
+        let nilai: number = 0;
+
         LKEKriteria.forEach((data) => {
           jumlah += Number(data.nilaiKt)
         })
+
+        //////////////////////////////////////////////////////////////////////
+        //////////////////////// LOGIKA UNTUK PEMBOBOTAN /////////////////////
+        //////////////////////////////////////////////////////////////////////
+
+        if (select.length === 1 && dropdown.length === 2) {
+          if (jumlah === 100 && dropdownLKE[0].isianKt === "a" && dropdownLKE[1].isianKt === "b") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100
+          } else if (jumlah === 100 && selectLKE[0].isianKt === "ya" && (dropdownLKE[0].isianKt === "" || dropdownLKE[1].isianKt === "")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          } else if (jumlah === 100 && selectLKE[0].isianKt === "ya" && (dropdownLKE[0].isianKt = "c" || dropdownLKE[1].isianKt === "c")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          } else if (jumlah === 100 && (dropdownLKE[0].isianKt === "b" || dropdownLKE[1].isianKt === "b")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          } else if (jumlah === 100 && (dropdownLKE[0].isianKt === "a" || dropdownLKE[1].isianKt === "a")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          }
+        } else if (select.length === 2 && dropdown.length === 0) {
+          if (jumlah === 100 && selectLKE[1].isianKt === "ya") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100
+          } else if (jumlah === 100 && selectLKE[1].isianKt === "tidak") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          } else if (jumlah === 100 && selectLKE[0].isianKt === "ya") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          }
+        } else if (select.length === 1 && dropdown.length === 1) {
+          if (jumlah === 100 && dropdownLKE[0].isianKt === "a") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100
+          } else if (jumlah === 100 && dropdownLKE[0].isianKt === "b") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          } else if (jumlah === 100 && selectLKE[0].isianKt === "ya" && dropdownLKE[0].isianKt === "") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          } else if (jumlah === 100 && selectLKE[0].isianKt === "ya" && dropdownLKE[0].isianKt === "c") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          }
+        }
+        /////////// TAMBAHKAN LOGIKA DISINI /////////////
+        else {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * jumlah
+        }
+
+        if (jumlah < 100 && jumlah > 75) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.7
+        } else if (jumlah <= 75 && jumlah >= 50) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.6
+        } else if (jumlah < 50 && jumlah >= 25) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.5
+        } else if (jumlah < 25 && jumlah > 0) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.3
+        } else if (jumlah === 0) {
+          nilai = 0
+        }
+
+        /////////////////////////////////////////////////////////////////////////
+
         const LKEUnitKerjaSubKomponen = await db.lKEUnitKerja.update({
           where: {
             LKEUnitKerjaId: {
@@ -608,7 +944,7 @@ export async function PATCH(
           },
           data: {
             isianKt: jumlah.toString(),
-            nilaiKt: (variabelLKESubKomponen?.subKomponenLKE?.bobot! * jumlah).toString()
+            nilaiKt: nilai.toString()
           },
           include: {
             variabelLKE: {
@@ -701,12 +1037,123 @@ export async function PATCH(
           }
         })
 
-        let jumlah: number = 0;
+        const variabelLKEPembobot = await db.variabelLKE.findMany({
+          where: {
+            AND: [
+              {
+                kriteriaLKE: {
+                  subKomponenLKEId: LKEUnitKerja.variabelLKE.kriteriaLKE?.subKomponenLKEId!
+                }
+              },
+              {
+                isPembobot: true
+              }
+            ]
+          },
+          orderBy: {
+            kode: "asc"
+          },
+          include: {
+            kriteriaLKE: true,
+            subKomponenLKE: true,
+          }
+        })
 
+        const LKEKriteriaPembobot = await db.lKEUnitKerja.findMany({
+          where: {
+            AND: [
+              {
+                variabelLKE: {
+                  AND: [
+                    {
+                      kriteriaLKE: {
+                        subKomponenLKEId: LKEUnitKerja.variabelLKE.kriteriaLKE?.subKomponenLKEId!
+                      }
+                    },
+                    {
+                      isPembobot: true
+                    }
+                  ]
+                }
+              },
+              {
+                unitKerjaId: values.unitKerjaId
+              }
+            ],
+          },
+          include: {
+            variabelLKE: true,
+          }
+        })
+
+
+
+        const select = variabelLKEPembobot.filter((item) => item.jenisIsian === "select")
+        const dropdown = variabelLKEPembobot.filter((item) => item.jenisIsian === "dropdown")
+        const selectLKE = LKEKriteriaPembobot.filter((item) => item.variabelLKE.jenisIsian === "select")
+        const dropdownLKE = LKEKriteriaPembobot.filter((item) => item.variabelLKE.jenisIsian === "dropdown")
+
+        let jumlah: number = 0;
+        let nilai: number = 0;
 
         LKEKriteria.forEach((data) => {
           jumlah += Number(data.nilaiKt)
         })
+
+        //////////////////////////////////////////////////////////////////////
+        //////////////////////// LOGIKA UNTUK PEMBOBOTAN /////////////////////
+        //////////////////////////////////////////////////////////////////////
+
+        if (select.length === 1 && dropdown.length === 2) {
+          if (jumlah === 100 && dropdownLKE[0].isianKt === "a" && dropdownLKE[1].isianKt === "b") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100
+          } else if (jumlah === 100 && selectLKE[0].isianKt === "ya" && (dropdownLKE[0].isianKt === "" || dropdownLKE[1].isianKt === "")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          } else if (jumlah === 100 && selectLKE[0].isianKt === "ya" && (dropdownLKE[0].isianKt = "c" || dropdownLKE[1].isianKt === "c")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          } else if (jumlah === 100 && (dropdownLKE[0].isianKt === "b" || dropdownLKE[1].isianKt === "b")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          } else if (jumlah === 100 && (dropdownLKE[0].isianKt === "a" || dropdownLKE[1].isianKt === "a")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          }
+        } else if (select.length === 2 && dropdown.length === 0) {
+          if (jumlah === 100 && selectLKE[1].isianKt === "ya") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100
+          } else if (jumlah === 100 && selectLKE[1].isianKt === "tidak") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          } else if (jumlah === 100 && selectLKE[0].isianKt === "ya") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          }
+        } else if (select.length === 1 && dropdown.length === 1) {
+          if (jumlah === 100 && dropdownLKE[0].isianKt === "a") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100
+          } else if (jumlah === 100 && dropdownLKE[0].isianKt === "b") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          } else if (jumlah === 100 && selectLKE[0].isianKt === "ya" && dropdownLKE[0].isianKt === "") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          } else if (jumlah === 100 && selectLKE[0].isianKt === "ya" && dropdownLKE[0].isianKt === "c") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          }
+        }
+        /////////// TAMBAHKAN LOGIKA DISINI /////////////
+        else {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * jumlah
+        }
+
+        if (jumlah < 100 && jumlah > 75) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.7
+        } else if (jumlah <= 75 && jumlah >= 50) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.6
+        } else if (jumlah < 50 && jumlah >= 25) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.5
+        } else if (jumlah < 25 && jumlah > 0) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.3
+        } else if (jumlah === 0) {
+          nilai = 0
+        }
+
+        /////////////////////////////////////////////////////////////////////////
+
         const LKEUnitKerjaSubKomponen = await db.lKEUnitKerja.update({
           where: {
             LKEUnitKerjaId: {
@@ -716,7 +1163,7 @@ export async function PATCH(
           },
           data: {
             isianKt: jumlah.toString(),
-            nilaiKt: (variabelLKESubKomponen?.subKomponenLKE?.bobot! * jumlah).toString()
+            nilaiKt: nilai.toString()
           },
           include: {
             variabelLKE: {
@@ -952,10 +1399,123 @@ export async function PATCH(
           }
         })
 
+        const variabelLKEPembobot = await db.variabelLKE.findMany({
+          where: {
+            AND: [
+              {
+                kriteriaLKE: {
+                  subKomponenLKEId: LKEUnitKerjaKriteria.variabelLKE.kriteriaLKE?.subKomponenLKEId!
+                }
+              },
+              {
+                isPembobot: true
+              }
+            ]
+          },
+          orderBy: {
+            kode: "asc"
+          },
+          include: {
+            kriteriaLKE: true,
+            subKomponenLKE: true,
+          }
+        })
+
+        const LKEKriteriaPembobot = await db.lKEUnitKerja.findMany({
+          where: {
+            AND: [
+              {
+                variabelLKE: {
+                  AND: [
+                    {
+                      kriteriaLKE: {
+                        subKomponenLKEId: LKEUnitKerjaKriteria.variabelLKE.kriteriaLKE?.subKomponenLKEId!
+                      }
+                    },
+                    {
+                      isPembobot: true
+                    }
+                  ]
+                }
+              },
+              {
+                unitKerjaId: values.unitKerjaId
+              }
+            ],
+          },
+          include: {
+            variabelLKE: true,
+          }
+        })
+
+
+
+        const select = variabelLKEPembobot.filter((item) => item.jenisIsian === "select")
+        const dropdown = variabelLKEPembobot.filter((item) => item.jenisIsian === "dropdown")
+        const selectLKE = LKEKriteriaPembobot.filter((item) => item.variabelLKE.jenisIsian === "select")
+        const dropdownLKE = LKEKriteriaPembobot.filter((item) => item.variabelLKE.jenisIsian === "dropdown")
+
         let jumlah: number = 0;
+        let nilai: number = 0;
+
         LKEKriteria.forEach((data) => {
           jumlah += Number(data.nilaiDalnis)
         })
+
+        //////////////////////////////////////////////////////////////////////
+        //////////////////////// LOGIKA UNTUK PEMBOBOTAN /////////////////////
+        //////////////////////////////////////////////////////////////////////
+
+        if (select.length === 1 && dropdown.length === 2) {
+          if (jumlah === 100 && dropdownLKE[0].isianDalnis === "a" && dropdownLKE[1].isianDalnis === "b") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100
+          } else if (jumlah === 100 && selectLKE[0].isianDalnis === "ya" && (dropdownLKE[0].isianDalnis === "" || dropdownLKE[1].isianDalnis === "")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          } else if (jumlah === 100 && selectLKE[0].isianDalnis === "ya" && (dropdownLKE[0].isianDalnis = "c" || dropdownLKE[1].isianDalnis === "c")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          } else if (jumlah === 100 && (dropdownLKE[0].isianDalnis === "b" || dropdownLKE[1].isianDalnis === "b")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          } else if (jumlah === 100 && (dropdownLKE[0].isianDalnis === "a" || dropdownLKE[1].isianDalnis === "a")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          }
+        } else if (select.length === 2 && dropdown.length === 0) {
+          if (jumlah === 100 && selectLKE[1].isianDalnis === "ya") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100
+          } else if (jumlah === 100 && selectLKE[1].isianDalnis === "tidak") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          } else if (jumlah === 100 && selectLKE[0].isianDalnis === "ya") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          }
+        } else if (select.length === 1 && dropdown.length === 1) {
+          if (jumlah === 100 && dropdownLKE[0].isianDalnis === "a") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100
+          } else if (jumlah === 100 && dropdownLKE[0].isianDalnis === "b") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          } else if (jumlah === 100 && selectLKE[0].isianDalnis === "ya" && dropdownLKE[0].isianDalnis === "") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          } else if (jumlah === 100 && selectLKE[0].isianDalnis === "ya" && dropdownLKE[0].isianDalnis === "c") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          }
+        }
+        /////////// TAMBAHKAN LOGIKA DISINI /////////////
+        else {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * jumlah
+        }
+
+        if (jumlah < 100 && jumlah > 75) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.7
+        } else if (jumlah <= 75 && jumlah >= 50) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.6
+        } else if (jumlah < 50 && jumlah >= 25) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.5
+        } else if (jumlah < 25 && jumlah > 0) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.3
+        } else if (jumlah === 0) {
+          nilai = 0
+        }
+
+        /////////////////////////////////////////////////////////////////////////
+
         const LKEUnitKerjaSubKomponen = await db.lKEUnitKerja.update({
           where: {
             LKEUnitKerjaId: {
@@ -965,7 +1525,7 @@ export async function PATCH(
           },
           data: {
             isianDalnis: jumlah.toString(),
-            nilaiDalnis: (variabelLKESubKomponen?.subKomponenLKE?.bobot! * jumlah).toString()
+            nilaiDalnis: nilai.toString()
           },
           include: {
             variabelLKE: {
@@ -1058,12 +1618,123 @@ export async function PATCH(
           }
         })
 
-        let jumlah: number = 0;
+        const variabelLKEPembobot = await db.variabelLKE.findMany({
+          where: {
+            AND: [
+              {
+                kriteriaLKE: {
+                  subKomponenLKEId: LKEUnitKerja.variabelLKE.kriteriaLKE?.subKomponenLKEId!
+                }
+              },
+              {
+                isPembobot: true
+              }
+            ]
+          },
+          orderBy: {
+            kode: "asc"
+          },
+          include: {
+            kriteriaLKE: true,
+            subKomponenLKE: true,
+          }
+        })
 
+        const LKEKriteriaPembobot = await db.lKEUnitKerja.findMany({
+          where: {
+            AND: [
+              {
+                variabelLKE: {
+                  AND: [
+                    {
+                      kriteriaLKE: {
+                        subKomponenLKEId: LKEUnitKerja.variabelLKE.kriteriaLKE?.subKomponenLKEId!
+                      }
+                    },
+                    {
+                      isPembobot: true
+                    }
+                  ]
+                }
+              },
+              {
+                unitKerjaId: values.unitKerjaId
+              }
+            ],
+          },
+          include: {
+            variabelLKE: true,
+          }
+        })
+
+
+
+        const select = variabelLKEPembobot.filter((item) => item.jenisIsian === "select")
+        const dropdown = variabelLKEPembobot.filter((item) => item.jenisIsian === "dropdown")
+        const selectLKE = LKEKriteriaPembobot.filter((item) => item.variabelLKE.jenisIsian === "select")
+        const dropdownLKE = LKEKriteriaPembobot.filter((item) => item.variabelLKE.jenisIsian === "dropdown")
+
+        let jumlah: number = 0;
+        let nilai: number = 0;
 
         LKEKriteria.forEach((data) => {
           jumlah += Number(data.nilaiDalnis)
         })
+
+        //////////////////////////////////////////////////////////////////////
+        //////////////////////// LOGIKA UNTUK PEMBOBOTAN /////////////////////
+        //////////////////////////////////////////////////////////////////////
+
+        if (select.length === 1 && dropdown.length === 2) {
+          if (jumlah === 100 && dropdownLKE[0].isianDalnis === "a" && dropdownLKE[1].isianDalnis === "b") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100
+          } else if (jumlah === 100 && selectLKE[0].isianDalnis === "ya" && (dropdownLKE[0].isianDalnis === "" || dropdownLKE[1].isianDalnis === "")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          } else if (jumlah === 100 && selectLKE[0].isianDalnis === "ya" && (dropdownLKE[0].isianDalnis = "c" || dropdownLKE[1].isianDalnis === "c")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          } else if (jumlah === 100 && (dropdownLKE[0].isianDalnis === "b" || dropdownLKE[1].isianDalnis === "b")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          } else if (jumlah === 100 && (dropdownLKE[0].isianDalnis === "a" || dropdownLKE[1].isianDalnis === "a")) {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          }
+        } else if (select.length === 2 && dropdown.length === 0) {
+          if (jumlah === 100 && selectLKE[1].isianDalnis === "ya") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100
+          } else if (jumlah === 100 && selectLKE[1].isianDalnis === "tidak") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          } else if (jumlah === 100 && selectLKE[0].isianDalnis === "ya") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          }
+        } else if (select.length === 1 && dropdown.length === 1) {
+          if (jumlah === 100 && dropdownLKE[0].isianDalnis === "a") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100
+          } else if (jumlah === 100 && dropdownLKE[0].isianDalnis === "b") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.9
+          } else if (jumlah === 100 && selectLKE[0].isianDalnis === "ya" && dropdownLKE[0].isianDalnis === "") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          } else if (jumlah === 100 && selectLKE[0].isianDalnis === "ya" && dropdownLKE[0].isianDalnis === "c") {
+            nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.8
+          }
+        }
+        /////////// TAMBAHKAN LOGIKA DISINI /////////////
+        else {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * jumlah
+        }
+
+        if (jumlah < 100 && jumlah > 75) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.7
+        } else if (jumlah <= 75 && jumlah >= 50) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.6
+        } else if (jumlah < 50 && jumlah >= 25) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.5
+        } else if (jumlah < 25 && jumlah > 0) {
+          nilai = variabelLKESubKomponen?.subKomponenLKE?.bobot! * 100 * 0.3
+        } else if (jumlah === 0) {
+          nilai = 0
+        }
+
+        /////////////////////////////////////////////////////////////////////////
+        
         const LKEUnitKerjaSubKomponen = await db.lKEUnitKerja.update({
           where: {
             LKEUnitKerjaId: {
@@ -1073,7 +1744,7 @@ export async function PATCH(
           },
           data: {
             isianDalnis: jumlah.toString(),
-            nilaiDalnis: (variabelLKESubKomponen?.subKomponenLKE?.bobot! * jumlah).toString()
+            nilaiDalnis: nilai.toString()
           },
           include: {
             variabelLKE: {

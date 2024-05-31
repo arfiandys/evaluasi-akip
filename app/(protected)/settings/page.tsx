@@ -68,10 +68,10 @@ const SettingPage = () => {
                 toast.error(response.data.error);
             } else {
                 toast.success("Pengguna berhasil diperbarui");
+                form.reset();
+                router.refresh();
+                router.push(`/settings`);
             }
-            form.reset();
-            router.refresh();
-            router.push(`/settings`);
         } catch {
             toast.error("Terdapat kesalahan");
         }

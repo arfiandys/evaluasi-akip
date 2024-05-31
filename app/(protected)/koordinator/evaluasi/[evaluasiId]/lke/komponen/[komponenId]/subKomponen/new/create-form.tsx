@@ -74,10 +74,14 @@ const SubKomponenNewCreate = ({
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.post(`/api/lke/komponen/${komponenId}/subKomponen`, values);
-            toast.success("Sub komponen LKE berhasil dibuat!")
-            form.reset()
-            router.refresh()
-            router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen/${komponenId}`);
+            if (response.data.error) {
+                toast.error(response.data.error)
+            } else {
+                toast.success("Sub komponen LKE berhasil dibuat!")
+                router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen/${komponenId}`);
+                form.reset()
+                router.refresh()
+            }
         } catch {
             toast.error("Terdapat kesalahan!");
         }

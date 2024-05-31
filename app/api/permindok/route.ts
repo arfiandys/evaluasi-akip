@@ -13,6 +13,40 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
+        const existingKodePermindok = await db.permindok.findFirst({
+            where: {
+                AND: [
+                    {
+                        kode: values.kode,
+                    },
+                    {
+                        evaluasiId: values.evaluasiId
+                    }
+                ]
+            }
+        })
+
+        if (existingKodePermindok) {
+            return NextResponse.json({ error: "Kode talah digunakan!" });
+        }
+
+        const existingNamePermindok = await db.permindok.findFirst({
+            where: {
+                AND: [
+                    {
+                        name: values.name,
+                    },
+                    {
+                        evaluasiId: values.evaluasiId
+                    }
+                ]
+            }
+        })
+
+        if (existingNamePermindok) {
+            return NextResponse.json({ error: "Nama talah digunakan!" });
+        }
+
         const permindok = await db.permindok.create({
             data: {
                 ...values

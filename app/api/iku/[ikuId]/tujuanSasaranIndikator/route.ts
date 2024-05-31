@@ -15,6 +15,40 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
+        const existingKodeTSI = await db.tujuanSasaranIndikatorIKU.findFirst({
+            where: {
+                AND: [
+                    {
+                        kode: values.kode,
+                    },
+                    {
+                        IKUId: params.ikuId
+                    }
+                ]
+            }
+        })
+
+        if (existingKodeTSI) {
+            return NextResponse.json({ error: "Kode talah digunakan!" });
+        }
+
+        const existingNameTSI = await db.tujuanSasaranIndikatorIKU.findFirst({
+            where: {
+                AND: [
+                    {
+                        nama: values.nama,
+                    },
+                    {
+                        IKUId: params.ikuId
+                    }
+                ]
+            }
+        })
+
+        if (existingNameTSI) {
+            return NextResponse.json({ error: "Nama talah digunakan!" });
+        }
+
         const tujuanSasaranIndikatorIKU = await db.tujuanSasaranIndikatorIKU.create({
             data: {
                 IKUId: params.ikuId,

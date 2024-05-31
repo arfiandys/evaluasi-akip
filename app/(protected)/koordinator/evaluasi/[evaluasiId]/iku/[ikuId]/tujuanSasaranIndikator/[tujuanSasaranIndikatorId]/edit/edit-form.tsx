@@ -71,10 +71,14 @@ const TSIEdit = ({
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.patch(`/api/iku/${ikuId}/tujuanSasaranIndikator/${tujuanSasaranIndikator.id}`, values);
-            toast.success("Tujuan/Sasaran/Indikator berhasil diperbarui!")
-            form.reset()
-            router.refresh()
-            router.push(`/koordinator/evaluasi/${evaluasiId}/iku/${ikuId}/tujuanSasaranIndikator/${tujuanSasaranIndikator.id}`);
+            if (response.data.error) {
+                toast.error(response.data.error)
+            } else {
+                toast.success("Tujuan/Sasaran/Indikator berhasil diperbarui!")
+                router.push(`/koordinator/evaluasi/${evaluasiId}/iku/${ikuId}/tujuanSasaranIndikator/${tujuanSasaranIndikator.id}`);
+                form.reset()
+                router.refresh()
+            }
         } catch {
             toast.error("Terdapat kesalahan!");
         }

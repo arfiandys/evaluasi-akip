@@ -24,6 +24,40 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
+        const existingKodeSubKomponen = await db.subKomponenLKE.findFirst({
+            where: {
+                AND: [
+                    {
+                        kode: values.kode,
+                    },
+                    {
+                        komponenLKEId: params.komponenId
+                    }
+                ]
+            }
+        })
+
+        if (existingKodeSubKomponen) {
+            return NextResponse.json({ error: "Kode talah digunakan!" });
+        }
+
+        const existingNameSubKomponen = await db.subKomponenLKE.findFirst({
+            where: {
+                AND: [
+                    {
+                        name: values.name,
+                    },
+                    {
+                        komponenLKEId: params.komponenId
+                    }
+                ]
+            }
+        })
+
+        if (existingNameSubKomponen) {
+            return NextResponse.json({ error: "Nama talah digunakan!" });
+        }
+
         const subKomponenLKE = await db.subKomponenLKE.create({
             data: {
                 komponenLKEId: params.komponenId,

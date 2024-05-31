@@ -19,12 +19,12 @@ export default function Home() {
           Evaluasi AKIP
         </h1>
         <p className="text-primary-foreground text-lg">
-          Silakan sign in untuk mengakses aplikasi ini
+          Silakan masuk untuk mengakses aplikasi ini
         </p>
         <div>
           <LoginButton asChild>
             <Button variant="secondary" size="lg">
-              Sign in
+              Masuk
             </Button>
           </LoginButton>
         </div>

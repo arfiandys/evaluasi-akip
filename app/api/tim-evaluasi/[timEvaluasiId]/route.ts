@@ -710,7 +710,7 @@ export async function PATCH(
         }
       })
 
-      if (existingTimEvaluasi) {
+      if (existingTimEvaluasi && existingTimEvaluasi.id!==params.timEvaluasiId) {
         return NextResponse.json({ error: "Nama talah digunakan!" });
       }
     }

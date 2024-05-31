@@ -14,6 +14,16 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
+        const existingTahunEvaluasi = await db.evaluasi.findUnique({
+            where: {
+                tahun: values.tahun,
+            }
+        })
+
+        if (existingTahunEvaluasi) {
+            return NextResponse.json({ error: "Tahun talah digunakan!" });
+        }
+
         const evaluasi = await db.evaluasi.create({
             data: {
                 ...values,

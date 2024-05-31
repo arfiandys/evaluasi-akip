@@ -31,6 +31,7 @@ export async function POST(
                 if (!existingNamaKomponen) {
                     const komponenLKE = await db.komponenLKE.create({
                         data: {
+                            evaluasiId: values.evaluasiId,
                             kode: item.kode,
                             tahun: values.tahun,
                             name: item.namaKomponen,
@@ -190,6 +191,7 @@ export async function POST(
                             catatanA: item.catatanA,
                             catatanB: item.catatanB,
                             catatanC: item.catatanC,
+                            isPembobot: item.isPembobot,
                         }
                     })
                 }

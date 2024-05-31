@@ -78,11 +78,14 @@ const KelompokKriteriaNewCreate = ({
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.post("/api/kke/kelompok-kriteria", values);
-            toast.success("Kelompok kriteria KKE berhasil dibuat!")
-            form.reset()
-            router.refresh()
-            router.push(`/koordinator/evaluasi/${evaluasi.id}/kke/kelompok-kriteria/${response.data.id}`);
-            router.refresh()
+            if (response.data.error) {
+                toast.error(response.data.error)
+            } else {
+                toast.success("Kelompok kriteria KKE berhasil dibuat!")
+                router.push(`/koordinator/evaluasi/${evaluasi.id}/kke/kelompok-kriteria/${response.data.id}`);
+                form.reset()
+                router.refresh()
+            }
         } catch {
             toast.error("Terdapat kesalahan!");
         }

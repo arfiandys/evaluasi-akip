@@ -54,6 +54,40 @@ export async function PATCH(
 
     // KOMPONEN LKE DETAIL EDIT
 
+    const existingKodeKomponen = await db.komponenLKE.findFirst({
+      where: {
+        AND: [
+          {
+            kode: values.kode,
+          },
+          {
+            evaluasiId: values.evaluasiId
+          }
+        ]
+      }
+    })
+
+    if (existingKodeKomponen && existingKodeKomponen.id!==params.komponenId) {
+      return NextResponse.json({ error: "Kode talah digunakan!" });
+    }
+
+    const existingNameKomponen = await db.komponenLKE.findFirst({
+      where: {
+        AND: [
+          {
+            name: values.name,
+          },
+          {
+            evaluasiId: values.evaluasiId
+          }
+        ]
+      }
+    })
+
+    if (existingNameKomponen && existingNameKomponen.id!==params.komponenId) {
+      return NextResponse.json({ error: "Nama talah digunakan!" });
+    }
+
     const komponenLKE = await db.komponenLKE.update({
       where: {
         id: komponenId,

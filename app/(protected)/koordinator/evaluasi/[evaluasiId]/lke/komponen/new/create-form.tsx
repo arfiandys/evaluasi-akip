@@ -75,10 +75,14 @@ const KomponenNewCreate = ({ evaluasi }: KomponenNewProps) => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.post("/api/lke/komponen", values);
-            toast.success("Komponen LKE berhasil dibuat!")
-            form.reset()
-            router.refresh()
-            router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen`);
+            if (response.data.error) {
+                toast.error(response.data.error)
+            } else {
+                toast.success("Komponen LKE berhasil dibuat!")
+                router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen`);
+                form.reset()
+                router.refresh()
+            }
         } catch {
             toast.error("Terdapat kesalahan!");
         }

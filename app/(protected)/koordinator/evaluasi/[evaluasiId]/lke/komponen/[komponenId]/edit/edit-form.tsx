@@ -68,10 +68,14 @@ const KomponenEdit = ({ evaluasi, komponenLKE }: KomponenEditProps) => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.patch(`/api/lke/komponen/${komponenLKE.id}`, values);
-            toast.success("Komponen LKE berhasil diperbarui!")
-            form.reset()
-            router.refresh()
-            router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen/${komponenLKE.id}`);
+            if (response.data.error) {
+                toast.error(response.data.error)
+            } else {
+                toast.success("Komponen LKE berhasil diperbarui!")
+                router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen/${komponenLKE.id}`);
+                form.reset()
+                router.refresh()
+            }
         } catch {
             toast.error("Terdapat kesalahan!");
         }

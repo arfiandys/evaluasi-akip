@@ -71,10 +71,14 @@ const PermindokEditCreate = ({ evaluasi, permindok }: PermindokEditCreateProps) 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.patch(`/api/permindok/${permindok.id}`, values);
-            toast.success("Permindok berhasil diperbarui!")
-            form.reset()
-            router.refresh()
-            router.push(`/koordinator/evaluasi/${evaluasi.id}/permindok/${permindok.id}`);
+            if (response.data.error) {
+                toast.error(response.data.error)
+            } else {
+                toast.success("Permindok berhasil diperbarui!")
+                router.push(`/koordinator/evaluasi/${evaluasi.id}/permindok/${permindok.id}`);
+                form.reset()
+                router.refresh()
+            }
         } catch {
             toast.error("Terdapat kesalahan!");
         }

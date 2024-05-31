@@ -57,14 +57,14 @@ export async function PATCH(
           permindokUnitKerjaId: {
             unitKerjaId: values.unitKerjaId,
             permindokId: params.permindokId,
-          }    
+          }
         },
         data: {
           url: values.url,
           nameDokumen: values.nameDokumen,
         }
       });
-  
+
       return NextResponse.json(permindokUnitKerja);
     }
 
@@ -74,20 +74,54 @@ export async function PATCH(
           permindokUnitKerjaId: {
             unitKerjaId: values.unitKerjaId,
             permindokId: params.permindokId,
-          }    
+          }
         },
         data: {
           url: null,
           nameDokumen: null,
         }
       });
-  
+
       return NextResponse.json(permindokUnitKerja);
     }
 
     // UPDATE RINCIAN PERMINDOK
 
-    const user = await db.permindok.update({
+    const existingKodePermindok = await db.permindok.findFirst({
+      where: {
+        AND: [
+          {
+            kode: values.kode,
+          },
+          {
+            evaluasiId: values.evaluasiId
+          }
+        ]
+      }
+    })
+
+    if (existingKodePermindok && existingKodePermindok.id!==params.permindokId) {
+      return NextResponse.json({ error: "Kode talah digunakan!" });
+    }
+
+    const existingNamePermindok = await db.permindok.findFirst({
+      where: {
+        AND: [
+          {
+            name: values.name,
+          },
+          {
+            evaluasiId: values.evaluasiId
+          }
+        ]
+      }
+    })
+
+    if (existingNamePermindok && existingNamePermindok.id!==params.permindokId) {
+      return NextResponse.json({ error: "Nama talah digunakan!" });
+    }
+
+    const updatePermindok = await db.permindok.update({
       where: {
         id: params.permindokId,
       },
@@ -96,8 +130,8 @@ export async function PATCH(
       },
     });
 
-    return NextResponse.json(user);
-    
+    return NextResponse.json(updatePermindok);
+
   } catch (error) {
     console.log("PERMINDOK", error);
     return new NextResponse("Internal Error", { status: 500 });

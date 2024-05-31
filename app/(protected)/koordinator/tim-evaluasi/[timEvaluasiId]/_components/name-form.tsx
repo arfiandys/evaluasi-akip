@@ -56,9 +56,9 @@ export const NameForm = ({
         toast.error(response.data.error)
       } else {
         toast.success("Tim evaluasi berhasil diperbarui");
+        toggleEdit();
+        router.refresh();
       }
-      toggleEdit();
-      router.refresh();
     } catch {
       toast.error("Terdapat kesalahan");
     }

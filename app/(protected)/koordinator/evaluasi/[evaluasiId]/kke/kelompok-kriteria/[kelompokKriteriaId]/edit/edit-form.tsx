@@ -79,10 +79,14 @@ const KelompokKriteriaEdit = ({
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.patch(`/api/kke/kelompok-kriteria/${kelompokKriteria.id}`, values);
-            toast.success("Kelompok kriteria KKE berhasil diperbarui!")
-            form.reset()
-            router.refresh()
-            router.push(`/koordinator/evaluasi/${evaluasi.id}/kke/kelompok-kriteria/${kelompokKriteria.id}`);
+            if (response.data.error) {
+                toast.error(response.data.error)
+            } else {
+                toast.success("Kelompok kriteria KKE berhasil diperbarui!")
+                router.push(`/koordinator/evaluasi/${evaluasi.id}/kke/kelompok-kriteria/${kelompokKriteria.id}`);
+                form.reset()
+                router.refresh()
+            }
         } catch {
             toast.error("Terdapat kesalahan!");
         }

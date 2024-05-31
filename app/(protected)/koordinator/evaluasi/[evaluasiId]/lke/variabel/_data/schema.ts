@@ -13,6 +13,7 @@ export const variabelLKESchema = z.object({
   subKomponenLKEId: z.string().nullable(),
   kriteriaLKEId: z.string().nullable(),
   subKriteriaLKEId: z.string().nullable(),
+  isPembobot: z.boolean(),
   komponenLKE: z.object({
     id: z.string().min(1),
     kode: z.string().min(1),

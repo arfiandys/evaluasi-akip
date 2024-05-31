@@ -40,7 +40,7 @@ export async function DELETE(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { tujuanSasaranIndikatorId: string } }
+  { params }: { params: { ikuId: string, tujuanSasaranIndikatorId: string } }
 ) {
   try {
     const session = await auth();
@@ -52,7 +52,41 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    // KOMPONEN LKE DETAIL EDIT
+    // TSI DETAIL EDIT
+
+    const existingKodeTSI = await db.tujuanSasaranIndikatorIKU.findFirst({
+      where: {
+        AND: [
+          {
+            kode: values.kode,
+          },
+          {
+            IKUId: params.ikuId
+          }
+        ]
+      }
+    })
+
+    if (existingKodeTSI && existingKodeTSI.id!==params.tujuanSasaranIndikatorId) {
+      return NextResponse.json({ error: "Kode talah digunakan!" });
+    }
+
+    const existingNameTSI = await db.tujuanSasaranIndikatorIKU.findFirst({
+      where: {
+        AND: [
+          {
+            nama: values.nama,
+          },
+          {
+            IKUId: params.ikuId
+          }
+        ]
+      }
+    })
+
+    if (existingNameTSI && existingNameTSI.id!==params.tujuanSasaranIndikatorId) {
+      return NextResponse.json({ error: "Nama talah digunakan!" });
+    }
 
     const tujuanSasaranIndikatorIKU = await db.tujuanSasaranIndikatorIKU.update({
       where: {

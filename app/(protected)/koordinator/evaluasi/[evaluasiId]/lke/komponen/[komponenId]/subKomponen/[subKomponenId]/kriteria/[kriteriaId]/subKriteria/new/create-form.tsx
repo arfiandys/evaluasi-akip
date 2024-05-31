@@ -100,11 +100,14 @@ const SubKriteriaNewCreate = ({
         } else {
             try {
                 const response = await axios.post(`/api/lke/komponen/${komponenId}/subKomponen/${subKomponenId}/kriteria/${kriteriaId}/subKriteria`, values);
-                toast.success("Sub Kriteria LKE berhasil dibuat!")
-                form.reset()
-                router.refresh()
-                router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen/${komponenId}/subKomponen/${subKomponenId}/kriteria/${kriteriaId}`);
-
+                if (response.data.error) {
+                    toast.error(response.data.error)
+                } else {
+                    toast.success("Sub Kriteria LKE berhasil dibuat!")
+                    router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen/${komponenId}/subKomponen/${subKomponenId}/kriteria/${kriteriaId}`);
+                    form.reset()
+                    router.refresh()
+                }
             } catch {
                 toast.error("Terdapat kesalahan!");
             }

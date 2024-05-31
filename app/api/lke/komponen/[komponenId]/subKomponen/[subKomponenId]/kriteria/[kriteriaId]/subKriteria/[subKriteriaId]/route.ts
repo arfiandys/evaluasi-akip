@@ -40,7 +40,7 @@ export async function DELETE(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { subKriteriaId: string } }
+  { params }: { params: { kriteriaId: string, subKriteriaId: string } }
 ) {
   try {
     const session = await auth();
@@ -54,6 +54,40 @@ export async function PATCH(
 
 
     // SUB KOMPONEN DETAIL EDIT
+
+    const existingKodeSubKriteria = await db.subKriteriaLKE.findFirst({
+      where: {
+        AND: [
+          {
+            kode: values.kode,
+          },
+          {
+            kriteriaLKEId: params.kriteriaId
+          }
+        ]
+      }
+    })
+
+    if (existingKodeSubKriteria && existingKodeSubKriteria.id!==params.subKriteriaId) {
+      return NextResponse.json({ error: "Kode talah digunakan!" });
+    }
+
+    const existingNameSubKriteria = await db.subKriteriaLKE.findFirst({
+      where: {
+        AND: [
+          {
+            name: values.name,
+          },
+          {
+            kriteriaLKEId: params.kriteriaId
+          }
+        ]
+      }
+    })
+
+    if (existingNameSubKriteria && existingNameSubKriteria.id!==params.subKriteriaId) {
+      return NextResponse.json({ error: "Nama talah digunakan!" });
+    }
 
     const subKriteriaLKE = await db.subKriteriaLKE.update({
       where: {

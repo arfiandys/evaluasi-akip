@@ -9,20 +9,54 @@ export async function POST(
     try {
         const userId = await currentId();
         const values = await req.json();
-        
+
 
         if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
         const subKomponen = await db.subKomponenLKE.findUnique({
             where: {
-              id: params.subKomponenId,
+                id: params.subKomponenId,
             }
-          });
-      
-          if (!subKomponen) {
+        });
+
+        if (!subKomponen) {
             return new NextResponse("Unauthorized", { status: 401 });
-          }
+        }
+
+        const existingKodeKriteria = await db.kriteriaLKE.findFirst({
+            where: {
+                AND: [
+                    {
+                        kode: values.kode,
+                    },
+                    {
+                        subKomponenLKEId: params.subKomponenId
+                    }
+                ]
+            }
+        })
+
+        if (existingKodeKriteria) {
+            return NextResponse.json({ error: "Kode talah digunakan!" });
+        }
+
+        const existingNameKriteria = await db.kriteriaLKE.findFirst({
+            where: {
+                AND: [
+                    {
+                        name: values.name,
+                    },
+                    {
+                        subKomponenLKEId: params.subKomponenId
+                    }
+                ]
+            }
+        })
+
+        if (existingNameKriteria) {
+            return NextResponse.json({ error: "Nama talah digunakan!" });
+        }
 
         const kriteriaLKE = await db.kriteriaLKE.create({
             data: {
@@ -44,8 +78,8 @@ export async function POST(
             data: {
                 evaluasiId: values.evaluasiId,
                 kriteriaLKEId: kriteriaLKE.id,
-                kode: kriteriaLKE.subKomponenLKE?.komponenLKE?.kode.concat(".", kriteriaLKE?.subKomponenLKE?.kode.concat(".", kriteriaLKE?.kode))||"",
-                tahun: kriteriaLKE.subKomponenLKE?.komponenLKE?.tahun||"",
+                kode: kriteriaLKE.subKomponenLKE?.komponenLKE?.kode.concat(".", kriteriaLKE?.subKomponenLKE?.kode.concat(".", kriteriaLKE?.kode)) || "",
+                tahun: kriteriaLKE.subKomponenLKE?.komponenLKE?.tahun || "",
                 jenisIsian: values.jenisIsian,
                 levelVariabel: values.levelVariabel,
                 catatanPositif: values.catatanPositif,
@@ -53,6 +87,7 @@ export async function POST(
                 catatanA: values.catatanA,
                 catatanB: values.catatanB,
                 catatanC: values.catatanC,
+                isPembobot: values.isPembobot,
             }
         })
 

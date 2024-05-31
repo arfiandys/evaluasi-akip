@@ -54,12 +54,12 @@ export const NameForm = ({
       const response = await axios.patch(`/api/unit-kerja/${unitKerjaId}`, values);
       if (response.data.error) {
         toast.error(response.data.error)
-    } else {
+      } else {
         router.push(`/koordinator/unit-kerja/${response.data.id}`);
         toast.success("Unit Kerja berhasil diperbarui!")
-    }
-      toggleEdit();
-      router.refresh();
+        toggleEdit();
+        router.refresh();
+      }
     } catch {
       toast.error("Terdapat kesalahan");
     }

@@ -40,7 +40,7 @@ export async function DELETE(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { kriteriaId: string } }
+  { params }: { params: { subKomponenId: string, kriteriaId: string } }
 ) {
   try {
     const session = await auth();
@@ -52,8 +52,41 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-
     // SUB KOMPONEN DETAIL EDIT
+
+    const existingKodeKriteria = await db.kriteriaLKE.findFirst({
+      where: {
+        AND: [
+          {
+            kode: values.kode,
+          },
+          {
+            subKomponenLKEId: params.subKomponenId
+          }
+        ]
+      }
+    })
+
+    if (existingKodeKriteria && existingKodeKriteria.id!==params.kriteriaId) {
+      return NextResponse.json({ error: "Kode talah digunakan!" });
+    }
+
+    const existingNameKriteria = await db.kriteriaLKE.findFirst({
+      where: {
+        AND: [
+          {
+            name: values.name,
+          },
+          {
+            subKomponenLKEId: params.subKomponenId
+          }
+        ]
+      }
+    })
+
+    if (existingNameKriteria && existingNameKriteria.id!==params.kriteriaId) {
+      return NextResponse.json({ error: "Nama talah digunakan!" });
+    }
 
     const kriteriaLKE = await db.kriteriaLKE.update({
       where: {

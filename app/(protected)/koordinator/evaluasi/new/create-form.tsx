@@ -61,10 +61,14 @@ const EvaluasiNewCreate = () => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.post("/api/evaluasi", values);
-            toast.success("Evaluasi berhasil dibuat!")
-            form.reset()
-            router.refresh()
-            router.push(`/koordinator/evaluasi`);
+            if (response.data.error) {
+                toast.error(response.data.error)
+            } else {
+                toast.success("Evaluasi berhasil dibuat!")
+                router.push(`/koordinator/evaluasi`);
+                form.reset()
+                router.refresh()
+            }
         } catch {
             toast.error("Terdapat kesalahan!");
         }
@@ -134,6 +138,8 @@ const EvaluasiNewCreate = () => {
                                         <Select
                                             disabled={isSubmitting}
                                             onValueChange={field.onChange}
+                                            value={field.value}
+                                            defaultValue={field.value}
                                         >
                                             <FormControl>
                                                 <SelectTrigger>

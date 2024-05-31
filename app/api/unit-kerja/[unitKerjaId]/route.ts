@@ -188,7 +188,7 @@ export async function PATCH(
         }
       })
 
-      if (existingNamaUnitKerja) {
+      if (existingNamaUnitKerja && existingNamaUnitKerja.id!==params.unitKerjaId) {
         return NextResponse.json({ error: "Nama talah digunakan!" });
       }
     }
@@ -200,7 +200,7 @@ export async function PATCH(
         }
       })
 
-      if (existingKodeUnitKerja) {
+      if (existingKodeUnitKerja  && existingKodeUnitKerja.id!==params.unitKerjaId) {
         return NextResponse.json({ error: "Kode unit kerja talah digunakan!" });
       }
     }

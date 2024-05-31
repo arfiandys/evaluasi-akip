@@ -32,7 +32,7 @@ export const ImportCard = ({
     const headers = data[0];
     const bodynot = data.slice(1);
     const body = bodynot.filter((item) => {
-        return item.length === 14
+        return item.length === 2
     })
 
     const handleContinue = () => {
@@ -46,16 +46,14 @@ export const ImportCard = ({
 
         const formattedData = arrayOfData.map((item) => ({
             ...item,
-            bobot: Number(item.bobot),
-            isPembobot: Boolean(item.isPembobot)
         }));
-        console.log(formattedData)
+        
         onSubmit(formattedData)
     }
     return (
         <Card className="border-0 shadow-none w-full">
             <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
-                <CardTitle>Import Komponen</CardTitle>
+                <CardTitle>Import permindok</CardTitle>
                 <div className="flex flex-row gap-x-4">
                     <Button onClick={handleContinue}>
                         Lanjutkan

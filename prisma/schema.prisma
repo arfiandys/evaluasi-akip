@@ -116,7 +116,7 @@ model UserOnUnitKerja {
 // TIM EVALUASI
 model TimEvaluasi {
   id   String @id @default(cuid())
-  name String @db.Text @unique
+  name String @unique @db.Text
 
   users UserOnTimEvaluasi[]
 
@@ -312,7 +312,7 @@ model KelompokKriteriaKKE {
 model KriteriaKKE {
   id                    String              @id @default(cuid())
   kode                  String
-  nama                  String             
+  nama                  String
   kelompokKriteriaKKEId String
   kelompokKriteriaKKE   KelompokKriteriaKKE @relation(fields: [kelompokKriteriaKKEId], references: [id], onDelete: Cascade)
   variabelKKE           VariabelKKE?
@@ -334,12 +334,14 @@ model KomponenLKE {
   bobot          Float
   subKomponenLKE SubKomponenLKE[]
   variabelLKE    VariabelLKE?
+  evaluasiId     String
+  evaluasi       Evaluasi         @relation(fields: [evaluasiId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([name, tahun])
-  @@unique([kode, tahun])
+  @@unique([name, evaluasiId])
+  @@unique([kode, evaluasiId])
 }
 
 // SUBKOMPONEN LKE
@@ -411,6 +413,7 @@ model VariabelLKE {
   catatanC         String?
   catatanDefault   String?
   levelVariabel    String
+  isPembobot       Boolean         @default(false)
   komponenLKEId    String?         @unique
   komponenLKE      KomponenLKE?    @relation(fields: [komponenLKEId], references: [id], onDelete: Cascade)
   subKomponenLKEId String?         @unique
@@ -443,9 +446,9 @@ model LKEUnitKerja {
   isianDalnis   String?
   nilaiDalnis   String?
   catatanDalnis String?
-  isianPanel   String?
-  nilaiPanel   String?
-  catatanPanel String?
+  isianPanel    String?
+  nilaiPanel    String?
+  catatanPanel  String?
 
   variabelLKE   VariabelLKE @relation(fields: [variabelLKEId], references: [id], onDelete: Cascade)
   variabelLKEId String // relation scalar field (used in the `@relation` attribute above)
@@ -488,6 +491,7 @@ model Evaluasi {
   permindoks          Permindok[]
   kelompokKriteriaKKE KelompokKriteriaKKE[]
   LHE                 LHE[]
+  komponenLKE         KomponenLKE[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -32,22 +32,22 @@ const formSchema = z.object({
   newPassword: z.optional(z.string().min(6)),
 }).refine((data) => {
   if (data.password && !data.newPassword) {
-      return false;
+    return false;
   }
   return true;
-},{
+}, {
   message: "Pasword baru dibutuhkan!",
   path: ["newPassword"]
 })
-.refine((data) => {
-  if (data.newPassword && !data.password) {
+  .refine((data) => {
+    if (data.newPassword && !data.password) {
       return false;
-  }
-  return true;
-},{
-  message: "Password koordinator dibutuhkan!",
-  path: ["password"]
-})
+    }
+    return true;
+  }, {
+    message: "Password koordinator dibutuhkan!",
+    path: ["password"]
+  })
 
 export const PasswordForm = ({
   initialData,
@@ -74,11 +74,11 @@ export const PasswordForm = ({
       const response = await axios.patch(`/api/user/${userId}`, values);
       if (response.data.error) {
         toast.error(response.data.error)
+        toggleEdit();
+        router.refresh();
       } else {
         toast.success("Pengguna berhasil diperbarui");
       }
-      toggleEdit();
-      router.refresh();
     } catch {
       toast.error("Terdapat kesalahan");
     }

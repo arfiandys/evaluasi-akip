@@ -65,11 +65,11 @@ const UserNewCreate = () => {
                 toast.success("Pengguna berhasil dibuat")
                 router.push(`/koordinator/user`);
                 toast.success(response.data.success);
+                form.reset()
+                router.refresh()
             } else if (response.data.error) {
                 toast.error(response.data.error);
             }
-            form.reset()
-            router.refresh()
         } catch {
             toast.error("Terdapat kesalahan!");
         }

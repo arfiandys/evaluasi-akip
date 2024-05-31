@@ -57,9 +57,9 @@ export const KodeUnitKerjaForm = ({
       } else {
         router.push(`/koordinator/unit-kerja/${response.data.id}`);
         toast.success("Unit Kerja berhasil diperbarui!")
+        toggleEdit();
+        router.refresh();
       }
-      toggleEdit();
-      router.refresh();
     } catch {
       toast.error("Terdapat kesalahan");
     }

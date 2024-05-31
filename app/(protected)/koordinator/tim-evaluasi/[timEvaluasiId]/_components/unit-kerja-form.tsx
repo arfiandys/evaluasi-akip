@@ -87,10 +87,10 @@ export const UnitKerjaForm = ({
         toast.error(response.data.error)
       } else {
         toast.success("Unit kerja berhasil diperbarui");
+        toggleAnggotaEdit();
+        form.reset();
+        router.refresh();
       }
-      toggleAnggotaEdit();
-      form.reset();
-      router.refresh();
     } catch {
       toast.error("Terdapat kesalahan");
     }

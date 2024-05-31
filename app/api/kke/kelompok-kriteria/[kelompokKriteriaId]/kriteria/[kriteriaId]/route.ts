@@ -45,7 +45,6 @@ export async function PATCH(
   try {
     const session = await auth();
     const userId = session?.user.id;
-    const { kriteriaId } = params;
     const values = await req.json();
 
     if (!userId) {
@@ -54,6 +53,40 @@ export async function PATCH(
 
 
     // KRITERIA KKE DETAIL EDIT
+
+    const existingKodeKriteria = await db.kriteriaKKE.findFirst({
+      where: {
+        AND: [
+          {
+            kode: values.kode,
+          },
+          {
+            kelompokKriteriaKKEId: params.kelompokKriteriaId
+          }
+        ]
+      }
+    })
+
+    if (existingKodeKriteria && existingKodeKriteria.id!==params.kriteriaId) {
+      return NextResponse.json({ error: "Kode talah digunakan!" });
+    }
+
+    const existingNameKriteria = await db.kriteriaKKE.findFirst({
+      where: {
+        AND: [
+          {
+            nama: values.nama,
+          },
+          {
+            kelompokKriteriaKKEId: params.kelompokKriteriaId
+          }
+        ]
+      }
+    })
+
+    if (existingNameKriteria && existingNameKriteria.id!==params.kriteriaId) {
+      return NextResponse.json({ error: "Nama talah digunakan!" });
+    }
 
     const kelompokKriteria = await db.kelompokKriteriaKKE.findUnique({
       where: {

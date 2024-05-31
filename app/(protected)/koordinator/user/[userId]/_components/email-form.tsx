@@ -56,9 +56,9 @@ export const EmailForm = ({
         toast.error(respose.data.error);
       } else {
         toast.success("Pengguna berhasil diperbarui");
+        toggleEdit();
+        router.refresh();
       }
-      toggleEdit();
-      router.refresh();
     } catch {
       toast.error("Terdapat kesalahan");
     }

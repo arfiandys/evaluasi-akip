@@ -32,6 +32,7 @@ import { useEffect, useState } from "react";
 import { Evaluasi } from "@prisma/client";
 import { IconBadge } from "@/components/icon-badge";
 import { Activity } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 
 const formSchema = z.object({
@@ -56,6 +57,7 @@ const formSchema = z.object({
     catatanA: z.string(),
     catatanB: z.string(),
     catatanC: z.string(),
+    isPembobot: z.boolean(),
     evaluasiId: z.string().min(1, {
         message: "Evaluasi id dibutuhkan",
     }),
@@ -86,6 +88,7 @@ const KriteriaNewCreate = ({
             catatanA: "",
             catatanB: "",
             catatanC: "",
+            isPembobot: false,
             evaluasiId: evaluasi.id,
         },
     });
@@ -94,11 +97,22 @@ const KriteriaNewCreate = ({
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            const response = await axios.post(`/api/lke/komponen/${komponenId}/subKomponen/${subKomponenId}/kriteria`, values);
-            toast.success("Kriteria LKE berhasil dibuat!")
-            form.reset()
-            router.refresh()
-            router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen/${komponenId}/subKomponen/${subKomponenId}`);
+            if (values.isPembobot && (values.jenisIsian === "number")) {
+                toast.error("Jenis isian number tidak bisa menjadi pembobot")
+            } else if (values.isPembobot && (values.bobot !== 0)) {
+                toast.error("Apabila menjadi pembobot maka nilai bobot harus 0")
+            } else {
+                const response = await axios.post(`/api/lke/komponen/${komponenId}/subKomponen/${subKomponenId}/kriteria`, values);
+                if (response.data.error) {
+                    toast.error(response.data.error)
+                } else {
+                    toast.success("Kriteria LKE berhasil dibuat!")
+                    router.push(`/koordinator/evaluasi/${evaluasi.id}/lke/komponen/${komponenId}/subKomponen/${subKomponenId}`);
+                    form.reset()
+                    router.refresh()
+                }
+            }
+
         } catch {
             toast.error("Terdapat kesalahan!");
         }
@@ -186,6 +200,25 @@ const KriteriaNewCreate = ({
                                             />
                                         </FormControl>
                                         <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="isPembobot"
+                                render={({ field }) => (
+                                    <FormItem className="w-full flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                                        <FormControl>
+                                            <Checkbox
+                                                checked={field.value}
+                                                onCheckedChange={field.onChange}
+                                            />
+                                        </FormControl>
+                                        <div className="space-y-1 leading-none">
+                                            <FormLabel>
+                                                Centang apabila kriteria ini pembobot
+                                            </FormLabel>
+                                        </div>
                                     </FormItem>
                                 )}
                             />

@@ -117,9 +117,9 @@ export const KetuaForm = ({
           toast.error(response.data.error)
         } else {
           toast.success("Ketua berhasil diperbarui");
+          toggleEdit();
+          router.refresh();
         }
-        toggleEdit();
-        router.refresh();
       } catch {
         toast.error("Terdapat kesalahan");
       }
@@ -215,7 +215,7 @@ export const KetuaForm = ({
                   </div>
                 )}
                 {deletingId !== ketuaId[0] && (
-                  <ConfirmModal onConfirm={()=> onDelete(ketuaId[0])}>
+                  <ConfirmModal onConfirm={() => onDelete(ketuaId[0])}>
                     <button
                       className="ml-auto hover:opacity-75 transition"
                     >

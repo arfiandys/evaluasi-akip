@@ -70,14 +70,14 @@ interface EditProps {
     variabelLKE_options_ED: { label: string; value: string; data: VariabelLKE }[];
     variabelLKE_options_IK: { label: string; value: string; data: VariabelLKE }[];
     IKU_options: { label: string; value: string; data: IKU & { tujuanSasaranIndikatorIKU: TujuanSasaranIndikatorIKU[] } }[];
-    kriteria: (KriteriaKKE & {variabelKKE: (VariabelKKE & {tujuanSasaranIndikatorIKUVariabelKKE: TujuanSasaranIndikatorIKUVariabelKKE[]})|null});
+    kriteria: (KriteriaKKE & { variabelKKE: (VariabelKKE & { tujuanSasaranIndikatorIKUVariabelKKE: TujuanSasaranIndikatorIKUVariabelKKE[] }) | null });
 };
 
 const KriteriaEdit = ({
     kelompokKriteriaId, evaluasi, variabelLKE_options_IK, variabelLKE_options_ED, IKU_options, kriteria
 }: EditProps) => {
 
-    const itemIKU = kriteria.variabelKKE?.tujuanSasaranIndikatorIKUVariabelKKE.map((x)=>{
+    const itemIKU = kriteria.variabelKKE?.tujuanSasaranIndikatorIKUVariabelKKE.map((x) => {
         return x.tujuanSasaranIndikatorIKUId
     })
 
@@ -92,9 +92,9 @@ const KriteriaEdit = ({
             nama: kriteria.nama,
             evaluasiId: evaluasi.id,
             jenisIsian: kriteria.variabelKKE!.jenisIsian,
-            isIndikatorKinerja: (kriteria.variabelKKE!.isIndikatorKinerja)?"true":"false",
-            jenisIsianIKU: kriteria.variabelKKE!.jenisIsianIKU||"-_-",
-            petunjukEvaluasi: kriteria.variabelKKE!.petunjukEvaluasi||"",
+            isIndikatorKinerja: (kriteria.variabelKKE!.isIndikatorKinerja) ? "true" : "false",
+            jenisIsianIKU: kriteria.variabelKKE!.jenisIsianIKU || "-_-",
+            petunjukEvaluasi: kriteria.variabelKKE!.petunjukEvaluasi || "",
             variabelLKEId: kriteria.variabelKKE!.variabelLKEId,
             items: itemIKU
         },
@@ -110,15 +110,16 @@ const KriteriaEdit = ({
             jenisIsianIKU: (values.jenisIsianIKU === "-_-") ? null : values.jenisIsianIKU,
             isIndikatorKinerja: (values.isIndikatorKinerja === "true")
         }
-        // toast.success(<pre className="mt-2 w-full rounded-md bg-slate-950 p-4 overflow-auto">
-        //     <code className="text-white">{JSON.stringify(value, null, 2)}</code>
-        // </pre>)
         try {
             const response = await axios.patch(`/api/kke/kelompok-kriteria/${kelompokKriteriaId}/kriteria/${kriteria.id}`, value);
-            toast.success("Kriteria KKE berhasil diperbarui!")
-            router.refresh()
-            reset()
-            router.push(`/koordinator/evaluasi/${evaluasi.id}/kke/kelompok-kriteria/${kelompokKriteriaId}/kriteria/${kriteria.id}`);
+            if (response.data.error) {
+                toast.error(response.data.error)
+            } else {
+                toast.success("Kriteria KKE berhasil diperbarui!")
+                router.push(`/koordinator/evaluasi/${evaluasi.id}/kke/kelompok-kriteria/${kelompokKriteriaId}/kriteria/${kriteria.id}`);
+                router.refresh()
+                reset()
+            }
         } catch {
             toast.error("Terdapat kesalahan!");
         }
@@ -152,12 +153,12 @@ const KriteriaEdit = ({
                 setValue("jenisIsian", "number");
                 const selectedData = variabelLKE_options_IK.find((option) => option.value === kriteria.variabelKKE!.variabelLKEId);
                 if (!selectedData) {
-                    setValue("variabelLKEId","")
+                    setValue("variabelLKEId", "")
                 }
             }
             if (jenisKK === "false") {
                 setValue("jenisIsianIKU", "-_-");
-                setValue("items",[])
+                setValue("items", [])
             }
         }
     }, [jenisKK, resetField, setValue, variabelLKE_options_IK, kriteria.variabelKKE])
@@ -203,7 +204,7 @@ const KriteriaEdit = ({
                                         <FormLabel>
                                             Jenis kertas kerja
                                         </FormLabel>
-                                        <Select onValueChange={field.onChange} defaultValue={(kriteria.variabelKKE!.isIndikatorKinerja)?"true":"false"}>
+                                        <Select onValueChange={field.onChange} defaultValue={(kriteria.variabelKKE!.isIndikatorKinerja) ? "true" : "false"}>
                                             <FormControl>
                                                 <SelectTrigger>
                                                     <SelectValue placeholder="Pilih isian" />
@@ -227,7 +228,7 @@ const KriteriaEdit = ({
                                             <FormLabel>
                                                 Jenis isian IKU
                                             </FormLabel>
-                                            <Select onValueChange={field.onChange} defaultValue={kriteria.variabelKKE!.jenisIsianIKU||"-_-"}>
+                                            <Select onValueChange={field.onChange} defaultValue={kriteria.variabelKKE!.jenisIsianIKU || "-_-"}>
                                                 <FormControl>
                                                     <SelectTrigger>
                                                         <SelectValue placeholder="Pilih isian" />
