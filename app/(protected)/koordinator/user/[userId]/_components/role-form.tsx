@@ -106,10 +106,10 @@ export const RoleForm = ({
                     </FormControl>
                     <SelectContent>
                       <SelectItem value={AccountRole.ADMIN}>
-                        Admin
+                        Koordinator
                       </SelectItem>
                       <SelectItem value={AccountRole.USER}>
-                        User
+                        Pengguna
                       </SelectItem>
                     </SelectContent>
                   </Select>
