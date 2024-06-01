@@ -197,13 +197,28 @@ export async function POST(
                     });
 
                     if (tsi) {
-                        const tujuanSasaranIndikatorIKUVariabelKKE = await db.tujuanSasaranIndikatorIKUVariabelKKE.create({
-                            data: {
-                                jenisIKU: item.IKU,
-                                variabelKKEId: variabelKKE.id,
-                                tujuanSasaranIndikatorIKUId: tsi.id
+                        const tsiVariabelKKE = await db.tujuanSasaranIndikatorIKUVariabelKKE.findFirst({
+                            where: {
+                                AND: [
+                                    {
+                                        variabelKKEId: variabelKKE.id
+                                    },
+                                    {
+                                        tujuanSasaranIndikatorIKUId: tsi.id
+                                    }
+                                ]
                             }
                         })
+                        if (!tsiVariabelKKE) {
+
+                            const tujuanSasaranIndikatorIKUVariabelKKE = await db.tujuanSasaranIndikatorIKUVariabelKKE.create({
+                                data: {
+                                    jenisIKU: item.IKU,
+                                    variabelKKEId: variabelKKE.id,
+                                    tujuanSasaranIndikatorIKUId: tsi.id
+                                }
+                            })
+                        }
                     }
                 }
             }
