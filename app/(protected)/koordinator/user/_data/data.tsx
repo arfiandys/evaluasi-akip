@@ -15,12 +15,12 @@ import { User, UserCog } from "lucide-react"
 export const roles = [
   {
     value: AccountRole.ADMIN,
-    label: "Admin",
+    label: "Koordinator",
     icon: UserCog,
   },
   {
     value: AccountRole.USER,
-    label: "User",
+    label: "Pengguna",
     icon: User,
   },
 ]
