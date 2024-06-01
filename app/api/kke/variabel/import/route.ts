@@ -14,6 +14,16 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
+        interface PesanError {
+            error: string;
+            konten: string;
+        }
+
+        const jsonString = `[]`;
+
+        // Parse the JSON string into an array of objects
+        let arrayError: PesanError[] = JSON.parse(jsonString);
+
         for (const item of values.data) {
             if (item.level === "kelompok") {
                 const existingNamaKelompok = await db.kelompokKriteriaKKE.findFirst({
@@ -52,7 +62,11 @@ export async function POST(
                                 permindokId: permindok.id!
                             }
                         })
+                    } else {
+                        arrayError.push({ error: "permindok tidak ditemukan", konten: item.namaKelompok });
                     }
+                } else {
+                    arrayError.push({ error: "nama kelompok sudah digunakan", konten: item.namaKelompok });
                 }
             }
 
@@ -125,8 +139,7 @@ export async function POST(
                                         petunjukEvaluasi: item.petunjukEvaluasi,
                                     }
                                 })
-                            }
-                            if ((item.jenisKK === "KK Indikator Kinerja") && (variabelLKE.jenisIsian === "number")) {
+                            } else if ((item.jenisKK === "KK Indikator Kinerja") && (variabelLKE.jenisIsian === "number")) {
                                 const kriteriaKKE = await db.kriteriaKKE.create({
                                     data: {
                                         kelompokKriteriaKKEId: kelompokKriteria.id!,
@@ -150,9 +163,15 @@ export async function POST(
                                         petunjukEvaluasi: item.petunjukEvaluasi,
                                     }
                                 })
+                            } else {
+                                arrayError.push({ error: "jenis kertas kerja tidak ditemukan", konten: item.namaKriteria });
                             }
                         }
+                    } else {
+                        arrayError.push({ error: "kelompok tidak ditemukan", konten: item.namaKriteria });
                     }
+                } else {
+                    arrayError.push({ error: "nama kriteria sudah digunakan", konten: item.namaKriteria });
                 }
             }
 
@@ -210,7 +229,6 @@ export async function POST(
                             }
                         })
                         if (!tsiVariabelKKE) {
-
                             const tujuanSasaranIndikatorIKUVariabelKKE = await db.tujuanSasaranIndikatorIKUVariabelKKE.create({
                                 data: {
                                     jenisIKU: item.IKU,
@@ -218,13 +236,15 @@ export async function POST(
                                     tujuanSasaranIndikatorIKUId: tsi.id
                                 }
                             })
+                        } else {
+                            arrayError.push({ error: "kode tujuan/sasaran/indikator sudah digunakan", konten: item.kodeIKU });
                         }
                     }
                 }
             }
         };
 
-        return NextResponse.json("Level Not Found")
+        return NextResponse.json({ return: arrayError })
 
     } catch (error) {
         console.log("[VARIABEL]", error);

@@ -14,6 +14,17 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
+        interface PesanError {
+            error: string;
+            konten: string;
+        }
+
+        const jsonString = `[]`;
+
+        // Parse the JSON string into an array of objects
+        let arrayError: PesanError[] = JSON.parse(jsonString);
+
+
         for (const item of values.data) {
             if (item.level === "komponen") {
                 const existingNamaKomponen = await db.komponenLKE.findFirst({
@@ -49,6 +60,8 @@ export async function POST(
                             levelVariabel: "komponen",
                         }
                     })
+                } else {
+                    arrayError.push({ error: "nama komponen sudah digunakan", konten: item.namaKomponen });
                 }
             }
 
@@ -82,12 +95,12 @@ export async function POST(
                     });
 
                     if (!komponen) {
-                        return new NextResponse("Unauthorized", { status: 401 });
+                        arrayError.push({ error: "komponen tidak ditemukan", konten: item.namaSubKomponen });
                     }
 
                     const subKomponenLKE = await db.subKomponenLKE.create({
                         data: {
-                            komponenLKEId: komponen.id,
+                            komponenLKEId: komponen?.id,
                             kode: item.kode,
                             name: item.namaSubKomponen,
                             bobot: item.bobot,
@@ -107,6 +120,8 @@ export async function POST(
                             levelVariabel: "subKomponen",
                         }
                     })
+                } else {
+                    arrayError.push({ error: "nama sub komponen sudah digunakan", konten: item.namaSubKomponen });
                 }
             }
 
@@ -142,14 +157,14 @@ export async function POST(
                     });
 
                     if (!komponen) {
-                        return new NextResponse("Unauthorized", { status: 401 });
+                        arrayError.push({ error: "komponen tidak ditemukan", konten: item.namaKriteria });
                     }
 
                     const subKomponen = await db.subKomponenLKE.findFirst({
                         where: {
                             AND: [
                                 {
-                                    komponenLKEId: komponen.id
+                                    komponenLKEId: komponen?.id
                                 },
                                 {
                                     name: item.namaSubKomponen
@@ -159,12 +174,12 @@ export async function POST(
                     });
 
                     if (!subKomponen) {
-                        return new NextResponse("Unauthorized", { status: 401 });
+                        arrayError.push({ error: "sub komponen tidak ditemukan", konten: item.namaKriteria });
                     }
 
                     const kriteriaLKE = await db.kriteriaLKE.create({
                         data: {
-                            subKomponenLKEId: subKomponen.id,
+                            subKomponenLKEId: subKomponen?.id,
                             kode: item.kode,
                             name: item.namaKriteria,
                             bobot: item.bobot,
@@ -194,6 +209,8 @@ export async function POST(
                             isPembobot: item.isPembobot,
                         }
                     })
+                } else {
+                    arrayError.push({ error: "nama kriteria sudah digunakan", konten: item.namaKriteria });
                 }
             }
 
@@ -231,14 +248,14 @@ export async function POST(
                     });
 
                     if (!komponen) {
-                        return new NextResponse("Unauthorized", { status: 401 });
+                        arrayError.push({ error: "komponen tidak ditemukan", konten: item.namaSubKriteria });
                     }
 
                     const subKomponen = await db.subKomponenLKE.findFirst({
                         where: {
                             AND: [
                                 {
-                                    komponenLKEId: komponen.id
+                                    komponenLKEId: komponen?.id
                                 },
                                 {
                                     name: item.namaSubKomponen
@@ -248,14 +265,14 @@ export async function POST(
                     });
 
                     if (!subKomponen) {
-                        return new NextResponse("Unauthorized", { status: 401 });
+                        arrayError.push({ error: "sub komponen tidak ditemukan", konten: item.namaSubKriteria });
                     }
 
                     const kriteria = await db.kriteriaLKE.findFirst({
                         where: {
                             AND: [
                                 {
-                                    subKomponenLKEId: subKomponen.id
+                                    subKomponenLKEId: subKomponen?.id
                                 },
                                 {
                                     name: item.namaKriteria
@@ -265,12 +282,12 @@ export async function POST(
                     });
 
                     if (!kriteria) {
-                        return new NextResponse("Unauthorized", { status: 401 });
+                        arrayError.push({ error: "kriteria tidak ditemukan", konten: item.namaSubKriteria });
                     }
 
                     const subKriteriaLKE = await db.subKriteriaLKE.create({
                         data: {
-                            kriteriaLKEId: kriteria.id,
+                            kriteriaLKEId: kriteria?.id,
                             kode: item.kode,
                             name: item.namaSubKriteria,
                             bobot: item.bobot,
@@ -303,11 +320,13 @@ export async function POST(
                             catatanC: item.catatanC,
                         }
                     })
+                } else {
+                    arrayError.push({ error: "nama sub kriteria sudah digunakan", konten: item.namaSubKriteria });
                 }
             }
         };
 
-        return NextResponse.json("Level Not Found")
+        return NextResponse.json({ return: arrayError })
 
     } catch (error) {
         console.log("[VARIABEL]", error);

@@ -25,6 +25,8 @@ import { useState } from "react";
 import { UploadButton } from "./upload-button";
 import { Evaluasi } from "@prisma/client";
 import { DownloadButton } from "./download-button";
+import { useCSVDownloader } from "react-papaparse";
+import { Download } from "lucide-react";
 
 enum VARIANTS {
     LIST = "LIST",
@@ -50,7 +52,7 @@ const ImportPage = ({ evaluasi, ikuId }: ImportProps) => {
     const [loading, setLoading] = useState(false)
 
     const onUpload = (results: typeof INITIAL_IMPORT_RESULT) => {
-        const bodynot:string[][] = results.data.slice(1);
+        const bodynot: string[][] = results.data.slice(1);
         const body = bodynot.filter((item) => {
             return item.length === 3
         })
@@ -66,6 +68,8 @@ const ImportPage = ({ evaluasi, ikuId }: ImportProps) => {
         setImportResult(INITIAL_IMPORT_RESULT);
         setVariant(VARIANTS.LIST);
     };
+
+    const { CSVDownloader } = useCSVDownloader();
 
     const onSubmit = async (values: any[]) => {
         setLoading(true)
@@ -85,9 +89,36 @@ const ImportPage = ({ evaluasi, ikuId }: ImportProps) => {
         }
         console.log(dataFiltered)
         try {
-            await axios.post(`/api/iku/${ikuId}/import`, value);
-            toast.success("IKU berhasil dibuat!")
-            router.refresh()
+            const response = await axios.post(`/api/iku/${ikuId}/import`, value);
+            if (response.data.return) {
+                toast("Terdapat beberapa kesalahan dalam melakukan import", {
+                    description: (
+                        <Button
+                            asChild
+                            size="sm"
+                            className="w-auto cursor-pointer mt-2"
+                        >
+                            <CSVDownloader
+                                filename={'error_IKU'}
+                                bom={true}
+                                config={
+                                    {
+                                        delimiter: ',',
+                                    }
+                                }
+                                data={response.data.return}
+                            >
+
+                                <Download className="size-4 mr-2" />
+                                Download kesalahan
+                            </CSVDownloader>
+                        </Button>)
+                })
+                router.refresh()
+            } else {
+                toast.success("IKU berhasil dibuat!")
+                router.refresh()
+            }
         } catch {
             toast.error("Terdapat kesalahan!");
         } finally {

@@ -15,6 +15,16 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
+        interface PesanError {
+            error: string;
+            konten: string;
+        }
+
+        const jsonString = `[]`;
+
+        // Parse the JSON string into an array of objects
+        let arrayError: PesanError[] = JSON.parse(jsonString);
+
         for (const item of values.data) {
             const existingNamaTSI = await db.tujuanSasaranIndikatorIKU.findFirst({
                 where: {
@@ -37,10 +47,12 @@ export async function POST(
                         jenis: item.jenis
                     }
                 })
+            } else {
+                arrayError.push({ error: "nama tujuan Sasaran IndikatorIKU sudah digunakan", konten: item.nama });
             }
         }
 
-        return NextResponse.json("Berhasil");
+        return NextResponse.json({ return: arrayError });
 
 
     } catch (error) {

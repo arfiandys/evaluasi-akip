@@ -25,6 +25,8 @@ import { useState } from "react";
 import { UploadButton } from "./upload-button";
 import { Evaluasi } from "@prisma/client";
 import { DownloadButton } from "./download-button";
+import { useCSVDownloader } from "react-papaparse";
+import { Download } from "lucide-react";
 
 enum VARIANTS {
     LIST = "LIST",
@@ -66,6 +68,8 @@ const ImportPage = ({ evaluasi }: ImportProps) => {
         setVariant(VARIANTS.LIST);
     };
 
+    const { CSVDownloader } = useCSVDownloader();
+
     const onSubmit = async (values: any[]) => {
         setLoading(true)
         const dataSorted = values.sort((a, b) => {
@@ -84,9 +88,36 @@ const ImportPage = ({ evaluasi }: ImportProps) => {
         }
         console.log(dataFiltered)
         try {
-            await axios.post("/api/kke/variabel/import", value);
-            toast.success("Variabel KKE berhasil dibuat!")
-            router.refresh()
+            const response = await axios.post("/api/kke/variabel/import", value);
+            if (response.data.return) {
+                toast("Terdapat beberapa kesalahan dalam melakukan import", {
+                    description: (
+                        <Button
+                            asChild
+                            size="sm"
+                            className="w-auto cursor-pointer mt-2"
+                        >
+                            <CSVDownloader
+                                filename={'error_variabel_KKE'}
+                                bom={true}
+                                config={
+                                    {
+                                        delimiter: ',',
+                                    }
+                                }
+                                data={response.data.return}
+                            >
+
+                                <Download className="size-4 mr-2" />
+                                Download kesalahan
+                            </CSVDownloader>
+                        </Button>)
+                })
+                router.refresh()
+            } else {
+                toast.success("Variabel KKE berhasil dibuat!")
+                router.refresh()
+            }
         } catch {
             toast.error("Terdapat kesalahan!");
         } finally {
