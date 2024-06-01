@@ -50,13 +50,13 @@ export const StepForm = ({
     return (
         <div className="p-4">
             <ol className="flex items-center w-full mb-4 sm:mb-5">
-                <li className={`flex w-full items-center ${existingDalnis ? ("text-primary-foreground") : ("")} after:content-[''] after:w-full after:h-1 after:border-b after:border-4 after:inline-block ${step2 || existingDalnis ? ("after:border-primary/70") : ("after:border-secondary")}`}>
+                <li className={`flex w-full items-center ${existingDalnis ? ("text-primary-foreground") : ("")} after:content-[''] after:w-full after:h-1 after:border-b after:border-4 after:inline-block ${step2 || existingKetua ? ("after:border-primary/70") : ("after:border-secondary")}`}>
                     <div className={`flex items-center justify-center px-2 w-fit rounded-lg p-2 ${existingDalnis ? ("bg-primary/70") : ("bg-secondary")} shrink-0`}>
                         <UserCheck className="mr-2" />
                         Pengendali teknis
                     </div>
                 </li>
-                <li className={`flex w-full items-center ${existingKetua ? ("text-primary-foreground") : ("")} after:content-[''] after:w-full after:h-1 after:border-b after:border-4 after:inline-block ${step || existingKetua ? ("after:border-primary/70") : ("after:border-secondary")}`}>
+                <li className={`flex w-full items-center ${existingKetua ? ("text-primary-foreground") : ("")} after:content-[''] after:w-full after:h-1 after:border-b after:border-4 after:inline-block ${step || existingAnggota ? ("after:border-primary/70") : ("after:border-secondary")}`}>
                     <div className={`flex items-center justify-center px-2 w-fit rounded-lg p-2 ${existingKetua ? ("bg-primary/70") : ("bg-secondary")} shrink-0`}>
                         <UserCheck2 className="mr-2" />
                         Ketua
