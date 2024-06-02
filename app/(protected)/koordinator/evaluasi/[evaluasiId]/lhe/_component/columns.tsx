@@ -1,15 +1,9 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-
-import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
-
-import { jenises, kodeWilayahs, statuses } from "../_data/data"
 import { LHE } from "../_data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
-import { UserRole } from "@prisma/client"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { File } from "lucide-react"

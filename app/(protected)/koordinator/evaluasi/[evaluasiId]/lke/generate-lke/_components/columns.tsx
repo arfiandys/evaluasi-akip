@@ -1,11 +1,10 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-
-import { jenises } from "../_data/data"
 import { LKEUnitKerja } from "../_data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
+import { jeniseVar } from "../_data/data"
 
 export const columns: ColumnDef<LKEUnitKerja>[] = [
   {
@@ -71,13 +70,19 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
     },
   },
   {
-    accessorKey: "jenisIsian",
+    id: "jenisVariabel",
+    accessorFn: row => {
+      const name = row.variabelLKE.levelVariabel
+      return (
+        `${name}`
+      )
+    },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Jenis isian" />
+      <DataTableColumnHeader column={column} title="Jenis Variabel" />
     ),
     cell: ({ row }) => {
-      const jenis = jenises.find(
-        (jenis) => jenis.value === row.original.variabelLKE?.jenisIsian
+      const jenis = jeniseVar.find(
+        (jenis) => jenis.value === row.getValue("jenisVariabel")
       )
 
       if (!jenis) {
@@ -85,7 +90,7 @@ export const columns: ColumnDef<LKEUnitKerja>[] = [
       }
 
       return (
-        <div className="flex w-[100px] items-center">
+        <div className="flex w-auto items-center">
           <span>{jenis.label}</span>
         </div>
       )

@@ -2,7 +2,6 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 
-import { jenises } from "../_data/data"
 import { VariabelKKEUnitKerja } from "../_data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
@@ -70,22 +69,20 @@ export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
     },
   },
   {
-    accessorKey: "jenisIsian",
+    id: "jenisKertasKerja",
+    accessorFn: row => {
+      const variabelKKE = row.variabelKKE.isIndikatorKinerja?"KK Indikator Kinerja":"KK Evaluasi Dokumen"
+      return (
+        `${variabelKKE}`
+      )
+    },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Jenis isian" />
+      <DataTableColumnHeader column={column} title="Jenis kertas kerja" />
     ),
     cell: ({ row }) => {
-      const jenis = jenises.find(
-        (jenis) => jenis.value === row.original.variabelKKE.jenisIsian
-      )
-
-      if (!jenis) {
-        return null
-      }
-
       return (
-        <div className="flex w-[100px] items-center">
-          <span>{jenis.label}</span>
+        <div className="flex w-auto items-center">
+          <span>{row.getValue("jenisKertasKerja")}</span>
         </div>
       )
     },
@@ -101,7 +98,7 @@ export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
     cell: ({ row }) => {
       if (row.original.isianAt) {
         return (
-          <div className="w-[120px]">{row.original.isianAt}</div>
+          <div className="w-auto">{row.original.isianAt}</div>
         )
       }
     },
@@ -116,7 +113,7 @@ export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
     cell: ({ row }) => {
       if (row.original.isianKt) {
         return (
-          <div className="w-[120px]">{row.original.isianKt}</div>
+          <div className="w-auto">{row.original.isianKt}</div>
         )
       }
     },
@@ -131,7 +128,7 @@ export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
     cell: ({ row }) => {
       if (row.original.isianDalnis) {
         return (
-          <div className="w-[120px]">{row.original.isianDalnis}</div>
+          <div className="w-auto">{row.original.isianDalnis}</div>
         )
       }
     },
@@ -146,7 +143,7 @@ export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
     cell: ({ row }) => {
       if (row.original.isianPIC) {
         return (
-          <div className="w-[120px]">{row.original.isianPIC}</div>
+          <div className="w-auto">{row.original.isianPIC}</div>
         )
       }
     },

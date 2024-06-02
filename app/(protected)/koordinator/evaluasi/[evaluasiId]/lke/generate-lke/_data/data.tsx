@@ -33,6 +33,25 @@ export const unitkerjas =[
   },
 ]
 
+export const jeniseVar = [
+  {
+    value: "komponen",
+    label: "Komponen",
+  },
+  {
+    value: "subKomponen",
+    label: "Sub Komponen",
+  },
+  {
+    value: "kriteria",
+    label: "Kriteria",
+  },
+  {
+    value: "subKriteria",
+    label: "Sub Kriteria",
+  },
+]
+
 export const jenises = [
   {
     value: "dropdown",

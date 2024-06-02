@@ -30,13 +30,6 @@ export function DataTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn("kodeWilayah") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("kodeWilayah")}
-            title="Kode Wilayah"
-            options={kodeWilayahs}
-          />
-        )}
         {table.getColumn("status") && (
           <DataTableFacetedFilter
             column={table.getColumn("status")}

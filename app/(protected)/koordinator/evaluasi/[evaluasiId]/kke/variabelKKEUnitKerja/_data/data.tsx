@@ -61,6 +61,17 @@ export const jenises = [
   },
 ]
 
+export const jenisKertasKerja = [
+  {
+    value: "KK Evaluasi Dokumen",
+    label: "KK Evaluasi Dokumen",
+  },
+  {
+    value: "KK Indikator Kinerja",
+    label: "KK Indikator Kinerja",
+  },
+]
+
 
 export const tahuns = [
   {

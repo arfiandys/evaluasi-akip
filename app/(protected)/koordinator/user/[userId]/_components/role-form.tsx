@@ -80,7 +80,7 @@ export const RoleForm = ({
       </div>
       {!isEditing && (
         <p className="text-sm mt-2">
-          {initialData.role}
+          {initialData.role===AccountRole.ADMIN?"Koordinator":"Pengguna"}
         </p>
       )}
       {isEditing && (

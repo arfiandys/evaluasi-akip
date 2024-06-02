@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DataTableViewOptions } from "../_components/data-table-view-options"
 
-import { jenises } from "../_data/data"
+import { jeniseVar } from "../_data/data"
 import { DataTableFacetedFilter } from "./data-table-faceted-filter"
 
 interface DataTableToolbarProps<TData> {
@@ -36,18 +36,18 @@ export function DataTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn("jenisIsian") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("jenisIsian")}
-            title="Jenis isian"
-            options={jenises}
-          />
-        )}
         {table.getColumn("unitKerja") && (
           <DataTableFacetedFilter
             column={table.getColumn("unitKerja")}
             title="Unit Kerja"
             options={dataUnitKerja}
+          />
+        )}
+        {table.getColumn("jenisVariabel") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("jenisVariabel")}
+            title="Jenis Variabel"
+            options={jeniseVar}
           />
         )}
         {isFiltered && (
