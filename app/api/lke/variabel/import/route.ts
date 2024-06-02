@@ -34,7 +34,7 @@ export async function POST(
                                 name: item.namaKomponen
                             },
                             {
-                                tahun: values.tahun
+                                evaluasiId: values.evaluasiId
                             }
                         ]
                     }
@@ -44,7 +44,6 @@ export async function POST(
                         data: {
                             evaluasiId: values.evaluasiId,
                             kode: item.kode,
-                            tahun: values.tahun,
                             name: item.namaKomponen,
                             bobot: item.bobot,
                         }
@@ -55,7 +54,6 @@ export async function POST(
                             evaluasiId: values.evaluasiId,
                             komponenLKEId: komponenLKE.id,
                             kode: komponenLKE.kode || "",
-                            tahun: komponenLKE.tahun || "",
                             jenisIsian: "number",
                             levelVariabel: "komponen",
                         }
@@ -74,7 +72,7 @@ export async function POST(
                             },
                             {
                                 komponenLKE: {
-                                    tahun: values.tahun
+                                    evaluasiId: values.evaluasiId
                                 }
                             }
                         ]
@@ -85,7 +83,7 @@ export async function POST(
                         where: {
                             AND: [
                                 {
-                                    tahun: values.tahun
+                                    evaluasiId: values.evaluasiId
                                 },
                                 {
                                     name: item.namaKomponen
@@ -115,7 +113,6 @@ export async function POST(
                             evaluasiId: values.evaluasiId,
                             subKomponenLKEId: subKomponenLKE.id,
                             kode: subKomponenLKE.komponenLKE?.kode.concat(".", subKomponenLKE.kode) || "",
-                            tahun: subKomponenLKE.komponenLKE?.tahun || "",
                             jenisIsian: "number",
                             levelVariabel: "subKomponen",
                         }
@@ -135,7 +132,7 @@ export async function POST(
                             {
                                 subKomponenLKE: {
                                     komponenLKE: {
-                                        tahun: values.tahun
+                                        evaluasiId: values.evaluasiId
                                     }
                                 }
                             }
@@ -147,7 +144,7 @@ export async function POST(
                         where: {
                             AND: [
                                 {
-                                    tahun: values.tahun
+                                    evaluasiId: values.evaluasiId
                                 },
                                 {
                                     name: item.namaKomponen
@@ -198,7 +195,6 @@ export async function POST(
                             evaluasiId: values.evaluasiId,
                             kriteriaLKEId: kriteriaLKE.id,
                             kode: kriteriaLKE.subKomponenLKE?.komponenLKE?.kode.concat(".", kriteriaLKE?.subKomponenLKE?.kode.concat(".", kriteriaLKE?.kode)) || "",
-                            tahun: kriteriaLKE.subKomponenLKE?.komponenLKE?.tahun || "",
                             jenisIsian: item.jenisIsian,
                             levelVariabel: "kriteria",
                             catatanPositif: item.catatanPositif,
@@ -225,7 +221,7 @@ export async function POST(
                                 kriteriaLKE: {
                                     subKomponenLKE: {
                                         komponenLKE: {
-                                            tahun: values.tahun
+                                            evaluasiId: values.evaluasiId
                                         }
                                     }
                                 }
@@ -238,7 +234,7 @@ export async function POST(
                         where: {
                             AND: [
                                 {
-                                    tahun: values.tahun
+                                    evaluasiId: values.evaluasiId
                                 },
                                 {
                                     name: item.namaKomponen
@@ -310,7 +306,6 @@ export async function POST(
                             evaluasiId: values.evaluasiId,
                             subKriteriaLKEId: subKriteriaLKE.id,
                             kode: subKriteriaLKE.kriteriaLKE?.subKomponenLKE?.komponenLKE?.kode.concat(".", subKriteriaLKE.kriteriaLKE?.subKomponenLKE?.kode.concat(".", subKriteriaLKE.kriteriaLKE?.kode.concat(".", subKriteriaLKE.kode))) || "",
-                            tahun: subKriteriaLKE.kriteriaLKE?.subKomponenLKE?.komponenLKE?.tahun || "",
                             jenisIsian: item.jenisIsian,
                             levelVariabel: "subKriteria",
                             catatanPositif: item.catatanPositif,

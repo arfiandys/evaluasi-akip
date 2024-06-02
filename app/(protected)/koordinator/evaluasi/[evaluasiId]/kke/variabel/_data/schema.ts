@@ -7,7 +7,6 @@ export const variabelKKESchema = z.object({
   id: z.string().min(1),
   evaluasiId: z.string().min(1),
   kode: z.string().min(1),
-  tahun: z.string().min(1),
   jenisIsian: z.string().min(1),
   jenisIsianIKU: z.string().nullable(),
   petunjukEvaluasi: z.string().nullable(),

@@ -139,7 +139,6 @@ model UserOnTimEvaluasi {
 model Permindok {
   id    String @id @default(cuid())
   kode  String
-  tahun String
   name  String
 
   kelompokKriteriaKKE KelompokKriteriaKKE?
@@ -175,7 +174,6 @@ model PermindokUnitKerja {
 model IKU {
   id                        String                      @id @default(cuid())
   name                      String
-  tahun                     String
   tujuanSasaranIndikatorIKU TujuanSasaranIndikatorIKU[]
 
   createdAt DateTime @default(now())
@@ -264,7 +262,6 @@ model VariabelKKEUnitKerja {
 // VariabelKKE
 model VariabelKKE {
   id                 String  @id @default(cuid())
-  tahun              String
   jenisIsian         String
   jenisIsianIKU      String?
   kode               String
@@ -293,7 +290,6 @@ model KelompokKriteriaKKE {
   id          String        @id @default(cuid())
   kode        String
   name        String
-  tahun       String
   permindok   Permindok?    @relation(fields: [permindokId], references: [id], onDelete: Cascade)
   permindokId String?       @unique
   kriteriaKKE KriteriaKKE[]
@@ -330,7 +326,6 @@ model KomponenLKE {
   id             String           @id @default(cuid())
   kode           String
   name           String
-  tahun          String
   bobot          Float
   subKomponenLKE SubKomponenLKE[]
   variabelLKE    VariabelLKE?
@@ -404,7 +399,6 @@ model SubKriteriaLKE {
 model VariabelLKE {
   id               String          @id @default(cuid())
   kode             String
-  tahun            String
   jenisIsian       String
   catatanPositif   String?
   catatanNegatif   String?

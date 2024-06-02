@@ -10,12 +10,6 @@ import {
 import { useState } from "react";
 import { ImportTable } from "./import-table";
 
-const requiredOptions = [
-    "nama",
-    "kode",
-    "permindok",
-    "tahun",
-];
 
 interface SelectedColumnState {
     [key: string]: string | null;

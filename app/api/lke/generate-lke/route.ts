@@ -14,15 +14,15 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        if (values.tahun!) {
+        if (values.evaluasiId!) {
             const variabelLKE = await db.variabelLKE.findMany({
                 orderBy: {
                     id: "asc"
-                }
+                },
             })
 
             const variabel_filtered = variabelLKE.filter(function (item) {
-                return item.tahun === values.tahun;
+                return item.evaluasiId === values.evaluasiId;
             }).map(function (variabel) { return variabel })
 
             const data = Array.from(variabel_filtered).map((variabel) => ({

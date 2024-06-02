@@ -38,9 +38,6 @@ const formSchema = z.object({
     name: z.string().min(1, {
         message: "Nama dibutuhkan",
     }),
-    tahun: z.string().min(1, {
-        message: "Tahun dibutuhkan",
-    }),
     evaluasiId: z.string().min(1, {
         message: "Evaluasi id dibutuhkan",
     }),
@@ -58,7 +55,6 @@ const IKUNewCreate = ({
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            tahun: evaluasi.tahun,
             name: "",
             evaluasiId: evaluasi.id
         },

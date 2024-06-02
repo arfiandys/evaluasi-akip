@@ -6,7 +6,6 @@ import { z } from "zod"
 export const permindokSchema = z.object({
   id: z.string().min(1),
   kode: z.string().min(1),
-  tahun: z.string().min(1),
   name: z.string().min(1),
   evaluasi: z.object({
     id: z.string().min(1),

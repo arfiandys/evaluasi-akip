@@ -2,15 +2,10 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 
-import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
 
-import { jenises, tahuns } from "../_data/data"
 import { VariabelKKEUnitKerja } from "../_data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { DataTableRowInput } from "./data-table-row-input"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"

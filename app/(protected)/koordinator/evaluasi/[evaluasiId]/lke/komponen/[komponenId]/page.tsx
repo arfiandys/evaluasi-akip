@@ -3,13 +3,8 @@ import { currentId } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { Activity, ArrowLeft, Edit, LayoutDashboard, ListChecks, ListTree, PlusCircle } from "lucide-react";
 import { redirect } from "next/navigation";
-import { NameForm } from "./_components/name-form";
-import { KodeForm } from "./_components/kode-form";
 import { Actions } from "./_components/actions";
 import Link from "next/link";
-import { TahunForm } from "./_components/tahun-form";
-import { BobotForm } from "./_components/bobot-form";
-import CreateSubKomponenPage from "./_components/create-form";
 import { columns } from "./subKomponen/_components/columns";
 import { DataTable } from "./subKomponen/_components/data-table";
 import {
@@ -63,7 +58,6 @@ const KomponenIdPage = async ({
     const requiredFields = [
         komponen.name,
         komponen.kode,
-        komponen.tahun,
         komponen.bobot,
         komponen.subKomponenLKE.length,
     ];

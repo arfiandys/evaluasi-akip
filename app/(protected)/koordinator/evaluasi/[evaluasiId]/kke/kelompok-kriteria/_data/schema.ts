@@ -7,7 +7,6 @@ export const kelompokKriteriaSchema = z.object({
   id: z.string().min(1),
   kode: z.string().min(1),
   name: z.string().min(1),
-  tahun: z.string().min(1),
   evaluasiId: z.string().min(1),
   kriteriaKKE: z.object({
     id: z.string().min(1),

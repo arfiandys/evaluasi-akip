@@ -41,9 +41,6 @@ const formSchema = z.object({
     kode: z.string().min(1, {
         message: "Kode dibutuhkan",
     }),
-    tahun: z.string().min(1, {
-        message: "Tahun dibutuhkan",
-    }),
     permindokId: z.string().min(1, {
         message: "Permindok id dibutuhkan",
     }),
@@ -67,7 +64,6 @@ const KelompokKriteriaEdit = ({
         resolver: zodResolver(formSchema),
         defaultValues: {
             kode: kelompokKriteria.kode,
-            tahun: evaluasi.tahun,
             name: kelompokKriteria.name,
             permindokId: kelompokKriteria?.permindokId || "",
             evaluasiId: evaluasi.id

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DataTableViewOptions } from "./data-table-view-options"
 
-import { jenises, unitkerjas, tahuns } from "../_data/data"
+import { jenises } from "../_data/data"
 import { DataTableFacetedFilter } from "./data-table-faceted-filter"
 
 interface DataTableToolbarProps<TData> {
@@ -23,8 +23,7 @@ export function DataTableToolbar<TData>({
   uniqueData,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
-  const dataTahun = uniqueData[0]
-  const dataUnitKerja = uniqueData[1]
+  const dataUnitKerja = uniqueData[0]
 
   return (
     <div className="flex items-center justify-between">
@@ -49,13 +48,6 @@ export function DataTableToolbar<TData>({
             column={table.getColumn("unitKerja")}
             title="Unit Kerja"
             options={dataUnitKerja}
-          />
-        )}
-        {table.getColumn("tahun") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("tahun")}
-            title="Tahun"
-            options={dataTahun}
           />
         )}
         {isFiltered && (

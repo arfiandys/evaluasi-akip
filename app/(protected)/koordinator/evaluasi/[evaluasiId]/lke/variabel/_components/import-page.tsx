@@ -83,7 +83,6 @@ const ImportPage = ({ evaluasi }: ImportProps) => {
         })
         const value = {
             data: dataFiltered,
-            tahun: evaluasi?.tahun,
             evaluasiId: evaluasi?.id
         }
         console.log(dataFiltered)

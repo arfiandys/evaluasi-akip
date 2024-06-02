@@ -11,57 +11,6 @@ import {
   StopwatchIcon,
 } from "@radix-ui/react-icons"
 
-//=================mencoba yang gagal====//
-
-// const variabel = async () => {
-//   try {
-//     const variabelLKE = await db.variabelLKE.findMany({
-//       orderBy: {
-//         kode: "asc",
-//       },
-//     });
-//     const variabel_tahun = variabelLKE.filter(function (variabel) {
-//       return variabel.tahun;
-//     }).map(function (variabel) { return variabel.tahun })
-
-//     const tahun = variabel_tahun.filter(function (v, i, self) {
-//       return i == self.indexOf(v);
-//     }).map(function (variabel) { return {value: variabel, label: variabel }})
-
-//     return tahun
-//   } catch (error) {
-//     console.error(`ERROR:${error}`)
-//   }  
-// }
-// Inisialisasi objek array konstan
-// const tahun = [];
-
-// // Function untuk mengambil data dan menyimpannya dalam objek array
-// const fetchDataAndStore = async () => {
-//   try {
-//     // Memanggil async function getData
-//     const result = await variabel();
-
-//     // Menyimpan hasil dalam objek array konstan
-//     if (result) {
-//       result.forEach(element => {
-//         tahun.push(element);
-//       });
-//     }
-
-
-//     // Lakukan operasi lain di sini jika diperlukan
-//   } catch (error) {
-//     console.error('Error:', error);
-//   }
-// };
-
-// // Memanggil function fetchDataAndStore
-// fetchDataAndStore();
-
-//=================mencoba yang gagal====//
-
-
 
 export const jenises = [
   {
@@ -119,21 +68,3 @@ export const statuses = [
   },
 ]
 
-export const tahuns = [
-  {
-    label: "2021",
-    value: "2021",
-  },
-  {
-    label: "2022",
-    value: "2022",
-  },
-  {
-    label: "2023",
-    value: "2023",
-  },
-  {
-    label: "2024",
-    value: "2024",
-  },
-]

@@ -3,12 +3,8 @@ import { currentId } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { Activity, ArrowLeft, Edit, LayoutDashboard, ListChecks, ListTree, PlusCircle } from "lucide-react";
 import { redirect } from "next/navigation";
-import { NameForm } from "./_components/name-form";
-import { KodeForm } from "./_components/kode-form";
 import { Actions } from "./_components/actions";
 import Link from "next/link";
-import { BobotForm } from "./_components/bobot-form";
-import CreateKriteriaPage from "./_components/create-form";
 import { DataTable } from "./kriteria/_components/data-table";
 import { columns } from "./kriteria/_components/columns";
 import {

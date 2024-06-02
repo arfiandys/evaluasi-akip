@@ -33,7 +33,7 @@ export async function POST(
                                 name: item.namaKelompok
                             },
                             {
-                                tahun: values.tahun
+                                evaluasiId: values.evaluasiId
                             }
                         ]
                     }
@@ -57,7 +57,6 @@ export async function POST(
                             data: {
                                 name: item.namaKelompok,
                                 kode: item.kode,
-                                tahun: values.tahun,
                                 evaluasiId: values.evaluasiId,
                                 permindokId: permindok.id!
                             }
@@ -79,7 +78,7 @@ export async function POST(
                             },
                             {
                                 kelompokKriteriaKKE: {
-                                    tahun: values.tahun
+                                    evaluasiId: values.evaluasiId
                                 }
                             }
                         ]
@@ -130,7 +129,6 @@ export async function POST(
                                     data: {
                                         evaluasiId: values.evaluasiId,
                                         kriteriaKKEId: kriteriaKKE.id,
-                                        tahun: kriteriaKKE.kelompokKriteriaKKE.tahun,
                                         variabelLKEId: variabelLKE.id,
                                         kode: variabelLKE.kode,
                                         jenisIsian: variabelLKE.jenisIsian,
@@ -154,7 +152,6 @@ export async function POST(
                                     data: {
                                         evaluasiId: values.evaluasiId,
                                         kriteriaKKEId: kriteriaKKE.id,
-                                        tahun: kriteriaKKE.kelompokKriteriaKKE.tahun,
                                         variabelLKEId: variabelLKE.id,
                                         kode: variabelLKE.kode,
                                         jenisIsian: variabelLKE.jenisIsian,

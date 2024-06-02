@@ -5,12 +5,8 @@ import { Activity, ArrowLeft, Edit, LayoutDashboard, ListChecks, ListTree, PlusC
 import { redirect } from "next/navigation";
 import { Actions } from "./_components/actions";
 import Link from "next/link";
-import { BobotForm } from "./_components/bobot-form";
-import CreateSubKriteriaPage from "./_components/create-form";
 import { DataTable } from "./subKriteria/_components/data-table";
 import { columns } from "./subKriteria/_components/columns";
-import { NameForm } from "./_components/name-form";
-import { KodeForm } from "./_components/kode-form";
 
 import {
     Card,

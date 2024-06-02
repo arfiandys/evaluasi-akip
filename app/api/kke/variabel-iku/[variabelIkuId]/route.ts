@@ -1782,25 +1782,6 @@ export async function PATCH(
       return NextResponse.json(variabelLKE);
     }
 
-    // TODO: edit variabelKKEIKU
-
-    // if ((values.kriteriaKKEId!) && (values.variabel! === "kriteria") && (values.action! === "yearCodeGenerate")) {
-    //   const variabelKKE = await db.variabelKKE.update({
-    //     where: {
-    //       id: variabelIkuId,
-    //     },
-    //     data: {        
-    //       kriteriaKKEId: values.kriteriaLKEId,
-    //       kode: values.kode,
-    //       tahun: values.tahun
-    //     },
-    //   });
-
-    //   return NextResponse.json(variabelKKE);
-    // }
-
-    // LKE DETAIL EDIT
-
     const tujuanSasaranIndikatorIKUVariabelKKE = await db.tujuanSasaranIndikatorIKUVariabelKKE.update({
       where: {
         id: variabelIkuId,

@@ -75,7 +75,6 @@ export async function POST(
                 evaluasiId: values.evaluasiId,
                 subKomponenLKEId: subKomponenLKE.id,
                 kode: subKomponenLKE.komponenLKE?.kode.concat(".", subKomponenLKE.kode) || "",
-                tahun: subKomponenLKE.komponenLKE?.tahun || "",
                 jenisIsian: "number",
                 levelVariabel: "subKomponen",
             }

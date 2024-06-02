@@ -40,9 +40,6 @@ const formSchema = z.object({
     kode: z.string().min(1, {
         message: "Kode dibutuhkan",
     }),
-    tahun: z.string().min(1, {
-        message: "Tahun dibutuhkan",
-    }),
     bobot: z.coerce.number({
         required_error: "Bobot dibutuhkan",
         invalid_type_error: "Bobot harus angka",
@@ -63,7 +60,6 @@ const KomponenNewCreate = ({ evaluasi }: KomponenNewProps) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             kode: "",
-            tahun: evaluasi.tahun,
             name: "",
             bobot: undefined,
             evaluasiId: evaluasi.id

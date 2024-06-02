@@ -52,7 +52,17 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    // KOMPONEN LKE DETAIL EDIT
+    // EVALUASI DETAIL EDIT
+
+    const existingTahunEvaluasi = await db.evaluasi.findUnique({
+      where: {
+          tahun: values.tahun,
+      }
+  })
+
+  if (existingTahunEvaluasi && existingTahunEvaluasi.id !== params.evaluasiId ) {
+      return NextResponse.json({ error: "Tahun talah digunakan!" });
+  }
 
     const evaluasi = await db.evaluasi.update({
       where: {

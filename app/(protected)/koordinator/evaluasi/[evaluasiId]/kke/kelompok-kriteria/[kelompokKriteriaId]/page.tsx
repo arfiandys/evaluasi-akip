@@ -60,7 +60,6 @@ const KelompokKriteriaIdPage = async ({
     const requiredFields = [
         kelompokKriteria.name,
         kelompokKriteria.kode,
-        kelompokKriteria.tahun,
         kelompokKriteria.kriteriaKKE.length,
     ];
 

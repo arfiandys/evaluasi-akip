@@ -7,7 +7,6 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { KelompokKriteria } from "../_data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
-import { tahuns } from "../_data/data"
 
 export const columns: ColumnDef<KelompokKriteria>[] = [
   {

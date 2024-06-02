@@ -7,7 +7,6 @@ export const komponenSchema = z.object({
   id: z.string().min(1),
   kode: z.string().min(1),
   name: z.string().min(1),
-  tahun: z.string().min(1),
   bobot: z.number({
     required_error: "Age is required",
     invalid_type_error: "Age must be a number",

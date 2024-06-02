@@ -52,7 +52,6 @@ export async function POST(
             data: {
                 evaluasiId: values.evaluasiId,
                 kode: values.kode,
-                tahun: values.tahun,
                 name: values.name,
                 bobot: values.bobot,
             }
@@ -63,7 +62,6 @@ export async function POST(
                 evaluasiId: values.evaluasiId,
                 komponenLKEId: komponenLKE.id,
                 kode: komponenLKE.kode || "",
-                tahun: komponenLKE.tahun || "",
                 jenisIsian: "number",
                 levelVariabel: "komponen",
             }

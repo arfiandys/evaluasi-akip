@@ -40,9 +40,6 @@ const formSchema = z.object({
     kode: z.string().min(1, {
         message: "Kode dibutuhkan",
     }),
-    tahun: z.string().min(1, {
-        message: "Tahun dibutuhkan",
-    }),
     evaluasiId: z.string().min(1, {
         message: "Evaluasi id dibutuhkan",
     })
@@ -60,7 +57,6 @@ const PermindokEditCreate = ({ evaluasi, permindok }: PermindokEditCreateProps) 
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: permindok.name,
-            tahun: evaluasi.tahun,
             kode: permindok.kode,
             evaluasiId: evaluasi.id,
         },

@@ -24,7 +24,6 @@ export async function PATCH(
         if (!evaluasi) {
             return new NextResponse("Not found", { status: 404 });
         }
-        console.log(evaluasi?.tahun)
 
         const unitKerjas = await db.unitKerja.findMany({
             orderBy: {

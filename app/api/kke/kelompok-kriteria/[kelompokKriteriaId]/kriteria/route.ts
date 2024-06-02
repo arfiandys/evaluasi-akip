@@ -73,7 +73,6 @@ export async function POST(
             data: {
                 evaluasiId: values.evaluasiId,
                 kriteriaKKEId: kriteriaKKE.id,
-                tahun: kriteriaKKE.kelompokKriteriaKKE.tahun,
                 variabelLKEId: values.variabelLKEId,
                 kode: values.kode,
                 jenisIsian: values.jenisIsian,

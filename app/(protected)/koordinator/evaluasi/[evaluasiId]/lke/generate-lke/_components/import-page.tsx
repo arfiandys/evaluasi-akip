@@ -71,7 +71,6 @@ const ImportPage = ({ evaluasi }: ImportProps) => {
         
         const value = {
             data: values,
-            tahun: evaluasi?.tahun,
             evaluasiId: evaluasi?.id
         }
         try {

@@ -57,7 +57,6 @@ export async function POST(
                             kode: item.kode,
                             name: item.name,
                             evaluasiId: values.evaluasiId,
-                            tahun: values.tahun
                         }
                     })
                 } else {

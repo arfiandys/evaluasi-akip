@@ -3,7 +3,6 @@ import { columns } from "./_components/columns";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import CreateKolompokKriteriaPage from "./_components/create-form";
 import {
     Breadcrumb,
     BreadcrumbItem,

@@ -1816,7 +1816,6 @@ export async function PATCH(
         data: {
           kriteriaKKEId: values.kriteriaLKEId,
           kode: values.kode,
-          tahun: values.tahun
         },
       });
 

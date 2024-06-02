@@ -30,7 +30,6 @@ export async function PATCH(
         if (!evaluasi) {
             return new NextResponse("Not found", { status: 404 });
         }
-        console.log(evaluasi?.tahun)
 
         if (!evaluasi.variabelsKKE && !evaluasi.variabelsLKE && !evaluasi.permindoks && !evaluasi.IKUs) {
             return new NextResponse("Missing required variabel", { status: 401 });

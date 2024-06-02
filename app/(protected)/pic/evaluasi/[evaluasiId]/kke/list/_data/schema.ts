@@ -14,7 +14,6 @@ export const VariabelKKEUnitKerjaSchema = z.object({
     id: z.string().min(1),
     evaluasiId: z.string().min(1),
     kode: z.string().min(1),
-    tahun: z.string().min(1),
     jenisIsian: z.string().min(1),
     isIndikatorKinerja: z.boolean(),
     variabelLKEId: z.string().min(1),

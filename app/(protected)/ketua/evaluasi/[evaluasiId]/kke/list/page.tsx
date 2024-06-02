@@ -140,13 +140,6 @@ const KKEAnggotaPage = async ({
         label: string;
     }
 
-    // Tahun
-    const dataTahun = Array.from(new Set(VariabelKKIndikatorUnitKerja.map(item => item.variabelKKE.tahun)))
-    const tahunUnique: Items[] = dataTahun.map(item => ({
-        value: item,
-        label: item
-    }));
-
     // Unit Kerja
     const dataUnitKerja = Array.from(new Set(VariabelKKIndikatorUnitKerja.map(item => item.unitKerja.name)))
     const unitKejaUnique: Items[] = dataUnitKerja.map(item => ({
@@ -154,7 +147,7 @@ const KKEAnggotaPage = async ({
         label: item
     }));
 
-    const data:(Items)[][] = [tahunUnique,unitKejaUnique]
+    const data:(Items)[][] = [unitKejaUnique]
 
     return (
         <div className="flex h-full flex-1 flex-col space-y-6 p-8">

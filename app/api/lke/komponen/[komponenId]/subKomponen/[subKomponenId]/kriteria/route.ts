@@ -79,7 +79,6 @@ export async function POST(
                 evaluasiId: values.evaluasiId,
                 kriteriaLKEId: kriteriaLKE.id,
                 kode: kriteriaLKE.subKomponenLKE?.komponenLKE?.kode.concat(".", kriteriaLKE?.subKomponenLKE?.kode.concat(".", kriteriaLKE?.kode)) || "",
-                tahun: kriteriaLKE.subKomponenLKE?.komponenLKE?.tahun || "",
                 jenisIsian: values.jenisIsian,
                 levelVariabel: values.levelVariabel,
                 catatanPositif: values.catatanPositif,

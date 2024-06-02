@@ -2,14 +2,10 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 
-import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
-
-import { jenises, jenisKK, jenisesIKU, tahuns } from "../_data/data"
+import { jenises, jenisKK, jenisesIKU } from "../_data/data"
 import { VariabelKKE } from "../_data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
-import { UserRole } from "@prisma/client"
 
 export const columns: ColumnDef<VariabelKKE>[] = [
   {

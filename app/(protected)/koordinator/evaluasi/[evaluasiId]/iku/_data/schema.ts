@@ -7,7 +7,6 @@ import { z } from "zod"
 export const IKUSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
-  tahun: z.string().min(1),
   evaluasiId: z.string().min(1),
   tujuanSasaranIndikatorIKU: z.object({
     id: z.string().min(1),

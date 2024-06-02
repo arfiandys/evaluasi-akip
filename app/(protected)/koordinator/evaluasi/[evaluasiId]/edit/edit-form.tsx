@@ -66,10 +66,14 @@ const EvaluasiEdit = ({ evaluasi }: Props) => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.patch(`/api/evaluasi/${evaluasi.id}`, values);
-            toast.success("Evaluasi berhasil diperbarui!")
-            router.push(`/koordinator/evaluasi/${evaluasi.id}`);
-            form.reset()
-            router.refresh()
+            if (response.data.error) {
+                toast.error(response.data.error);
+            } else {
+                toast.success("Evaluasi berhasil diperbarui!")
+                router.push(`/koordinator/evaluasi/${evaluasi.id}`);
+                form.reset()
+                router.refresh()
+            }
         } catch {
             toast.error("Terdapat kesalahan!");
         }
@@ -138,7 +142,7 @@ const EvaluasiEdit = ({ evaluasi }: Props) => {
                                             Tahun
                                         </FormLabel>
                                         <Select
-                                            disabled
+                                            disabled={isSubmitting}
                                             onValueChange={field.onChange}
                                             defaultValue={evaluasi.tahun}
                                         >
