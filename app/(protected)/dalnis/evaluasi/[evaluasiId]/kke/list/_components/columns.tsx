@@ -131,7 +131,7 @@ export const columns: ColumnDef<VariabelKKEUnitKerja>[] = [
           <Link href={permindok} legacyBehavior>
             <a target="_blank">
               <Button>
-                <File className="h-4 w-4 mr-2" />
+                <File className="h-4 w-4" />
               </Button>
             </a>
           </Link>
@@ -266,7 +266,7 @@ export const columnsIndikatorKinerja: ColumnDef<VariabelKKEUnitKerja>[] = [
           <Link href={permindok} legacyBehavior>
             <a target="_blank">
               <Button>
-                <File className="h-4 w-4 mr-2" />
+                <File className="h-4 w-4" />
               </Button>
             </a>
           </Link>

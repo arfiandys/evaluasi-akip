@@ -105,7 +105,7 @@ export const UserButton = ({ setSelectedRole, selectedRole, existingRole }: Prop
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <LogoutButton>
-                    <DropdownMenuItem className=" cursor-pointer">
+                    <DropdownMenuItem className="cursor-pointer bg-destructive">
                         <LogOut className="h-4 w-4 mr-2" />
                         Keluar
                     </DropdownMenuItem>
