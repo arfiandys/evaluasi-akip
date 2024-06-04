@@ -84,7 +84,7 @@ const ImportPage = ({ evaluasi }: ImportProps) => {
         }
         try {
             const response = await axios.post(`/api/permindok/import`, value);
-            if (response.data.return) {
+            if (response.data.return.length) {
                 toast("Terdapat beberapa kesalahan dalam melakukan import", {
                     description: (
                         <Button

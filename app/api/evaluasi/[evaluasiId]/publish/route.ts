@@ -122,7 +122,11 @@ export async function PATCH(
                             }
                         },
                         {
-                            jenisIKU: unit.jenisUnitKerja
+                            tujuanSasaranIndikatorIKU: {
+                                IKU: {
+                                    name: unit.jenisUnitKerja
+                                }
+                            }
                         },
                     ]
 

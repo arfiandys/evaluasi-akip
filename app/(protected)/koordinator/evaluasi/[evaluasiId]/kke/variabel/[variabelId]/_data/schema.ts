@@ -5,7 +5,6 @@ import { z } from "zod"
 
 export const variabelIKUSchema = z.object({
   id: z.string().min(1),
-  jenisIKU: z.string().min(1),
   tujuanSasaranIndikatorIKUId: z.string().nullable(),
   variabelKKEId: z.string().nullable(),
   variabelKKE: z.object({

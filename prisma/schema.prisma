@@ -137,9 +137,9 @@ model UserOnTimEvaluasi {
 
 // PERMINDOK
 model Permindok {
-  id    String @id @default(cuid())
-  kode  String
-  name  String
+  id   String @id @default(cuid())
+  kode String
+  name String
 
   kelompokKriteriaKKE KelompokKriteriaKKE?
 
@@ -206,8 +206,7 @@ model TujuanSasaranIndikatorIKU {
 
 // KRITERIA KKE INDIKATOR IKU
 model TujuanSasaranIndikatorIKUVariabelKKE {
-  id       String @id @default(cuid())
-  jenisIKU String
+  id String @id @default(cuid())
 
   variabelKKEId String // relation scalar field (used in the `@relation` attribute above)
   variabelKKE   VariabelKKE @relation(fields: [variabelKKEId], references: [id], onDelete: Cascade)

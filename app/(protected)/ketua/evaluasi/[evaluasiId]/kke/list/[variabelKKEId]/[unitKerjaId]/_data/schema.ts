@@ -12,7 +12,6 @@ export const VariabelIKUUnitKerjaSchema = z.object({
   unitKerjaId: z.string(),
   tujuanSasaranIndikatorIKUVariabelKKE: z.object({
     id: z.string().min(1),
-    jenisIKU: z.string().min(1),
     variabelKKEId: z.string().nullable(),
     variabelKKE: z.object({
       id: z.string().min(1),

@@ -94,7 +94,6 @@ export async function POST(
             });
             const tujuanSasaranIndikatorIKUVariabelKKE = await db.tujuanSasaranIndikatorIKUVariabelKKE.create({
                 data: {
-                    jenisIKU: tsi?.IKU?.name||"",
                     variabelKKEId: variabelKKE.id,
                     tujuanSasaranIndikatorIKUId: element
                 }

@@ -90,24 +90,6 @@ export async function PATCH(
       },
     });
 
-    const TSIKKE = await db.tujuanSasaranIndikatorIKUVariabelKKE.findMany({
-      where: {
-        jenisIKU: IKUName.name
-      },
-    });
-
-    for (const item of TSIKKE) {
-      const IKUKKE = await db.tujuanSasaranIndikatorIKUVariabelKKE.update({
-        where: {
-          id: item.id,
-        },
-        data: {
-          jenisIKU: values.name,
-        },
-      });
-    }
-
-
     return NextResponse.json(IKU);
   } catch (error) {
     console.log("[IKU_EVALUASI_ID]", error);

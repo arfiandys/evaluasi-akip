@@ -89,7 +89,7 @@ const ImportPage = ({ evaluasi, ikuId }: ImportProps) => {
         console.log(dataFiltered)
         try {
             const response = await axios.post(`/api/iku/${ikuId}/import`, value);
-            if (response.data.return) {
+            if (response.data.return.length) {
                 toast("Terdapat beberapa kesalahan dalam melakukan import", {
                     description: (
                         <Button

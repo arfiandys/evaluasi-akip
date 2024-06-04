@@ -88,7 +88,7 @@ const ImportPage = ({ evaluasi }: ImportProps) => {
         console.log(dataFiltered)
         try {
             const response = await axios.post("/api/kke/variabel/import", value);
-            if (response.data.return) {
+            if (response.data.return.length) {
                 toast("Terdapat beberapa kesalahan dalam melakukan import", {
                     description: (
                         <Button

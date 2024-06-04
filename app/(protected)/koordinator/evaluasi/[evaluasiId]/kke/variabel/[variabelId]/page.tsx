@@ -41,7 +41,11 @@ const VariabelKKEIKUPage = async ({
         },
         orderBy: [
             {
-                jenisIKU: "asc"
+                tujuanSasaranIndikatorIKU: {
+                    IKU: {
+                        name: "asc"
+                    }
+                }
             },
             {
                 tujuanSasaranIndikatorIKU: {
@@ -79,7 +83,7 @@ const VariabelKKEIKUPage = async ({
     }
 
     // Unit Kerja
-    const dataIKU = Array.from(new Set(variabelIKU.map(item => item.jenisIKU)))
+    const dataIKU = Array.from(new Set(variabelIKU.map(item => item.tujuanSasaranIndikatorIKU.IKU?.name!)))
     const IKUUnique: Items[] = dataIKU.map(item => ({
         value: item,
         label: item

@@ -228,7 +228,6 @@ export async function POST(
                         if (!tsiVariabelKKE) {
                             const tujuanSasaranIndikatorIKUVariabelKKE = await db.tujuanSasaranIndikatorIKUVariabelKKE.create({
                                 data: {
-                                    jenisIKU: item.IKU,
                                     variabelKKEId: variabelKKE.id,
                                     tujuanSasaranIndikatorIKUId: tsi.id
                                 }
@@ -236,7 +235,11 @@ export async function POST(
                         } else {
                             arrayError.push({ error: "kode tujuan/sasaran/indikator sudah digunakan", konten: item.kodeIKU });
                         }
+                    } else {
+                        arrayError.push({ error: "kode tujuan/sasaran/indikator tidak ditemukan", konten: item.kodeIKU });
                     }
+                } else {
+                    arrayError.push({ error: "variabel kke tidak ditemukan", konten: item.kodeIKU });
                 }
             }
         };

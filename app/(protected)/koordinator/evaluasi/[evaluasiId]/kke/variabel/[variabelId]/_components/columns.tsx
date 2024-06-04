@@ -8,7 +8,7 @@ export const columns: ColumnDef<VariabelIKU>[] = [
   {
     id: "IKU",
     accessorFn: row => {
-      const nama = row.jenisIKU
+      const nama = row.tujuanSasaranIndikatorIKU?.IKU?.name
       return (
         `${nama}`
       )
@@ -21,7 +21,7 @@ export const columns: ColumnDef<VariabelIKU>[] = [
       return (
         <div className="flex space-x-2">
           <span className="w-auto truncate font-medium">
-            {row.original.jenisIKU}
+            {row.original.tujuanSasaranIndikatorIKU?.IKU?.name}
           </span>
         </div>
       )
