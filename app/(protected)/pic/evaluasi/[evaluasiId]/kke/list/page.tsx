@@ -64,6 +64,11 @@ const KKEAnggotaPage = async ({
                     variabelKKE: {
                         evaluasiId: params.evaluasiId
                     }
+                },
+                {
+                    unitKerja: {
+                        jenisUnitKerja: "kab/kota"
+                    }
                 }
             ]
         },
@@ -107,6 +112,11 @@ const KKEAnggotaPage = async ({
                 {
                     variabelKKE: {
                         evaluasiId: params.evaluasiId
+                    }
+                },
+                {
+                    unitKerja: {
+                        jenisUnitKerja: "kab/kota"
                     }
                 }
             ]
