@@ -60,7 +60,7 @@ export const LoginForm = () => {
         headerLabel="Selamat datang"
         backButtonLabel={null}
         backButtonHref={null}
-        showSocial
+        // showSocial
         >
             <Form {...form}>
                 <form 
