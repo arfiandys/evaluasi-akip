@@ -29,17 +29,20 @@ export default auth((req) => {
   }
 
   if (!isLoggedIn && !isPublicRoute) {
-    let callbackUrl = nextUrl.pathname;
-    if (nextUrl.search) {
-      callbackUrl += nextUrl.search;
-    }
+    return Response.redirect(new URL(`/auth/login`, nextUrl));
 
-    const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+    // JIKA MENGGUNAKAN CALLBACK
+    // let callbackUrl = nextUrl.pathname;
+    // if (nextUrl.search) {
+    //   callbackUrl += nextUrl.search;
+    // }
 
-    return Response.redirect(new URL(
-      `/auth/login?callbackUrl=${encodedCallbackUrl}`,
-      nextUrl
-    ));
+    // const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+
+    // return Response.redirect(new URL(
+    //   `/auth/login?callbackUrl=${encodedCallbackUrl}`,
+    //   nextUrl
+    // ));
   }
 })
 

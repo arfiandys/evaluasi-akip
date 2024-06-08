@@ -11,7 +11,7 @@ import { sendVerificationEmail } from "@/lib/mail";
 
 export const login = async (
     values: z.infer<typeof LoginSchema>,
-    callbackUrl?: string | null,
+    // callbackUrl?: string | null,
     ) => {
     const validatedFields = LoginSchema.safeParse(values);
 
@@ -44,7 +44,8 @@ export const login = async (
         await signIn("credentials", {
             email,
             password,
-            redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+            redirectTo: DEFAULT_LOGIN_REDIRECT,
+            // redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
         })
     } catch (error) {
         if (error instanceof AuthError) {

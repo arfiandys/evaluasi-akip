@@ -25,7 +25,7 @@ import Link from "next/link";
 
 export const LoginForm = () => {
     const searchParams = useSearchParams();
-    const callbackUrl = searchParams.get("callbackUrl");
+    // const callbackUrl = searchParams.get("callbackUrl");
     const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
         ? "Email sudah digunakan pada provider yang berbeda!"
         : "";
@@ -46,7 +46,8 @@ export const LoginForm = () => {
         setSuccess("");
 
         startTransition(() => {
-            login(values, callbackUrl)
+            login(values)
+            // login(values, callbackUrl)
             .then((data) => {
                 setError(data?.error);
                 setSuccess(data?.success);
