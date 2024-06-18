@@ -108,13 +108,13 @@ export const SideBar = ({
 
     const setRole = (data: UserRole) => {
         setSelectedRole(data)
-        update({ userRole: data })
     }
 
     useEffect(() => {
         function findAccount(arr1: Account[], arr2: UserRole) {
             for (const value of arr1) {
                 if (arr2 === value.enumRole) {
+                    update({ userRole: value.enumRole })
                     return setSelectedAccount(value);
                 }
             }
