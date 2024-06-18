@@ -24,7 +24,6 @@ interface SidebarProps {
 export const SideBar = ({
     asUser
 }: SidebarProps) => {
-    const [mounted, setMounted] = useState(false);
     const { toggleCollapse } = useSideBarToggle();
     const router = useRouter();
     const { data: session, status, update } = useSession();
@@ -66,7 +65,7 @@ export const SideBar = ({
         if (asPIC) {
             existingRole.push(UserRole.PIC)
         }
-        if (asUsers && !(asDalnis || asKetua || asAnggota || asPIC || asPimpinan)) {
+        if (!asDalnis && !asKetua && !asAnggota && !asPIC && !asPimpinan && !asAdmin && asUsers) {
             existingRole.push(UserRole.NONE)
         }
 
@@ -79,7 +78,6 @@ export const SideBar = ({
         if (user?.userRole === UserRole.NONE) {
             for (const value of arr1) {
                 if (arr2.includes(value.enumRole)) {
-                    update({ userRole: value.enumRole })
                     return value;
                 }
             }
@@ -90,7 +88,6 @@ export const SideBar = ({
                     return value;
                 }
             }
-            update({ userRole: UserRole.NONE })
             return arr1[6];
         }
     }
@@ -115,7 +112,6 @@ export const SideBar = ({
     }
 
     useEffect(() => {
-        setMounted(true);
         function findAccount(arr1: Account[], arr2: UserRole) {
             for (const value of arr1) {
                 if (arr2 === value.enumRole) {
@@ -138,7 +134,7 @@ export const SideBar = ({
             {/* ============================= */}
             <aside className={asideStyle}>
                 <div className="sidebar-top relative flex items-center px-5 pt-5">
-                    {mounted && <Logo />}
+                    <Logo />
                     <h3 className={cn("pl-2 font-bold text-xl min-w-max",
                         { hidden: toggleCollapse })}>
                         Evaluasi AKIP</h3>
