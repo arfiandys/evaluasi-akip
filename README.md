@@ -48,7 +48,7 @@ DIRECT_URL="postgres://postgres.ylljzcugsdfetnvtybmh:i0ciVfFzM9aCCXkW@aws-0-ap-s
 #DIRECT_URL="postgresql://local_user:local_password@localhost:5432/local_dbname"
 
 #NEXTAUTH
-#AUTH_SECRET="ee379c0f3b31c0da3321240ce013b2dd"
+AUTH_SECRET="ee379c0f3b31c0da3321240ce013b2dd"
 NEXTAUTH_URL=http://localhost:3000
 
 #GITHUB
