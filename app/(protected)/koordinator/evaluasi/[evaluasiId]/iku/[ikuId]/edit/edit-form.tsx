@@ -120,8 +120,80 @@ const IKUEdit = ({
                                                 <SelectItem value="provinsi">
                                                     Provinsi
                                                 </SelectItem>
-                                                <SelectItem value="pusat">
-                                                    Pusat
+                                                <SelectItem value="pusdiklat">
+                                                    Pusat Pendidikan dan Pelatihan
+                                                </SelectItem>
+                                                <SelectItem value="stis">
+                                                    Sekolah Tinggi Ilmu Statistik
+                                                </SelectItem>
+                                                <SelectItem value="bbp">
+                                                    Biro Bina Program
+                                                </SelectItem>
+                                                <SelectItem value="bkeu">
+                                                    Biro Keuangan
+                                                </SelectItem>
+                                                <SelectItem value="bkep">
+                                                    Biro Kepegawaian
+                                                </SelectItem>
+                                                <SelectItem value="bhmh">
+                                                    Biro Hubungan Masyarakat dan Hukum
+                                                </SelectItem>
+                                                <SelectItem value="bu">
+                                                    Biro Umum
+                                                </SelectItem>
+                                                <SelectItem value="dpmss">
+                                                    Direktorat Pengembangan Metodologi Survei dan Sensus
+                                                </SelectItem>
+                                                <SelectItem value="dds">
+                                                    Direktorat Diseminasi Statistik
+                                                </SelectItem>
+                                                <SelectItem value="dsis">
+                                                    Direktorat Sistem Informasi Statistik
+                                                </SelectItem>
+                                                <SelectItem value="dskk">
+                                                    Direktorat Statistik Kependudukan dan Ketenagakerjaan
+                                                </SelectItem>
+                                                <SelectItem value="dskr">
+                                                    Direktorat Statistik Kesejahteraan Rakyat
+                                                </SelectItem>
+                                                <SelectItem value="dsks">
+                                                    Direktorat Statistik Ketahanan Sosial
+                                                </SelectItem>
+                                                <SelectItem value="dstphp">
+                                                    Direktorat Statistik Tanaman Pangan, Holtikultura, dan Perkebunan
+                                                </SelectItem>
+                                                <SelectItem value="dsppk">
+                                                    Direktorat Statistik Peternakan, Perikanan, dan Kehutanan
+                                                </SelectItem>
+                                                <SelectItem value="dsi">
+                                                    Direktorat Statistik Industri
+                                                </SelectItem>
+                                                <SelectItem value="dsd">
+                                                    Direktorat Statistik Distribusi
+                                                </SelectItem>
+                                                <SelectItem value="dsh">
+                                                    Direktorat Statistik Harga
+                                                </SelectItem>
+                                                <SelectItem value="dsktip">
+                                                    Direktorat Statistik Keuangan, Teknologi Informasi, dan Pariwisata
+                                                </SelectItem>
+                                                <SelectItem value="dnpr">
+                                                    Direktorat Neraca Produksi
+                                                </SelectItem>
+                                                <SelectItem value="dnpe">
+                                                    Direktorat Neraca Pengeluaran
+                                                </SelectItem>
+                                                <SelectItem value="daps">
+                                                    Direktorat Analisis dan Pengembangan Statistik
+                                                </SelectItem>
+                                                <SelectItem value="iw1">
+                                                    Inspektorat Wilayah I
+                                                </SelectItem>
+                                                <SelectItem value="iw2">
+                                                    Inspektorat Wilayah II
+                                                </SelectItem>
+                                                <SelectItem value="iw3">
+                                                    Inspektorat Wilayah III
                                                 </SelectItem>
                                             </SelectContent>
                                         </Select>
