@@ -34,3 +34,35 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+
+# .env
+#DATABASE DEVELOPMENT
+
+#Connect to Supabase via connection pooling with Supavisor.
+DATABASE_URL="postgres://postgres.ylljzcugsdfetnvtybmh:i0ciVfFzM9aCCXkW@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres"
+DIRECT_URL="postgres://postgres.ylljzcugsdfetnvtybmh:i0ciVfFzM9aCCXkW@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres"
+#####Connect to Local.
+#DATABASE_URL="postgresql://local_user:local_password@localhost:5432/local_dbname"
+#DIRECT_URL="postgresql://local_user:local_password@localhost:5432/local_dbname"
+
+#NEXTAUTH
+#AUTH_SECRET="ee379c0f3b31c0da3321240ce013b2dd"
+NEXTAUTH_URL=http://localhost:3000
+
+#GITHUB
+GITHUB_CLIENT_ID=...
+GITHUB_CLIENT_SECRET=...
+
+#GOOGLE
+GOOGLE_CLIENT_ID=...
+GOOGLE_CLIENT_SECRET=...
+
+#RESEND
+RESEND_API_KEY=re_ipW5N3C4_7qqd8mYGka3thLc4rCcFvX8w
+
+#UPLOADTHING
+UPLOADTHING_SECRET=sk_live_bd9675d865489831376d3b8c7fab45501d8969faedaffb16343055ac0c15dd8e
+UPLOADTHING_APP_ID=cz5zfqabbq
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
